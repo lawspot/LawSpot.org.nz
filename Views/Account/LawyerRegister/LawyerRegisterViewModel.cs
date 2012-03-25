@@ -29,7 +29,5 @@ namespace Prolawyers.Views.Account
 
         [StringLength(100, ErrorMessage = "Your firm name is too long.")]
         public string FirmName { get; set; }
-
-        public bool Agreement { get; set; }
     }
 }
