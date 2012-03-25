@@ -1,0 +1,64 @@
+﻿<section class="sidebar">
+    <div class="laptop">
+        <img src="/views/home/laptop.png" />
+    </div>
+
+    <section>
+        <h2> Are you a lawyer? </h2>
+        <img class="lawyer" src="/views/home/lawyer.png" />
+        <p>
+            Help the community and grow your practice!
+            <a href="/lawyer-register">Find out how.</a>
+        </p>
+        <p>
+            Already registered?  <a href="/login">Login here</a>.
+        </p>
+    </section>
+
+    <section>
+        <h2> Top legal categories </h2>
+        <ul class="categories">
+            {{#TopCategories1}}
+                <li> <a href="{{Uri}}">{{Name}}</a> </li>
+            {{/TopCategories1}}
+        </ul>
+        <ul class="categories">
+            {{#TopCategories2}}
+                <li> <a href="{{Uri}}">{{Name}}</a> </li>
+            {{/TopCategories2}}
+        </ul>
+        <div style="clear: left"></div>
+    </section>
+</section>
+
+<h1>ASK A LAYWER</h1>
+
+<p>Ask a laywer, completely free, no obligation, answers to your legal questions.</p>
+
+<div class="ask">
+    <input class="ask-textbox" type="text" placeholder="Ask your question here..." />
+    <button class="ask-button">ASK</button>
+</div>
+
+<h2> Recent Questions </h2>
+
+{{#RecentQuestions}}
+    <div class="question">
+        <div class="frame">
+            <img src="{{AvatarUri}}" />
+        </div>
+        
+        <div class="body">
+            <div class="title">
+                <a href="{{Uri}}">{{Title}}</a>
+            </div>
+            <div class="details">
+                {{Details}}
+            </div>
+            <div class="asked">
+                {{Asker}} asked this question {{Ago}} ago
+            </div>
+        </div>
+        <div style="clear: left"></div>
+    </div>
+{{/RecentQuestions}}

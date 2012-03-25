@@ -1,0 +1,13 @@
+﻿.login-image {
+    float: right;
+    margin-right: 30px;
+    width: 257px;
+    height: 212px;
+}
+.container-form {
+    width: 580px;
+}
+.no-account {
+    font-size: 13pt;
+    font-weight: bold;
+}

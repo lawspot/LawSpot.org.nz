@@ -1,0 +1,82 @@
+﻿#law-register-left {
+	background-color: #edebe4;
+	border: solid 1px #bcbbba;
+	border-radius: 3px;
+	padding: 10px 0;
+}
+#law-register-left p, #law-register-left h3 {
+	padding-left: 20px;
+}
+#law-register-image-top {
+	display: block;
+	background: url(/views/account/lawyerregister/handsup-top.png) no-repeat;
+	height: 36px;
+}
+#law-register-image {
+	display: block;
+	background: #D7D7D7 url(/views/account/lawyerregister/handsup.jpg) no-repeat;
+	height: 142px;
+}
+
+#law-register-header {
+	color: #fff;
+	background: url(/views/account/lawyerregister/law-register-header.png) no-repeat;
+	height: 50px;
+	display: block;
+	margin-top: 0;
+	text-align: center;
+	padding-top: 15px;
+	line-height: 20px;
+	font-weight: normal;
+	font-size: 18pt;
+	text-shadow: 1px 1px 2px #111;
+	filter: dropshadow(color=#111, offx=1, offy=1);
+}
+#law-register-form {
+	background: #D8E5DF;
+	border: none;
+	width: 450px;
+	float: right;
+	padding: 0;
+	margin: 25px 20px 10px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 8px #888;
+	background: -moz-radial-gradient(center, ellipse cover, rgba(245,242,233,1) 0%, rgba(216,229,223,1) 100%);
+	background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%,rgba(245,242,233,1)), color-stop(100%,rgba(216,229,223,1)));
+	background: -webkit-radial-gradient(center, ellipse cover, rgba(245,242,233,1) 0%,rgba(216,229,223,1) 100%);
+	background: -ms-radial-gradient(center, ellipse cover, rgba(245,242,233,1) 0%, rgba(216,229,223,1) 100%);
+	background: radial-gradient(center, ellipse cover, rgba(245,242,233,1) 0%, rgba(216,229,223,1) 100%);
+}
+#law-register-form .field-label {
+	width: 204px;
+}
+#law-register-form .offset-field {
+	margin-left: 214px;
+}
+#law-register-form input, #law-register-form select {
+	width: 210px;
+}
+#law-register-form #FirstName, #law-register-form #LastName {
+	width: 100px;
+}
+#law-register-form #FirstName {
+	margin-right: 6px;
+}
+#law-register-form input[type="checkbox"] {
+    box-sizing: border-box;
+    padding: 0;
+    height: 13px;
+    width: 13px;
+}
+
+.privacy-message {
+    font-size: 10pt;
+    text-align: left;
+    margin: 0;
+}
+.privacy-message img {
+    float: left;
+    margin: 0 10px 0 15px;
+    width: 22px;
+    height: 27px;
+}

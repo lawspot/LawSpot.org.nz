@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    {{Stylesheets}}
+    <!--[if lte IE 8]>
+    <style type="text/css">
+    body { filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/shared/images/background.jpg', sizingMethod='scale'); }
+    </style>
+    <![endif]-->
+</head>
+<body>
+    <header>
+        <a href="/" class="site-logo" title="LawSpot.org.nz"><img src="/shared/images/logo.png" /></a>
+        <nav>
+        	<ul>
+        		<li><a href="#" class="active">Ask a Lawyer</a></li> <!-- add class="active" to current page -->
+        		<li><a href="#">Browse Answers</a></li>
+        		<li><a href="#">How does it work</a></li>
+        	</ul>
+        	<div id="_login">
+                <script id="_loginTemplate" type="text/template">
+                    {{^User}}
+                        <a href="/login">Login</a> | <a href="/register">Register</a>
+                    {{/User}}
+                    {{#User}}
+                        Logged in, <a href="/logout">Logout</a>
+                    {{/User}}
+                </script>
+            </div>
+        </nav>
+    </header>
+    <section id="_message" class="site-message">
+        <script id="_messageTemplate" type="text/template">
+            {{#SuccessMessage}}
+                <div class="success-message">
+                    {{SuccessMessage}}
+                </div>
+            {{/SuccessMessage}}
+        </script>
+    </section>
+    <section class="site-body">
+        <div id="_content"></div>
+        <div style="clear: both"></div>
+    </section>
+    <footer>
+        <ul>
+            <li> <a href="/faq">FAQ</a> </li>
+            <li> <a href="/about">About Us</a> </li>
+            <li> <a href="/legal">Legal Topics</a> </li>
+            <li> <a href="/policies">Policies</a> </li>
+            <li> <a href="/partner">Partner With Us</a> </li>
+            <li> <a href="/contact">Contact Us</a> </li>
+        </ul>
+    </footer>
+    
+    <script id="_contentTemplate" type="text/template">
+        {{Content}}
+    </script>
+    {{Model}}
+    {{Scripts}}
+    <script type="text/javascript">
+        document.getElementById("_content").innerHTML = Mustache.render(document.getElementById("_contentTemplate").text, Model);
+        document.getElementById("_login").innerHTML = Mustache.render(document.getElementById("_loginTemplate").text, Model);
+        document.getElementById("_message").innerHTML = Mustache.render(document.getElementById("_messageTemplate").text, Model);
+    </script>
+</body>
+</html>

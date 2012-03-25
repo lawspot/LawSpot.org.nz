@@ -1,0 +1,40 @@
+﻿<h1> Login </h1>
+
+<img src="/views/account/login/hammer.jpg" alt="" class="login-image">
+
+<form method="post" class="container-form">
+    <div class="field-label">
+        <label for="EmailAddress"> Email address: </label>
+        <span class="required">*</span>
+    </div>
+    <div class="offset-field">
+        <input id="EmailAddress" name="EmailAddress" type="text" value="{{EmailAddress}}" maxlength="200" autofocus
+            {{#ModelState.EmailAddress}}class="validation-error-field"{{/ModelState.EmailAddress}} />
+        <div class="validation-error">{{ModelState.EmailAddress}}</div>
+    </div>
+
+    <div class="field-label">
+        <label for="Password"> Password: </label>
+        <span class="required">*</span>
+    </div>
+    <div class="offset-field">
+        <input id="Password" name="Password" type="password" value="{{Password}}" maxlength="100"
+            {{#ModelState.Password}}class="validation-error-field"{{/ModelState.Password}} />
+        <div class="validation-error">{{ModelState.Password}}</div>
+    </div>
+
+    <div class="offset-field">
+        <label>
+            <input name="RememberMe" type="checkbox" {{#RememberMe}}checked{{/RememberMe}} value="true" />
+            Remember me for next time
+        </label>
+    </div>
+
+    <div class="offset-field">
+        <button>LOGIN</button>
+    </div>
+
+    <div class="offset-field no-account">
+        No Account?  <a href="/">Register Here</a>.
+    </div>
+</form>

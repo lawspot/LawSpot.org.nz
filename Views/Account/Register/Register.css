@@ -1,0 +1,29 @@
+﻿.sidebar {
+    width: 350px;
+    float: right;
+    margin: 15px 25px 0 0;
+}
+.sidebar section {
+    border: 1px solid #BBB7B6;
+    border-radius: 3px;
+    background: #DEDDDB;
+    padding: 5px 12px 12px;
+    margin-bottom: 16px;
+}
+.sidebar .lawyer {
+    float: left;
+    box-shadow: 0 0 5px 0 rgba(0,0,0,.5);
+    margin: 10px 10px 0 0;
+}
+.left {
+    width: 500px;
+}
+.privacy-message {
+    font-size: 10pt;
+}
+.privacy-message img {
+    float: left;
+    margin-right: 10px;
+    width: 22px;
+    height: 27px;
+}

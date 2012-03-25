@@ -1,0 +1,88 @@
+﻿<h1> Register </h1>
+
+<section class="sidebar">
+    <h3> Why do I have to register to ask a question? </h3>
+    <p>
+        We're collecting this information because Nulla at nulla justo, eget luctus tortor.
+        Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula
+        lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit.
+    </p>
+            	
+    <section>
+        <h2> Are you a lawyer? </h2>
+        <img class="lawyer" src="/views/account/register/lawyer.png">
+        <p>
+            Help the community and grow your practice!
+            <a href="/lawyer-register">Register as a lawyer</a>.
+        </p>
+        <p>
+            Already registered?  <a href="/login">Login here</a>.
+        </p>
+    </section>
+</section>
+
+<form method="post" class="container-form">
+    <div class="left">
+        <div class="field-label">
+            <label for="EmailAddress"> Email address: </label>
+            <span class="required">*</span>
+        </div>
+        <div class="offset-field">
+            <input id="EmailAddress" name="EmailAddress" type="text" value="{{EmailAddress}}" maxlength="200" autofocus
+                {{#ModelState.EmailAddress}}class="validation-error-field"{{/ModelState.EmailAddress}} />
+            <div class="validation-error">{{ModelState.EmailAddress}}</div>
+        </div>
+
+        <div class="field-label">
+            <label for="Password"> Password: </label>
+            <span class="required">*</span>
+        </div>
+        <div class="offset-field">
+            <input id="Password" name="Password" type="password" value="{{Password}}" maxlength="100"
+                {{#ModelState.Password}}class="validation-error-field"{{/ModelState.Password}} />
+            <div class="validation-error">{{ModelState.Password}}</div>
+        </div>
+
+        <div class="field-label">
+            <label for="ConfirmPassword"> Confirm password: </label>
+            <span class="required">*</span>
+        </div>
+        <div class="offset-field">
+            <input id="ConfirmPassword" name="ConfirmPassword" type="password" value="{{ConfirmPassword}}" maxlength="100"
+                {{#ModelState.ConfirmPassword}}class="validation-error-field"{{/ModelState.ConfirmPassword}} />
+            <div class="validation-error">{{ModelState.ConfirmPassword}}</div>
+        </div>
+
+        <div class="field-label">
+            <label for="RegionId"> Region: </label>
+            <span class="required">*</span>
+        </div>
+        <div class="offset-field">
+            <select id="RegionId" name="RegionId">
+                {{#Regions}}
+                    <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+                {{/Regions}}
+            </select>
+        </div>
+
+        <div class="offset-field">
+            <label>
+                <input id="Agreement" name="Agreement" type="checkbox" {{#Agreement}}checked{{/Agreement}} value="true"
+                    {{#ModelState.Agreement}}class="validation-error-field"{{/ModelState.Agreement}} />
+                I agree to the
+            </label>
+            <a href="/terms" target="_blank">Terms and Conditions</a>
+            <div class="validation-error">{{ModelState.Agreement}}</div>
+        </div>
+
+        <div class="offset-field">
+            <button>REGISTER</button>
+        </div>
+
+        <div class="offset-field privacy-message">
+            <img src="/views/account/register/lock.png" width="22" height="27" alt="" class="privacy">
+            Your privacy is safe with us. We will <u>NEVER</u> release your data to a third party.
+        </div>
+
+    </div>
+</form>

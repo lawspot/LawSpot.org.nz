@@ -1,0 +1,137 @@
+﻿<h1> Lawyer Registration </h1>
+
+<form id="law-register-form" method="post" class="container-form">
+    <h2 id="law-register-header">Please complete the form below</h2>
+
+    <div class="field-label">
+        <label for="EmailAddress"> Email address: </label>
+        <span class="required">*</span>
+    </div>
+    <div class="offset-field">
+        <input id="EmailAddress" name="EmailAddress" type="text" value="{{EmailAddress}}" maxlength="200" autofocus
+            {{#ModelState.EmailAddress}}class="validation-error-field"{{/ModelState.EmailAddress}} />
+        <div class="validation-error">{{ModelState.EmailAddress}}</div>
+    </div>
+
+    <div class="field-label">
+        <label for="Password"> Password: </label>
+        <span class="required">*</span>
+    </div>
+    <div class="offset-field">
+        <input id="Password" name="Password" type="password" value="{{Password}}" maxlength="100"
+            {{#ModelState.Password}}class="validation-error-field"{{/ModelState.Password}} />
+        <div class="validation-error">{{ModelState.Password}}</div>
+    </div>
+
+    <div class="field-label">
+        <label for="ConfirmPassword"> Confirm password: </label>
+        <span class="required">*</span>
+    </div>
+    <div class="offset-field">
+        <input id="ConfirmPassword" name="ConfirmPassword" type="password" value="{{ConfirmPassword}}" maxlength="100"
+            {{#ModelState.ConfirmPassword}}class="validation-error-field"{{/ModelState.ConfirmPassword}} />
+        <div class="validation-error">{{ModelState.ConfirmPassword}}</div>
+    </div>
+
+    <div class="field-label">
+        <label for="RegionId"> Region: </label>
+        <span class="required">*</span>
+    </div>
+    <div class="offset-field">
+        <select id="RegionId" name="RegionId">
+            {{#Regions}}
+                <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+            {{/Regions}}
+        </select>
+    </div>
+
+    <div class="field-label">
+        <label for="FirstName"> Name: </label>
+        <span class="required">*</span>
+    </div>
+    <div class="offset-field">
+        <input id="FirstName" name="FirstName" type="text" value="{{FirstName}}" maxlength="50" placeholder="First Name"
+            {{#ModelState.FirstName}}class="validation-error-field"{{/ModelState.FirstName}} />
+        <input id="LastName" name="LastName" type="text" value="{{LastName}}" maxlength="50" placeholder="Last Name"
+            {{#ModelState.LastName}}class="validation-error-field"{{/ModelState.LastName}} />
+        <div class="validation-error">{{ModelState.FirstName}}</div>
+        <div class="validation-error">{{ModelState.LastName}}</div>
+    </div>
+
+    <div class="field-label">
+        <label for="PractisingCertNumber"> Practising cert. number: </label>
+        <span class="required">*</span>
+    </div>
+    <div class="offset-field">
+        <input id="PractisingCertNumber" name="PractisingCertNumber" type="text" value="{{PractisingCertNumber}}" maxlength="15"
+            {{#ModelState.PractisingCertNumber}}class="validation-error-field"{{/ModelState.PractisingCertNumber}} />
+        <div class="validation-error">{{ModelState.PractisingCertNumber}}</div>
+    </div>
+
+    <div class="field-label">
+        <label for="YearAdmitted"> Year admitted: </label>
+        <span class="required">*</span>
+    </div>
+    <div class="offset-field">
+        <select id="YearAdmitted" name="YearAdmitted">
+            <option value="0">Select year</option>
+            {{#AdmissionYears}}
+                <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+            {{/AdmissionYears}}
+        </select>
+        <div class="validation-error">{{ModelState.YearAdmitted}}</div>
+    </div>
+
+    <div class="field-label">
+        <label for="AreaOfSpecialisation"> Area of specialisation (if any): </label>
+    </div>
+    <div class="offset-field">
+        <select id="AreaOfSpecialisation" name="SpecialisationCategoryId">
+            <option value="0">Select specialisation</option>
+            {{#Categories}}
+                <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+            {{/Categories}}
+        </select>
+        <div class="validation-error">{{ModelState.SpecialisationCategoryId}}</div>
+    </div>
+
+    <div class="field-label">
+        <label for="FirmName"> Firm name (if any): </label>
+    </div>
+    <div class="offset-field">
+        <input id="FirmName" name="FirmName" type="text" value="{{FirmName}}" maxlength="15"
+            {{#ModelState.FirmName}}class="validation-error-field"{{/ModelState.FirmName}} />
+        <div class="validation-error">{{ModelState.FirmName}}</div>
+    </div>
+
+    <div class="offset-field">
+        <label>
+            <input name="Agreement" type="checkbox" {{#Agreement}}checked{{/Agreement}} value="true"
+                {{#ModelState.Agreement}}class="validation-error-field"{{/ModelState.Agreement}} />
+            I agree to the
+        </label>
+        <a href="/terms" target="_blank">Lawspot Pro Bono Terms of Engagement</a>
+        <div class="validation-error">{{ModelState.Agreement}}</div>
+    </div>
+
+    <div class="field-label privacy-message">
+        <img src="/views/account/lawyerregister/lock.png" alt="" class="privacy" />
+        Your information is safe with us.
+    </div>
+
+    <div class="offset-field">
+        <button> SIGN UP NOW </button>
+    </div>
+</form>
+            
+<section id="law-register-left">
+	<p> Help the NZ community and grow your personal reputation. Put your hands up to help with LawSpot today! </p>
+	<div id="law-register-image-top"></div>
+    <div id="law-register-image"></div>
+	<p> Donec congue lacinia dui, a porttitor lectus condimentum laoreet. Nunc eu ullamcorper orci. Quisque eget odio ac lectus vestibulum faucibus eget in. </p>
+	<h3> Subtitle 1 </h3>
+	<p> Donec congue lacinia dui, a porttitor lectus condimentum laoreet. Nunc eu ullamcorper orci. Quisque eget odio ac lectus vestibulum faucibus eget in metus. In. </p>
+	<h3> Subtitle 2</h3>
+	<p> In pellentesque faucibus vestibulum. Nulla at nulla justo, eget luctus tortor. Nulla facilisi. Duis aliquet egestas purus in blandit. </p>
+    <div style="clear: both"></div>
+</section>
