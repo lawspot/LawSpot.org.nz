@@ -150,11 +150,10 @@ nav li a {
 	display: block;
 	line-height: 38px;
 	padding: 3px 0 0;
-	width: 161px;
+	width: 170px;
 	background: url(/shared/images/nav-bg.png);
 	text-transform: uppercase;
 	font-weight: bold;
-	font-size: 0.9em;
 	color: #fff;
 	text-shadow: 2px 2px 2px #000000;
 	filter: dropshadow(color=#000000, offx=2, offy=2);
@@ -166,7 +165,7 @@ nav #_login {
 	display: block;
 	float: left;
 	height: 25px;
-	width: 169px;
+	width: 142px;
 	margin-top:29px;
 	padding: 16px 15px 0 0;
 	background: url(/shared/images/nav-bg.png) repeat-x right;
@@ -229,6 +228,12 @@ h2 {
 }
 h3 {
     font-size: 12pt;
+}
+.fullbox {
+	background-color: #edebe4;
+	border: solid 1px #bcbbba;
+	border-radius: 3px;
+	padding: 5px 12px 12px;
 }
 button {
     background-color: #5AA82E;
