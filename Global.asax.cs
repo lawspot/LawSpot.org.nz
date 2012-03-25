@@ -47,10 +47,6 @@ namespace Prolawyers
             }
         }
 
-        protected void Application_BeginRequest()
-        {
-        }
-
         protected void Application_EndRequest()
         {
             // Dispose of the data context.
