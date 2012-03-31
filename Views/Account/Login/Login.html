@@ -2,7 +2,9 @@
 
 <img src="/views/account/login/hammer.jpg" alt="" class="login-image">
 
-<form method="post" class="container-form">
+<form method="post" action="/login" class="container-form">
+    <input name="RedirectUrl" type="hidden" value="{{RedirectUrl}}" />
+    
     <div class="field-label">
         <label for="EmailAddress"> Email address: </label>
         <span class="required">*</span>

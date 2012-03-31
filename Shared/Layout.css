@@ -16,7 +16,7 @@ pre {
     margin: 1em 0;
 }
 small {
-    font-size: 75%;
+    font-size: 90%;
 }
 dl,
 menu,
@@ -258,7 +258,7 @@ button:hover {
     background-image: -webkit-linear-gradient(top, rgb(162,255,112) 0%, rgb(121,198,76) 50%, rgb(107,166,72) 90%);
     background-image: -ms-linear-gradient(top, rgb(162,255,112) 0%, rgb(121,198,76) 50%, rgb(107,166,72) 90%);
 }
-input[type=text], input[type=password], select {
+input[type=text], input[type=password], select, textarea {
     width: 300px;
     padding: 6px;
     border: 1px solid #BCBBBA;
@@ -267,6 +267,9 @@ input[type=text], input[type=password], select {
     background: -moz-linear-gradient(top, white, #EEE 1px, white 25px);
     background: -ms-linear-gradient(top, white, #EEE 1px, white 25px);
     box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+}
+textarea {
+    font-family: Sans-Serif;
 }
 
 /* Footer */
@@ -328,7 +331,7 @@ footer a:hover {
     background-color: #EDEBE4;
     border: solid 1px #BCBBBA;
     border-radius: 3px;
-    padding: 30px 20px 10px;
+    padding: 20px;
 }
 .field-label {
     display: block;

@@ -30,7 +30,7 @@ namespace Lawspot.Shared
             // Render the stylesheets.
             var stylesheetsHtml = new StringBuilder();
             stylesheetsHtml.AppendLine(@"<style type=""text/css"">");
-            stylesheetsHtml.AppendLine(CombineAndMinify(viewContext, ".css", new CssMinify()));
+            stylesheetsHtml.AppendLine(CombineAndMinify(viewContext, ".css", new CssMinify(), true, true));
             stylesheetsHtml.AppendLine("</style>");
 
             // Replace the {{Stylesheets}} tag.
@@ -49,14 +49,41 @@ namespace Lawspot.Shared
                 // User.
                 extraState.User = ((Controller)viewContext.Controller).User as CustomPrincipal;
 
+                // Translate alert types into messages.
+                switch (viewContext.HttpContext.Request.QueryString["alert"])
+                {
+                    case "loggedin":
+                        extraState.SuccessMessage = "You have logged in.";
+                        break;
+                    case "loggedout":
+                        extraState.SuccessMessage = "You have logged out.";
+                        break;
+                    case "registered":
+                    case "registered-as-lawyer":
+                        extraState.SuccessMessage = string.Format("Thanks for registering!  Please check your email ({0}) to confirm your account with us.", extraState.User.EmailAddress);
+                        break;
+                }
+
                 // ModelState.
-                var result = new Dictionary<string, string>();
+                var result = new Dictionary<string, object>();
                 var modelState = ((Controller)viewContext.Controller).ModelState;
                 foreach (var key in modelState.Keys)
                 {
                     var state = modelState[key];
                     if (state.Errors.Count > 0)
-                        result.Add(key, string.Join(Environment.NewLine, state.Errors.Select(e => e.ErrorMessage)));
+                    {
+                        string errorMessage = string.Join(Environment.NewLine, state.Errors.Select(e => e.ErrorMessage));
+                        var dictionary = result;
+                        var keys = key.Split('.');
+                        for (int i = 0; i < keys.Length - 1; i ++)
+                        {
+                            object subDictionary;
+                            if (dictionary.TryGetValue(keys[i], out subDictionary) == false)
+                                dictionary[keys[i]] = new Dictionary<string, object>();
+                            dictionary = (Dictionary<string, object>)dictionary[keys[i]];
+                        }
+                        dictionary.Add(keys[keys.Length - 1], errorMessage);
+                    }
                 }
                 if (result.Count > 0)
                     extraState.ModelState = result;
@@ -84,14 +111,23 @@ namespace Lawspot.Shared
             scripts.Add(server.MapPath("~/Shared/Layout.js"));
             scripts.Add(Path.ChangeExtension(server.MapPath(this.ViewPath), "js"));
 
-            // Render the scripts.
+            // Render the scripts (1).
             var scriptsHtml = new StringBuilder();
             scriptsHtml.AppendLine(@"<script type=""text/javascript"">");
-            scriptsHtml.AppendLine(CombineAndMinify(viewContext, ".js", new JsMinify()));
+            scriptsHtml.AppendLine(CombineAndMinify(viewContext, ".js", new JsMinify(), true, false));
             scriptsHtml.AppendLine(@"</script>");
 
-            // Replace the {{Scripts}}
-            layout.Replace("{{Scripts}}", scriptsHtml.ToString());
+            // Replace the {{LayoutScripts}}
+            layout.Replace("{{LayoutScripts}}", scriptsHtml.ToString());
+
+            // Render the scripts (2).
+            scriptsHtml = new StringBuilder();
+            scriptsHtml.AppendLine(@"<script type=""text/javascript"">");
+            scriptsHtml.AppendLine(CombineAndMinify(viewContext, ".js", new JsMinify(), false, true));
+            scriptsHtml.AppendLine(@"</script>");
+
+            // Replace the {{PageScripts}}
+            layout.Replace("{{PageScripts}}", scriptsHtml.ToString());
 
             writer.Write(layout);
         }
@@ -109,7 +145,12 @@ namespace Lawspot.Shared
             /// <summary>
             /// The model state.
             /// </summary>
-            public IDictionary<string, string> ModelState { get; set; }
+            public IDictionary<string, object> ModelState { get; set; }
+
+            /// <summary>
+            /// A green "all systems go" message.
+            /// </summary>
+            public string SuccessMessage { get; set; }
         }
 
         /// <summary>
@@ -182,7 +223,7 @@ namespace Lawspot.Shared
             }
         }
 
-        private string CombineAndMinify(ViewContext viewContext, string extension, IBundleTransform minifier)
+        private string CombineAndMinify(ViewContext viewContext, string extension, IBundleTransform minifier, bool shared, bool page)
         {
             if (viewContext == null)
                 throw new ArgumentNullException("viewContext");
@@ -196,8 +237,11 @@ namespace Lawspot.Shared
             var paths = new List<string>();
 
             // Find all the .js or .css files in the shared folder.
-            var sharedDirectory = viewContext.HttpContext.Server.MapPath("~/Shared/");
-            paths.AddRange(Directory.EnumerateFiles(sharedDirectory, "*" + extension));
+            if (shared)
+            {
+                var sharedDirectory = viewContext.HttpContext.Server.MapPath("~/Shared/");
+                paths.AddRange(Directory.EnumerateFiles(sharedDirectory, "*" + extension));
+            }
 
             // Count the number of slashes in the virtual path.
             int slashCount = 0;
@@ -211,16 +255,19 @@ namespace Lawspot.Shared
                 countStartIndex = index + 1;
             }
 
-            if (slashCount <= 3)
+            if (page)
             {
-                // Find the related .js or .css file.
-                paths.Add(Path.ChangeExtension(viewContext.HttpContext.Server.MapPath(this.ViewPath), extension));
-            }
-            else
-            {
-                // Find all the .js or .css files in the page folder.
-                string viewPath = viewContext.HttpContext.Server.MapPath(this.ViewPath);
-                paths.AddRange(Directory.EnumerateFiles(Path.GetDirectoryName(viewPath), "*" + extension));
+                if (slashCount <= 3)
+                {
+                    // Find the related .js or .css file.
+                    paths.Add(Path.ChangeExtension(viewContext.HttpContext.Server.MapPath(this.ViewPath), extension));
+                }
+                else
+                {
+                    // Find all the .js or .css files in the page folder.
+                    string viewPath = viewContext.HttpContext.Server.MapPath(this.ViewPath);
+                    paths.AddRange(Directory.EnumerateFiles(Path.GetDirectoryName(viewPath), "*" + extension));
+                }
             }
 
             // Read the contents of each file.

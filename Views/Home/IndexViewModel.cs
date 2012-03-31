@@ -6,7 +6,6 @@ namespace Lawspot.Views.Home
 {
     public class IndexViewModel
     {
-        public string SuccessMessage { get; set; }
         public IEnumerable<QuestionViewModel> RecentQuestions { get; set; }
         public IEnumerable<CategoryViewModel> TopCategories1 { get; set; }
         public IEnumerable<CategoryViewModel> TopCategories2 { get; set; }

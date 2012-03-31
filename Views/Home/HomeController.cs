@@ -15,24 +15,9 @@ namespace Lawspot.Controllers
         /// </summary>
         /// <param name="alert"> Indicates that the user should be shown an alert. </param>
         /// <returns></returns>
-        public ActionResult Index(string alert)
+        public ActionResult Index()
         {
             var model = new IndexViewModel();
-
-            // Translate alert types into messages.
-            switch (alert)
-            {
-                case "loggedin":
-                    model.SuccessMessage = "You have logged in.";
-                    break;
-                case "loggedout":
-                    model.SuccessMessage = "You have logged out.";
-                    break;
-                case "registered":
-                case "registered-as-lawyer":
-                    model.SuccessMessage = string.Format("Thanks for registering!  Please check your email ({0}) to confirm your account with us.", this.User.EmailAddress);
-                    break;
-            }
 
             model.RecentQuestions = this.DataContext.Questions.OrderByDescending(q => q.CreatedOn).Take(5).ToList().Select(q => new QuestionViewModel()
             {

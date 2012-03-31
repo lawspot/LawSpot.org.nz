@@ -1,0 +1,13 @@
+﻿/* Thank You - Question */
+.label-left {
+	display: block;
+	float: left;
+	width: 80px;
+}
+.tabbed-text {
+	display: block;
+	margin-left: 100px;
+}
+.homelink {
+	text-align: center;
+}

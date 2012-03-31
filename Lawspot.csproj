@@ -112,11 +112,13 @@
     <Compile Include="Backend\LawspotDataContext.cs" />
     <Compile Include="Shared\Code\BaseController.cs" />
     <Compile Include="Shared\Code\CustomPrincipal.cs" />
+    <Compile Include="Shared\Code\MustBeTrueAttribute.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
     <Compile Include="Views\Account\LawyerRegister\LawyerRegisterViewModel.cs" />
     <Compile Include="Views\Account\Register\RegisterViewModel.cs" />
     <Compile Include="Views\Ask\AskController.cs" />
-    <Compile Include="Views\Ask\AskViewModel.cs" />
+    <Compile Include="Views\Ask\ThankYou\QuestionThankYouModel.cs" />
+    <Compile Include="Views\Ask\Ask\QuestionViewModel.cs" />
     <Compile Include="Views\Home\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -134,6 +136,7 @@
       <DependentUpon>Data.mdf</DependentUpon>
     </None>
     <Content Include="Backend\Migrations\1.sql" />
+    <Content Include="Backend\Migrations\2.sql" />
     <Content Include="Default.htm" />
     <Content Include="Global.asax" />
     <Content Include="Lib\BCrypt.Net.dll" />
@@ -174,6 +177,7 @@
     <Content Include="Shared\Images\error.png" />
     <Content Include="Shared\Images\footer.png" />
     <Content Include="Shared\Images\info.png" />
+    <Content Include="Shared\Images\lock.png" />
     <Content Include="Shared\Images\logo.png" />
     <Content Include="Shared\Images\nav-active.png" />
     <Content Include="Shared\Images\nav-bg.png" />
@@ -188,18 +192,19 @@
     <Content Include="Views\Account\LawyerRegister\law-register-header.png" />
     <Content Include="Views\Account\LawyerRegister\LawyerRegister.css" />
     <Content Include="Views\Account\LawyerRegister\LawyerRegister.html" />
-    <Content Include="Views\Account\LawyerRegister\lock.png" />
     <Content Include="Views\Account\Login\Hammer.jpg" />
     <Content Include="Views\Account\Register\Lawyer.png" />
-    <Content Include="Views\Account\Register\Lock.png" />
     <Content Include="Views\Account\Register\Register.css" />
     <Content Include="Views\Account\Register\Register.html" />
     <Content Include="Views\Account\Login\Login.css" />
     <Content Include="Views\Account\Login\Login.html" />
-    <Content Include="Views\Ask\Ask.html" />
-    <Content Include="Views\Ask\Ask.css" />
-    <Content Include="Views\Ask\questionsubmit.jpg" />
-    <Content Include="Views\Ask\submit-divider.png" />
+    <Content Include="Views\Ask\Ask\Ask.html" />
+    <Content Include="Views\Ask\Ask\Ask.css" />
+    <Content Include="Views\Ask\Ask\Ask.js" />
+    <Content Include="Views\Ask\Ask\questionsubmit.jpg" />
+    <Content Include="Views\Ask\Ask\submit-divider.png" />
+    <Content Include="Views\Ask\ThankYou\ThankYou.css" />
+    <Content Include="Views\Ask\ThankYou\ThankYou.html" />
     <Content Include="Views\Home\Index.css" />
     <Content Include="Shared\mustache.js" />
     <Content Include="Views\Home\Laptop.png" />

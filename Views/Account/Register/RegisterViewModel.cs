@@ -18,11 +18,13 @@ namespace Lawspot.Views.Account
         [StringLength(100, MinimumLength = 6, ErrorMessage = "Your password must be at least 6 characters long.")]
         public string Password { get; set; }
 
+        [Compare("Password", ErrorMessage = "Your two passwords do not match.")]
         public string ConfirmPassword { get; set; }
 
         public int RegionId { get; set; }
         public IEnumerable<SelectListItem> Regions { get; set; }
 
+        [MustBeTrue(ErrorMessage = "You must agree to the terms and conditions.")]
         public bool Agreement { get; set; }
     }
 }

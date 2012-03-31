@@ -11,7 +11,7 @@
 </head>
 <body>
     <header>
-        <a href="/" class="site-logo" title="LawSpot.org.nz"><img src="/shared/images/logo.png" /></a>
+        <a href="/home" class="site-logo" title="LawSpot.org.nz"><img src="/shared/images/logo.png" /></a>
         <nav>
         	<ul>
         		<li><a href="/ask" class="active">Ask a Lawyer</a></li> <!-- add class="active" to current page -->
@@ -58,11 +58,12 @@
         {{Content}}
     </script>
     {{Model}}
-    {{Scripts}}
+    {{LayoutScripts}}
     <script type="text/javascript">
         document.getElementById("_content").innerHTML = Mustache.render(document.getElementById("_contentTemplate").text, Model);
         document.getElementById("_login").innerHTML = Mustache.render(document.getElementById("_loginTemplate").text, Model);
         document.getElementById("_message").innerHTML = Mustache.render(document.getElementById("_messageTemplate").text, Model);
     </script>
+    {{PageScripts}}
 </body>
 </html>

@@ -32,6 +32,7 @@ namespace Lawspot
             RouteTable.Routes.MapRoute("RegisterRoute", "register", new { controller = "Account", action = "Register" });
             RouteTable.Routes.MapRoute("LawyerRegisterRoute", "lawyer-register", new { controller = "Account", action = "LawyerRegister" });
             RouteTable.Routes.MapRoute("AskRoute", "ask", new { controller = "Ask", action = "Ask" });
+            RouteTable.Routes.MapRoute("AskThankYouRoute", "ask/thank-you", new { controller = "Ask", action = "ThankYou" });
         }
 
         protected void Application_AuthorizeRequest()

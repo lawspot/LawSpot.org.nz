@@ -19,5 +19,10 @@ namespace Lawspot.Views.Account
         public string Password { get; set; }
 
         public bool RememberMe { get; set; }
+
+        /// <summary>
+        /// The URL to redirect to once login is successful.
+        /// </summary>
+        public string RedirectUrl { get; set; }
     }
 }

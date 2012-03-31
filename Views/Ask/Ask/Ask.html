@@ -1,0 +1,134 @@
+﻿<h1>Ask A Lawyer</h1>
+
+<form id="ask-form" method="post" action="/ask" class="container-form">
+
+{{^Registration}}
+    <img src="/views/ask/ask/questionsubmit.jpg" width="430" height="385" alt="" id="qsubmit-image" />
+{{/Registration}}
+
+{{#Registration}}
+    <section id="qsubmit2">
+        <input name="ShowRegistration" type="hidden" value="true" />
+
+	    <h3><a href="#">Login</a> or register below:</h3>
+			
+	    <div class="field-label">
+		    <label for="EmailAddress">Email address: </label>
+		    <span class="required">*</span>
+	    </div>
+	    <div class="offset-field">
+		    <input id="EmailAddress" name="Registration.EmailAddress" type="text" value="{{Registration.EmailAddress}}" maxlength="200" autofocus
+			    {{#ModelState.Registration.EmailAddress}}class="validation-error-field"{{/ModelState.Registration.EmailAddress}} />
+            <div class="validation-error">{{ModelState.Registration.EmailAddress}}</div>
+	    </div>
+			
+	    <div class="field-label">
+		    <label for="Password">Select Password: </label>
+		    <span class="required">*</span>
+	    </div>
+	    <div class="offset-field">
+		    <input id="Password" name="Registration.Password" type="password" value="{{Registration.Password}}" maxlength="100"
+			    {{#ModelState.Registration.Password}}class="validation-error-field"{{/ModelState.Registration.Password}} />
+            <div class="validation-error">{{ModelState.Registration.Password}}</div>
+	    </div>
+			
+	    <div class="field-label">
+		    <label for="ConfirmPassword">Confirm password: </label>
+		    <span class="required">*</span>
+	    </div>
+	    <div class="offset-field">
+		    <input id="ConfirmPassword" name="Registration.ConfirmPassword" type="password" value="{{Registration.ConfirmPassword}}" maxlength="100"
+			    {{#ModelState.Registration.ConfirmPassword}}class="validation-error-field"{{/ModelState.Registration.ConfirmPassword}} />
+            <div class="validation-error">{{ModelState.Registration.ConfirmPassword}}</div>
+	    </div>
+			
+	    <div class="field-label">
+		    <label for="RegionId">Region: </label>
+		    <span class="required">*</span>
+	    </div>
+	    <div class="offset-field">
+            <select id="RegionId" name="Registration.RegionId">
+                {{#Registration.Regions}}
+                    <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+                {{/Registration.Regions}}
+            </select>
+	    </div>
+			    
+	    <div class="offset-field privacy-message">
+		    <img src="/shared/images/lock.png" width="22" height="27" alt="" class="privacy" />
+            We will <ins>NEVER</ins> release your data to a third party.
+	    </div>
+			    
+	    <p class="form-message"><strong>Why do I have to register?</strong><br />
+	    Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.</p>
+			    
+	    <div class="qsubmit-button">
+		    <button>ASK YOUR QUESTION</button>
+	    </div>
+    </section>
+{{/Registration}}
+
+<section id="qsubmit1">
+    {{#Registration}}
+        <div id="qsubmit-overlay1"></div>
+        <div id="qsubmit-overlay2"></div>
+    {{/Registration}}
+
+    <div id="qsubmit1-inner">
+	    <div class="qsubmit-field">
+		    <span id="TitleCharCount" class="char-count">150 characters remaining</span>
+		    <label for="Title">Your Question: </label>
+		    <span class="required">*</span><br />
+		    <input id="Title" name="Title" type="text" value="{{Title}}" maxlength="150" {{^Title}}autofocus{{/Title}}
+				    {{#ModelState.Title}}class="validation-error-field"{{/ModelState.Title}} />
+		    <div class="validation-error">{{ModelState.Title}}</div>
+	    </div>
+
+	    <div class="qsubmit-field">
+		    <span id="DetailsCharCount" class="char-count">600 characters remaining</span>
+		    <label for="Details">Question Details: </label>
+		    <span class="required">*</span><br />
+		    <textarea id="Details" name="Details" rows="6" {{#Title}}autofocus{{/Title}}
+                {{#ModelState.Details}}class="validation-error-field"{{/ModelState.Details}}>{{Details}}</textarea>
+		    <div class="validation-error">{{ModelState.Details}}</div>
+	    </div>
+
+	    <div class="qsubmit-field">
+		    <div class="field-label">
+			    <label for="Category">Category: </label>
+			    <span class="required">*</span>
+		    </div>
+		    <div class="offset-field">
+                <select id="Category" name="CategoryId">
+                    <option value="0">Select category</option>
+                    {{#Categories}}
+                        <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+                    {{/Categories}}
+                </select>
+			    <div class="validation-error">{{ModelState.CategoryId}}</div>
+		    </div>
+	    </div>
+
+	    <div class="qsubmit-field">
+		    <div class="offset-field">
+			    <label>
+				    <input id="Agreement" name="Agreement" type="checkbox" {{#Agreement}}checked{{/Agreement}} value="true"
+					        {{#ModelState.Agreement}}class="validation-error-field"{{/ModelState.Agreement}} />
+				    <small>I agree to the <a href="/terms" target="_blank">Terms and Conditions</a> and for my question to be publicly available online (see our <a href="#" target="_blank">Privacy Policy</a>).</small>
+			    </label>
+			    <div class="validation-error">{{ModelState.Agreement}}</div>
+		    </div>
+	    </div>
+
+	    <div class="qsubmit-button">
+            {{^User}}
+		        <button>CONTINUE &raquo;</button>
+            {{/User}}
+            {{#User}}
+                <button>ASK YOUR QUESTION</button>
+            {{/User}}
+	    </div>
+
+        <div style="clear: right"></div>
+    </div>
+</section>

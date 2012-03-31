@@ -16,6 +16,8 @@ namespace Lawspot.Controllers
         {
             var model = new LoginViewModel();
             model.RememberMe = true;
+            if (this.Request.UrlReferrer != null)
+                model.RedirectUrl = this.Request.UrlReferrer.ToString();
             return View(model);
         }
 
@@ -37,7 +39,9 @@ namespace Lawspot.Controllers
             // Create login cookie.
             Login(user, rememberMe: model.RememberMe);
 
-            // Redirect to home page.
+            // Redirect to the original referrer, or to the home page.
+            if (string.IsNullOrEmpty(model.RedirectUrl) == false)
+                return Redirect(SetUriParameter(new Uri(model.RedirectUrl), "alert", "loggedin").ToString());
             return RedirectToAction("Index", "Home", new { alert = "loggedin" });
         }
 
@@ -53,14 +57,6 @@ namespace Lawspot.Controllers
         [HttpPost]
         public ActionResult Register(RegisterViewModel model)
         {
-            // Check the password matches the confirmation password.
-            if (model.Password != model.ConfirmPassword)
-                ModelState.AddModelError("ConfirmPassword", "Your two passwords do not match.");
-            
-            // Check the user agreed to the terms and conditions.
-            if (model.Agreement == false)
-                ModelState.AddModelError("Agreement", "You must agree to the terms and conditions.");
-
             // Check an account with the email doesn't already exist.
             if (this.DataContext.Users.Any(u => u.EmailAddress == model.EmailAddress))
                 ModelState.AddModelError("EmailAddress", "That email address is already registered.");
@@ -113,14 +109,6 @@ namespace Lawspot.Controllers
         [HttpPost]
         public ActionResult LawyerRegister(LawyerRegisterViewModel model)
         {
-            // Check the password matches the confirmation password.
-            if (model.Password != model.ConfirmPassword)
-                ModelState.AddModelError("ConfirmPassword", "Your two passwords do not match.");
-
-            // Check the user agreed to the terms of engagement.
-            if (model.Agreement == false)
-                ModelState.AddModelError("Agreement", "You must agree to the terms of engagement.");
-
             // Check an account with the email doesn't already exist.
             if (this.DataContext.Users.Any(u => u.EmailAddress == model.EmailAddress))
                 ModelState.AddModelError("EmailAddress", "That email address is already registered.");
@@ -181,29 +169,15 @@ namespace Lawspot.Controllers
             });
         }
 
-        /// <summary>
-        /// Creates an authentication cookie on the user's computer.
-        /// </summary>
-        /// <param name="user"> The user details. </param>
-        /// <param name="rememberMe"> <c>true</c> to make the cookie persistant. </param>
-        private void Login(User user, bool rememberMe)
-        {
-            var ticket = Lawspot.Shared.CustomPrincipal.FromUser(user).ToTicket(rememberMe);
-            string encryptedTicket = FormsAuthentication.Encrypt(ticket);
-            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
-            cookie.Path = FormsAuthentication.FormsCookiePath;
-            if (rememberMe)
-                cookie.Expires = DateTime.Now.AddYears(1);  // Remember Me = good for one year.
-            this.Response.Cookies.Add(cookie);
-        }
-
         [HttpGet]
         public ActionResult Logout()
         {
             // Remove the authentication cookie.
             FormsAuthentication.SignOut();
 
-            // Redirect to home page.
+            // Redirect to the referrer, or to the home page.
+            if (this.Request.UrlReferrer != null)
+                return Redirect(SetUriParameter(this.Request.UrlReferrer, "alert", "loggedout").ToString());
             return RedirectToAction("Index", "Home", new { alert = "loggedout" });
         }
     }

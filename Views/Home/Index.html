@@ -36,8 +36,10 @@
 <p>Ask a laywer, completely free, no obligation, answers to your legal questions.</p>
 
 <div class="ask">
-    <input class="ask-textbox" type="text" placeholder="Ask your question here..." />
-    <button class="ask-button">ASK</button>
+    <form method="get" action="/ask">
+        <input name="title" class="ask-textbox" type="text" placeholder="Ask your question here..." />
+        <button class="ask-button">ASK</button>
+    </form>
 </div>
 
 <h2> Recent Questions </h2>
