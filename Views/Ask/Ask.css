@@ -1,0 +1,78 @@
+﻿/* Question Submission */
+#qsubmit-image {
+	float: right;
+	margin-right: 10px;
+}
+
+#qsubmit1 {
+	width: 460px;
+	padding: 0;
+}
+#qsubmit1-pg2 {
+	width: 955px;
+	height: 440px;
+	padding: 0;
+}
+
+.qsubmit-field {
+	margin: 20px;
+	width: 440px;
+}
+.qsubmit-field input[type="text"],.qsubmit-field textarea {
+	width: 420px;
+}
+.qsubmit-field .char-count {
+	float: right;
+	font-size: 0.8em;
+	margin-right: 10px;
+}
+.qsubmit-field .field-label {
+	text-align: left;
+	width: 80px;
+}
+.qsubmit-field .offset-field {
+	margin-left: 90px;
+}
+.qsubmit-button {
+	text-align: center;
+	margin-bottom: 15px;
+}
+#qsubmit-overlay {
+	width: 480px;
+	height: 440px;
+	position: absolute;
+	background: #000;
+	opacity: 0.2;
+	filter: opacity(0.2);
+	border-radius: 2px 0 0 2px;
+	margin: 1px;
+}
+#qsubmit-divider {
+	width: 61px;
+	height: 442px;
+	background: url(/views/ask/submit-divider.png) no-repeat;
+	position: absolute;
+	margin: 0 0 0 481px;
+	border: 0;
+}
+
+#qsubmit2 {
+	float: right;
+	width: 380px;
+	border: none;
+	background: transparent;
+}
+#qsubmit2 h3 {
+	text-align: center;
+	margin-top: -10px;
+}
+#qsubmit2 input[type="text"],#qsubmit2 input[type="password"],#qsubmit2 select {
+	width: 220px;
+}
+#qsubmit2 .field-label {
+	text-align: left;
+	width: 135px;
+}
+#qsubmit2 .offset-field {
+	margin: 0 0 10px 145px;
+}

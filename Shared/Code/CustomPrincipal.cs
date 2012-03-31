@@ -2,9 +2,9 @@
 using System.Security;
 using System.Security.Principal;
 using System.Web.Security;
-using Prolawyers.Backend;
+using Lawspot.Backend;
 
-namespace Prolawyers.Shared
+namespace Lawspot.Shared
 {
     public class CustomPrincipal : IPrincipal
     {

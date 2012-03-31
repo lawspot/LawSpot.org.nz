@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Prolawyers.Views.Home
+namespace Lawspot.Views.Home
 {
     public class IndexViewModel
     {

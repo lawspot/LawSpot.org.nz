@@ -4,10 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using Prolawyers.Backend;
-using Prolawyers.Views.Account;
+using Lawspot.Backend;
+using Lawspot.Views.Account;
 
-namespace Prolawyers.Controllers
+namespace Lawspot.Controllers
 {
     public class AccountController : BaseController
     {
@@ -77,8 +77,8 @@ namespace Prolawyers.Controllers
             user.EmailAddress = model.EmailAddress;
             user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
             user.RegionId = model.RegionId;
-            this.DataContext.Users.InsertOnSubmit(user);
-            this.DataContext.SubmitChanges();
+            this.DataContext.Users.AddObject(user);
+            this.DataContext.SaveChanges();
 
             // Log in as that user.
             Login(user, rememberMe: true);
@@ -93,7 +93,7 @@ namespace Prolawyers.Controllers
         /// <param name="model"></param>
         private void PopulateRegisterViewModel(RegisterViewModel model)
         {
-            model.Regions = this.DataContext.Regions.Select(r => new SelectListItem()
+            model.Regions = this.DataContext.Regions.ToList().Select(r => new SelectListItem()
             {
                 Value = r.RegionId.ToString(),
                 Text = r.Name,
@@ -137,7 +137,7 @@ namespace Prolawyers.Controllers
             user.EmailAddress = model.EmailAddress;
             user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
             user.RegionId = model.RegionId;
-            this.DataContext.Users.InsertOnSubmit(user);
+            this.DataContext.Users.AddObject(user);
 
             // Register a new lawyer.
             var lawyer = new Lawyer();
@@ -148,10 +148,10 @@ namespace Prolawyers.Controllers
             lawyer.YearOfAdmission = model.YearAdmitted;
             lawyer.SpecialisationCategoryId = model.SpecialisationCategoryId == 0 ? (int?)null : model.SpecialisationCategoryId;
             lawyer.FirmName = model.FirmName;
-            this.DataContext.Lawyers.InsertOnSubmit(lawyer);
+            this.DataContext.Lawyers.AddObject(lawyer);
 
             // Save.
-            this.DataContext.SubmitChanges();
+            this.DataContext.SaveChanges();
 
             // Log in as the new user.
             Login(user, rememberMe: true);
@@ -173,7 +173,7 @@ namespace Prolawyers.Controllers
                 Value = year.ToString(),
                 Selected = model.YearAdmitted == year
             });
-            model.Categories = this.DataContext.Categories.Select(c => new SelectListItem()
+            model.Categories = this.DataContext.Categories.ToList().Select(c => new SelectListItem()
             {
                 Text = c.Name,
                 Value = c.CategoryId.ToString(),
@@ -188,7 +188,7 @@ namespace Prolawyers.Controllers
         /// <param name="rememberMe"> <c>true</c> to make the cookie persistant. </param>
         private void Login(User user, bool rememberMe)
         {
-            var ticket = Prolawyers.Shared.CustomPrincipal.FromUser(user).ToTicket(rememberMe);
+            var ticket = Lawspot.Shared.CustomPrincipal.FromUser(user).ToTicket(rememberMe);
             string encryptedTicket = FormsAuthentication.Encrypt(ticket);
             var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
             cookie.Path = FormsAuthentication.FormsCookiePath;

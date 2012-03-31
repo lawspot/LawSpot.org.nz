@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Prolawyers.Backend;
-using Prolawyers.Views.Home;
+using Lawspot.Backend;
+using Lawspot.Views.Home;
 
-namespace Prolawyers.Controllers
+namespace Lawspot.Controllers
 {
     public class HomeController : BaseController
     {
@@ -34,7 +34,7 @@ namespace Prolawyers.Controllers
                     break;
             }
 
-            model.RecentQuestions = this.DataContext.Questions.OrderByDescending(q => q.CreatedOn).Take(5).Select(q => new QuestionViewModel()
+            model.RecentQuestions = this.DataContext.Questions.OrderByDescending(q => q.CreatedOn).Take(5).ToList().Select(q => new QuestionViewModel()
             {
                 Uri = string.Format("/questions/{0}", q.QuestionId),
                 Title = q.Title,
@@ -43,7 +43,7 @@ namespace Prolawyers.Controllers
                 Ago = string.Format("{0} hours", Math.Round(DateTime.Now.Subtract(q.CreatedOn).TotalHours))
             });
 
-            var topCategories = this.DataContext.Categories.OrderBy(c => c.Name).Select(c => new CategoryViewModel()
+            var topCategories = this.DataContext.Categories.OrderBy(c => c.Name).ToList().Select(c => new CategoryViewModel()
             {
                 Uri = string.Format("/categories/{0}", c.CategoryId),
                 Name = c.Name,

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Web.Security;
 
-namespace Prolawyers
+namespace Lawspot
 {
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
@@ -17,7 +17,7 @@ namespace Prolawyers
         {
             // Remove the ASP.NET ViewEngine and add my own.
             ViewEngines.Engines.Clear();
-            ViewEngines.Engines.Add(new Prolawyers.Shared.MustacheViewEngine());
+            ViewEngines.Engines.Add(new Lawspot.Shared.MustacheViewEngine());
 
             // Register areas.
             AreaRegistration.RegisterAllAreas();
@@ -26,11 +26,12 @@ namespace Prolawyers
             GlobalFilters.Filters.Add(new HandleErrorAttribute());
 
             // Register routes.
-            RouteTable.Routes.MapRoute("HomeRoute", "", new { controller = "Home", action = "Index" });
+            RouteTable.Routes.MapRoute("HomeRoute", "home", new { controller = "Home", action = "Index" });
             RouteTable.Routes.MapRoute("LoginRoute", "login", new { controller = "Account", action = "Login" });
             RouteTable.Routes.MapRoute("LogoutRoute", "logout", new { controller = "Account", action = "Logout" });
             RouteTable.Routes.MapRoute("RegisterRoute", "register", new { controller = "Account", action = "Register" });
             RouteTable.Routes.MapRoute("LawyerRegisterRoute", "lawyer-register", new { controller = "Account", action = "LawyerRegister" });
+            RouteTable.Routes.MapRoute("AskRoute", "ask", new { controller = "Ask", action = "Ask" });
         }
 
         protected void Application_AuthorizeRequest()
@@ -43,14 +44,14 @@ namespace Prolawyers
                 var ticket = FormsAuthentication.Decrypt(cookie.Value);
 
                 // Extract the user information.
-                this.Context.User = Prolawyers.Shared.CustomPrincipal.FromTicket(ticket);
+                this.Context.User = Lawspot.Shared.CustomPrincipal.FromTicket(ticket);
             }
         }
 
         protected void Application_EndRequest()
         {
             // Dispose of the data context.
-            Prolawyers.Controllers.BaseController.DisposeDataContext();
+            Lawspot.Controllers.BaseController.DisposeDataContext();
         }
     }
 }

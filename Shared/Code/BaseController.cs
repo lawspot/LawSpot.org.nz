@@ -3,24 +3,24 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using Prolawyers.Backend;
-using Prolawyers.Shared;
+using Lawspot.Backend;
+using Lawspot.Shared;
 
-namespace Prolawyers.Controllers
+namespace Lawspot.Controllers
 {
     public class BaseController : Controller
     {
         /// <summary>
-        /// Gets a reference to the LINQ-to-SQL database context.
+        /// Gets a reference to the EF database context.
         /// </summary>
-        public DataClassesDataContext DataContext
+        public DataEntities2 DataContext
         {
             get
             {
-                var dataContext = (DataClassesDataContext)this.HttpContext.Items["DataContext"];
+                var dataContext = (DataEntities2)this.HttpContext.Items["DataContext"];
                 if (dataContext == null)
                 {
-                    dataContext = new DataClassesDataContext();
+                    dataContext = new DataEntities2();
                     this.HttpContext.Items["DataContext"] = dataContext;
                 }
                 return dataContext;
@@ -32,7 +32,7 @@ namespace Prolawyers.Controllers
         /// </summary>
         public static void DisposeDataContext()
         {
-            var dataContext = (DataClassesDataContext)System.Web.HttpContext.Current.Items["DataContext"];
+            var dataContext = (DataEntities2)System.Web.HttpContext.Current.Items["DataContext"];
             if (dataContext != null)
             {
                 dataContext.Dispose();

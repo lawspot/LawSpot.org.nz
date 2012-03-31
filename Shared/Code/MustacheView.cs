@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 
-namespace Prolawyers.Shared
+namespace Lawspot.Shared
 {
     public class MustacheView : IView
     {

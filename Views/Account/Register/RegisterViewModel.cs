@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 
-namespace Prolawyers.Views.Account
+namespace Lawspot.Views.Account
 {
     public class RegisterViewModel
     {
