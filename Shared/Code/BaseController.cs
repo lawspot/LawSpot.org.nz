@@ -13,14 +13,14 @@ namespace Lawspot.Controllers
         /// <summary>
         /// Gets a reference to the EF database context.
         /// </summary>
-        public DataEntities2 DataContext
+        public DataClassesDataContext DataContext
         {
             get
             {
-                var dataContext = (DataEntities2)this.HttpContext.Items["DataContext"];
+                var dataContext = (LawspotDataContext)this.HttpContext.Items["DataContext"];
                 if (dataContext == null)
                 {
-                    dataContext = new DataEntities2();
+                    dataContext = new LawspotDataContext();
                     this.HttpContext.Items["DataContext"] = dataContext;
                 }
                 return dataContext;
@@ -32,7 +32,7 @@ namespace Lawspot.Controllers
         /// </summary>
         public static void DisposeDataContext()
         {
-            var dataContext = (DataEntities2)System.Web.HttpContext.Current.Items["DataContext"];
+            var dataContext = (LawspotDataContext)System.Web.HttpContext.Current.Items["DataContext"];
             if (dataContext != null)
             {
                 dataContext.Dispose();

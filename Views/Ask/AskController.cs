@@ -36,7 +36,7 @@ namespace Lawspot.Controllers
         /// <param name="model"></param>
         private void PopulateQuestionViewModel(QuestionViewModel model)
         {
-            model.Categories = this.DataContext.Categories.ToList().Select(c => new SelectListItem()
+            model.Categories = this.DataContext.Categories.Select(c => new SelectListItem()
             {
                 Text = c.Name,
                 Value = c.CategoryId.ToString(),

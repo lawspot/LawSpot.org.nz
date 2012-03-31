@@ -43,7 +43,7 @@ namespace Lawspot.Controllers
                 Ago = string.Format("{0} hours", Math.Round(DateTime.Now.Subtract(q.CreatedOn).TotalHours))
             });
 
-            var topCategories = this.DataContext.Categories.OrderBy(c => c.Name).ToList().Select(c => new CategoryViewModel()
+            var topCategories = this.DataContext.Categories.OrderBy(c => c.Name).Select(c => new CategoryViewModel()
             {
                 Uri = string.Format("/categories/{0}", c.CategoryId),
                 Name = c.Name,

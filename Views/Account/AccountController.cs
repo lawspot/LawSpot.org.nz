@@ -77,8 +77,8 @@ namespace Lawspot.Controllers
             user.EmailAddress = model.EmailAddress;
             user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
             user.RegionId = model.RegionId;
-            this.DataContext.Users.AddObject(user);
-            this.DataContext.SaveChanges();
+            this.DataContext.Users.InsertOnSubmit(user);
+            this.DataContext.SubmitChanges();
 
             // Log in as that user.
             Login(user, rememberMe: true);
@@ -93,7 +93,7 @@ namespace Lawspot.Controllers
         /// <param name="model"></param>
         private void PopulateRegisterViewModel(RegisterViewModel model)
         {
-            model.Regions = this.DataContext.Regions.ToList().Select(r => new SelectListItem()
+            model.Regions = this.DataContext.Regions.Select(r => new SelectListItem()
             {
                 Value = r.RegionId.ToString(),
                 Text = r.Name,
@@ -137,7 +137,7 @@ namespace Lawspot.Controllers
             user.EmailAddress = model.EmailAddress;
             user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
             user.RegionId = model.RegionId;
-            this.DataContext.Users.AddObject(user);
+            this.DataContext.Users.InsertOnSubmit(user);
 
             // Register a new lawyer.
             var lawyer = new Lawyer();
@@ -148,10 +148,10 @@ namespace Lawspot.Controllers
             lawyer.YearOfAdmission = model.YearAdmitted;
             lawyer.SpecialisationCategoryId = model.SpecialisationCategoryId == 0 ? (int?)null : model.SpecialisationCategoryId;
             lawyer.FirmName = model.FirmName;
-            this.DataContext.Lawyers.AddObject(lawyer);
+            this.DataContext.Lawyers.InsertOnSubmit(lawyer);
 
             // Save.
-            this.DataContext.SaveChanges();
+            this.DataContext.SubmitChanges();
 
             // Log in as the new user.
             Login(user, rememberMe: true);
@@ -173,7 +173,7 @@ namespace Lawspot.Controllers
                 Value = year.ToString(),
                 Selected = model.YearAdmitted == year
             });
-            model.Categories = this.DataContext.Categories.ToList().Select(c => new SelectListItem()
+            model.Categories = this.DataContext.Categories.Select(c => new SelectListItem()
             {
                 Text = c.Name,
                 Value = c.CategoryId.ToString(),
