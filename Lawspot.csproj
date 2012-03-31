@@ -128,11 +128,11 @@
     <Compile Include="Views\Home\IndexViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Data.mdf" />
-    <Content Include="App_Data\Data.sdf" />
-    <Content Include="App_Data\Data_log.ldf">
+    <None Include=".gitignore" />
+    <None Include="App_Data\Data.mdf" />
+    <None Include="App_Data\Data_log.ldf">
       <DependentUpon>Data.mdf</DependentUpon>
-    </Content>
+    </None>
     <Content Include="Backend\Migrations\1.sql" />
     <Content Include="Default.htm" />
     <Content Include="Global.asax" />
