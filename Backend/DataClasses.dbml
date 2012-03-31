@@ -66,4 +66,11 @@
       <Association Name="Region_User" Member="Users" ThisKey="RegionId" OtherKey="RegionId" Type="User" />
     </Type>
   </Table>
+  <Table Name="dbo.Migrations" Member="Migrations">
+    <Type Name="Migration">
+      <Column Name="MigrationId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Version" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RunAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
 </Database>

@@ -48,6 +48,9 @@ namespace Lawspot.Backend
     partial void InsertRegion(Region instance);
     partial void UpdateRegion(Region instance);
     partial void DeleteRegion(Region instance);
+    partial void InsertMigration(Migration instance);
+    partial void UpdateMigration(Migration instance);
+    partial void DeleteMigration(Migration instance);
     #endregion
 		
 		public DataClassesDataContext() : 
@@ -125,6 +128,14 @@ namespace Lawspot.Backend
 			get
 			{
 				return this.GetTable<Region>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Migration> Migrations
+		{
+			get
+			{
+				return this.GetTable<Migration>();
 			}
 		}
 	}
@@ -1509,6 +1520,116 @@ namespace Lawspot.Backend
 		{
 			this.SendPropertyChanging();
 			entity.Region = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Migrations")]
+	public partial class Migration : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _MigrationId;
+		
+		private int _Version;
+		
+		private System.DateTime _RunAt;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnMigrationIdChanging(int value);
+    partial void OnMigrationIdChanged();
+    partial void OnVersionChanging(int value);
+    partial void OnVersionChanged();
+    partial void OnRunAtChanging(System.DateTime value);
+    partial void OnRunAtChanged();
+    #endregion
+		
+		public Migration()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MigrationId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int MigrationId
+		{
+			get
+			{
+				return this._MigrationId;
+			}
+			set
+			{
+				if ((this._MigrationId != value))
+				{
+					this.OnMigrationIdChanging(value);
+					this.SendPropertyChanging();
+					this._MigrationId = value;
+					this.SendPropertyChanged("MigrationId");
+					this.OnMigrationIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Version", DbType="Int NOT NULL")]
+		public int Version
+		{
+			get
+			{
+				return this._Version;
+			}
+			set
+			{
+				if ((this._Version != value))
+				{
+					this.OnVersionChanging(value);
+					this.SendPropertyChanging();
+					this._Version = value;
+					this.SendPropertyChanged("Version");
+					this.OnVersionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RunAt", DbType="DateTime NOT NULL")]
+		public System.DateTime RunAt
+		{
+			get
+			{
+				return this._RunAt;
+			}
+			set
+			{
+				if ((this._RunAt != value))
+				{
+					this.OnRunAtChanging(value);
+					this.SendPropertyChanging();
+					this._RunAt = value;
+					this.SendPropertyChanged("RunAt");
+					this.OnRunAtChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }
