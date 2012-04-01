@@ -265,12 +265,6 @@ ul.list-arrows li a {
 }
 
 /* General - Form stuff */
-form {
-	background-color: #edebe4;
-	border: solid 1px #bcbbba;
-	border-radius: 3px;
-	padding: 30px 20px 10px;
-}
 form h2,form h3 {
 	margin-top: 0;
 }
