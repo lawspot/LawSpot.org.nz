@@ -103,7 +103,7 @@ body {
     height: 100%;
     background: black url(/shared/images/background.jpg) no-repeat center top;
     font-size: 11pt;
-    font-family: sans-serif;
+    font-family: 'Segoe UI', Segoe, 'Helvetica Neue', Helvetica, Roboto, Arial, FreeSans, sans-serif;
     -moz-background-size: cover;
     background-size: cover;
     color: #373737;
@@ -269,7 +269,7 @@ input[type=text], input[type=password], select, textarea {
     box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
 }
 textarea {
-    font-family: Sans-Serif;
+    font-family: 'Segoe UI', Segoe, 'Helvetica Neue', Helvetica, Roboto, Arial, FreeSans, sans-serif;
 }
 
 /* Footer */

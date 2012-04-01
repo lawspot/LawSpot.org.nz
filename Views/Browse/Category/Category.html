@@ -1,0 +1,75 @@
+﻿<section class="sidebar">
+    <section>
+        <h2> Are you a lawyer? </h2>
+        <img class="lawyer" src="/views/browse/lawyer.png" />
+        <p>
+            Help the community and grow your practice!
+            <a href="/lawyer-register">Find out how.</a>
+        </p>
+        <p>
+            Already registered?  <a href="/login">Login here</a>.
+        </p>
+    </section>
+
+    <section>
+        <h2> Top legal categories </h2>
+        <ul class="categories">
+            {{#TopCategories1}}
+                <li> <a href="{{Uri}}">{{Name}}</a> </li>
+            {{/TopCategories1}}
+        </ul>
+        <ul class="categories">
+            {{#TopCategories2}}
+                <li> <a href="{{Uri}}">{{Name}}</a> </li>
+            {{/TopCategories2}}
+        </ul>
+        <div style="clear: left"></div>
+        <div class="categories-all"><a href="#">See all categories...</a></div>
+    </section>
+</section>
+
+<h1> Ask About {{Name}} </h1>
+
+<p> Tagline. </p>
+
+<div class="ask">
+    <form method="get" action="/ask">
+        <input name="category" type="hidden" value="{{CategoryId}}" />
+        <input name="title" class="ask-textbox" type="text" placeholder="Ask your question here..." />
+        <button class="ask-button">ASK</button>
+    </form>
+</div>
+
+<h2> New Consumer Law Questions and Answers</h2>
+
+{{#RecentQuestions}}
+    <div class="question">
+        <div class="frame">
+            <img src="{{AvatarUri}}" />
+        </div>
+        
+        <div class="body">
+            <div class="title">
+                <a href="{{Uri}}">{{Title}}</a>
+            </div>
+            <div class="details">
+                {{Details}}
+            </div>
+            <div class="asked">
+                {{Asker}} asked this question <strong>{{Ago}} ago</strong>
+            </div>
+        </div>
+        <div style="clear: left"></div>
+    </div>
+{{/RecentQuestions}}
+
+<h2> Most Viewed Consumer Law Questions and Answers </h2>
+
+<ul class="list-arrows">
+	<li><a href="#">Sed molestie augue sit amet leo consequat posuere. Vestibulum ante ipsum?<br />
+		<span class="mv-poststats">1 answer | 2,000 views</span></a></li>
+	<li><a href="#">Vestibulum ante ipsum primis?<br />
+		<span class="mv-poststats">1 answer | 2,000 views</span></a></li>
+	<li><a href="#">Vivamus luctus urna sed urna ultricies ac tempor?<br />
+		<span class="mv-poststats">1 answer | 2,000 views</span></a></li>
+</ul>

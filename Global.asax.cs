@@ -15,6 +15,9 @@ namespace Lawspot
     {
         protected void Application_Start()
         {
+            // Execute any migrations.
+            Lawspot.Backend.LawspotDataContext.ExecuteMigrations();
+
             // Remove the ASP.NET ViewEngine and add my own.
             ViewEngines.Engines.Clear();
             ViewEngines.Engines.Add(new Lawspot.Shared.MustacheViewEngine());
@@ -26,7 +29,9 @@ namespace Lawspot
             GlobalFilters.Filters.Add(new HandleErrorAttribute());
 
             // Register routes.
-            RouteTable.Routes.MapRoute("HomeRoute", "home", new { controller = "Home", action = "Index" });
+            RouteTable.Routes.MapRoute("HomeRoute", "home", new { controller = "Browse", action = "Home" });
+            RouteTable.Routes.MapRoute("CategoryRoute", "categories/{slug}", new { controller = "Browse", action = "Category" });
+            RouteTable.Routes.MapRoute("QuestionRoute", "questions/{id}", new { controller = "Browse", action = "Question" });
             RouteTable.Routes.MapRoute("LoginRoute", "login", new { controller = "Account", action = "Login" });
             RouteTable.Routes.MapRoute("LogoutRoute", "logout", new { controller = "Account", action = "Logout" });
             RouteTable.Routes.MapRoute("RegisterRoute", "register", new { controller = "Account", action = "Register" });

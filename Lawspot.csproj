@@ -119,7 +119,7 @@
     <Compile Include="Views\Ask\AskController.cs" />
     <Compile Include="Views\Ask\ThankYou\QuestionThankYouModel.cs" />
     <Compile Include="Views\Ask\Ask\QuestionViewModel.cs" />
-    <Compile Include="Views\Home\HomeController.cs" />
+    <Compile Include="Views\Browse\BrowseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -127,7 +127,9 @@
     <Compile Include="Shared\Code\MustacheView.cs" />
     <Compile Include="Shared\Code\MustacheViewEngine.cs" />
     <Compile Include="Views\Account\Login\LoginViewModel.cs" />
-    <Compile Include="Views\Home\IndexViewModel.cs" />
+    <Compile Include="Views\Browse\Category\CategoryPageViewModel.cs" />
+    <Compile Include="Views\Browse\Home\HomeViewModel.cs" />
+    <Compile Include="Views\Browse\Question\QuestionPageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -137,6 +139,7 @@
     </None>
     <Content Include="Backend\Migrations\1.sql" />
     <Content Include="Backend\Migrations\2.sql" />
+    <Content Include="Backend\Migrations\3.sql" />
     <Content Include="Default.htm" />
     <Content Include="Global.asax" />
     <Content Include="Lib\BCrypt.Net.dll" />
@@ -205,10 +208,15 @@
     <Content Include="Views\Ask\Ask\submit-divider.png" />
     <Content Include="Views\Ask\ThankYou\ThankYou.css" />
     <Content Include="Views\Ask\ThankYou\ThankYou.html" />
-    <Content Include="Views\Home\Index.css" />
+    <Content Include="Views\Browse\Category\Category.css" />
+    <Content Include="Views\Browse\Category\Category.html" />
+    <Content Include="Views\Browse\Home\Home.css" />
     <Content Include="Shared\mustache.js" />
-    <Content Include="Views\Home\Laptop.png" />
-    <Content Include="Views\Home\Lawyer.png" />
+    <Content Include="Views\Browse\Home\laptop.png" />
+    <Content Include="Views\Browse\lawyer.png" />
+    <Content Include="Views\Browse\Question\Question.css" />
+    <Content Include="Views\Browse\Question\Question.html" />
+    <Content Include="Views\Browse\Question\question.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -226,7 +234,7 @@
     <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
-    <Content Include="Views\Home\Index.html" />
+    <Content Include="Views\Browse\Home\Home.html" />
     <Content Include="Views\Error\Error.cshtml" />
     <Content Include="Views\Web.config" />
   </ItemGroup>

@@ -24,14 +24,6 @@
       <Association Name="Region_User" Member="Region" ThisKey="RegionId" OtherKey="RegionId" Type="Region" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.Category" Member="Categories">
-    <Type Name="Category">
-      <Column Name="CategoryId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Category_Lawyer" Member="Lawyers" ThisKey="CategoryId" OtherKey="SpecialisationCategoryId" Type="Lawyer" />
-      <Association Name="Category_Question" Member="Questions" ThisKey="CategoryId" OtherKey="CategoryId" Type="Question" />
-    </Type>
-  </Table>
   <Table Name="dbo.Lawyer" Member="Lawyers">
     <Type Name="Lawyer">
       <Column Name="LawyerId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -42,8 +34,8 @@
       <Column Name="YearOfAdmission" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="SpecialisationCategoryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="FirmName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Association Name="Category_Lawyer" Member="Category" ThisKey="SpecialisationCategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
       <Association Name="User_Lawyer" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+      <Association Name="Category_Lawyer" Member="Category" ThisKey="SpecialisationCategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Question" Member="Questions">
@@ -55,8 +47,8 @@
       <Column Name="CreatedOn" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="CreatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Association Name="Question_Answer" Member="Answers" ThisKey="QuestionId" OtherKey="QuestionId" Type="Answer" />
-      <Association Name="Category_Question" Member="Category" ThisKey="CategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
       <Association Name="User_Question" Member="User" ThisKey="CreatedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+      <Association Name="Category_Question" Member="Category" ThisKey="CategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Region" Member="Regions">
@@ -71,6 +63,15 @@
       <Column Name="MigrationId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Version" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="RunAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Category" Member="Categories">
+    <Type Name="Category">
+      <Column Name="CategoryId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Slug" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Association Name="Category_Lawyer" Member="Lawyers" ThisKey="CategoryId" OtherKey="SpecialisationCategoryId" Type="Lawyer" />
+      <Association Name="Category_Question" Member="Questions" ThisKey="CategoryId" OtherKey="CategoryId" Type="Question" />
     </Type>
   </Table>
 </Database>

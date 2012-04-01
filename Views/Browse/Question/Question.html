@@ -1,0 +1,93 @@
+﻿<section class="sidebar">
+    <div class="ask-sidebar">
+        <input class="ask-textbox" type="text" placeholder="Ask your question here..." />
+        <button class="ask-button">ASK</button>
+    </div>
+
+    <section>
+        <h2> Are you a lawyer? </h2>
+        <img class="lawyer" src="/views/browse/lawyer.png" />
+        <p>
+            Help the community and grow your practice!
+            <a href="/lawyer-register">Find out how.</a>
+        </p>
+        <p>
+            Already registered?  <a href="/login">Login here</a>.
+        </p>
+    </section>
+
+    <section>
+        <h2> Top legal categories </h2>
+        <ul class="categories">
+            {{#TopCategories1}}
+                <li> <a href="{{Uri}}">{{Name}}</a> </li>
+            {{/TopCategories1}}
+        </ul>
+        <ul class="categories">
+            {{#TopCategories2}}
+                <li> <a href="{{Uri}}">{{Name}}</a> </li>
+            {{/TopCategories2}}
+        </ul>
+        <div style="clear: left"></div>
+    </section>
+</section>
+
+<div id="breadcrumb"><a href="/">Home</a> > <a href="#">Consumer Law</a> > Questions and answers</div>
+
+<section class="content-left">
+	<section>
+		<img src="/views/browse/question/question.png" class="ask-avatar" width="68" height="98" alt="" />
+		<div class="speech question">
+			<h1>Mivamus luctus urna sed urna ultricies ac tempor dui sagittis. In condimentum facilisis porta. Sed nec diam eu?</h1>
+			<p><strong>Question Details:</strong> Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque faucibus vestibulum. Nulla at nulla justo, eget luctus tortor. Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet arcu.</p>
+			<p class="postdata">Asked 18 Mar 2012 under <a href="#category">Landlord / Tenant</a> | 15 View(s)</p>
+		</div>
+	
+		<div id="qa-account-answer">
+			<!-- logged in -->
+			<button>Answer this Question</button>
+			<!-- logged out -->
+			<p class="large-text">Are you a lawyer? <a href="#">Login</a> or <a href="#">sign-up</a> to answer this question.</p>
+		</div>
+	</section>
+	
+	<section id="qa-answers">
+		<h2 class="underline">Answers by Lawyers</h2>
+		
+		<article>
+			<div class="qa-lawyer-profile">
+				<img src="http://dummyimage.com/60" width="60" height="60" alt="" />
+				<a href="#">Profile</a>
+			</div>
+			<div class="speech answer">
+				<p>Nam pulvinar, odio sed rhoncus suscipit, sem diam ultrices mauris, eu consequat purus metus eu velit. Proin metus odio, aliquam eget molestie nec, gravida ut sapien. Phasellus quis est sed turpis sollicitudin venenatis sed eu odio. Praesent eget neque eu eros interdum malesuada non vel leo. Sed fringilla.</p>
+				<p class="notice">The <strong class="orange-text">IMPORTANT NOTICE</strong> below is part of this answer.</p>
+			</div>
+		</article>
+		<article>
+			<div class="qa-lawyer-profile">
+				<img src="http://dummyimage.com/60" width="60" height="60" alt="" />
+				<a href="#">Profile</a>
+			</div>
+			<div class="speech answer">
+				<p>Nam pulvinar, odio sed rhoncus suscipit, sem diam ultrices mauris, eu consequat purus metus eu velit. Proin metus odio, aliquam eget molestie nec, gravida ut sapien. Phasellus quis est sed turpis sollicitudin venenatis sed eu odio. Praesent eget neque eu eros interdum malesuada non vel leo. Sed fringilla.</p>
+				<p class="notice">The <strong class="orange-text">IMPORTANT NOTICE</strong> below is part of this answer.</p>
+			</div>
+		</article>
+	</section>
+	
+	<section>
+		<h2 class="underline">Related Consumer Law Questions</h2>
+		<ul class="list-arrows">
+			<li><a href="#">Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu</a></li>
+			<li><a href="#">Donec viverra auctor lobortis. Pellentesque eu</a></li>
+			<li><a href="#">Praesent id metus massa</a></li>
+			<li><a href="#">Vivamus rutrum nunc non neque consectetur quis placerat</a></li>
+			<li><a href="#">Proin quis tortor orci. Etiam at risus et justo</a></li>
+		</ul>
+	</section>
+</section>
+
+<section id="qa-notice">
+	<p><strong class="orange-text">IMPORTANT NOTICE:</strong> Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed molestie augue sit amet leo consequat posuere. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin vel ante.</p>
+</section>

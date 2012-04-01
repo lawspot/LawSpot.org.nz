@@ -11,47 +11,55 @@ namespace Lawspot.Backend
     /// </summary>
     public class LawspotDataContext : DataClassesDataContext
     {
-        private static bool migrationsExecuted;
-
         public LawspotDataContext()
             : base(GetConnectionString())
         {
-            if (migrationsExecuted == true)
-                return;
+        }
 
-            // Get the last migration that was executed.
-            var version = 0;
-            if (this.Migrations.Any())
-                version = this.Migrations.Max(m => m.Version);
-
-            // Get any migrations that are higher than that version.
-            while (true)
+        /// <summary>
+        /// Execute database migrations, in order.
+        /// </summary>
+        public static void ExecuteMigrations()
+        {
+            using (var dataContext = new LawspotDataContext())
             {
-                version++;
-                var path = HttpContext.Current.Server.MapPath(string.Format("/Backend/Migrations/{0}.sql", version));
-                if (File.Exists(path) == false)
-                    break;
-                var sql = File.ReadAllText(path);
+                // Get the last migration that was executed.
+                var version = 0;
+                if (dataContext.Migrations.Any())
+                    version = dataContext.Migrations.Max(m => m.Version);
 
-                // Execute the migration in a transaction.
-                using (var scope = new System.Transactions.TransactionScope())
+                // Get any migrations that are higher than that version.
+                while (true)
                 {
-                    // Execute the migration.
-                    this.ExecuteCommand(sql);
+                    version++;
+                    var path = HttpContext.Current.Server.MapPath(string.Format("/Backend/Migrations/{0}.sql", version));
+                    if (File.Exists(path) == false)
+                        break;
+                    var sql = File.ReadAllText(path);
 
-                    // Add a new migration row.
-                    var migration = new Migration();
-                    migration.Version = version;
-                    migration.RunAt = DateTime.Now;
-                    this.Migrations.InsertOnSubmit(migration);
-                    this.SubmitChanges();
+                    // Execute the migration in a transaction.
+                    using (var scope = new System.Transactions.TransactionScope())
+                    {
+                        // Split the batch file on "GO".
+                        var splits = System.Text.RegularExpressions.Regex.Split(sql, @"^\s*go\s*[;]?\s*$",
+                            System.Text.RegularExpressions.RegexOptions.Multiline | System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                        foreach (var splitSql in splits)
+                        {
+                            // Execute the migration.
+                            dataContext.ExecuteCommand(splitSql);
+                        }
 
-                    scope.Complete();
+                        // Add a new migration row.
+                        var migration = new Migration();
+                        migration.Version = version;
+                        migration.RunAt = DateTime.Now;
+                        dataContext.Migrations.InsertOnSubmit(migration);
+                        dataContext.SubmitChanges();
+
+                        scope.Complete();
+                    }
                 }
             }
-
-            // Don't try to execute any more migrations.
-            migrationsExecuted = true;
         }
 
         private static string GetConnectionString()
