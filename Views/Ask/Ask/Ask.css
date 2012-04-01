@@ -75,10 +75,10 @@
 	width: 380px;
 	border: none;
 	background: transparent;
+	padding: 20px 10px 20px 0;
 }
 #qsubmit2 h3 {
 	text-align: center;
-	margin-top: -10px;
 }
 #qsubmit2 input[type="text"],#qsubmit2 input[type="password"],#qsubmit2 select {
 	width: 220px;
