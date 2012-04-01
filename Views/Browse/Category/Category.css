@@ -70,5 +70,12 @@ input.ask-textbox {
     padding: 0;
     width: 50%;
     float: left;
-    font-size: smaller;
+    font-size: 0.9em;
+}
+.categories a {
+    color: #5B5B5B;
+}
+.categories-all {
+	font-size: 0.8em;
+	text-align: right;
 }
