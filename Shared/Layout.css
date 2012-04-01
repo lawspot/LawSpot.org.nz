@@ -386,6 +386,10 @@ footer a:hover {
 	font-size: 0.85em;
 	margin-right: 10px;
 }
+img.privacy {
+	float: left;
+	margin-right: 10px;
+}
 .container-form {
     background-color: #EDEBE4;
     border: solid 1px #BCBBBA;
