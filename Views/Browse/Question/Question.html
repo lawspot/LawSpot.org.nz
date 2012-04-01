@@ -1,7 +1,10 @@
 ﻿<section class="sidebar">
     <div class="ask-sidebar">
-        <input class="ask-textbox" type="text" placeholder="Ask your question here..." />
-        <button class="ask-button">ASK</button>
+        <form method="get" action="/ask">
+            <input name="category" type="hidden" value="{{CategoryId}}" />
+            <input name="title" class="ask-textbox" type="text" placeholder="Ask your question here..." />
+            <button class="ask-button">ASK</button>
+        </form>
     </div>
 
     <section>
@@ -32,48 +35,47 @@
     </section>
 </section>
 
-<div id="breadcrumb"><a href="/">Home</a> > <a href="#">Consumer Law</a> > Questions and answers</div>
+<div id="breadcrumb"><a href="/home">Home</a> > <a href="{{CategoryUrl}}">{{CategoryName}}</a> > Questions and answers</div>
 
 <section class="content-left">
 	<section>
 		<img src="/views/browse/question/question.png" class="ask-avatar" width="68" height="98" alt="" />
 		<div class="speech question">
-			<h1>Mivamus luctus urna sed urna ultricies ac tempor dui sagittis. In condimentum facilisis porta. Sed nec diam eu?</h1>
-			<p><strong>Question Details:</strong> Quisque eget odio ac lectus vestibulum faucibus eget in metus. In pellentesque faucibus vestibulum. Nulla at nulla justo, eget luctus tortor. Nulla facilisi. Duis aliquet egestas purus in blandit. Curabitur vulputate, ligula lacinia scelerisque tempor, lacus lacus ornare ante, ac egestas est urna sit amet arcu.</p>
-			<p class="postdata">Asked 18 Mar 2012 under <a href="#category">Landlord / Tenant</a> | 15 View(s)</p>
+			<h1>{{Title}}</h1>
+			<p><strong>Question Details:</strong> {{Details}}</p>
+			<p class="postdata">Asked {{CreationDate}} under <a href="{{CategoryUrl}}">{{CategoryName}}</a> | {{Views}} View(s)</p>
 		</div>
 	
 		<div id="qa-account-answer">
-			<!-- logged in -->
-			<button>Answer this Question</button>
-			<!-- logged out -->
-			<p class="large-text">Are you a lawyer? <a href="#">Login</a> or <a href="#">sign-up</a> to answer this question.</p>
+            {{#User.IsLawyer}}
+			    <!-- logged in -->
+			    <button>Answer this Question</button>
+            {{/User.IsLawyer}}
+            {{^User.IsLawyer}}
+			    <!-- logged out -->
+			    <p class="large-text">Are you a lawyer? <a href="/login">Login</a> or <a href="/lawyer-register">sign-up</a> to answer this question.</p>
+            {{/User.IsLawyer}}
 		</div>
 	</section>
 	
 	<section id="qa-answers">
 		<h2 class="underline">Answers by Lawyers</h2>
 		
-		<article>
-			<div class="qa-lawyer-profile">
-				<img src="http://dummyimage.com/60" width="60" height="60" alt="" />
-				<a href="#">Profile</a>
-			</div>
-			<div class="speech answer">
-				<p>Nam pulvinar, odio sed rhoncus suscipit, sem diam ultrices mauris, eu consequat purus metus eu velit. Proin metus odio, aliquam eget molestie nec, gravida ut sapien. Phasellus quis est sed turpis sollicitudin venenatis sed eu odio. Praesent eget neque eu eros interdum malesuada non vel leo. Sed fringilla.</p>
-				<p class="notice">The <strong class="orange-text">IMPORTANT NOTICE</strong> below is part of this answer.</p>
-			</div>
-		</article>
-		<article>
-			<div class="qa-lawyer-profile">
-				<img src="http://dummyimage.com/60" width="60" height="60" alt="" />
-				<a href="#">Profile</a>
-			</div>
-			<div class="speech answer">
-				<p>Nam pulvinar, odio sed rhoncus suscipit, sem diam ultrices mauris, eu consequat purus metus eu velit. Proin metus odio, aliquam eget molestie nec, gravida ut sapien. Phasellus quis est sed turpis sollicitudin venenatis sed eu odio. Praesent eget neque eu eros interdum malesuada non vel leo. Sed fringilla.</p>
-				<p class="notice">The <strong class="orange-text">IMPORTANT NOTICE</strong> below is part of this answer.</p>
-			</div>
-		</article>
+        {{#Answers}}
+		    <article>
+			    <div class="qa-lawyer-profile">
+				    <img src="{{AvatarUrl}}" width="60" height="60" alt="" />
+				    <a href="{{ProfileUrl}}">Profile</a>
+			    </div>
+			    <div class="speech answer">
+				    <p>{{Details}}</p>
+				    <p class="notice">The <strong class="orange-text">IMPORTANT NOTICE</strong> below is part of this answer.</p>
+			    </div>
+		    </article>
+        {{/Answers}}
+        {{^Answers}}
+            <p> None yet. </p>
+        {{/Answers}}
 	</section>
 	
 	<section>

@@ -79,3 +79,11 @@ input.ask-textbox {
 	font-size: 0.8em;
 	text-align: right;
 }
+
+
+
+/* Legal Category */
+span.mv-poststats {
+	color: #797979;
+	font-size: 0.8em;
+}

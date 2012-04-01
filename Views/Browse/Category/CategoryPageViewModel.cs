@@ -11,6 +11,14 @@ namespace Lawspot.Views.Browse
         public IEnumerable<QuestionViewModel> MostViewedQuestions { get; set; }
     }
 
+    public class QuestionViewModel
+    {
+        public string Url { get; set; }
+        public string Title { get; set; }
+        public string AnswerCount { get; set; }
+        public string ViewCount { get; set; }
+    }
+
     public class CategoryViewModel
     {
         public string Uri { get; set; }

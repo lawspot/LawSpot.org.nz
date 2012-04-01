@@ -19,6 +19,9 @@ namespace Lawspot.Shared
                 throw new ArgumentNullException("user");
             var result = new CustomPrincipal();
             result.EmailAddress = user.EmailAddress;
+            result.IsVolunteerAdmin = user.IsVolunteerAdmin;
+            result.IsLawyer = user.IsLawyer;
+            result.IsCLCLawyer = user.IsCLCLawyer;
             return result;
         }
 
@@ -33,6 +36,9 @@ namespace Lawspot.Shared
                 throw new ArgumentNullException("ticket");
             var result = new CustomPrincipal();
             result.EmailAddress = ticket.Name;
+            result.IsVolunteerAdmin = ticket.UserData.Contains("V");
+            result.IsLawyer = ticket.UserData.Contains("L");
+            result.IsCLCLawyer = ticket.UserData.Contains("C");
             return result;
         }
 
@@ -49,6 +55,21 @@ namespace Lawspot.Shared
         public string EmailAddress { get; set; }
 
         /// <summary>
+        /// The user is an approved lawyer.
+        /// </summary>
+        public bool IsLawyer { get; set; }
+
+        /// <summary>
+        /// The user is a community law centre lawyer.
+        /// </summary>
+        public bool IsCLCLawyer { get; set; }
+
+        /// <summary>
+        /// The user is a volunteer that vets and recategorizes questions.
+        /// </summary>
+        public bool IsVolunteerAdmin { get; set; }
+
+        /// <summary>
         /// Creates a new forms authentication ticket using the information in this principal.
         /// </summary>
         /// <param name="persistant"> <c>true</c> if the ticket will be stored in a persistant
@@ -56,9 +77,16 @@ namespace Lawspot.Shared
         /// <returns></returns>
         public FormsAuthenticationTicket ToTicket(bool persistant)
         {
+            var userData = new System.Text.StringBuilder();
+            if (this.IsLawyer)
+                userData.Append("L");
+            if (this.IsCLCLawyer)
+                userData.Append("C");
+            if (this.IsVolunteerAdmin)
+                userData.Append("V");
             return new FormsAuthenticationTicket(1, this.EmailAddress, DateTime.Now,
                 DateTime.Now.Add(FormsAuthentication.Timeout), persistant,
-                string.Empty, FormsAuthentication.FormsCookiePath);
+                userData.ToString(), FormsAuthentication.FormsCookiePath);
         }
 
         #region IPrincipal implementation

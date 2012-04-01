@@ -42,9 +42,9 @@
     </form>
 </div>
 
-<h2> Recent Questions </h2>
+<h2> New Questions & Answers </h2>
 
-{{#RecentQuestions}}
+{{#RecentAnswers}}
     <div class="question">
         <div class="frame">
             <img src="{{AvatarUri}}" />
@@ -58,9 +58,12 @@
                 {{Details}}
             </div>
             <div class="asked">
-                {{Asker}} asked this question {{Ago}} ago
+                {{AnsweredBy}} answered {{AnsweredHoursAgo}} ago
             </div>
         </div>
         <div style="clear: left"></div>
     </div>
-{{/RecentQuestions}}
+{{/RecentAnswers}}
+{{^RecentAnswers}}
+    <p> None yet. </p>
+{{/RecentAnswers}}

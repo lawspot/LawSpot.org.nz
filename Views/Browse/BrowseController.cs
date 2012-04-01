@@ -36,6 +36,17 @@ namespace Lawspot.Controllers
             model.CategoryId = category.CategoryId;
             model.Name = category.Name;
             PopulateHomeViewModel(model, category.CategoryId);
+            model.MostViewedQuestions = this.DataContext.Questions
+                .Where(q => q.CategoryId == category.CategoryId)
+                .OrderByDescending(q => q.ViewCount)
+                .Take(5)
+                .Select(q => new QuestionViewModel()
+            {
+                Url = string.Format("/questions/{0}", q.QuestionId),
+                Title = q.Title,
+                AnswerCount = string.Format("{0} answers", q.Answers.Count()),
+                ViewCount = string.Format("{0} views", q.ViewCount),
+            });
             return View(model);
         }
 
@@ -50,27 +61,56 @@ namespace Lawspot.Controllers
             if (question == null)
                 throw new HttpException(404, "Question not found.");
 
+            // Increment the number of views.
+            this.DataContext.ExecuteCommand("UPDATE [Question] SET ViewCount = ViewCount + 1 WHERE QuestionId = {0}", id);
+
             var model = new QuestionPageViewModel();
+            model.Title = question.Title;
+            model.Details = question.Details;
+            model.CategoryId = question.CategoryId;
+            model.CategoryName = question.Category.Name;
+            model.CategoryUrl = string.Format("/categories/{0}", question.Category.Slug);
+            model.CreationDate = question.CreatedOn.ToString("d MMM yyyy");
+            model.Views = question.ViewCount;
+            model.Answers = question.Answers.Select(a => new AnswerViewModel()
+            {
+                Details = a.Details,
+                AvatarUrl = "http://dummyimage.com/60",
+                ProfileUrl = string.Format("/lawyers/{0}", a.Lawyer.LawyerId),
+            });
             PopulateBrowseViewModel(model);
             return View(model);
         }
 
+        /// <summary>
+        /// Populates the HomeViewModel object.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="categoryId"></param>
         private void PopulateHomeViewModel(HomeViewModel model, int? categoryId)
         {
-            IEnumerable<Question> filteredQuestions = this.DataContext.Questions;
+            IEnumerable<Answer> filteredAnswers = this.DataContext.Answers;
             if (categoryId != null)
-                filteredQuestions = filteredQuestions.Where(q => q.CategoryId == categoryId.Value);
-            model.RecentQuestions = filteredQuestions.OrderByDescending(q => q.CreatedOn).Take(5).ToList().Select(q => new QuestionViewModel()
+                filteredAnswers = filteredAnswers.Where(a => a.Question.CategoryId == categoryId.Value);
+            model.RecentAnswers = filteredAnswers
+                .OrderByDescending(a => a.CreatedOn)
+                .Take(5)
+                .Select(a => new AnsweredQuestionViewModel()
             {
-                Uri = string.Format("/questions/{0}", q.QuestionId),
-                Title = q.Title,
-                Details = q.Details.Length > 100 ? q.Details.Substring(0, 100) : q.Details,
+                Uri = string.Format("/questions/{0}", a.QuestionId),
+                Title = a.Question.Title,
+                Details = a.Details.Length > 100 ? a.Details.Substring(0, 100) : a.Details,
                 AvatarUri = "/shared/images/default-avatar.jpg",
-                Ago = string.Format("{0} hours", Math.Round(DateTime.Now.Subtract(q.CreatedOn).TotalHours))
+                AnsweredBy = string.Format("{0} {1}", a.Lawyer.FirstName, a.Lawyer.LastName),
+                AnsweredHoursAgo = string.Format("{0} hours", Math.Round(DateTime.Now.Subtract(a.CreatedOn).TotalHours))
             });
             PopulateBrowseViewModel(model);
         }
 
+        /// <summary>
+        /// Populates the BrowseViewModel object.
+        /// </summary>
+        /// <param name="model"></param>
         private void PopulateBrowseViewModel(BrowseViewModel model)
         {
             var topCategories = this.DataContext.Categories.OrderBy(c => c.Name).Select(c => new CategoryViewModel()

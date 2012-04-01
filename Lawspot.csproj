@@ -140,6 +140,9 @@
     <Content Include="Backend\Migrations\1.sql" />
     <Content Include="Backend\Migrations\2.sql" />
     <Content Include="Backend\Migrations\3.sql" />
+    <Content Include="Backend\Migrations\4.sql" />
+    <Content Include="Backend\Migrations\5.sql" />
+    <Content Include="Backend\Migrations\6.sql" />
     <Content Include="Default.htm" />
     <Content Include="Global.asax" />
     <Content Include="Lib\BCrypt.Net.dll" />

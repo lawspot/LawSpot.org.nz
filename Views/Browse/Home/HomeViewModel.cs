@@ -13,16 +13,16 @@ namespace Lawspot.Views.Browse
 
     public class HomeViewModel : BrowseViewModel
     {
-        public IEnumerable<QuestionViewModel> RecentQuestions { get; set; }
+        public IEnumerable<AnsweredQuestionViewModel> RecentAnswers { get; set; }
     }
 
-    public class QuestionViewModel
+    public class AnsweredQuestionViewModel
     {
         public string Uri { get; set; }
         public string AvatarUri { get; set; }
         public string Title { get; set; }
         public string Details { get; set; }
-        public string Asker { get; set; }
-        public string Ago { get; set; }
+        public string AnsweredBy { get; set; }
+        public string AnsweredHoursAgo { get; set; }
     }
 }

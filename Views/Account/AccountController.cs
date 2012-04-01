@@ -125,6 +125,7 @@ namespace Lawspot.Controllers
             user.EmailAddress = model.EmailAddress;
             user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
             user.RegionId = model.RegionId;
+            user.IsLawyer = true;
             this.DataContext.Users.InsertOnSubmit(user);
 
             // Register a new lawyer.
