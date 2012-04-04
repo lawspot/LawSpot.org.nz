@@ -1,10 +1,6 @@
 ﻿<h1>Ask A Lawyer</h1>
 
-<form id="ask-form" method="post" action="/ask" class="container-form">
-
-{{^Registration}}
-    <img src="/views/ask/ask/questionsubmit.jpg" width="430" height="385" alt="" id="qsubmit-image" />
-{{/Registration}}
+<form id="ask-form" method="post" action="/ask" class="container-form {{#Registration}}step2{{/Registration}}">
 
 {{#Registration}}
     <section id="qsubmit2">
@@ -17,7 +13,8 @@
 		    <span class="required">*</span>
 	    </div>
 	    <div class="offset-field">
-		    <input id="EmailAddress" name="Registration.EmailAddress" type="text" value="{{Registration.EmailAddress}}" maxlength="200" autofocus
+		    <input id="EmailAddress" name="Registration.EmailAddress" type="text" value="{{Registration.EmailAddress}}" maxlength="200"
+                {{#FocusInEmailAddress}}autofocus{{/FocusInEmailAddress}}
 			    {{#ModelState.Registration.EmailAddress}}class="validation-error-field"{{/ModelState.Registration.EmailAddress}} />
             <div class="validation-error">{{ModelState.Registration.EmailAddress}}</div>
 	    </div>
@@ -79,8 +76,9 @@
 		    <span id="TitleCharCount" class="char-count">150 characters remaining</span>
 		    <label for="Title">Your Question: </label>
 		    <span class="required">*</span><br />
-		    <input id="Title" name="Title" type="text" value="{{Title}}" maxlength="150" {{^Title}}autofocus{{/Title}}
-				    {{#ModelState.Title}}class="validation-error-field"{{/ModelState.Title}} />
+		    <input id="Title" name="Title" type="text" value="{{Title}}" maxlength="150"
+                {{#FocusInTitle}}autofocus{{/FocusInTitle}}
+				{{#ModelState.Title}}class="validation-error-field"{{/ModelState.Title}} />
 		    <div class="validation-error">{{ModelState.Title}}</div>
 	    </div>
 
@@ -88,7 +86,8 @@
 		    <span id="DetailsCharCount" class="char-count">600 characters remaining</span>
 		    <label for="Details">Question Details: </label>
 		    <span class="required">*</span><br />
-		    <textarea id="Details" name="Details" rows="6" {{#Title}}autofocus{{/Title}}
+		    <textarea id="Details" name="Details" rows="6"
+                {{#FocusInDetails}}autofocus{{/FocusInDetails}}
                 {{#ModelState.Details}}class="validation-error-field"{{/ModelState.Details}}>{{Details}}</textarea>
 		    <div class="validation-error">{{ModelState.Details}}</div>
 	    </div>
@@ -122,7 +121,7 @@
 
 	    <div class="qsubmit-button">
             {{^User}}
-		        <button>CONTINUE &raquo;</button>
+		        <button {{#Registration}}disabled{{/Registration}}/>CONTINUE &raquo;</button>
             {{/User}}
             {{#User}}
                 <button>ASK YOUR QUESTION</button>

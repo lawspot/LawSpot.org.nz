@@ -132,6 +132,7 @@
     <Compile Include="Views\Browse\Question\QuestionPageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".gitattributes" />
     <None Include=".gitignore" />
     <None Include="App_Data\Data.mdf" />
     <None Include="App_Data\Data_log.ldf">

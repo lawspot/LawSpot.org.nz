@@ -23,6 +23,10 @@ namespace Lawspot.Views.Ask
         [MustBeTrue(ErrorMessage = "You must accept the terms & conditions to proceed.")]
         public bool Agreement { get; set; }
 
+        public bool FocusInTitle { get; set; }
+        public bool FocusInDetails { get; set; }
+        public bool FocusInEmailAddress { get; set; }
+
         public Lawspot.Views.Account.RegisterViewModel Registration { get; set; }
     }
 }

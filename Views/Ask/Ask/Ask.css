@@ -6,6 +6,10 @@
 
 #ask-form {
     padding: 0;
+    width: 520px;
+}
+#ask-form.step2 {
+    width: auto;
 }
 
 #qsubmit1 {
@@ -89,4 +93,9 @@
 }
 #qsubmit2 .offset-field {
 	margin: 0 0 10px 145px;
+}
+
+.form-message {
+	font-size: 13px;
+	margin: 20px 0;
 }

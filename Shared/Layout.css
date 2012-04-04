@@ -308,23 +308,13 @@ select {
 textarea {
     font-family: 'Segoe UI', Segoe, 'Helvetica Neue', Helvetica, Roboto, Arial, FreeSans, sans-serif;
 }
-.form-message {
-	font-size: 0.9em;
-	margin: 20px 0;
-}
-button.disabled,button.disabled:hover {
+button[disabled], button[disabled]:hover {
 	background: #9D9D9D;
 	background: -moz-linear-gradient(top, rgb(157,157,157) 0%, rgb(77,77,77) 100%);
 	background: -webkit-linear-gradient(top, rgb(157,157,157) 0%,rgb(77,77,77) 100%);
 	background: -o-linear-gradient(top, rgb(157,157,157) 0%,rgb(77,77,77) 100%);
 	background: -ms-linear-gradient(top, rgb(157,157,157) 0%,rgb(77,77,77) 100%);
 	background: linear-gradient(top, rgb(157,157,157) 0%,rgb(77,77,77) 100%);	
-}
-#FirstName,#LastName {
-	width: 135px;
-}
-#FirstName {
-	margin-right: 10px;
 }
 
 /* Footer */

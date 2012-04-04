@@ -99,8 +99,15 @@ namespace Lawspot.Controllers
                 Value = c.CategoryId.ToString(),
                 Selected = model.CategoryId == c.CategoryId
             });
-            if (model.Registration != null)
+
+            if (model.Registration == null)
             {
+                model.FocusInTitle = string.IsNullOrEmpty(model.Title);
+                model.FocusInDetails = !model.FocusInTitle;
+            }
+            else
+            {
+                model.FocusInEmailAddress = true;
                 model.Registration.Agreement = true;
                 model.Registration.Regions = this.DataContext.Regions.Select(r => new SelectListItem()
                 {
