@@ -28,16 +28,22 @@
 										<table width="597" height="88" cellpadding="0" cellspacing="0" border="0">
 											<tr>
                         <td align="left" style="padding: 0 20px">
-                          <a href="{*/BaseUrl}"><img src="{*/BaseUrl}/email/assets/logo.png" style="border: none"/></a>
+                          <a href="{*/BaseUrl}"><img src="{*/BaseUrl}/email/assets/logo.png"
+                                                     width="207" height="61"
+                                                     alt="LawSpot.org.nz" style="border: none"/></a>
                         </td>
 												<td align="right" valign="middle" style="color: white; font-size: 10pt; font-weight: bold;
 														font-family: Segoe UI, Segoe, Helvetica Neue, Helvetica, Arial, sans-serif; line-height: 26pt;
 														padding: 0 20px 9px">
 													<xsl:value-of select="*/CurrentDate"/>
 													<br />
-													<a href="http://www.twitter.com/lawspot_NZ"><img src="{*/BaseUrl}/email/assets/twitter.png" style="border: none" /></a>
+													<a href="http://www.twitter.com/lawspot_NZ"><img src="{*/BaseUrl}/email/assets/twitter.png"
+                                                                           width="24" height="24"
+                                                                           alt="t" style="border: none" /></a>
 													&#160;
-													<a href="http://www.facebook.com/LawSpot"><img src="{*/BaseUrl}/email/assets/facebook.png" style="border: none" /></a>
+													<a href="http://www.facebook.com/LawSpot"><img src="{*/BaseUrl}/email/assets/facebook.png"
+                                                                         width="24" height="24"
+                                                                         alt="f" style="border: none" /></a>
 												</td>
 											</tr>
 										</table>
