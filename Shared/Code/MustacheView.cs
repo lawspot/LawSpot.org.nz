@@ -53,7 +53,7 @@ namespace Lawspot.Shared
                 switch (viewContext.HttpContext.Request.QueryString["alert"])
                 {
                     case "loggedin":
-                        extraState.SuccessMessage = "You have logged in.";
+                        extraState.SuccessMessage = "You're logged in. Welcome back to LawSpot.";
                         break;
                     case "loggedout":
                         extraState.SuccessMessage = "You have logged out.";
