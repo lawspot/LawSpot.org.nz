@@ -12,7 +12,6 @@ namespace Lawspot.Backend
     public class LawspotDataContext : DataClassesDataContext
     {
         public LawspotDataContext()
-            : base(GetConnectionString())
         {
         }
 
@@ -60,16 +59,6 @@ namespace Lawspot.Backend
                     }
                 }
             }
-        }
-
-        private static string GetConnectionString()
-        {
-            // Check for AppHarbor-inserted connection string.
-            if (ConfigurationManager.AppSettings["SQLSERVER_CONNECTION_STRING"] != null)
-            {
-                return ConfigurationManager.AppSettings["SQLSERVER_CONNECTION_STRING"];
-            }
-            return ConfigurationManager.ConnectionStrings["DataConnectionString"].ConnectionString;
         }
     }
 }
