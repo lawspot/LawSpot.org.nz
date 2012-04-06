@@ -110,6 +110,9 @@
       <DependentUpon>DataClasses.dbml</DependentUpon>
     </Compile>
     <Compile Include="Backend\LawspotDataContext.cs" />
+    <Compile Include="Email\Code\RegisterTemplate.cs" />
+    <Compile Include="Email\Code\ExposeToXsltAttribute.cs" />
+    <Compile Include="Email\Code\EmailTemplate.cs" />
     <Compile Include="Shared\Code\BaseController.cs" />
     <Compile Include="Shared\Code\CustomPrincipal.cs" />
     <Compile Include="Shared\Code\MustBeTrueAttribute.cs" />
@@ -145,6 +148,8 @@
     <Content Include="Backend\Migrations\5.sql" />
     <Content Include="Backend\Migrations\6.sql" />
     <Content Include="Default.htm" />
+    <Content Include="Email\Templates\Register.xslt" />
+    <Content Include="Email\Test Data\Register.xml" />
     <Content Include="Global.asax" />
     <Content Include="Lib\BCrypt.Net.dll" />
     <Content Include="Lib\BCrypt.Net.XML" />
@@ -168,6 +173,7 @@
     <Content Include="Lib\System.Web.WebPages.Razor.dll" />
     <Content Include="Lib\System.Web.WebPages.Razor.xml" />
     <Content Include="Lib\System.Web.WebPages.xml" />
+    <Content Include="Email\Templates\Layout.xslt" />
     <Content Include="Scripts\jquery-1.5.1-vsdoc.js" />
     <Content Include="Scripts\jquery-1.5.1.js" />
     <Content Include="Scripts\jquery-1.5.1.min.js" />
@@ -221,7 +227,9 @@
     <Content Include="Views\Browse\Question\Question.css" />
     <Content Include="Views\Browse\Question\Question.html" />
     <Content Include="Views\Browse\Question\question.png" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -244,6 +252,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Documentation\" />
+    <Folder Include="Email\Assets\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
