@@ -6,7 +6,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Xsl;
 
-namespace LawSpot.Email
+namespace Lawspot.Email
 {
 
     /// <summary>
@@ -45,7 +45,7 @@ namespace LawSpot.Email
             // Create an XML document with the needed info.
             var doc = new XmlDocument();
             var root = doc.CreateElement("Root");
-            doc.DocumentElement.AppendChild(root);
+            doc.AppendChild(root);
 
             // All public properties.
             foreach (var property in this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
@@ -58,7 +58,7 @@ namespace LawSpot.Email
                 var element = doc.CreateElement(property.Name);
                 var value = property.GetValue(this, null);
                 element.InnerText = value == null ? string.Empty : value.ToString();
-                doc.AppendChild(element);
+                root.AppendChild(element);
             }
 
             // Determine the URI of the XSLT.

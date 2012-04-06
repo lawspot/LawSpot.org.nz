@@ -6,7 +6,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Xsl;
 
-namespace LawSpot.Email
+namespace Lawspot.Email
 {
 
     /// <summary>
@@ -16,7 +16,7 @@ namespace LawSpot.Email
     {
         public RegisterTemplate()
         {
-            this.TemplateFilePath = "Register.xml";
+            this.TemplateFilePath = "Register.xslt";
             this.Subject = "Thanks for registering with LawSpot";
         }
     }

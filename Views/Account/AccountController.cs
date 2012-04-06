@@ -42,7 +42,7 @@ namespace Lawspot.Controllers
             // Redirect to the original referrer, or to the home page.
             if (string.IsNullOrEmpty(model.RedirectUrl) == false)
                 return Redirect(SetUriParameter(new Uri(model.RedirectUrl), "alert", "loggedin").ToString());
-            return RedirectToAction("Index", "Home", new { alert = "loggedin" });
+            return RedirectToAction("Home", "Browse", new { alert = "loggedin" });
         }
 
         [HttpGet]
@@ -79,8 +79,13 @@ namespace Lawspot.Controllers
             // Log in as that user.
             Login(user, rememberMe: true);
 
+            // Send the user an email to thank them for registering.
+            var message = new Lawspot.Email.RegisterTemplate();
+            message.To.Add(user.EmailAddress);
+            message.Send();
+
             // Redirect to home page.
-            return RedirectToAction("Index", "Home", new { alert = "registered" });
+            return RedirectToAction("Home", "Browse", new { alert = "registered" });
         }
 
         /// <summary>
@@ -146,7 +151,7 @@ namespace Lawspot.Controllers
             Login(user, rememberMe: true);
 
             // Redirect to home page.
-            return RedirectToAction("Index", "Home", new { alert = "registered-as-lawyer" });
+            return RedirectToAction("Home", "Browse", new { alert = "registered-as-lawyer" });
         }
 
         /// <summary>
@@ -179,7 +184,7 @@ namespace Lawspot.Controllers
             // Redirect to the referrer, or to the home page.
             if (this.Request.UrlReferrer != null)
                 return Redirect(SetUriParameter(this.Request.UrlReferrer, "alert", "loggedout").ToString());
-            return RedirectToAction("Index", "Home", new { alert = "loggedout" });
+            return RedirectToAction("Home", "Browse", new { alert = "loggedout" });
         }
     }
 }

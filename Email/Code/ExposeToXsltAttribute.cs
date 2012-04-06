@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LawSpot.Email
+namespace Lawspot.Email
 {
 
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
