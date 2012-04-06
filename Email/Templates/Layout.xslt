@@ -52,7 +52,7 @@
 								<!-- Body -->
 								<tr>
 									<td align="left" style="border-left: 1px solid #A9661E; border-bottom: 1px solid #A9661E; border-right: 1px solid #A9661E;
-											padding: 11px 10px 24px; font-family: Segoe UI, Segoe, Helvetica Neue, Helvetica, Arial, sans-serif; font-size: 11pt">
+											padding: 11px 10px; font-family: Segoe UI, Segoe, Helvetica Neue, Helvetica, Arial, sans-serif; font-size: 11pt">
 										<xsl:apply-templates select="*"/>
 									</td>
 								</tr>
@@ -61,7 +61,7 @@
 								<tr>
 									<td align="center" style="padding: 16px 0; font-family: Segoe UI, Segoe, Helvetica Neue, Helvetica, Arial, sans-serif; font-size: 10pt; color: #666">
 										© Lawspot.org.nz<br />
-										In association with The Wellington Law Centre and Russell McVeagh
+										In association with The Wellington Law Centre
 									</td>
 								</tr>
 							</table>
