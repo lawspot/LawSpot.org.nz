@@ -28,4 +28,4 @@ _ReSharper*/
 *.mdf
 *.ldf
 Lawspot.Publish.xml
-Web.Release.config
+Web.*.config
