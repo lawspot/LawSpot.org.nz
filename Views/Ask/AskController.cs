@@ -77,7 +77,7 @@ namespace Lawspot.Controllers
             question.Details = model.Details;
             question.CategoryId = model.CategoryId;
             question.CreatedOn = DateTime.Now;
-            question.CreatedByUserId = loggedInUser.UserId;
+            question.User = loggedInUser;
             this.DataContext.Questions.InsertOnSubmit(question);
 
             // Save changes.
