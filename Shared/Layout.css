@@ -270,11 +270,11 @@ form h2,form h3 {
 }
 button {
     background-color: #5AA82E;
-    background-image: linear-gradient(top, rgb(139,219,96) 0%, rgb(91,168,46) 50%, rgb(77,136,42) 90%);
-    background-image: -o-linear-gradient(top, rgb(139,219,96) 0%, rgb(91,168,46) 50%, rgb(77,136,42) 90%);
-    background-image: -moz-linear-gradient(top, rgb(139,219,96) 0%, rgb(91,168,46) 50%, rgb(77,136,42) 90%);
-    background-image: -webkit-linear-gradient(top, rgb(139,219,96) 0%, rgb(91,168,46) 50%, rgb(77,136,42) 90%);
-    background-image: -ms-linear-gradient(top, rgb(139,219,96) 0%, rgb(91,168,46) 50%, rgb(77,136,42) 90%);
+    background-image:      -o-linear-gradient(top, #8BDB60 0%, #5BA82E 50%, #4D882A 90%);
+    background-image:    -moz-linear-gradient(top, #8BDB60 0%, #5BA82E 50%, #4D882A 90%);
+    background-image: -webkit-linear-gradient(top, #8BDB60 0%, #5BA82E 50%, #4D882A 90%);
+    background-image:     -ms-linear-gradient(top, #8BDB60 0%, #5BA82E 50%, #4D882A 90%);
+    background-image:         linear-gradient(top, #8BDB60 0%, #5BA82E 50%, #4D882A 90%);
     border: 1px solid #3D5054;
     border-radius: 5px;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
@@ -285,11 +285,19 @@ button {
 }
 button:hover {
     background-color: #8BDB60;
-    background-image: linear-gradient(top, rgb(162,255,112) 0%, rgb(121,198,76) 50%, rgb(107,166,72) 90%);
-    background-image: -o-linear-gradient(top, rgb(162,255,112) 0%, rgb(121,198,76) 50%, rgb(107,166,72) 90%);
-    background-image: -moz-linear-gradient(top, rgb(162,255,112) 0%, rgb(121,198,76) 50%, rgb(107,166,72) 90%);
-    background-image: -webkit-linear-gradient(top, rgb(162,255,112) 0%, rgb(121,198,76) 50%, rgb(107,166,72) 90%);
-    background-image: -ms-linear-gradient(top, rgb(162,255,112) 0%, rgb(121,198,76) 50%, rgb(107,166,72) 90%);
+    background-image:      -o-linear-gradient(top, #A2FF70 0%, #79C64C 50%, #6BA648 90%);
+    background-image:    -moz-linear-gradient(top, #A2FF70 0%, #79C64C 50%, #6BA648 90%);
+    background-image: -webkit-linear-gradient(top, #A2FF70 0%, #79C64C 50%, #6BA648 90%);
+    background-image:     -ms-linear-gradient(top, #A2FF70 0%, #79C64C 50%, #6BA648 90%);
+    background-image:         linear-gradient(top, #A2FF70 0%, #79C64C 50%, #6BA648 90%);
+}
+button:active {
+    background-color: #8BDB60;
+    background-image:      -o-linear-gradient(top, #397516 0%, #437E20 50%, #4D882A 90%);
+    background-image:    -moz-linear-gradient(top, #397516 0%, #437E20 50%, #4D882A 90%);
+    background-image: -webkit-linear-gradient(top, #397516 0%, #437E20 50%, #4D882A 90%);
+    background-image:     -ms-linear-gradient(top, #397516 0%, #437E20 50%, #4D882A 90%);
+    background-image:         linear-gradient(top, #397516 0%, #437E20 50%, #4D882A 90%);
 }
 input[type=text], input[type=password], select, textarea {
     width: 300px;
