@@ -1,10 +1,12 @@
 ﻿// Display and limit the number of characters allowed in the question textboxes.
 function countCharacters(textElement, charCountElement, limit) {
-    textElement.onkeyup = function (e) {
+    var count = function () {
         if (textElement.value.length > limit)
             textElement.value = textElement.value.substr(0, limit);
         charCountElement.innerHTML = (limit - textElement.value.length) + " characters remaining";
     }
+    textElement.onkeyup = count;
+    count();
 }
 countCharacters(document.getElementById("Title"), document.getElementById("TitleCharCount"), 150);
 countCharacters(document.getElementById("Details"), document.getElementById("DetailsCharCount"), 600);
