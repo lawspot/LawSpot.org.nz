@@ -165,6 +165,11 @@
     <Content Include="Backend\Migrations\5.sql" />
     <Content Include="Backend\Migrations\6.sql" />
     <Content Include="Default.htm" />
+    <Content Include="Email\Assets\facebook.png" />
+    <Content Include="Email\Assets\header-original.png" />
+    <Content Include="Email\Assets\header.jpg" />
+    <Content Include="Email\Assets\logo.png" />
+    <Content Include="Email\Assets\twitter.png" />
     <Content Include="Email\Templates\Register.xslt" />
     <Content Include="Email\Test Data\Register.xml" />
     <Content Include="Global.asax" />
@@ -269,7 +274,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Documentation\" />
-    <Folder Include="Email\Assets\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
