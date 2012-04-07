@@ -127,11 +127,11 @@ namespace Lawspot.Controllers
             var slugBuilder = new System.Text.StringBuilder();
             foreach (var c in model.Title)
             {
-                if ((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9'))
+                if ((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '-')
                     slugBuilder.Append(c);
                 else if (c >= 'A' && c <= 'Z')
                     slugBuilder.Append(char.ToLowerInvariant(c));
-                else
+                else if (c == ' ')
                     slugBuilder.Append('-');
             }
             
