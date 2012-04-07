@@ -1,4 +1,5 @@
 ﻿delete Question;
+delete Lawyer;
 delete Category;
 insert Category (Name, Slug) values ('Building Law', 'building-law');
 insert Category (Name, Slug) values ('Consumer Law', 'consumer-law');
