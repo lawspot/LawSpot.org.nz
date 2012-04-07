@@ -1,5 +1,4 @@
-﻿alter table [User]
-drop constraint UK_User_EmailAddress;
+﻿DROP INDEX UK_User_EmailAddress ON dbo.[User];
 
 alter table [User]
 alter column EmailAddress nvarchar(256) not null;
