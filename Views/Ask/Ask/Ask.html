@@ -14,7 +14,7 @@
 		        <span class="required">*</span>
 	        </div>
 	        <div class="offset-field">
-		        <input id="EmailAddress" name="Registration.EmailAddress" type="text" value="{{Registration.EmailAddress}}" maxlength="200"
+		        <input id="EmailAddress" name="Registration.EmailAddress" type="text" value="{{Registration.EmailAddress}}" maxlength="256"
                     {{#FocusInRegistrationEmailAddress}}autofocus{{/FocusInRegistrationEmailAddress}}
 			        {{#ModelState.Registration.EmailAddress}}class="validation-error-field"{{/ModelState.Registration.EmailAddress}} />
                 <div class="validation-error">{{ModelState.Registration.EmailAddress}}</div>
@@ -72,7 +72,7 @@
                 <span class="required">*</span>
             </div>
             <div class="offset-field">
-                <input id="LoginEmailAddress" name="Login.EmailAddress" type="text" value="{{Login.EmailAddress}}" maxlength="200"
+                <input id="LoginEmailAddress" name="Login.EmailAddress" type="text" value="{{Login.EmailAddress}}" maxlength="256"
                     {{#FocusInLoginEmailAddress}}autofocus{{/FocusInLoginEmailAddress}}
                     {{#ModelState.Login.EmailAddress}}class="validation-error-field"{{/ModelState.Login.EmailAddress}} />
                 <div class="validation-error">{{ModelState.Login.EmailAddress}}</div>

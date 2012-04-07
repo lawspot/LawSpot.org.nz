@@ -51,6 +51,14 @@ namespace Lawspot.Controllers
                 return View(model);
             }
 
+            // Trim the text fields.
+            model.Title = model.Title.Trim();
+            model.Details = model.Details.Trim();
+            if (model.Registration != null)
+                model.Registration.EmailAddress = model.Registration.EmailAddress.Trim();
+            if (model.Login != null)
+                model.Login.EmailAddress = model.Login.EmailAddress.Trim();
+
             // Ask the user to register or log in if they haven't already.
             if (model.Registration == null && this.User == null)
             {
@@ -115,6 +123,38 @@ namespace Lawspot.Controllers
                 user = this.DataContext.Users.Where(u => u.EmailAddress == this.User.EmailAddress).Single();
             }
 
+            // Create a slug for the question.
+            var slugBuilder = new System.Text.StringBuilder();
+            foreach (var c in model.Title)
+            {
+                if ((c >= 'a' && c <= 'z') || (c >= '0' && c <= '9'))
+                    slugBuilder.Append(c);
+                else if (c >= 'A' && c <= 'Z')
+                    slugBuilder.Append(char.ToLowerInvariant(c));
+                else
+                    slugBuilder.Append('-');
+            }
+            
+            // Replace double dashes with a single dash.
+            slugBuilder.Replace("--", "-");
+
+            // Limit to 66 characters so there is space for the uniquifier.
+            slugBuilder.Length = Math.Min(slugBuilder.Length, 66);
+
+            // Chop off the last word.
+            var slug = slugBuilder.ToString();
+            if (slug.LastIndexOf('-') >= 10)
+                slug = slug.Substring(0, slug.LastIndexOf('-'));
+
+            // Ensure the slug is unique.
+            if (this.DataContext.Questions.Any(q => q.Slug == slug.ToString()))
+            {
+                int uniquifier = 2;
+                while (this.DataContext.Questions.Any(q => q.Slug == string.Format("{0}{1}", slug, uniquifier)))
+                    uniquifier++;
+                slug += uniquifier.ToString();
+            }
+
             // Submit a new question.
             var question = new Question();
             question.Title = model.Title;
@@ -122,6 +162,7 @@ namespace Lawspot.Controllers
             question.CategoryId = model.CategoryId;
             question.CreatedOn = DateTime.Now;
             question.User = user;
+            question.Slug = slug.ToString();
             this.DataContext.Questions.InsertOnSubmit(question);
 
             // Save changes.

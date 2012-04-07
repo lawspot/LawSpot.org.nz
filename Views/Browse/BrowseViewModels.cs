@@ -43,5 +43,6 @@ namespace Lawspot.Views.Browse
     {
         public string Uri { get; set; }
         public string Name { get; set; }
+        public int AnswerCount { get; set; }
     }
 }

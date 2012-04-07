@@ -28,15 +28,17 @@ namespace Lawspot.Controllers
         public ActionResult Browse()
         {
             var model = new BrowsePageViewModel();
-            var topCategories = this.DataContext.Categories.OrderBy(c => c.Name).Select(c => new CountedCategoryViewModel()
-            {
-                Uri = string.Format("/categories/{0}", c.Slug),
-                Name = c.Name,
-                Count = c.Questions.Count()
-            });
-            model.Categories1 = topCategories.Take((topCategories.Count() + 2) / 3);
-            model.Categories2 = topCategories.Skip((topCategories.Count() + 2) / 3).Take((topCategories.Count() + 2) / 3);
-            model.Categories3 = topCategories.Skip((topCategories.Count() + 2) / 3 * 2);
+            var categories = this.DataContext.Categories
+                .OrderBy(c => c.Name)
+                .ToList()
+                .Select(c => new CategoryViewModel()
+                {
+                    Uri = string.Format("/{0}", c.Slug),
+                    Name = c.Name,
+                    AnswerCount = c.Questions.Sum(q => q.Answers.Count())
+                });
+            model.Categories1 = categories.Take((categories.Count() + 1) / 2);
+            model.Categories2 = categories.Skip((categories.Count() + 1) / 2);
             PopulateModel(model);
             return View(model);
         }
@@ -62,23 +64,26 @@ namespace Lawspot.Controllers
         /// <summary>
         /// Displays the question page.
         /// </summary>
-        /// <param name="id"> The identifier of the question. </param>
+        /// <param name="category"> The slug identifying the category. </param>
+        /// <param name="slug"> The slug identifying the question. </param>
         /// <returns></returns>
-        public ActionResult Question(int id)
+        public ActionResult Question(string category, string slug)
         {
-            var question = this.DataContext.Questions.Where(q => q.QuestionId == id).SingleOrDefault();
+            var question = this.DataContext.Questions.Where(q => q.Slug == slug).SingleOrDefault();
             if (question == null)
+                throw new HttpException(404, "Question not found.");
+            if (question.Category.Slug != category)
                 throw new HttpException(404, "Question not found.");
 
             // Increment the number of views.
-            this.DataContext.ExecuteCommand("UPDATE [Question] SET ViewCount = ViewCount + 1 WHERE QuestionId = {0}", id);
+            this.DataContext.ExecuteCommand("UPDATE [Question] SET ViewCount = ViewCount + 1 WHERE QuestionId = {0}", question.QuestionId);
 
             var model = new QuestionPageViewModel();
             model.Title = question.Title;
             model.Details = question.Details;
             model.CategoryId = question.CategoryId;
             model.CategoryName = question.Category.Name;
-            model.CategoryUrl = string.Format("/categories/{0}", question.Category.Slug);
+            model.CategoryUrl = string.Format("/{0}", question.Category.Slug);
             model.CreationDate = question.CreatedOn.ToString("d MMM yyyy");
             model.Views = question.ViewCount;
             model.Answers = question.Answers.Select(a => new AnswerViewModel()
@@ -108,7 +113,7 @@ namespace Lawspot.Controllers
                     .Take(5)
                     .Select(a => new AnsweredQuestionViewModel()
                 {
-                    Uri = string.Format("/questions/{0}", a.QuestionId),
+                    Uri = string.Format("/{0}/{1}", a.Question.Category.Slug, a.Question.Slug),
                     Title = a.Question.Title,
                     Details = a.Details.Length > 100 ? a.Details.Substring(0, 100) : a.Details,
                     AvatarUri = "/shared/images/default-avatar.jpg",
@@ -119,13 +124,19 @@ namespace Lawspot.Controllers
 
             if (model is ITopCategories)
             {
-                var topCategories = this.DataContext.Categories.OrderBy(c => c.Name).Select(c => new CategoryViewModel()
-                {
-                    Uri = string.Format("/categories/{0}", c.Slug),
-                    Name = c.Name,
-                });
-                ((ITopCategories)model).TopCategories1 = topCategories.Take((topCategories.Count() + 1) / 2);
-                ((ITopCategories)model).TopCategories2 = topCategories.Skip((topCategories.Count() + 1) / 2);
+                var topCategories = this.DataContext.Categories
+                    .OrderByDescending(c => c.Questions.Sum(q => q.Answers.Count()))
+                    .Take(10)
+                    .OrderBy(c => c.Name)
+                    .ToList()
+                    .Select(c => new CategoryViewModel()
+                    {
+                        Uri = string.Format("/{0}", c.Slug),
+                        Name = c.Name,
+                        AnswerCount = c.Questions.Sum(q => q.Answers.Count())
+                    });
+                ((ITopCategories)model).TopCategories1 = topCategories.Take(5);
+                ((ITopCategories)model).TopCategories2 = topCategories.Skip(5);
             }
 
             if (model is IMostViewedQuestions)
@@ -138,7 +149,7 @@ namespace Lawspot.Controllers
                     .Take(5)
                     .Select(q => new QuestionViewModel()
                     {
-                        Url = string.Format("/questions/{0}", q.QuestionId),
+                        Url = string.Format("/{0}/{1}", q.Category.Slug, q.Slug),
                         Title = q.Title,
                         AnswerCount = string.Format("{0} answers", q.Answers.Count()),
                         ViewCount = string.Format("{0} views", q.ViewCount),

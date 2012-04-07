@@ -1,0 +1,20 @@
+﻿delete Question;
+delete Category;
+insert Category (Name, Slug) values ('Building Law', 'building-law');
+insert Category (Name, Slug) values ('Consumer Law', 'consumer-law');
+insert Category (Name, Slug) values ('Criminal Law', 'criminal-law');
+insert Category (Name, Slug) values ('Defamation', 'defamation');
+insert Category (Name, Slug) values ('Employment Law', 'employment-law');
+insert Category (Name, Slug) values ('Family Law', 'family-law');
+insert Category (Name, Slug) values ('Health, Safety and ACC', 'health-safety-acc');
+insert Category (Name, Slug) values ('Human Rights and Discrimination', 'human-rights-discrimination');
+insert Category (Name, Slug) values ('Insurance Law', 'insurance-law');
+insert Category (Name, Slug) values ('Litigation', 'litigation');
+insert Category (Name, Slug) values ('Negligence', 'negligence');
+insert Category (Name, Slug) values ('Nuisance', 'nuisance');
+insert Category (Name, Slug) values ('Privacy', 'privacy')
+insert Category (Name, Slug) values ('Property Law', 'property-law');
+insert Category (Name, Slug) values ('Refugee and Immigration Law', 'immigration');
+insert Category (Name, Slug) values ('Tenancy/Real Estate', 'tenancy-real-estate');
+insert Category (Name, Slug) values ('Tax Law', 'tax-law');
+insert Category (Name, Slug) values ('Trusts, Societies, Charitable Organisations', 'trusts-societies-charities');

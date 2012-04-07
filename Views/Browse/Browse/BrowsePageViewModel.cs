@@ -8,14 +8,8 @@ namespace Lawspot.Views.Browse
     {
         public IEnumerable<CategoryViewModel> Categories1 { get; set; }
         public IEnumerable<CategoryViewModel> Categories2 { get; set; }
-        public IEnumerable<CategoryViewModel> Categories3 { get; set; }
 
         public IEnumerable<AnsweredQuestionViewModel> RecentAnswers { get; set; }
         public IEnumerable<QuestionViewModel> MostViewedQuestions { get; set; }
-    }
-
-    public class CountedCategoryViewModel : CategoryViewModel
-    {
-        public int Count { get; set; }
     }
 }

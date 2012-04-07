@@ -31,14 +31,14 @@ namespace Lawspot
             // Register routes.
             RouteTable.Routes.MapRoute("HomeRoute", "home", new { controller = "Browse", action = "Home" });
             RouteTable.Routes.MapRoute("BrowseRoute", "browse", new { controller = "Browse", action = "Browse" });
-            RouteTable.Routes.MapRoute("CategoryRoute", "categories/{slug}", new { controller = "Browse", action = "Category" });
-            RouteTable.Routes.MapRoute("QuestionRoute", "questions/{id}", new { controller = "Browse", action = "Question" });
             RouteTable.Routes.MapRoute("LoginRoute", "login", new { controller = "Account", action = "Login" });
             RouteTable.Routes.MapRoute("LogoutRoute", "logout", new { controller = "Account", action = "Logout" });
             RouteTable.Routes.MapRoute("RegisterRoute", "register", new { controller = "Account", action = "Register" });
             RouteTable.Routes.MapRoute("LawyerRegisterRoute", "lawyer-register", new { controller = "Account", action = "LawyerRegister" });
             RouteTable.Routes.MapRoute("AskRoute", "ask", new { controller = "Ask", action = "Ask" });
             RouteTable.Routes.MapRoute("AskThankYouRoute", "ask/thank-you", new { controller = "Ask", action = "ThankYou" });
+            RouteTable.Routes.MapRoute("CategoryRoute", "{slug}", new { controller = "Browse", action = "Category" });
+            RouteTable.Routes.MapRoute("QuestionRoute", "{category}/{slug}", new { controller = "Browse", action = "Question" });
         }
 
         protected void Application_AuthorizeRequest()

@@ -65,10 +65,19 @@ input.ask-textbox {
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
     margin: 10px 10px 0 0;
 }
-.sidebar .categories {
+
+/* Top categories box */
+.top-categories {
     list-style: none;
     padding: 0;
     width: 50%;
     float: left;
     font-size: smaller;
+}
+.top-categories li {
+    padding-bottom: 8px;
+}
+.see-all-categories {
+	font-size: 0.8em;
+	text-align: right;
 }

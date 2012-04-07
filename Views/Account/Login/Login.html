@@ -10,7 +10,7 @@
         <span class="required">*</span>
     </div>
     <div class="offset-field">
-        <input id="EmailAddress" name="EmailAddress" type="text" value="{{EmailAddress}}" maxlength="200" autofocus
+        <input id="EmailAddress" name="EmailAddress" type="text" value="{{EmailAddress}}" maxlength="256" autofocus
             {{#ModelState.EmailAddress}}class="validation-error-field"{{/ModelState.EmailAddress}} />
         <div class="validation-error">{{ModelState.EmailAddress}}</div>
     </div>

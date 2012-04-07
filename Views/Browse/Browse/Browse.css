@@ -70,9 +70,8 @@ input.ask-textbox {
 .categories {
     list-style: none;
     padding: 0;
-    width: 200px;
+    width: 300px;
     float: left;
-    font-size: 0.9em;
 }
 .categories li {
     padding: 0 0 10px 0;

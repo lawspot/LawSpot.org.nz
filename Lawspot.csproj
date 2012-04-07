@@ -167,6 +167,9 @@
     <Content Include="Backend\Migrations\5.sql" />
     <Content Include="Backend\Migrations\6.sql" />
     <Content Include="Backend\Migrations\7.sql" />
+    <Content Include="Backend\Migrations\8.sql" />
+    <Content Include="Backend\Migrations\9.sql" />
+    <Content Include="Backend\Migrations\10.sql" />
     <Content Include="Default.htm" />
     <Content Include="Email\Assets\facebook.png" />
     <Content Include="Email\Assets\header-original.png" />

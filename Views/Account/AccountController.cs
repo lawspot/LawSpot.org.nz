@@ -28,6 +28,9 @@ namespace Lawspot.Controllers
             if (ModelState.IsValid == false)
                 return View(model);
 
+            // Trim the text fields.
+            model.EmailAddress = model.EmailAddress.Trim();
+
             // Get the user with the given email address (if any).
             var user = this.DataContext.Users.Where(u => u.EmailAddress == model.EmailAddress).FirstOrDefault();
             if (user == null || BCrypt.Net.BCrypt.Verify(model.Password, user.Password) == false)
@@ -65,6 +68,9 @@ namespace Lawspot.Controllers
                 PopulateRegisterViewModel(model);
                 return View(model);
             }
+
+            // Trim the text fields.
+            model.EmailAddress = model.EmailAddress.Trim();
 
             // Check an account with the email doesn't already exist.
             string alert;
@@ -150,6 +156,13 @@ namespace Lawspot.Controllers
                 PopulateLawyerRegisterViewModel(model);
                 return View(model);
             }
+
+            // Trim the text fields.
+            model.EmailAddress = model.EmailAddress.Trim();
+            model.FirstName = model.FirstName.Trim();
+            model.LastName = model.LastName.Trim();
+            if (model.FirmName != null)
+                model.FirmName = model.FirmName.Trim();
 
             // Register a new user.
             var user = new User();
