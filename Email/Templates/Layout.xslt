@@ -29,7 +29,7 @@
 											<tr>
                         <td align="left" style="padding: 0 20px">
                           <a href="{*/BaseUrl}"><img src="{*/BaseUrl}/email/assets/logo.png"
-                                                     width="207" height="61"
+                                                     width="207" height="60"
                                                      alt="LawSpot.org.nz" style="border: none"/></a>
                         </td>
 												<td align="right" valign="middle" style="color: white; font-size: 10pt; font-weight: bold;
