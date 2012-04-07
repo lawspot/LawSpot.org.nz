@@ -138,19 +138,25 @@ namespace Lawspot.Controllers
             // Replace double dashes with a single dash.
             slugBuilder.Replace("--", "-");
 
-            // Limit to 66 characters so there is space for the uniquifier.
-            slugBuilder.Length = Math.Min(slugBuilder.Length, 66);
-
-            // Chop off the last word.
+            // Trim any dashes at the start and end.
             var slug = slugBuilder.ToString();
-            if (slug.LastIndexOf('-') >= 10)
-                slug = slug.Substring(0, slug.LastIndexOf('-'));
+            slug = slug.Trim('-');
+
+            if (slug.Length > 66)
+            {
+                // Limit to 66 characters so there is space for the uniquifier.
+                slug = slug.Substring(0, 66);
+
+                // Chop off the last partial word.
+                if (slug.LastIndexOf('-') >= 10)
+                    slug = slug.Substring(0, slug.LastIndexOf('-'));
+            }
 
             // Ensure the slug is unique.
             if (this.DataContext.Questions.Any(q => q.Slug == slug.ToString()))
             {
                 int uniquifier = 2;
-                while (this.DataContext.Questions.Any(q => q.Slug == string.Format("{0}{1}", slug, uniquifier)))
+                while (this.DataContext.Questions.Any(q => q.Slug == string.Format("{0}-{1}", slug, uniquifier)))
                     uniquifier++;
                 slug += uniquifier.ToString();
             }
