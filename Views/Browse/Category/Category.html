@@ -1,15 +1,17 @@
 ﻿<section class="sidebar">
-    <section>
-        <h2> Are you a lawyer? </h2>
-        <img class="lawyer" src="/views/browse/lawyer.png" />
-        <p>
-            Help the community and grow your practice!
-            <a href="/lawyer-register">Find out how.</a>
-        </p>
-        <p>
-            Already registered?  <a href="/login">Login here</a>.
-        </p>
-    </section>
+    {{^User}}
+        <section>
+            <h2> Are you a lawyer? </h2>
+            <img class="lawyer" src="/views/browse/lawyer.png" />
+            <p>
+                Help the community and grow your practice!
+                <a href="/lawyer-register">Find out how.</a>
+            </p>
+            <p>
+                Already registered?  <a href="/login">Login here</a>.
+            </p>
+        </section>
+    {{/User}}
 
     <section>
         <h2> Top legal categories </h2>

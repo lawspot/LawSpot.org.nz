@@ -4,61 +4,98 @@
 
 {{#Registration}}
     <section id="qsubmit2">
-        <input name="ShowRegistration" type="hidden" value="true" />
+        <input id="ShowRegistration" name="ShowRegistration" type="hidden" value="{{ShowRegistration}}" />
 
-	    <h3><a href="#">Login</a> or register below:</h3>
+        <div id="register" {{^ShowRegistration}}style="display: none"{{/ShowRegistration}}>
+            <h3><a id="login-link" href="#">Login</a> or Register</span></h3>
+
+	        <div class="field-label">
+		        <label for="EmailAddress">Email address: </label>
+		        <span class="required">*</span>
+	        </div>
+	        <div class="offset-field">
+		        <input id="EmailAddress" name="Registration.EmailAddress" type="text" value="{{Registration.EmailAddress}}" maxlength="200"
+                    {{#FocusInRegistrationEmailAddress}}autofocus{{/FocusInRegistrationEmailAddress}}
+			        {{#ModelState.Registration.EmailAddress}}class="validation-error-field"{{/ModelState.Registration.EmailAddress}} />
+                <div class="validation-error">{{ModelState.Registration.EmailAddress}}</div>
+	        </div>
 			
-	    <div class="field-label">
-		    <label for="EmailAddress">Email address: </label>
-		    <span class="required">*</span>
-	    </div>
-	    <div class="offset-field">
-		    <input id="EmailAddress" name="Registration.EmailAddress" type="text" value="{{Registration.EmailAddress}}" maxlength="200"
-                {{#FocusInEmailAddress}}autofocus{{/FocusInEmailAddress}}
-			    {{#ModelState.Registration.EmailAddress}}class="validation-error-field"{{/ModelState.Registration.EmailAddress}} />
-            <div class="validation-error">{{ModelState.Registration.EmailAddress}}</div>
-	    </div>
+	        <div class="field-label">
+		        <label for="Password">Select Password: </label>
+		        <span class="required">*</span>
+	        </div>
+	        <div class="offset-field">
+		        <input id="Password" name="Registration.Password" type="password" value="{{Registration.Password}}" maxlength="100"
+			        {{#ModelState.Registration.Password}}class="validation-error-field"{{/ModelState.Registration.Password}} />
+                <div class="validation-error">{{ModelState.Registration.Password}}</div>
+	        </div>
 			
-	    <div class="field-label">
-		    <label for="Password">Select Password: </label>
-		    <span class="required">*</span>
-	    </div>
-	    <div class="offset-field">
-		    <input id="Password" name="Registration.Password" type="password" value="{{Registration.Password}}" maxlength="100"
-			    {{#ModelState.Registration.Password}}class="validation-error-field"{{/ModelState.Registration.Password}} />
-            <div class="validation-error">{{ModelState.Registration.Password}}</div>
-	    </div>
+	        <div class="field-label">
+		        <label for="ConfirmPassword">Confirm password: </label>
+		        <span class="required">*</span>
+	        </div>
+	        <div class="offset-field">
+		        <input id="ConfirmPassword" name="Registration.ConfirmPassword" type="password" value="{{Registration.ConfirmPassword}}" maxlength="100"
+			        {{#ModelState.Registration.ConfirmPassword}}class="validation-error-field"{{/ModelState.Registration.ConfirmPassword}} />
+                <div class="validation-error">{{ModelState.Registration.ConfirmPassword}}</div>
+	        </div>
 			
-	    <div class="field-label">
-		    <label for="ConfirmPassword">Confirm password: </label>
-		    <span class="required">*</span>
-	    </div>
-	    <div class="offset-field">
-		    <input id="ConfirmPassword" name="Registration.ConfirmPassword" type="password" value="{{Registration.ConfirmPassword}}" maxlength="100"
-			    {{#ModelState.Registration.ConfirmPassword}}class="validation-error-field"{{/ModelState.Registration.ConfirmPassword}} />
-            <div class="validation-error">{{ModelState.Registration.ConfirmPassword}}</div>
-	    </div>
-			
-	    <div class="field-label">
-		    <label for="RegionId">Region: </label>
-		    <span class="required">*</span>
-	    </div>
-	    <div class="offset-field">
-            <select id="RegionId" name="Registration.RegionId">
-                {{#Registration.Regions}}
-                    <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
-                {{/Registration.Regions}}
-            </select>
-	    </div>
+	        <div class="field-label">
+		        <label for="RegionId">Region: </label>
+		        <span class="required">*</span>
+	        </div>
+	        <div class="offset-field">
+                <select id="RegionId" name="Registration.RegionId">
+                    {{#Registration.Regions}}
+                        <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+                    {{/Registration.Regions}}
+                </select>
+	        </div>
 			    
-	    <div class="offset-field privacy-message">
-		    <img src="/shared/images/lock.png" width="22" height="27" alt="" class="privacy" />
-            We will <ins>NEVER</ins> release your data to a third party.
-	    </div>
-			    
-	    <p class="form-message"><strong>Why do I have to register?</strong><br />
-	    Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.</p>
-			    
+	        <div class="offset-field privacy-message">
+		        <img src="/shared/images/lock.png" width="22" height="27" alt="" class="privacy" />
+                We will <ins>NEVER</ins> release your data to a third party.
+	        </div>
+
+	        <p class="form-message">
+                <strong>Why do I have to register?</strong><br />
+	            Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque eu tellus rhoncus
+                ut eleifend nibh porttitor. Ut in nulla enim. Phasellus molestie magna non est bibendum non venenatis nisl tempor.
+            </p>
+        </div>
+
+        <div id="login" {{^ShowLogin}}style="display: none"{{/ShowLogin}}>
+            <h3>Login or <a id="register-link" href="#">Register</a></h3>
+
+            <div class="field-label">
+                <label for="LoginEmailAddress"> Email address: </label>
+                <span class="required">*</span>
+            </div>
+            <div class="offset-field">
+                <input id="LoginEmailAddress" name="Login.EmailAddress" type="text" value="{{Login.EmailAddress}}" maxlength="200"
+                    {{#FocusInLoginEmailAddress}}autofocus{{/FocusInLoginEmailAddress}}
+                    {{#ModelState.Login.EmailAddress}}class="validation-error-field"{{/ModelState.Login.EmailAddress}} />
+                <div class="validation-error">{{ModelState.Login.EmailAddress}}</div>
+            </div>
+
+            <div class="field-label">
+                <label for="LoginPassword"> Password: </label>
+                <span class="required">*</span>
+            </div>
+            <div class="offset-field">
+                <input id="LoginPassword" name="Login.Password" type="password" value="{{Login.Password}}" maxlength="100"
+                    {{#ModelState.Login.Password}}class="validation-error-field"{{/ModelState.Login.Password}} />
+                <div class="validation-error">{{ModelState.Login.Password}}</div>
+            </div>
+
+            <div class="offset-field">
+                <label>
+                    <input name="Login.RememberMe" type="checkbox" {{#Login.RememberMe}}checked{{/Login.RememberMe}} value="true" />
+                    Remember me for next time
+                </label>
+            </div>
+        </div>
+
 	    <div class="qsubmit-button">
 		    <button>ASK YOUR QUESTION</button>
 	    </div>

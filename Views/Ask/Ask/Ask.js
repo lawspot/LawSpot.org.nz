@@ -12,6 +12,25 @@ countCharacters(document.getElementById("Title"), document.getElementById("Title
 countCharacters(document.getElementById("Details"), document.getElementById("DetailsCharCount"), 600);
 
 // Stretch the divider to the full height of the form.
-var height = document.getElementById("qsubmit1").offsetHeight;
-document.getElementById("qsubmit-overlay2").style.borderTop = (height / 2) + "px solid transparent";
-document.getElementById("qsubmit-overlay2").style.borderBottom = (height / 2) + "px solid transparent";
+function stretchDivider() {
+    var height = document.getElementById("qsubmit1").offsetHeight;
+    document.getElementById("qsubmit-overlay2").style.borderTop = (height / 2) + "px solid transparent";
+    document.getElementById("qsubmit-overlay2").style.borderBottom = (height / 2) + "px solid transparent";
+}
+stretchDivider();
+
+$("#login-link").click(function () {
+    $("#register").hide();
+    $("#login").show();
+    stretchDivider();
+    $("#ShowRegistration").val("false");
+    $("#login input[type=text]").focus();
+});
+
+$("#register-link").click(function () {
+    $("#login").hide();
+    $("#register").show();
+    stretchDivider();
+    $("#ShowRegistration").val("true");
+    $("#register input[type=text]").focus();
+});

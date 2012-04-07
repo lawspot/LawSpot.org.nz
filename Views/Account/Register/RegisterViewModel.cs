@@ -26,5 +26,10 @@ namespace Lawspot.Views.Account
 
         [MustBeTrue(ErrorMessage = "You must agree to the terms and conditions.")]
         public bool Agreement { get; set; }
+
+        /// <summary>
+        /// The URL to redirect to once login is successful.
+        /// </summary>
+        public string RedirectUrl { get; set; }
     }
 }

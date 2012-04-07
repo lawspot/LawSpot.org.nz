@@ -50,6 +50,8 @@ namespace Lawspot.Controllers
         {
             var model = new RegisterViewModel();
             model.RegionId = 2;
+            if (this.Request.UrlReferrer != null)
+                model.RedirectUrl = this.Request.UrlReferrer.ToString();
             PopulateRegisterViewModel(model);
             return View(model);
         }
@@ -57,10 +59,6 @@ namespace Lawspot.Controllers
         [HttpPost]
         public ActionResult Register(RegisterViewModel model)
         {
-            // Check an account with the email doesn't already exist.
-            if (this.DataContext.Users.Any(u => u.EmailAddress == model.EmailAddress))
-                ModelState.AddModelError("EmailAddress", "That email address is already registered.");
-
             // Check the model is valid.
             if (ModelState.IsValid == false)
             {
@@ -68,12 +66,38 @@ namespace Lawspot.Controllers
                 return View(model);
             }
 
-            // Register a new user.
-            var user = new User();
-            user.EmailAddress = model.EmailAddress;
-            user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
-            user.RegionId = model.RegionId;
-            this.DataContext.Users.InsertOnSubmit(user);
+            // Check an account with the email doesn't already exist.
+            string alert;
+            var user = this.DataContext.Users.FirstOrDefault(u => u.EmailAddress == model.EmailAddress);
+            if (user != null)
+            {
+                // Check the password is okay.
+                if (BCrypt.Net.BCrypt.Verify(model.Password, user.Password) == false)
+                {
+                    ModelState.AddModelError("EmailAddress", "That email address is already registered.");
+                    PopulateRegisterViewModel(model);
+                    return View(model);
+                }
+
+                // The user tried to register, but they got the email address and password
+                // right, so we'll just log them in.
+                user.RegionId = model.RegionId;
+
+                // Alert the user that they were logged in, rather than registering.
+                alert = "loggedin";
+            }
+            else
+            {
+                // Register a new user.
+                user = new User();
+                user.EmailAddress = model.EmailAddress;
+                user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
+                user.RegionId = model.RegionId;
+                this.DataContext.Users.InsertOnSubmit(user);
+
+                // Alert the user that they have registered successfully.
+                alert = "registered";
+            }
             this.DataContext.SubmitChanges();
 
             // Log in as that user.
@@ -84,8 +108,10 @@ namespace Lawspot.Controllers
             message.To.Add(user.EmailAddress);
             message.Send();
 
-            // Redirect to home page.
-            return RedirectToAction("Home", "Browse", new { alert = "registered" });
+            // Redirect to the original referrer, or to the home page.
+            if (string.IsNullOrEmpty(model.RedirectUrl) == false)
+                return Redirect(SetUriParameter(new Uri(model.RedirectUrl), "alert", alert).ToString());
+            return RedirectToAction("Home", "Browse", new { alert = alert });
         }
 
         /// <summary>
