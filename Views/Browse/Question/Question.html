@@ -55,13 +55,13 @@
 	
 		<div id="qa-account-answer">
             {{#User.IsLawyer}}
-			    <!-- logged in -->
+			    <!-- Logged in -->
 			    <button>Answer this Question</button>
             {{/User.IsLawyer}}
-            {{^User.IsLawyer}}
-			    <!-- logged out -->
-			    <p class="large-text">Are you a lawyer? <a href="/login">Login</a> or <a href="/lawyer-register">sign-up</a> to answer this question.</p>
-            {{/User.IsLawyer}}
+            {{^User}}
+			    <!-- Logged out -->
+			    <p class="large-text">Are you a lawyer? <a href="/login">Login</a> or <a href="/lawyer-register">register</a> to answer this question.</p>
+            {{/User}}
 		</div>
 	</section>
 	
