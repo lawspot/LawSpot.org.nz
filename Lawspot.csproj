@@ -148,6 +148,7 @@
     <Compile Include="Shared\Code\MustacheViewEngine.cs" />
     <Compile Include="Views\Account\Login\LoginViewModel.cs" />
     <Compile Include="Views\Browse\Category\CategoryPageViewModel.cs" />
+    <Compile Include="Views\Browse\Browse\BrowsePageViewModel.cs" />
     <Compile Include="Views\Browse\Home\HomeViewModel.cs" />
     <Compile Include="Views\Browse\Question\QuestionPageViewModel.cs" />
   </ItemGroup>
@@ -164,6 +165,7 @@
     <Content Include="Backend\Migrations\4.sql" />
     <Content Include="Backend\Migrations\5.sql" />
     <Content Include="Backend\Migrations\6.sql" />
+    <Content Include="Backend\Migrations\7.sql" />
     <Content Include="Default.htm" />
     <Content Include="Email\Assets\facebook.png" />
     <Content Include="Email\Assets\header-original.png" />
@@ -242,6 +244,8 @@
     <Content Include="Views\Ask\ThankYou\ThankYou.html" />
     <Content Include="Views\Browse\Category\Category.css" />
     <Content Include="Views\Browse\Category\Category.html" />
+    <Content Include="Views\Browse\Browse\Browse.css" />
+    <Content Include="Views\Browse\Browse\Browse.html" />
     <Content Include="Views\Browse\Home\Home.css" />
     <Content Include="Shared\mustache.js" />
     <Content Include="Views\Browse\Home\laptop.png" />

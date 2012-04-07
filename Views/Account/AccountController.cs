@@ -138,7 +138,6 @@ namespace Lawspot.Controllers
             lawyer.User = user;
             lawyer.FirstName = model.FirstName;
             lawyer.LastName = model.LastName;
-            lawyer.PractisingCertNumber = long.Parse(model.PractisingCertNumber);
             lawyer.YearOfAdmission = model.YearAdmitted;
             lawyer.SpecialisationCategoryId = model.SpecialisationCategoryId == 0 ? (int?)null : model.SpecialisationCategoryId;
             lawyer.FirmName = model.FirmName;
