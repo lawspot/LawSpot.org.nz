@@ -54,9 +54,9 @@ namespace Lawspot.Controllers
             // Trim the text fields.
             model.Title = model.Title.Trim();
             model.Details = model.Details.Trim();
-            if (model.Registration != null)
+            if (model.Registration != null && model.Registration.EmailAddress != null)
                 model.Registration.EmailAddress = model.Registration.EmailAddress.Trim();
-            if (model.Login != null)
+            if (model.Login != null && model.Login.EmailAddress != null)
                 model.Login.EmailAddress = model.Login.EmailAddress.Trim();
 
             // Ask the user to register or log in if they haven't already.
