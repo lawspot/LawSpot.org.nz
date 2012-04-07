@@ -18,6 +18,8 @@ namespace Lawspot.Controllers
             model.RememberMe = true;
             if (this.Request.UrlReferrer != null)
                 model.RedirectUrl = this.Request.UrlReferrer.ToString();
+            if (this.Request.QueryString["ReturnUrl"] != null)
+                model.RedirectUrl = this.Request.QueryString["ReturnUrl"];
             return View(model);
         }
 
@@ -44,7 +46,7 @@ namespace Lawspot.Controllers
 
             // Redirect to the original referrer, or to the home page.
             if (string.IsNullOrEmpty(model.RedirectUrl) == false)
-                return Redirect(SetUriParameter(new Uri(model.RedirectUrl), "alert", "loggedin").ToString());
+                return Redirect(SetUriParameter(new Uri(this.Request.Url, model.RedirectUrl), "alert", "loggedin").ToString());
             return RedirectToAction("Home", "Browse", new { alert = "loggedin" });
         }
 

@@ -1,0 +1,104 @@
+﻿<div id="admin-layout">
+
+    <section class="admin-sidebar">
+        <div class="admin-profile">
+    	    <img src="http://dummyimage.com/50" width="50" height="50" alt="" />
+    	    <span class="user-name">John Smith</span>
+    	    <a href="/logout">Logout</a>
+        </div>
+        <ul class="list-arrows">
+    	    <li><a href="/admin/answer-questions">Answer Questions</a></li>
+    	    <li><a href="#">Edit Your Details</a></li>
+    	    <li><a href="#">Upload Profile Image</a></li>
+    	    <li><a href="#">Change Login</a></li>
+        </ul>
+        <hr />
+        <ul class="list-arrows">
+    	    <li><a href="/contact">Contact Us</a></li>
+    	    <li><a href="/faq">LawSpot FAQ</a></li>
+        </ul>
+    </section>
+    	
+    <section class="admin-body">
+
+	    <h1>Answer Questions</h1>
+	            
+	    <form class="admin-sort">
+	        View questions asked in
+	        <select id="AreaOfExpertise" name="My Area of Expertise">
+	            <option value="{{Id}}" {{#Selected}}selected{{/Selected}}>My Area of Expertise</option>
+	        </select>
+	        Show
+	        <select id="Answered" name="Answered">
+	            <option value="{{Id}}" {{#Selected}}selected{{/Selected}}>Unanswered</option>
+	        </select>
+	    </form>
+
+        <div>
+            {{#Questions}}
+	            <article class="question-container">
+	                <img class="left" src="/views/admin/answerquestions/question-icon.png" width="27" height="19" alt="" />
+	                <div class="question-header">
+	                    <a href="#">{{Title}}</a><br />
+                        <span class="question-time">{{DateAndTime}}</span>
+                        <span class="question-category">{{CategoryName}}</span>
+	                </div>
+                    <div class="inner-content"></div>
+	            </article>
+            {{/Questions}}
+        </div>
+
+    </section>
+
+    {{! Change the mustache set delimiter so that tags within the templates are not replaced }}
+    {{=** **=}}
+
+    <script id="answer-template" type="text/template">
+        <form>
+	        <p>
+                <strong>Question description:</strong><br />
+	            {{Details}}
+            </p>
+	        <strong>Your Answer:</strong><br />
+	        <textarea name="LawyerAnswer" rows="5"></textarea><br />
+            <div class="validation-error"></div>
+	        <p>
+                <small>
+                    Please note that your answer will be screened by a legally qualified Community
+                    Law Centre supervisor before it is published. Morbi malesuada nulla nec purus
+                    convallis consequat. Vivamus id mollis quam. Morbi ac commodo nulla. In
+                    condimentum.
+                </small>
+            </p>
+	        <p>
+                <small>
+                    In addition, this <a href="#">important notice</a> will appear as part of
+                    your answer.
+                </small>
+            </p>
+	            		
+	        <div class="centre">
+	            <button>SUBMIT</button>	      
+	        </div>      		
+	    </form>
+    </script>
+
+    <script id="success-template" type="text/template">
+        <article class="answered">
+	        <img class="left" src="/views/admin/answerquestions/answered.png" width="26" height="26" alt="" />
+	        <h3>Thanks! You've just answered a question.</h3>
+	        <p>
+                <strong>Question:</strong><br />
+	            {{Title}}
+            </p>
+	        <p>
+                <strong>Answer:</strong><br />
+	            {{Answer}}
+            </p>
+	        <div class="centre">
+	            <button>NEXT QUESTION</button>
+	        </div>
+	    </article>
+    </script>
+
+</div>

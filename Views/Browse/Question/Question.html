@@ -56,7 +56,7 @@
 		<div id="qa-account-answer">
             {{#User.IsLawyer}}
 			    <!-- Logged in -->
-			    <button>Answer this Question</button>
+			    <button onclick="window.location.href = '/admin/answer-questions'">Answer this Question</button>
             {{/User.IsLawyer}}
             {{^User}}
 			    <!-- Logged out -->

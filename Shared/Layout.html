@@ -37,6 +37,12 @@
                     {{SuccessMessage}}
                 </div>
             {{/SuccessMessage}}
+            {{#User.IsLawyer}}
+                <div class="warning-message">
+                    There are 106,000 unanswered questions.
+                    <button onclick="window.location.href = '/admin/answer-questions'">ANSWER QUESTIONS</button>
+                </div>
+            {{/User.IsLawyer}}
         </script>
     </section>
     <section class="site-body">
