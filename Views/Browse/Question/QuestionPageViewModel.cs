@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Lawspot.Views.Browse
 {
-    public class QuestionPageViewModel : BrowseViewModel
+    public class QuestionPageViewModel : ITopCategories
     {
         public string Title { get; set; }
         public string Details { get; set; }
@@ -14,6 +14,9 @@ namespace Lawspot.Views.Browse
         public string CreationDate { get; set; }
         public int Views { get; set; }
         public IEnumerable<AnswerViewModel> Answers { get; set; }
+
+        public IEnumerable<CategoryViewModel> TopCategories1 { get; set; }
+        public IEnumerable<CategoryViewModel> TopCategories2 { get; set; }
     }
 
     public class AnswerViewModel

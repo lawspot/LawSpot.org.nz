@@ -1,4 +1,12 @@
 ﻿<section class="sidebar">
+    <div class="ask-sidebar">
+        <form method="get" action="/ask">
+            <input name="category" type="hidden" value="{{CategoryId}}" />
+            <input name="title" class="ask-textbox" type="text" placeholder="Ask your question here..." maxlength="150" />
+            <button class="ask-button">ASK</button>
+        </form>
+    </div>
+
     <section>
         <h2> Are you a lawyer? </h2>
         <img class="lawyer" src="/views/browse/lawyer.png" />
@@ -10,42 +18,33 @@
             Already registered?  <a href="/login">Login here</a>.
         </p>
     </section>
-
-    <section>
-        <h2> Top legal categories </h2>
-        <ul class="categories">
-            {{#TopCategories1}}
-                <li> <a href="{{Uri}}">{{Name}}</a> </li>
-            {{/TopCategories1}}
-        </ul>
-        <ul class="categories">
-            {{#TopCategories2}}
-                <li> <a href="{{Uri}}">{{Name}}</a> </li>
-            {{/TopCategories2}}
-        </ul>
-        <div style="clear: left"></div>
-        <div class="categories-all"><a href="#">See all categories...</a></div>
-    </section>
 </section>
 
 <div id="breadcrumb">
     <a href="/home">Home</a> &gt;
-    {{Name}}
+    Browse
 </div>
 
-<h1> Ask About {{Name}} </h1>
+<h1> Browse Questions & Answers </h1>
 
-<p> Tagline. </p>
+<ul class="categories">
+    {{#Categories1}}
+        <li> <a href="{{Uri}}">{{Name}}</a> ({{Count}}) </li>
+    {{/Categories1}}
+</ul>
+<ul class="categories">
+    {{#Categories2}}
+        <li> <a href="{{Uri}}">{{Name}}</a> ({{Count}}) </li>
+    {{/Categories2}}
+</ul>
+<ul class="categories">
+    {{#Categories3}}
+        <li> <a href="{{Uri}}">{{Name}}</a> ({{Count}}) </li>
+    {{/Categories3}}
+</ul>
+<div style="clear: both"></div>
 
-<div class="ask">
-    <form method="get" action="/ask">
-        <input name="category" type="hidden" value="{{CategoryId}}" />
-        <input name="title" class="ask-textbox" type="text" placeholder="Ask your question here..." maxlength="150" />
-        <button class="ask-button">ASK</button>
-    </form>
-</div>
-
-<h2> New {{Name}} Questions and Answers</h2>
+<h2> Recent Questions and Answers</h2>
 
 {{#RecentAnswers}}
     <div class="question">

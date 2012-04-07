@@ -149,6 +149,7 @@
     <Compile Include="Views\Account\Login\LoginViewModel.cs" />
     <Compile Include="Views\Browse\Category\CategoryPageViewModel.cs" />
     <Compile Include="Views\Browse\Browse\BrowsePageViewModel.cs" />
+    <Compile Include="Views\Browse\BrowseViewModels.cs" />
     <Compile Include="Views\Browse\Home\HomeViewModel.cs" />
     <Compile Include="Views\Browse\Question\QuestionPageViewModel.cs" />
   </ItemGroup>

@@ -30,6 +30,7 @@ namespace Lawspot
 
             // Register routes.
             RouteTable.Routes.MapRoute("HomeRoute", "home", new { controller = "Browse", action = "Home" });
+            RouteTable.Routes.MapRoute("BrowseRoute", "browse", new { controller = "Browse", action = "Browse" });
             RouteTable.Routes.MapRoute("CategoryRoute", "categories/{slug}", new { controller = "Browse", action = "Category" });
             RouteTable.Routes.MapRoute("QuestionRoute", "questions/{id}", new { controller = "Browse", action = "Question" });
             RouteTable.Routes.MapRoute("LoginRoute", "login", new { controller = "Account", action = "Login" });

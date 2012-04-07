@@ -1,0 +1,96 @@
+﻿.topic {
+    float: left;
+    width: 20%;
+}
+.ask {
+    margin-bottom: 45px;
+}
+input.ask-textbox {
+    border: 2px solid #918F90;
+    width: 390px;
+    height: 52px;
+    border-radius: 6px;
+    padding: 0 16px;
+    margin-right: 4px;
+    vertical-align: middle
+}
+.ask-button {
+    width: 160px;
+    height: 52px;
+    font-size: 22pt;
+    vertical-align: middle;
+}
+.question {
+    margin: 22px 0;
+}
+.question .frame {
+    float: left;
+    background: white;
+    border: 1px solid #5A5957;
+    padding: 2px;
+    border-radius: 3px;
+}
+.question .frame img {
+    width: 49px;
+    height: 64px;
+    vertical-align: middle;
+}
+.question .body {
+    margin-left: 70px;
+}
+.question .title, .question .details, .question .asked {
+    margin: 6px 0;
+}
+.question .asked {
+    font-size: smaller;
+}
+.sidebar {
+    width: 350px;
+    margin-left: 10px;
+    float: right;
+}
+.sidebar .laptop {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.sidebar section {
+    border: 1px solid #BBB7B6;
+    border-radius: 3px;
+    background: #DEDDDB;
+    padding: 5px 12px 12px;
+    margin-bottom: 16px;
+}
+.sidebar .lawyer {
+    float: left;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+    margin: 10px 10px 0 0;
+}
+
+/* Categories list */
+.categories {
+    list-style: none;
+    padding: 0;
+    width: 200px;
+    float: left;
+    font-size: 0.9em;
+}
+.categories li {
+    padding: 0 0 10px 0;
+}
+
+/* Ask a question */
+.ask-sidebar {
+	margin: 40px 0 20px;
+	text-align: center;
+}
+.ask-sidebar .ask-textbox {
+	width: 240px;
+	height: 40px;
+	padding: 0 10px;
+}
+.ask-sidebar .ask-button {
+	width: 70px;
+	height: 40px;
+	font-size: 14pt;
+	padding: 0;
+}
