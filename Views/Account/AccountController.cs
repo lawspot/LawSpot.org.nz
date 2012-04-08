@@ -148,10 +148,6 @@ namespace Lawspot.Controllers
         [HttpPost]
         public ActionResult LawyerRegister(LawyerRegisterViewModel model)
         {
-            // Check an account with the email doesn't already exist.
-            if (this.DataContext.Users.Any(u => u.EmailAddress == model.EmailAddress))
-                ModelState.AddModelError("EmailAddress", "That email address is already registered.");
-
             // Check the model is valid.
             if (ModelState.IsValid == false)
             {
@@ -166,13 +162,28 @@ namespace Lawspot.Controllers
             if (model.FirmName != null)
                 model.FirmName = model.FirmName.Trim();
 
-            // Register a new user.
-            var user = new User();
-            user.EmailAddress = model.EmailAddress;
-            user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
-            user.RegionId = model.RegionId;
-            user.IsLawyer = true;
-            this.DataContext.Users.InsertOnSubmit(user);
+            var user = this.DataContext.Users.FirstOrDefault(u => u.EmailAddress == model.EmailAddress);
+            if (user != null)
+            {
+                // The user already exists.
+                // Check the password is okay and that the user isn't already a lawyer.
+                if (BCrypt.Net.BCrypt.Verify(model.Password, user.Password) == false || user.Lawyers.Any())
+                {
+                    ModelState.AddModelError("EmailAddress", "That email address is already registered.");
+                    PopulateLawyerRegisterViewModel(model);
+                    return View(model);
+                }
+            }
+            else
+            {
+                // Register a new user.
+                user = new User();
+                user.EmailAddress = model.EmailAddress;
+                user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
+                user.RegionId = model.RegionId;
+                user.IsLawyer = true;
+                this.DataContext.Users.InsertOnSubmit(user);
+            }
 
             // Register a new lawyer.
             var lawyer = new Lawyer();
