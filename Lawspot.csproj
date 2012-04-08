@@ -273,6 +273,7 @@
     <Content Include="Views\Browse\Question\Question.css" />
     <Content Include="Views\Browse\Question\Question.html" />
     <Content Include="Views\Browse\Question\question.png" />
+    <Content Include="Views\Static\ContactUs.html" />
     <Content Include="Views\Static\PartnerWithUs.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
