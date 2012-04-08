@@ -156,6 +156,7 @@
     <Compile Include="Views\Browse\BrowseViewModels.cs" />
     <Compile Include="Views\Browse\Home\HomeViewModel.cs" />
     <Compile Include="Views\Browse\Question\QuestionPageViewModel.cs" />
+    <Compile Include="Views\Static\StaticController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
@@ -272,6 +273,7 @@
     <Content Include="Views\Browse\Question\Question.css" />
     <Content Include="Views\Browse\Question\Question.html" />
     <Content Include="Views\Browse\Question\question.png" />
+    <Content Include="Views\Static\PartnerWithUs.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

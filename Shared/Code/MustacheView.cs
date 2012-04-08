@@ -20,6 +20,10 @@ namespace Lawspot.Shared
         public ControllerBase Controller { get; private set; }
         public string ViewPath { get; private set; }
 
+        private class EmptyModel
+        {
+        }
+
         public void Render(ViewContext viewContext, TextWriter writer)
         {
             var server = viewContext.HttpContext.Server;
@@ -40,71 +44,65 @@ namespace Lawspot.Shared
             layout.Replace("{{Content}}", File.ReadAllText(server.MapPath(this.ViewPath)));
 
             // Replace the {{Model}}
-            var model = this.Controller.ViewData.Model;
-            if (model != null)
+            var model = this.Controller.ViewData.Model ?? new EmptyModel();
+
+            // Initialize the extra state that gets tacked on before the view model state.
+            var extraState = new ExtraViewModelState();
+
+            // User.
+            extraState.User = ((Controller)viewContext.Controller).User as CustomPrincipal;
+
+            // Translate alert types into messages.
+            switch (viewContext.HttpContext.Request.QueryString["alert"])
             {
-                // Initialize the extra state that gets tacked on before the view model state.
-                var extraState = new ExtraViewModelState();
+                case "loggedin":
+                    extraState.SuccessMessage = "You're logged in. Welcome back to LawSpot.";
+                    break;
+                case "loggedout":
+                    extraState.SuccessMessage = "You have logged out.";
+                    break;
+                case "registered":
+                case "registered-as-lawyer":
+                    extraState.SuccessMessage = string.Format("Thanks for registering!  Please check your email ({0}) to confirm your account with us.", extraState.User.EmailAddress);
+                    break;
+            }
 
-                // User.
-                extraState.User = ((Controller)viewContext.Controller).User as CustomPrincipal;
-
-                // Translate alert types into messages.
-                switch (viewContext.HttpContext.Request.QueryString["alert"])
+            // ModelState.
+            var result = new Dictionary<string, object>();
+            var modelState = ((Controller)viewContext.Controller).ModelState;
+            foreach (var key in modelState.Keys)
+            {
+                var state = modelState[key];
+                if (state.Errors.Count > 0)
                 {
-                    case "loggedin":
-                        extraState.SuccessMessage = "You're logged in. Welcome back to LawSpot.";
-                        break;
-                    case "loggedout":
-                        extraState.SuccessMessage = "You have logged out.";
-                        break;
-                    case "registered":
-                    case "registered-as-lawyer":
-                        extraState.SuccessMessage = string.Format("Thanks for registering!  Please check your email ({0}) to confirm your account with us.", extraState.User.EmailAddress);
-                        break;
-                }
-
-                // ModelState.
-                var result = new Dictionary<string, object>();
-                var modelState = ((Controller)viewContext.Controller).ModelState;
-                foreach (var key in modelState.Keys)
-                {
-                    var state = modelState[key];
-                    if (state.Errors.Count > 0)
+                    string errorMessage = string.Join(Environment.NewLine, state.Errors.Select(e => e.ErrorMessage));
+                    var dictionary = result;
+                    var keys = key.Split('.');
+                    for (int i = 0; i < keys.Length - 1; i ++)
                     {
-                        string errorMessage = string.Join(Environment.NewLine, state.Errors.Select(e => e.ErrorMessage));
-                        var dictionary = result;
-                        var keys = key.Split('.');
-                        for (int i = 0; i < keys.Length - 1; i ++)
-                        {
-                            object subDictionary;
-                            if (dictionary.TryGetValue(keys[i], out subDictionary) == false)
-                                dictionary[keys[i]] = new Dictionary<string, object>();
-                            dictionary = (Dictionary<string, object>)dictionary[keys[i]];
-                        }
-                        dictionary.Add(keys[keys.Length - 1], errorMessage);
+                        object subDictionary;
+                        if (dictionary.TryGetValue(keys[i], out subDictionary) == false)
+                            dictionary[keys[i]] = new Dictionary<string, object>();
+                        dictionary = (Dictionary<string, object>)dictionary[keys[i]];
                     }
+                    dictionary.Add(keys[keys.Length - 1], errorMessage);
                 }
-                if (result.Count > 0)
-                    extraState.ModelState = result;
-
-                // Store the extra state in the HttpContext object where it can be retrieved by the contract resolver.
-                viewContext.HttpContext.Items["ExtraState"] = extraState;
-
-                var modelHtml = new StringBuilder();
-                modelHtml.AppendLine(@"<script type=""text/javascript"">");
-                modelHtml.Append("var Model = ");
-                var jsonSerializer = new Newtonsoft.Json.JsonSerializer();
-                jsonSerializer.ContractResolver = new ViewModelContractResolver(model.GetType());
-                jsonSerializer.Serialize(new StringWriter(modelHtml), model);
-                modelHtml.AppendLine(";");
-                modelHtml.AppendLine("</script>");
-                layout.Replace("{{Model}}", modelHtml.ToString());
             }
-            else
-            {
-                layout.Replace("{{Model}}", string.Empty);
-            }
+            if (result.Count > 0)
+                extraState.ModelState = result;
+
+            // Store the extra state in the HttpContext object where it can be retrieved by the contract resolver.
+            viewContext.HttpContext.Items["ExtraState"] = extraState;
+
+            var modelHtml = new StringBuilder();
+            modelHtml.AppendLine(@"<script type=""text/javascript"">");
+            modelHtml.Append("var Model = ");
+            var jsonSerializer = new Newtonsoft.Json.JsonSerializer();
+            jsonSerializer.ContractResolver = new ViewModelContractResolver(model.GetType());
+            jsonSerializer.Serialize(new StringWriter(modelHtml), model);
+            modelHtml.AppendLine(";");
+            modelHtml.AppendLine("</script>");
+            layout.Replace("{{Model}}", modelHtml.ToString());
 
             // Next we find all the script files.
             var scripts = new List<string>();
