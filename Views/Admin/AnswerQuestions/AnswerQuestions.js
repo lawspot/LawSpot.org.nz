@@ -49,6 +49,15 @@ $(".question-container a").click(function (e) {
         // Set the focus to the first textarea.
         $("textarea", innerContent).focus();
 
+        // Make the important notice link work.
+        $("a.important-notice-link", innerContent).click(function (e) {
+            // Prevent the hyperlink from navigating.
+            e.preventDefault();
+
+            // Show or hide the important notice text.
+            $(".important-notice", innerContent).slideToggle();
+        });
+
         // Hook the form submit event.
         $("form", innerContent).submit(function (e) {
             // Don't submit the form.
