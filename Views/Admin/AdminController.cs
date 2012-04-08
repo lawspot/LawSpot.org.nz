@@ -45,6 +45,8 @@ namespace Lawspot.Controllers
         [HttpPost]
         public ActionResult PostAnswer(int questionId, string answerText)
         {
+            throw new InvalidOperationException("test");
+
             // Create a new answer for the question.
             var answer = new Answer();
             answer.CreatedOn = DateTime.Now;
@@ -53,7 +55,7 @@ namespace Lawspot.Controllers
             answer.QuestionId = questionId;
             this.DataContext.Answers.InsertOnSubmit(answer);
             this.DataContext.SubmitChanges();
-
+            
             return Json("");
         }
     }

@@ -13,29 +13,37 @@ $(".question-container a").click(function (e) {
 
     // Close any siblings.
     container.siblings().each(function (index, element) {
+        var container = $(element);
+
         // If it's expanded, close it.
-        if ($(element).hasClass("expanded")) {
-            $(".inner-content", element).html("");
-            $(element).removeClass("expanded");
+        if (container.hasClass("expanded")) {
+            $(".inner-content", element).slideUp("fast", function () {
+                this.innerHTML = "";
+                container.removeClass("expanded");
+            });
         }
 
         // If it's a success box, hide it.
         // Do not remove it, that would screw up the HTML -> Model mapping.
-        if ($(element).hasClass("answered")) {
-            $(element).hide();
+        if (container.hasClass("answered")) {
+            container.slideUp("fast");
         }
     });
 
     var innerContent = $(".inner-content", container);
     if (container.hasClass("expanded")) {
         // The question is already expanded - close it.
-        innerContent.html("");
-        container.removeClass("expanded");
+        innerContent.slideUp("fast", function () {
+            this.innerHTML = "";
+            container.removeClass("expanded");
+        });
     }
     else {
         // The question is not expanded - expand it.
+        innerContent.hide();
         var data = Model.Questions[container.index()];
         innerContent.html(Mustache.render(document.getElementById("answer-template").text, data));
+        innerContent.slideDown("fast");
         container.addClass("expanded");
 
         // Set the focus to the first textarea.
@@ -45,7 +53,7 @@ $(".question-container a").click(function (e) {
         $("form", innerContent).submit(function (e) {
             // Don't submit the form.
             e.preventDefault();
-            
+
             data.Answer = $("textarea", this).val();
             if (data.Answer === "") {
                 $(".validation-error", innerContent).text("Please enter your answer.");
@@ -53,11 +61,20 @@ $(".question-container a").click(function (e) {
                 return;
             }
 
+            // Disable the button and display the progress indicator.
+            $("button", innerContent).attr("disabled", "disabled");
+            $(".progress-indicator", innerContent).show();
+
             jQuery.ajax({
                 type: "POST",
                 url: "post-answer",
                 data: { questionId: data.QuestionId, answerText: data.Answer },
                 error: function () {
+                    // Re-enable the submit button and hide the progress indicator.
+                    $("button", innerContent).removeAttr("disabled");
+                    $(".progress-indicator", innerContent).hide();
+
+                    // Display an error message.
                     alert("Failed to submit answer.  Please try again.");
                 },
                 success: function () {
@@ -69,7 +86,15 @@ $(".question-container a").click(function (e) {
 
                     // Hook up the Next Question button.
                     $("button", successBox).click(function () {
-                        successBox.next().find("a").click();
+                        var nextVisibleBox = successBox.nextAll(":visible").first();
+                        if (nextVisibleBox.length > 0)
+                            nextVisibleBox.find("a").click();
+                        else {
+                            successBox.slideUp("fast", function () {
+                                if (successBox.siblings(":visible").length === 0)
+                                    $("#no-more-questions").show("fast");
+                            });
+                        }
                     });
                 }
             });

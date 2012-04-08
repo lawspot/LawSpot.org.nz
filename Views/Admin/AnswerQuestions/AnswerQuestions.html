@@ -48,6 +48,10 @@
             {{/Questions}}
         </div>
 
+        <p id="no-more-questions" style="display: none; {{^Questions}} display: block; {{/Questions}}">
+            There are no questions that meet your criteria.
+        </p>
+
     </section>
 
     {{! Change the mustache set delimiter so that tags within the templates are not replaced }}
@@ -78,8 +82,9 @@
             </p>
 	            		
 	        <div class="centre">
-	            <button>SUBMIT</button>	      
-	        </div>      		
+	            <button>SUBMIT</button>
+                <img class="progress-indicator" src="/shared/images/progress-indicator.gif" />
+	        </div>
 	    </form>
     </script>
 

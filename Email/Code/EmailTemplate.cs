@@ -16,7 +16,7 @@ namespace Lawspot.Email
     {
         public EmailTemplate()
         {
-            this.BaseUrl = "http://www.lawspot.org.nz";
+            this.BaseUrl = "http://" + System.Configuration.ConfigurationManager.AppSettings["DomainName"];
             this.CurrentDate = DateTime.Now.ToString("dddd, d MMMM yyyy");
         }
 

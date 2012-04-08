@@ -66,5 +66,11 @@ namespace Lawspot
             // Dispose of the data context.
             Lawspot.Controllers.BaseController.DisposeDataContext();
         }
+
+        protected void Application_Error(object sender, EventArgs e)
+        {
+            Exception ex = Server.GetLastError().GetBaseException();
+            Lawspot.Shared.Logger.LogError(ex);
+        } 
     }
 }

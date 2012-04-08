@@ -127,10 +127,12 @@
       <DependentUpon>DataClasses.dbml</DependentUpon>
     </Compile>
     <Compile Include="Backend\LawspotDataContext.cs" />
+    <Compile Include="Email\Code\ErrorTemplate.cs" />
     <Compile Include="Email\Code\RegisterTemplate.cs" />
     <Compile Include="Email\Code\ExposeToXsltAttribute.cs" />
     <Compile Include="Email\Code\EmailTemplate.cs" />
     <Compile Include="Shared\Code\BaseController.cs" />
+    <Compile Include="Shared\Code\Logger.cs" />
     <Compile Include="Shared\Code\CustomPrincipal.cs" />
     <Compile Include="Shared\Code\MustBeTrueAttribute.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
@@ -178,6 +180,7 @@
     <Content Include="Email\Assets\header.jpg" />
     <Content Include="Email\Assets\logo.png" />
     <Content Include="Email\Assets\twitter.png" />
+    <Content Include="Email\Templates\Error.xslt" />
     <Content Include="Email\Templates\Register.xslt" />
     <Content Include="Email\Test Data\Register.xml" />
     <Content Include="Global.asax" />
@@ -218,6 +221,8 @@
     <Content Include="Shared\Images\background.png" />
     <Content Include="Shared\Images\default-avatar.jpg" />
     <Content Include="Shared\Images\error.png" />
+    <Content Include="Shared\Images\favicon-original.png" />
+    <Content Include="Shared\Images\favicon.ico" />
     <Content Include="Shared\Images\footer.png" />
     <Content Include="Shared\Images\info.png" />
     <Content Include="Shared\Images\lock.png" />
@@ -227,6 +232,7 @@
     <Content Include="Shared\Images\nav-div.png" />
     <Content Include="Shared\Images\nav-right.png" />
     <Content Include="Shared\Images\nav.png" />
+    <Content Include="Shared\Images\progress-indicator.gif" />
     <Content Include="Shared\Images\success.png" />
     <Content Include="Shared\Images\warning.png" />
     <Content Include="Shared\Layout.css" />
