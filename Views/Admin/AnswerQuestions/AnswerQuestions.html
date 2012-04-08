@@ -3,7 +3,7 @@
     <section class="admin-sidebar">
         <div class="admin-profile">
     	    <img src="http://dummyimage.com/50" width="50" height="50" alt="" />
-    	    <span class="user-name">John Smith</span>
+    	    <span class="user-name">{{FullName}}</span>
     	    <a href="/logout">Logout</a>
         </div>
         <ul class="list-arrows">
@@ -23,15 +23,31 @@
 
 	    <h1>Answer Questions</h1>
 	            
-	    <form class="admin-sort">
-	        View questions asked in
-	        <select id="AreaOfExpertise" name="My Area of Expertise">
-	            <option value="{{Id}}" {{#Selected}}selected{{/Selected}}>My Area of Expertise</option>
-	        </select>
-	        Show
-	        <select id="Answered" name="Answered">
-	            <option value="{{Id}}" {{#Selected}}selected{{/Selected}}>Unanswered</option>
-	        </select>
+	    <form method="get" class="filter-form">
+            <div class="sort">
+                Sort By
+                <select id="sort-drop-down" name="sort" onchange="this.form.submit()">
+                    {{#SortOptions}}
+	                    <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+                    {{/SortOptions}}
+                </select>
+            </div>
+            <div class="filter">
+	            Show
+	            <select id="filter-drop-down" name="filter" onchange="this.form.submit()">
+                    {{#FilterOptions}}
+	                    <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+                    {{/FilterOptions}}
+	            </select>
+            </div>
+            <div class="category">
+	            View questions asked in
+	            <select id="category-drop-down" name="category" onchange="this.form.submit()">
+                    {{#CategoryOptions}}
+	                    <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+                    {{/CategoryOptions}}
+	            </select>
+            </div>
 	    </form>
 
         <div>

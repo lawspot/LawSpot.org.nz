@@ -39,17 +39,27 @@ section.admin-sidebar hr {
 	margin-left: 230px;
 	padding: 5px 0 20px;
 }
-form.admin-sort {
-	margin-bottom: 15px;
+form.filter-form {
+	margin: -45px 0 25px 0;
 }
-.admin-body #AreaOfExpertise {
-	width: 220px;
-	margin-left: 5px;
-	margin-right: 25px;
+form.filter-form .sort {
+	text-align: right;
+	margin-bottom: 12px;
 }
-.admin-body #Answered {
+form.filter-form .filter {
+	float: right;
+}
+#category-drop-down {
     margin-left: 5px;
-	width: 130px;
+	width: 320px;
+}
+#filter-drop-down {
+    margin-left: 5px;
+	width: 150px;
+}
+#sort-drop-down {
+    margin-left: 5px;
+	width: 150px;
 }
 
 .question-container {

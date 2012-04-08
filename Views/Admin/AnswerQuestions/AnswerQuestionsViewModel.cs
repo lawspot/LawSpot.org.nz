@@ -1,12 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Web.Mvc;
 
 namespace Lawspot.Views.Admin
 {
     public class AnswerQuestionsViewModel
     {
+        public string FullName { get; set; }
+        public IEnumerable<SelectListItem> CategoryOptions { get; set; }
+        public IEnumerable<SelectListItem> FilterOptions { get; set; }
+        public IEnumerable<SelectListItem> SortOptions { get; set; }
         public IEnumerable<QuestionViewModel> Questions { get; set; }
+    }
+
+    public enum QuestionFilter
+    {
+        Unanswered,
+        All,
+        Answered,
+        AnsweredByMe,
+    }
+
+    public enum SortOrder
+    {
+        MostRecent,
+        FirstPosted,
     }
 
     public class QuestionViewModel

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -25,11 +26,84 @@ namespace Lawspot.Controllers
         }
 
         [HttpGet]
-        public ActionResult AnswerQuestions()
+        public ActionResult AnswerQuestions(string category, string filter, string sort)
         {
+            // Get the lawyer details.
+            var lawyer = this.DataContext.Users.Single(u => u.EmailAddress == this.User.EmailAddress).Lawyers.Single();
+
             var model = new AnswerQuestionsViewModel();
-            model.Questions = this.DataContext.Questions
-                .OrderBy(q => q.CreatedOn)
+            model.FullName = string.Format("{0} {1}", lawyer.FirstName, lawyer.LastName);
+
+            // Categories.
+            int categoryId = lawyer.SpecialisationCategoryId ?? 0;
+            if (category != null)
+                categoryId = int.Parse(category);
+            model.CategoryOptions = new SelectListItem[] {
+                    new SelectListItem()
+                    {
+                        Text = "All Categories",
+                        Value = "0",
+                        Selected = categoryId == 0,
+                    }
+                }.Union(
+                    this.DataContext.Categories
+                    .OrderBy(c => c.Name)
+                    .ToList()
+                    .Select(c => new SelectListItem()
+                    {
+                        Text = c.Name,
+                        Value = c.CategoryId.ToString(),
+                        Selected = c.CategoryId == categoryId,
+                    }));
+
+            // Filter.
+            var filterValue = QuestionFilter.Unanswered;
+            if (filter != null)
+                filterValue = (QuestionFilter)Enum.Parse(typeof(QuestionFilter), filter, true);
+            model.FilterOptions = new SelectListItem[]
+            {
+                new SelectListItem() { Text = "All", Value = QuestionFilter.All.ToString(), Selected = filterValue == QuestionFilter.All },
+                new SelectListItem() { Text = "Unanswered", Value = QuestionFilter.Unanswered.ToString(), Selected = filterValue == QuestionFilter.Unanswered },
+                new SelectListItem() { Text = "Answered", Value = QuestionFilter.Answered.ToString(), Selected = filterValue == QuestionFilter.Answered },
+                new SelectListItem() { Text = "Answered by Me", Value = QuestionFilter.AnsweredByMe.ToString(), Selected = filterValue == QuestionFilter.AnsweredByMe },
+            };
+
+            // Sort order.
+            var sortValue = SortOrder.FirstPosted;
+            if (sort != null)
+                sortValue = (SortOrder)Enum.Parse(typeof(SortOrder), sort, true);
+            model.SortOptions = new SelectListItem[]
+            {
+                new SelectListItem() { Text = "First Posted", Value = SortOrder.FirstPosted.ToString(), Selected = sortValue == SortOrder.FirstPosted },
+                new SelectListItem() { Text = "Most Recent", Value = SortOrder.MostRecent.ToString(), Selected = sortValue == SortOrder.MostRecent },
+            };
+
+            // Filter and sort the questions.
+            IEnumerable<Question> questions = this.DataContext.Questions;
+            if (categoryId != 0)
+                questions = questions.Where(q => q.CategoryId == categoryId);
+            switch (filterValue)
+            {
+                case QuestionFilter.Unanswered:
+                    questions = questions.Where(q => q.Answers.Any() == false);
+                    break;
+                case QuestionFilter.Answered:
+                    questions = questions.Where(q => q.Answers.Any() == true);
+                    break;
+                case QuestionFilter.AnsweredByMe:
+                    questions = questions.Where(q => q.Answers.Any(a => a.CreatedByLawyerId == lawyer.LawyerId));
+                    break;
+            }
+            switch (sortValue)
+            {
+                case SortOrder.FirstPosted:
+                    questions = questions.OrderBy(q => q.CreatedOn);
+                    break;
+                case SortOrder.MostRecent:
+                    questions = questions.OrderByDescending(q => q.CreatedOn);
+                    break;
+            }
+            model.Questions = questions
                 .ToList()
                 .Select(q => new QuestionViewModel()
                 {
@@ -39,6 +113,7 @@ namespace Lawspot.Controllers
                     DateAndTime = q.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     CategoryName = q.Category.Name,
                 });
+            
             return View(model);
         }
 
