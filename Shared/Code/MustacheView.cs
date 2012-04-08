@@ -62,7 +62,6 @@ namespace Lawspot.Shared
                     extraState.SuccessMessage = "You have logged out.";
                     break;
                 case "registered":
-                case "registered-as-lawyer":
                     extraState.SuccessMessage = string.Format("Thanks for registering!  Please check your email ({0}) to confirm your account with us.", extraState.User.EmailAddress);
                     break;
             }

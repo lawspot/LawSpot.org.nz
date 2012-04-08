@@ -181,7 +181,7 @@ namespace Lawspot.Controllers
                 user.EmailAddress = model.EmailAddress;
                 user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
                 user.RegionId = model.RegionId;
-                user.IsLawyer = true;
+                user.IsLawyer = true;       // Remove when lawyers start needing approval.
                 this.DataContext.Users.InsertOnSubmit(user);
             }
 
@@ -202,7 +202,16 @@ namespace Lawspot.Controllers
             Login(user, rememberMe: true);
 
             // Redirect to home page.
-            return RedirectToAction("Home", "Browse", new { alert = "registered-as-lawyer" });
+            return RedirectToAction("LawyerThankYou");
+        }
+
+        /// <summary>
+        /// Displays a thank you page to lawyers that have registered.
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult LawyerThankYou()
+        {
+            return View();
         }
 
         /// <summary>
