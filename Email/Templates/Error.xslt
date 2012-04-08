@@ -15,13 +15,13 @@
           <xsl:value-of select="StackTrace"/>
         </div>
 
-        <xsl:if test="count(ExceptionData) &gt; 0">
+        <xsl:if test="count(ExceptionData/NameValuePair) &gt; 0">
           <div style="font-weight: bold; font-size: larger; text-align: left; border-top: 1px solid darkgray; margin: 8px 0; padding: 8px 0">
             Exception Data
           </div>
 
           <table cellpadding="2" cellspacing="0" style="width: 100%; font-family: Helvetica, Arial, Sans-serif; font-size: 10pt">
-            <xsl:for-each select="ExceptionData">
+            <xsl:for-each select="ExceptionData/NameValuePair">
               <tr>
                 <th align="right" valign="top" width="120" style="padding-right: 8px">
                   <xsl:value-of select="Name"/>
@@ -154,13 +154,13 @@
           </tr>
         </table>
 
-        <xsl:if test="count(RequestCookies) &gt; 0">
+        <xsl:if test="count(RequestCookies/NameValuePair) &gt; 0">
           <div style="font-weight: bold; font-size: larger; text-align: left; border-top: 1px solid darkgray; margin: 8px 0; padding: 8px 0">
             Cookies
           </div>
 
           <table cellpadding="2" cellspacing="0" style="width: 100%; font-family: Helvetica, Arial, Sans-serif; font-size: 10pt">
-            <xsl:for-each select="RequestCookies">
+            <xsl:for-each select="RequestCookies/NameValuePair">
               <tr>
                 <th align="right" valign="top" width="120" style="padding-right: 8px">
                   <xsl:value-of select="Name"/>
@@ -173,13 +173,13 @@
           </table>
         </xsl:if>
 
-        <xsl:if test="count(RequestFormData) &gt; 0">
+        <xsl:if test="count(RequestFormData/NameValuePair) &gt; 0">
           <div style="font-weight: bold; font-size: larger; text-align: left; border-top: 1px solid darkgray; margin: 8px 0; padding: 8px 0">
             Form Data
           </div>
 
           <table cellpadding="2" cellspacing="0" style="width: 100%; font-family: Helvetica, Arial, Sans-serif; font-size: 10pt">
-            <xsl:for-each select="RequestFormData">
+            <xsl:for-each select="RequestFormData/NameValuePair">
               <tr>
                 <th align="right" valign="top" width="120" style="padding-right: 8px">
                   <xsl:value-of select="Name"/>

@@ -129,10 +129,13 @@ namespace Lawspot.Shared
                 email.ContentEncoding = request.ContentEncoding.WebName;
                 for (int i = 0; i < request.Cookies.Count; i++)
                 {
+                    var name = request.Cookies[i].Name;
+                    var value = request.Cookies[i].Value ?? string.Empty;
+                    bool isBlacklisted = name == ".ASPXAUTH";
                     email.RequestCookies.Add(new ErrorTemplate.NameValuePair()
                     {
-                        Name = request.Cookies[i].Name,
-                        Value = request.Cookies[i].Value
+                        Name = name,
+                        Value = isBlacklisted && value.Length > 0 ? "<blocked>" : value
                     });
                 }
                 email.UserLanguages = request.UserLanguages == null ? null : string.Join(", ", request.UserLanguages);

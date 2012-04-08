@@ -46,20 +46,7 @@ namespace Lawspot.Email
             var doc = new XmlDocument();
             var root = doc.CreateElement("Root");
             doc.AppendChild(root);
-
-            // All public properties.
-            foreach (var property in this.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public))
-            {
-                // Make sure the property has a [ExposeToXsltAttribute] attribute.
-                var attribute = (ExposeToXsltAttribute)Attribute.GetCustomAttribute(property, typeof(ExposeToXsltAttribute));
-                if (attribute == null)
-                    continue;
-
-                var element = doc.CreateElement(property.Name);
-                var value = property.GetValue(this, null);
-                element.InnerText = value == null ? string.Empty : value.ToString();
-                root.AppendChild(element);
-            }
+            SerializeToXml(this, root);
 
             // Determine the URI of the XSLT.
             if (this.TemplateFilePath == null)
@@ -82,6 +69,47 @@ namespace Lawspot.Email
             // Send the email.
             var client = new SmtpClient();
             client.Send(this);
+        }
+
+        private void SerializeToXml(object value, XmlElement parent)
+        {
+            if (value == null)
+                return;
+            var valueType = value.GetType();
+            if (Type.GetTypeCode(valueType) != TypeCode.Object)
+            {
+                // Primitive value.
+                parent.InnerText = value.ToString();
+            }
+            else if (value is System.Collections.IEnumerable)
+            {
+                // Collection.
+                foreach (var item in (System.Collections.IEnumerable)value)
+                {
+                    if (item == null)
+                        continue;
+                    var itemType = item.GetType();
+                    var element = parent.OwnerDocument.CreateElement(itemType.Name);
+                    parent.AppendChild(element);
+                    SerializeToXml(item, element);
+                }
+            }
+            else
+            {
+                // Object.
+                foreach (var property in valueType.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                {
+                    // Make sure the property has a [ExposeToXsltAttribute] attribute.
+                    var attribute = (ExposeToXsltAttribute)Attribute.GetCustomAttribute(property, typeof(ExposeToXsltAttribute));
+                    if (attribute == null)
+                        continue;
+
+                    var element = parent.OwnerDocument.CreateElement(property.Name);
+                    var propertyValue = property.GetValue(value, null);
+                    SerializeToXml(propertyValue, element);
+                    parent.AppendChild(element);
+                }
+            }
         }
     }
 

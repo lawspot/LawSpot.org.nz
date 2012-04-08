@@ -51,7 +51,6 @@ namespace Lawspot.Email
             {
                 return System.Net.WebUtility.HtmlEncode(this.ErrorMessage).Replace(Environment.NewLine, "<br />");
             }
-            set { /* Required by XmlSerializer */ }
         }
 
         /// <summary>
