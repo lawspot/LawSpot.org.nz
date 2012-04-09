@@ -1,12 +1,4 @@
-﻿/*$('.accordion .questions').click(function () {
-    $('.expanded form').hide();
-    $('.expanded .question-show a').replaceWith('<a href="#">Show Details</a>');
-    $('.expanded').removeClass('expanded');
-    $(this).next().toggle('slow');
-    $(this).parent().toggleClass('expanded');
-    $(this).children('.question-show').replaceWith('<span class="question-show"><a href="#" class="hide">Hide Details</a></span>');
-    return false;
-}).next().hide();*/
+﻿/* {{Include //ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js}} */
 
 $(".question-container a").click(function (e) {
     var container = $(this).closest(".question-container");

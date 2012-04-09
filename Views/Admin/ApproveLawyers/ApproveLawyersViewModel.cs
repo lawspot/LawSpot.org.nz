@@ -8,7 +8,9 @@ namespace Lawspot.Views.Admin
 {
     public class ApproveLawyersViewModel
     {
-        public string FullName { get; set; }
+        public IEnumerable<SelectListItem> CategoryOptions { get; set; }
+        public IEnumerable<SelectListItem> FilterOptions { get; set; }
+        public IEnumerable<SelectListItem> SortOptions { get; set; }
         public IEnumerable<LawyerViewModel> Lawyers { get; set; }
     }
 
@@ -20,16 +22,17 @@ namespace Lawspot.Views.Admin
 
     public enum LawyerSortOrder
     {
+        FirstToRegister,
         MostRecent,
-        FirstPosted,
     }
 
     public class LawyerViewModel
     {
         public int LawyerId { get; set; }
+        public bool Approved { get; set; }
         public string Name { get; set; }
-        public string Email { get; set; }
-        public string YearAdmitted { get; set; }
+        public string EmailAddress { get; set; }
+        public int YearAdmitted { get; set; }
         public string DateRegistered { get; set; }
     }
 }

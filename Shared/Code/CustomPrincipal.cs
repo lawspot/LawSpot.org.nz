@@ -20,7 +20,7 @@ namespace Lawspot.Shared
             var result = new CustomPrincipal();
             result.EmailAddress = user.EmailAddress;
             result.IsVolunteerAdmin = user.IsVolunteerAdmin;
-            result.IsLawyer = user.IsLawyer;
+            result.IsLawyer = user.IsRegisteredLawyer && user.Lawyer.Approved;
             result.IsCLCLawyer = user.IsCLCLawyer;
             return result;
         }

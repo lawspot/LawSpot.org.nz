@@ -61,6 +61,10 @@ namespace Lawspot.Shared
             public List<object> Models;
         }
 
+        private class EmptyModel
+        {
+        }
+
         private RenderResult Render(ViewContext viewContext, string htmlPath, IEnumerable<string> childHtmlPaths)
         {
             var result = new RenderResult();
@@ -93,9 +97,25 @@ namespace Lawspot.Shared
                 throw new InvalidOperationException("Controllers must derive from MustacheController.");
             Type modelType = null;
             if (modelTypeName != null)
-                modelType = Type.GetType(modelTypeName, throwOnError: true);
+            {
+                // Look up the model type from the name.
+                modelType = Type.GetType(modelTypeName);
+                if (modelType == null)
+                    throw new InvalidOperationException(string.Format("Type {0} could not be loaded (referenced on page {1}).",
+                        modelTypeName, ToVirtualPath(htmlPath)));
+            }
+            var model = controller.GetModel(viewContext, modelType);
+            if (modelType == null && model != null)
+                throw new InvalidOperationException(string.Format("The page {0} has no model declaration, but a model of type {1} was provided.",
+                    ToVirtualPath(htmlPath), model.GetType().Name));
+            if (modelType != null && model == null)
+                throw new InvalidOperationException(string.Format("The page {0} expected a model of type {1} but no model was provided.",
+                    ToVirtualPath(htmlPath), modelType.Name));
+            if (model != null && modelType != model.GetType())
+                throw new InvalidOperationException(string.Format("The page {0} expected a model of type {1} but the provided model was of type {2}.",
+                    ToVirtualPath(htmlPath), modelType, model.GetType()));
             result.Models = new List<object>();
-            result.Models.Add(controller.GetModel(viewContext, modelType));
+            result.Models.Add(model ?? new EmptyModel());
             if (childResult != null)
                 result.Models.AddRange(childResult.Models);
 
@@ -126,6 +146,11 @@ namespace Lawspot.Shared
             result.Html = htmlBuilder.ToString();
 
             return result;
+        }
+
+        private static string ToVirtualPath(string path)
+        {
+            return string.Format("~/{0}", path.Replace(HostingEnvironment.ApplicationPhysicalPath, "").Replace("\\", "/"));
         }
 
         /// <summary>

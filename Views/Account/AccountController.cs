@@ -98,6 +98,7 @@ namespace Lawspot.Controllers
             {
                 // Register a new user.
                 user = new User();
+                user.CreatedOn = DateTime.Now;
                 user.EmailAddress = model.EmailAddress;
                 user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
                 user.RegionId = model.RegionId;
@@ -178,21 +179,23 @@ namespace Lawspot.Controllers
             {
                 // Register a new user.
                 user = new User();
+                user.CreatedOn = DateTime.Now;
                 user.EmailAddress = model.EmailAddress;
                 user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
                 user.RegionId = model.RegionId;
-                user.IsLawyer = true;       // Remove when lawyers start needing approval.
                 this.DataContext.Users.InsertOnSubmit(user);
             }
 
             // Register a new lawyer.
             var lawyer = new Lawyer();
+            lawyer.CreatedOn = DateTime.Now;
             lawyer.User = user;
             lawyer.FirstName = model.FirstName;
             lawyer.LastName = model.LastName;
             lawyer.YearOfAdmission = model.YearAdmitted;
             lawyer.SpecialisationCategoryId = model.SpecialisationCategoryId == 0 ? (int?)null : model.SpecialisationCategoryId;
             lawyer.FirmName = model.FirmName;
+            lawyer.Approved = false;
             this.DataContext.Lawyers.InsertOnSubmit(lawyer);
 
             // Save.

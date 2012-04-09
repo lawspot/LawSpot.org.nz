@@ -96,6 +96,7 @@ namespace Lawspot.Controllers
                     {
                         // Register a new user.
                         user = new User();
+                        user.CreatedOn = DateTime.Now;
                         user.EmailAddress = model.Registration.EmailAddress;
                         user.Password = BCrypt.Net.BCrypt.HashPassword(model.Registration.Password, workFactor: 12);
                         user.RegionId = model.Registration.RegionId;

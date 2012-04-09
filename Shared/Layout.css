@@ -299,6 +299,30 @@ button:active {
     background-image:     -ms-linear-gradient(top, #397516 0%, #437E20 50%, #4D882A 90%);
     background-image:         linear-gradient(top, #397516 0%, #437E20 50%, #4D882A 90%);
 }
+button.red {
+	background-color: #FF0000;
+	background:    -moz-linear-gradient(top, #F00000 0%, #710000 100%);
+	background: -webkit-linear-gradient(top, #F00000 0%, #710000 100%);
+	background:      -o-linear-gradient(top, #F00000 0%, #710000 100%);
+	background:     -ms-linear-gradient(top, #F00000 0%, #710000 100%);
+	background:         linear-gradient(top, #F00000 0%, #710000 100%);
+}
+button.red:hover {
+	background-color: #C10000;
+	background:    -moz-linear-gradient(top, #FF4444 0%, #880000 100%);
+	background: -webkit-linear-gradient(top, #FF4444 0%, #880000 100%);
+	background:      -o-linear-gradient(top, #FF4444 0%, #880000 100%);
+	background:     -ms-linear-gradient(top, #FF4444 0%, #880000 100%);
+	background:         linear-gradient(top, #FF4444 0%, #880000 100%);
+}
+button.red:active {
+	background-color: #6A0000;
+	background:    -moz-linear-gradient(top, #620000 0%, #710000 100%);
+	background: -webkit-linear-gradient(top, #620000 0%, #710000 100%);
+	background:      -o-linear-gradient(top, #620000 0%, #710000 100%);
+	background:     -ms-linear-gradient(top, #620000 0%, #710000 100%);
+	background:         linear-gradient(top, #620000 0%, #710000 100%);
+}
 input[type=text], input[type=password], select, textarea {
     width: 300px;
     padding: 6px;

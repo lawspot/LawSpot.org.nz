@@ -15,10 +15,6 @@ namespace Lawspot.Controllers
     /// </summary>
     public class MustacheController : Controller
     {
-        private class EmptyModel
-        {
-        }
-
         /// <summary>
         /// Gets a model object of a given type.
         /// </summary>
@@ -29,18 +25,12 @@ namespace Lawspot.Controllers
         {
             if (viewContext == null)
                 throw new ArgumentNullException("viewContext");
-            object model = viewContext.ViewData.Model;
             if (modelType == null)
-            {
-                if (model != null)
-                    throw new InvalidOperationException("Expected null model but model was non-null.");
-                return new EmptyModel();
-            }
-            if (modelType != null && model == null)
-                throw new InvalidOperationException("Expected model but no model was provided.");
-            if (modelType != model.GetType())
-                throw new InvalidOperationException(string.Format("Expected model of type {0} but model was of type {1}.", modelType, model.GetType()));
-            return model;
+                return null;
+            var model = viewContext.ViewData.Model;
+            if (modelType.IsAssignableFrom(model.GetType()))
+                return model;
+            return null;
         }
     }
 }

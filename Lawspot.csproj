@@ -121,6 +121,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backend\User.cs" />
+    <Compile Include="Backend\Lawyer.cs" />
     <Compile Include="Backend\DataClasses.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -180,6 +182,9 @@
     <Content Include="Backend\Migrations\8.sql" />
     <Content Include="Backend\Migrations\9.sql" />
     <Content Include="Backend\Migrations\10.sql" />
+    <Content Include="Backend\Migrations\11.sql" />
+    <Content Include="Backend\Migrations\12.sql" />
+    <Content Include="Backend\Migrations\13.sql" />
     <Content Include="Default.htm" />
     <Content Include="Email\Assets\facebook.png" />
     <Content Include="Email\Assets\header-original.png" />
@@ -258,6 +263,8 @@
     <Content Include="Views\Admin\ApproveLawyers\ApproveLawyers.css" />
     <Content Include="Views\Admin\ApproveLawyers\ApproveLawyers.html" />
     <Content Include="Views\Admin\ApproveLawyers\ApproveLawyers.js" />
+    <Content Include="Views\Admin\ApproveLawyers\icon-cross.jpg" />
+    <Content Include="Views\Admin\ApproveLawyers\icon-tick.jpg" />
     <Content Include="Views\Admin\Layout\Layout.css" />
     <Content Include="Views\Admin\Layout\Layout.html" />
     <Content Include="Views\Admin\list-arrow.png" />
@@ -269,8 +276,6 @@
     <Content Include="Views\LawyerAdmin\AnswerQuestions\question-icon.png" />
     <Content Include="Views\LawyerAdmin\Layout\Layout.html" />
     <Content Include="Views\LawyerAdmin\Layout\Layout.css" />
-    <Content Include="Views\LawyerAdmin\list-arrow.png" />
-    <Content Include="Views\LawyerAdmin\sidebar.png" />
     <Content Include="Views\Ask\Ask\Ask.html" />
     <Content Include="Views\Ask\Ask\Ask.css" />
     <Content Include="Views\Ask\Ask\Ask.js" />
