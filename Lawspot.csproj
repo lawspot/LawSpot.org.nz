@@ -262,7 +262,6 @@
     <Content Include="Views\Account\Login\Login.html" />
     <Content Include="Views\Admin\ApproveLawyers\ApproveLawyers.css" />
     <Content Include="Views\Admin\ApproveLawyers\ApproveLawyers.html" />
-    <Content Include="Views\Admin\ApproveLawyers\ApproveLawyers.js" />
     <Content Include="Views\Admin\ApproveLawyers\icon-cross.jpg" />
     <Content Include="Views\Admin\ApproveLawyers\icon-tick.jpg" />
     <Content Include="Views\Admin\Layout\Layout.css" />

@@ -112,14 +112,14 @@ namespace Lawspot.Controllers
                     .OrderByDescending(a => a.CreatedOn)
                     .Take(5)
                     .Select(a => new AnsweredQuestionViewModel()
-                {
-                    Uri = string.Format("/{0}/{1}", a.Question.Category.Slug, a.Question.Slug),
-                    Title = a.Question.Title,
-                    Details = a.Details.Length > 100 ? a.Details.Substring(0, 100) : a.Details,
-                    AvatarUri = "/shared/images/default-avatar.jpg",
-                    AnsweredBy = string.Format("{0} {1}", a.Lawyer.FullName),
-                    AnsweredHoursAgo = string.Format("{0} hours", Math.Round(DateTime.Now.Subtract(a.CreatedOn).TotalHours))
-                });
+                    {
+                        Uri = string.Format("/{0}/{1}", a.Question.Category.Slug, a.Question.Slug),
+                        Title = a.Question.Title,
+                        Details = a.Details.Length > 100 ? a.Details.Substring(0, 100) : a.Details,
+                        AvatarUri = "/shared/images/default-avatar.jpg",
+                        AnsweredBy = a.Lawyer.FullName,
+                        AnsweredHoursAgo = string.Format("{0} hours", Math.Round(DateTime.Now.Subtract(a.CreatedOn).TotalHours))
+                    });
             }
 
             if (model is ITopCategories)
