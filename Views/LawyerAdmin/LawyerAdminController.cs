@@ -57,7 +57,8 @@ namespace Lawspot.Controllers
             {
                 return new LayoutViewModel()
                 {
-                    UserFullName = this.Lawyer.FullName
+                    UserFullName = this.Lawyer.FullName,
+                    InLawyerAdmin = true,
                 };
             }
             return base.GetModel(viewContext, modelType);

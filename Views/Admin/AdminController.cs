@@ -27,6 +27,24 @@ namespace Lawspot.Controllers
         }
 
         /// <summary>
+        /// Gets a model object of a given type.
+        /// </summary>
+        /// <param name="viewContext"> The view context. </param>
+        /// <param name="modelType"> The type of model to return. </param>
+        /// <returns> A model of the given type. </returns>
+        protected internal override object GetModel(ViewContext viewContext, Type modelType)
+        {
+            if (modelType == typeof(LayoutViewModel))
+            {
+                return new LayoutViewModel()
+                {
+                    InAdmin = true,
+                };
+            }
+            return base.GetModel(viewContext, modelType);
+        }
+
+        /// <summary>
         /// Displays the answer questions page.
         /// </summary>
         /// <param name="category"></param>

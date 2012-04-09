@@ -8,6 +8,6 @@ namespace Lawspot.Views.Admin
 {
     public class LayoutViewModel
     {
-        public string UserFullName { get; set; }
+        public bool InAdmin { get; set; }
     }
 }

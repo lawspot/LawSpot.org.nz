@@ -27,7 +27,7 @@
                         <a href="/login">Login</a> | <a href="/register">Register</a>
                     {{/User}}
                     {{#User}}
-                        <a href="/admin">My Account</a> | <a href="/logout">Logout</a>
+                        <!-- <a href="/admin">My Account</a> | --> <a href="/logout">Logout</a>
                     {{/User}}
                 </script>
             </div>
@@ -41,11 +41,22 @@
                 </div>
             {{/SuccessMessage}}
             {{#User.IsLawyer}}
-                <div class="warning-message">
-                    There are 106,000 unanswered questions.
-                    <button onclick="window.location.href = '/admin/answer-questions'">ANSWER QUESTIONS</button>
-                </div>
+                {{^InLawyerAdmin}}
+                    <div class="warning-message">
+                        There are 4 unanswered questions.
+                        <button onclick="window.location.href = '/admin/answer-questions'">ANSWER QUESTIONS</button>
+                    </div>
+                {{/InLawyerAdmin}}
             {{/User.IsLawyer}}
+            {{#User.IsVolunteerAdmin}}
+                {{^InAdmin}}
+                    <div class="warning-message">
+                        <button onclick="window.location.href = '/admin/approve-lawyers'">REVIEW LAWYERS</button>
+                        <button onclick="window.location.href = '/admin/review-questions'">REVIEW QUESTIONS</button>
+                        <button onclick="window.location.href = '/admin/review-answers'">REVIEW ANSWERS</button>
+                    </div>
+                {{/InAdmin}}
+            {{/User.IsVolunteerAdmin}}
         </script>
     </section>
     <section class="site-body">
