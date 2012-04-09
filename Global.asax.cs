@@ -47,6 +47,12 @@ namespace Lawspot
             RouteTable.Routes.MapRoute("AdminAnswerQuestionsRoute", "admin/answer-questions", new { controller = "LawyerAdmin", action = "AnswerQuestions" });
             RouteTable.Routes.MapRoute("AdminPostAnswerRoute", "admin/post-answer", new { controller = "LawyerAdmin", action = "PostAnswer" });
             RouteTable.Routes.MapRoute("AdminApproveLawyersRoute", "admin/approve-lawyers", new { controller = "Admin", action = "ApproveLawyers" });
+            RouteTable.Routes.MapRoute("AdminReviewQuestionsRoute", "admin/review-questions", new { controller = "Admin", action = "ReviewQuestions" });
+            RouteTable.Routes.MapRoute("AdminPostRejectQuestionRoute", "admin/post-reject-question", new { controller = "Admin", action = "RejectQuestion" });
+            RouteTable.Routes.MapRoute("AdminPostApproveQuestionRoute", "admin/post-approve-question", new { controller = "Admin", action = "ApproveQuestion" });
+            RouteTable.Routes.MapRoute("AdminReviewAnswersRoute", "admin/review-answers", new { controller = "Admin", action = "ReviewAnswers" });
+            RouteTable.Routes.MapRoute("AdminPostRejectAnswerRoute", "admin/post-reject-answer", new { controller = "Admin", action = "RejectAnswer" });
+            RouteTable.Routes.MapRoute("AdminPostApproveAnswerRoute", "admin/post-approve-answer", new { controller = "Admin", action = "ApproveAnswer" });
             RouteTable.Routes.MapRoute("CategoryRoute", "{slug}", new { controller = "Browse", action = "Category" });
             RouteTable.Routes.MapRoute("QuestionRoute", "{category}/{slug}", new { controller = "Browse", action = "Question" });
         }

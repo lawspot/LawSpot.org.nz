@@ -18,6 +18,7 @@ namespace Lawspot.Shared
             if (user == null)
                 throw new ArgumentNullException("user");
             var result = new CustomPrincipal();
+            result.Id = user.UserId;
             result.EmailAddress = user.EmailAddress;
             result.IsVolunteerAdmin = user.IsVolunteerAdmin;
             result.IsLawyer = user.IsRegisteredLawyer && user.Lawyer.Approved;
@@ -35,6 +36,16 @@ namespace Lawspot.Shared
             if (ticket == null)
                 throw new ArgumentNullException("ticket");
             var result = new CustomPrincipal();
+            int identifierLength = ticket.UserData.Length;
+            for (int i = 0; i < ticket.UserData.Length; i++)
+                if (ticket.UserData[i] < '0' || ticket.UserData[i] > '9')
+                {
+                    identifierLength = i;
+                    break;
+                }
+            if (identifierLength == 0)
+                return null;    // Old format cookie.
+            result.Id = int.Parse(ticket.UserData.Substring(0, identifierLength));
             result.EmailAddress = ticket.Name;
             result.IsVolunteerAdmin = ticket.UserData.Contains("V");
             result.IsLawyer = ticket.UserData.Contains("L");
@@ -48,6 +59,11 @@ namespace Lawspot.Shared
         private CustomPrincipal()
         {
         }
+
+        /// <summary>
+        /// The ID of the user.
+        /// </summary>
+        public int Id { get; set; }
 
         /// <summary>
         /// The email address of the user.
@@ -78,6 +94,7 @@ namespace Lawspot.Shared
         public FormsAuthenticationTicket ToTicket(bool persistant)
         {
             var userData = new System.Text.StringBuilder();
+            userData.Append(this.Id.ToString());
             if (this.IsLawyer)
                 userData.Append("L");
             if (this.IsCLCLawyer)

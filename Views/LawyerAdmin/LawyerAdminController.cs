@@ -147,6 +147,7 @@ namespace Lawspot.Controllers
                     break;
             }
             model.Questions = questions
+                .Where(q => q.Approved == true)
                 .ToList()
                 .Select(q => new QuestionViewModel()
                 {

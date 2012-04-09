@@ -39,18 +39,18 @@ namespace Lawspot.Backend
     partial void InsertCategory(Category instance);
     partial void UpdateCategory(Category instance);
     partial void DeleteCategory(Category instance);
-    partial void InsertAnswer(Answer instance);
-    partial void UpdateAnswer(Answer instance);
-    partial void DeleteAnswer(Answer instance);
-    partial void InsertQuestion(Question instance);
-    partial void UpdateQuestion(Question instance);
-    partial void DeleteQuestion(Question instance);
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
     partial void InsertLawyer(Lawyer instance);
     partial void UpdateLawyer(Lawyer instance);
     partial void DeleteLawyer(Lawyer instance);
+    partial void InsertQuestion(Question instance);
+    partial void UpdateQuestion(Question instance);
+    partial void DeleteQuestion(Question instance);
+    partial void InsertAnswer(Answer instance);
+    partial void UpdateAnswer(Answer instance);
+    partial void DeleteAnswer(Answer instance);
     #endregion
 		
 		public DataClassesDataContext() : 
@@ -107,22 +107,6 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		public System.Data.Linq.Table<Answer> Answers
-		{
-			get
-			{
-				return this.GetTable<Answer>();
-			}
-		}
-		
-		public System.Data.Linq.Table<Question> Questions
-		{
-			get
-			{
-				return this.GetTable<Question>();
-			}
-		}
-		
 		public System.Data.Linq.Table<User> Users
 		{
 			get
@@ -136,6 +120,22 @@ namespace Lawspot.Backend
 			get
 			{
 				return this.GetTable<Lawyer>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Question> Questions
+		{
+			get
+			{
+				return this.GetTable<Question>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Answer> Answers
+		{
+			get
+			{
+				return this.GetTable<Answer>();
 			}
 		}
 	}
@@ -376,9 +376,9 @@ namespace Lawspot.Backend
 		
 		private string _Slug;
 		
-		private EntitySet<Question> _Questions;
-		
 		private EntitySet<Lawyer> _Lawyers;
+		
+		private EntitySet<Question> _Questions;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -394,8 +394,8 @@ namespace Lawspot.Backend
 		
 		public Category()
 		{
-			this._Questions = new EntitySet<Question>(new Action<Question>(this.attach_Questions), new Action<Question>(this.detach_Questions));
 			this._Lawyers = new EntitySet<Lawyer>(new Action<Lawyer>(this.attach_Lawyers), new Action<Lawyer>(this.detach_Lawyers));
+			this._Questions = new EntitySet<Question>(new Action<Question>(this.attach_Questions), new Action<Question>(this.detach_Questions));
 			OnCreated();
 		}
 		
@@ -459,19 +459,6 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Question", Storage="_Questions", ThisKey="CategoryId", OtherKey="CategoryId")]
-		public EntitySet<Question> Questions
-		{
-			get
-			{
-				return this._Questions;
-			}
-			set
-			{
-				this._Questions.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Lawyer", Storage="_Lawyers", ThisKey="CategoryId", OtherKey="SpecialisationCategoryId")]
 		public EntitySet<Lawyer> Lawyers
 		{
@@ -485,6 +472,19 @@ namespace Lawspot.Backend
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Question", Storage="_Questions", ThisKey="CategoryId", OtherKey="CategoryId")]
+		public EntitySet<Question> Questions
+		{
+			get
+			{
+				return this._Questions;
+			}
+			set
+			{
+				this._Questions.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -503,18 +503,6 @@ namespace Lawspot.Backend
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
-		}
-		
-		private void attach_Questions(Question entity)
-		{
-			this.SendPropertyChanging();
-			entity.Category = this;
-		}
-		
-		private void detach_Questions(Question entity)
-		{
-			this.SendPropertyChanging();
-			entity.Category = null;
 		}
 		
 		private void attach_Lawyers(Lawyer entity)
@@ -528,585 +516,17 @@ namespace Lawspot.Backend
 			this.SendPropertyChanging();
 			entity.Category = null;
 		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Answer")]
-	public partial class Answer : INotifyPropertyChanging, INotifyPropertyChanged
-	{
 		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _AnswerId;
-		
-		private int _QuestionId;
-		
-		private string _Details;
-		
-		private System.DateTime _CreatedOn;
-		
-		private int _CreatedByLawyerId;
-		
-		private EntityRef<Question> _Question;
-		
-		private EntityRef<Lawyer> _Lawyer;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnAnswerIdChanging(int value);
-    partial void OnAnswerIdChanged();
-    partial void OnQuestionIdChanging(int value);
-    partial void OnQuestionIdChanged();
-    partial void OnDetailsChanging(string value);
-    partial void OnDetailsChanged();
-    partial void OnCreatedOnChanging(System.DateTime value);
-    partial void OnCreatedOnChanged();
-    partial void OnCreatedByLawyerIdChanging(int value);
-    partial void OnCreatedByLawyerIdChanged();
-    #endregion
-		
-		public Answer()
-		{
-			this._Question = default(EntityRef<Question>);
-			this._Lawyer = default(EntityRef<Lawyer>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AnswerId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int AnswerId
-		{
-			get
-			{
-				return this._AnswerId;
-			}
-			set
-			{
-				if ((this._AnswerId != value))
-				{
-					this.OnAnswerIdChanging(value);
-					this.SendPropertyChanging();
-					this._AnswerId = value;
-					this.SendPropertyChanged("AnswerId");
-					this.OnAnswerIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QuestionId", DbType="Int NOT NULL")]
-		public int QuestionId
-		{
-			get
-			{
-				return this._QuestionId;
-			}
-			set
-			{
-				if ((this._QuestionId != value))
-				{
-					if (this._Question.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnQuestionIdChanging(value);
-					this.SendPropertyChanging();
-					this._QuestionId = value;
-					this.SendPropertyChanged("QuestionId");
-					this.OnQuestionIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Details", DbType="NVarChar(2000) NOT NULL", CanBeNull=false)]
-		public string Details
-		{
-			get
-			{
-				return this._Details;
-			}
-			set
-			{
-				if ((this._Details != value))
-				{
-					this.OnDetailsChanging(value);
-					this.SendPropertyChanging();
-					this._Details = value;
-					this.SendPropertyChanged("Details");
-					this.OnDetailsChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedOn", DbType="DateTime NOT NULL")]
-		public System.DateTime CreatedOn
-		{
-			get
-			{
-				return this._CreatedOn;
-			}
-			set
-			{
-				if ((this._CreatedOn != value))
-				{
-					this.OnCreatedOnChanging(value);
-					this.SendPropertyChanging();
-					this._CreatedOn = value;
-					this.SendPropertyChanged("CreatedOn");
-					this.OnCreatedOnChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedByLawyerId", DbType="Int NOT NULL")]
-		public int CreatedByLawyerId
-		{
-			get
-			{
-				return this._CreatedByLawyerId;
-			}
-			set
-			{
-				if ((this._CreatedByLawyerId != value))
-				{
-					if (this._Lawyer.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnCreatedByLawyerIdChanging(value);
-					this.SendPropertyChanging();
-					this._CreatedByLawyerId = value;
-					this.SendPropertyChanged("CreatedByLawyerId");
-					this.OnCreatedByLawyerIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Question_Answer", Storage="_Question", ThisKey="QuestionId", OtherKey="QuestionId", IsForeignKey=true)]
-		public Question Question
-		{
-			get
-			{
-				return this._Question.Entity;
-			}
-			set
-			{
-				Question previousValue = this._Question.Entity;
-				if (((previousValue != value) 
-							|| (this._Question.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Question.Entity = null;
-						previousValue.Answers.Remove(this);
-					}
-					this._Question.Entity = value;
-					if ((value != null))
-					{
-						value.Answers.Add(this);
-						this._QuestionId = value.QuestionId;
-					}
-					else
-					{
-						this._QuestionId = default(int);
-					}
-					this.SendPropertyChanged("Question");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Lawyer_Answer", Storage="_Lawyer", ThisKey="CreatedByLawyerId", OtherKey="LawyerId", IsForeignKey=true)]
-		public Lawyer Lawyer
-		{
-			get
-			{
-				return this._Lawyer.Entity;
-			}
-			set
-			{
-				Lawyer previousValue = this._Lawyer.Entity;
-				if (((previousValue != value) 
-							|| (this._Lawyer.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Lawyer.Entity = null;
-						previousValue.Answers.Remove(this);
-					}
-					this._Lawyer.Entity = value;
-					if ((value != null))
-					{
-						value.Answers.Add(this);
-						this._CreatedByLawyerId = value.LawyerId;
-					}
-					else
-					{
-						this._CreatedByLawyerId = default(int);
-					}
-					this.SendPropertyChanged("Lawyer");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Question")]
-	public partial class Question : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _QuestionId;
-		
-		private string _Title;
-		
-		private string _Details;
-		
-		private int _CategoryId;
-		
-		private System.DateTime _CreatedOn;
-		
-		private int _CreatedByUserId;
-		
-		private int _ViewCount;
-		
-		private string _Slug;
-		
-		private EntitySet<Answer> _Answers;
-		
-		private EntityRef<Category> _Category;
-		
-		private EntityRef<User> _User;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnQuestionIdChanging(int value);
-    partial void OnQuestionIdChanged();
-    partial void OnTitleChanging(string value);
-    partial void OnTitleChanged();
-    partial void OnDetailsChanging(string value);
-    partial void OnDetailsChanged();
-    partial void OnCategoryIdChanging(int value);
-    partial void OnCategoryIdChanged();
-    partial void OnCreatedOnChanging(System.DateTime value);
-    partial void OnCreatedOnChanged();
-    partial void OnCreatedByUserIdChanging(int value);
-    partial void OnCreatedByUserIdChanged();
-    partial void OnViewCountChanging(int value);
-    partial void OnViewCountChanged();
-    partial void OnSlugChanging(string value);
-    partial void OnSlugChanged();
-    #endregion
-		
-		public Question()
-		{
-			this._Answers = new EntitySet<Answer>(new Action<Answer>(this.attach_Answers), new Action<Answer>(this.detach_Answers));
-			this._Category = default(EntityRef<Category>);
-			this._User = default(EntityRef<User>);
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QuestionId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int QuestionId
-		{
-			get
-			{
-				return this._QuestionId;
-			}
-			set
-			{
-				if ((this._QuestionId != value))
-				{
-					this.OnQuestionIdChanging(value);
-					this.SendPropertyChanging();
-					this._QuestionId = value;
-					this.SendPropertyChanged("QuestionId");
-					this.OnQuestionIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(150) NOT NULL", CanBeNull=false)]
-		public string Title
-		{
-			get
-			{
-				return this._Title;
-			}
-			set
-			{
-				if ((this._Title != value))
-				{
-					this.OnTitleChanging(value);
-					this.SendPropertyChanging();
-					this._Title = value;
-					this.SendPropertyChanged("Title");
-					this.OnTitleChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Details", DbType="NVarChar(600) NOT NULL", CanBeNull=false)]
-		public string Details
-		{
-			get
-			{
-				return this._Details;
-			}
-			set
-			{
-				if ((this._Details != value))
-				{
-					this.OnDetailsChanging(value);
-					this.SendPropertyChanging();
-					this._Details = value;
-					this.SendPropertyChanged("Details");
-					this.OnDetailsChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CategoryId", DbType="Int NOT NULL")]
-		public int CategoryId
-		{
-			get
-			{
-				return this._CategoryId;
-			}
-			set
-			{
-				if ((this._CategoryId != value))
-				{
-					if (this._Category.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnCategoryIdChanging(value);
-					this.SendPropertyChanging();
-					this._CategoryId = value;
-					this.SendPropertyChanged("CategoryId");
-					this.OnCategoryIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedOn", DbType="DateTime NOT NULL")]
-		public System.DateTime CreatedOn
-		{
-			get
-			{
-				return this._CreatedOn;
-			}
-			set
-			{
-				if ((this._CreatedOn != value))
-				{
-					this.OnCreatedOnChanging(value);
-					this.SendPropertyChanging();
-					this._CreatedOn = value;
-					this.SendPropertyChanged("CreatedOn");
-					this.OnCreatedOnChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedByUserId", DbType="Int NOT NULL")]
-		public int CreatedByUserId
-		{
-			get
-			{
-				return this._CreatedByUserId;
-			}
-			set
-			{
-				if ((this._CreatedByUserId != value))
-				{
-					if (this._User.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnCreatedByUserIdChanging(value);
-					this.SendPropertyChanging();
-					this._CreatedByUserId = value;
-					this.SendPropertyChanged("CreatedByUserId");
-					this.OnCreatedByUserIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ViewCount", DbType="Int NOT NULL")]
-		public int ViewCount
-		{
-			get
-			{
-				return this._ViewCount;
-			}
-			set
-			{
-				if ((this._ViewCount != value))
-				{
-					this.OnViewCountChanging(value);
-					this.SendPropertyChanging();
-					this._ViewCount = value;
-					this.SendPropertyChanged("ViewCount");
-					this.OnViewCountChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Slug", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string Slug
-		{
-			get
-			{
-				return this._Slug;
-			}
-			set
-			{
-				if ((this._Slug != value))
-				{
-					this.OnSlugChanging(value);
-					this.SendPropertyChanging();
-					this._Slug = value;
-					this.SendPropertyChanged("Slug");
-					this.OnSlugChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Question_Answer", Storage="_Answers", ThisKey="QuestionId", OtherKey="QuestionId")]
-		public EntitySet<Answer> Answers
-		{
-			get
-			{
-				return this._Answers;
-			}
-			set
-			{
-				this._Answers.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Question", Storage="_Category", ThisKey="CategoryId", OtherKey="CategoryId", IsForeignKey=true)]
-		public Category Category
-		{
-			get
-			{
-				return this._Category.Entity;
-			}
-			set
-			{
-				Category previousValue = this._Category.Entity;
-				if (((previousValue != value) 
-							|| (this._Category.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Category.Entity = null;
-						previousValue.Questions.Remove(this);
-					}
-					this._Category.Entity = value;
-					if ((value != null))
-					{
-						value.Questions.Add(this);
-						this._CategoryId = value.CategoryId;
-					}
-					else
-					{
-						this._CategoryId = default(int);
-					}
-					this.SendPropertyChanged("Category");
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Question", Storage="_User", ThisKey="CreatedByUserId", OtherKey="UserId", IsForeignKey=true)]
-		public User User
-		{
-			get
-			{
-				return this._User.Entity;
-			}
-			set
-			{
-				User previousValue = this._User.Entity;
-				if (((previousValue != value) 
-							|| (this._User.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._User.Entity = null;
-						previousValue.Questions.Remove(this);
-					}
-					this._User.Entity = value;
-					if ((value != null))
-					{
-						value.Questions.Add(this);
-						this._CreatedByUserId = value.UserId;
-					}
-					else
-					{
-						this._CreatedByUserId = default(int);
-					}
-					this.SendPropertyChanged("User");
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Answers(Answer entity)
+		private void attach_Questions(Question entity)
 		{
 			this.SendPropertyChanging();
-			entity.Question = this;
+			entity.Category = this;
 		}
 		
-		private void detach_Answers(Answer entity)
+		private void detach_Questions(Question entity)
 		{
 			this.SendPropertyChanging();
-			entity.Question = null;
+			entity.Category = null;
 		}
 	}
 	
@@ -1132,9 +552,9 @@ namespace Lawspot.Backend
 		
 		private System.DateTime _CreatedOn;
 		
-		private EntitySet<Question> _Questions;
-		
 		private EntitySet<Lawyer> _Lawyers;
+		
+		private EntitySet<Question> _Questions;
 		
 		private EntityRef<Region> _Region;
 		
@@ -1162,8 +582,8 @@ namespace Lawspot.Backend
 		
 		public User()
 		{
-			this._Questions = new EntitySet<Question>(new Action<Question>(this.attach_Questions), new Action<Question>(this.detach_Questions));
 			this._Lawyers = new EntitySet<Lawyer>(new Action<Lawyer>(this.attach_Lawyers), new Action<Lawyer>(this.detach_Lawyers));
+			this._Questions = new EntitySet<Question>(new Action<Question>(this.attach_Questions), new Action<Question>(this.detach_Questions));
 			this._Region = default(EntityRef<Region>);
 			OnCreated();
 		}
@@ -1332,19 +752,6 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Question", Storage="_Questions", ThisKey="UserId", OtherKey="CreatedByUserId")]
-		public EntitySet<Question> Questions
-		{
-			get
-			{
-				return this._Questions;
-			}
-			set
-			{
-				this._Questions.Assign(value);
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Lawyer", Storage="_Lawyers", ThisKey="UserId", OtherKey="UserId")]
 		public EntitySet<Lawyer> Lawyers
 		{
@@ -1355,6 +762,19 @@ namespace Lawspot.Backend
 			set
 			{
 				this._Lawyers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Question", Storage="_Questions", ThisKey="UserId", OtherKey="CreatedByUserId")]
+		public EntitySet<Question> Questions
+		{
+			get
+			{
+				return this._Questions;
+			}
+			set
+			{
+				this._Questions.Assign(value);
 			}
 		}
 		
@@ -1412,18 +832,6 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		private void attach_Questions(Question entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_Questions(Question entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
 		private void attach_Lawyers(Lawyer entity)
 		{
 			this.SendPropertyChanging();
@@ -1431,6 +839,18 @@ namespace Lawspot.Backend
 		}
 		
 		private void detach_Lawyers(Lawyer entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Questions(Question entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Questions(Question entity)
 		{
 			this.SendPropertyChanging();
 			entity.User = null;
@@ -1798,6 +1218,826 @@ namespace Lawspot.Backend
 		{
 			this.SendPropertyChanging();
 			entity.Lawyer = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Question")]
+	public partial class Question : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _QuestionId;
+		
+		private string _Title;
+		
+		private string _Details;
+		
+		private int _CategoryId;
+		
+		private System.DateTime _CreatedOn;
+		
+		private int _CreatedByUserId;
+		
+		private int _ViewCount;
+		
+		private string _Slug;
+		
+		private bool _Approved;
+		
+		private System.Nullable<System.DateTime> _ApprovalDate;
+		
+		private System.Nullable<System.DateTime> _RejectionDate;
+		
+		private System.Nullable<int> _ApprovedByUserId;
+		
+		private System.Nullable<int> _RejectedByUserId;
+		
+		private EntitySet<Answer> _Answers;
+		
+		private EntityRef<Category> _Category;
+		
+		private EntityRef<User> _User;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnQuestionIdChanging(int value);
+    partial void OnQuestionIdChanged();
+    partial void OnTitleChanging(string value);
+    partial void OnTitleChanged();
+    partial void OnDetailsChanging(string value);
+    partial void OnDetailsChanged();
+    partial void OnCategoryIdChanging(int value);
+    partial void OnCategoryIdChanged();
+    partial void OnCreatedOnChanging(System.DateTime value);
+    partial void OnCreatedOnChanged();
+    partial void OnCreatedByUserIdChanging(int value);
+    partial void OnCreatedByUserIdChanged();
+    partial void OnViewCountChanging(int value);
+    partial void OnViewCountChanged();
+    partial void OnSlugChanging(string value);
+    partial void OnSlugChanged();
+    partial void OnApprovedChanging(bool value);
+    partial void OnApprovedChanged();
+    partial void OnApprovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnApprovalDateChanged();
+    partial void OnRejectionDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRejectionDateChanged();
+    partial void OnApprovedByUserIdChanging(System.Nullable<int> value);
+    partial void OnApprovedByUserIdChanged();
+    partial void OnRejectedByUserIdChanging(System.Nullable<int> value);
+    partial void OnRejectedByUserIdChanged();
+    #endregion
+		
+		public Question()
+		{
+			this._Answers = new EntitySet<Answer>(new Action<Answer>(this.attach_Answers), new Action<Answer>(this.detach_Answers));
+			this._Category = default(EntityRef<Category>);
+			this._User = default(EntityRef<User>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QuestionId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int QuestionId
+		{
+			get
+			{
+				return this._QuestionId;
+			}
+			set
+			{
+				if ((this._QuestionId != value))
+				{
+					this.OnQuestionIdChanging(value);
+					this.SendPropertyChanging();
+					this._QuestionId = value;
+					this.SendPropertyChanged("QuestionId");
+					this.OnQuestionIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Title", DbType="NVarChar(150) NOT NULL", CanBeNull=false)]
+		public string Title
+		{
+			get
+			{
+				return this._Title;
+			}
+			set
+			{
+				if ((this._Title != value))
+				{
+					this.OnTitleChanging(value);
+					this.SendPropertyChanging();
+					this._Title = value;
+					this.SendPropertyChanged("Title");
+					this.OnTitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Details", DbType="NVarChar(600) NOT NULL", CanBeNull=false)]
+		public string Details
+		{
+			get
+			{
+				return this._Details;
+			}
+			set
+			{
+				if ((this._Details != value))
+				{
+					this.OnDetailsChanging(value);
+					this.SendPropertyChanging();
+					this._Details = value;
+					this.SendPropertyChanged("Details");
+					this.OnDetailsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CategoryId", DbType="Int NOT NULL")]
+		public int CategoryId
+		{
+			get
+			{
+				return this._CategoryId;
+			}
+			set
+			{
+				if ((this._CategoryId != value))
+				{
+					if (this._Category.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCategoryIdChanging(value);
+					this.SendPropertyChanging();
+					this._CategoryId = value;
+					this.SendPropertyChanged("CategoryId");
+					this.OnCategoryIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedOn", DbType="DateTime NOT NULL")]
+		public System.DateTime CreatedOn
+		{
+			get
+			{
+				return this._CreatedOn;
+			}
+			set
+			{
+				if ((this._CreatedOn != value))
+				{
+					this.OnCreatedOnChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedOn = value;
+					this.SendPropertyChanged("CreatedOn");
+					this.OnCreatedOnChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedByUserId", DbType="Int NOT NULL")]
+		public int CreatedByUserId
+		{
+			get
+			{
+				return this._CreatedByUserId;
+			}
+			set
+			{
+				if ((this._CreatedByUserId != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCreatedByUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedByUserId = value;
+					this.SendPropertyChanged("CreatedByUserId");
+					this.OnCreatedByUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ViewCount", DbType="Int NOT NULL")]
+		public int ViewCount
+		{
+			get
+			{
+				return this._ViewCount;
+			}
+			set
+			{
+				if ((this._ViewCount != value))
+				{
+					this.OnViewCountChanging(value);
+					this.SendPropertyChanging();
+					this._ViewCount = value;
+					this.SendPropertyChanged("ViewCount");
+					this.OnViewCountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Slug", DbType="VarChar(70) NOT NULL", CanBeNull=false)]
+		public string Slug
+		{
+			get
+			{
+				return this._Slug;
+			}
+			set
+			{
+				if ((this._Slug != value))
+				{
+					this.OnSlugChanging(value);
+					this.SendPropertyChanging();
+					this._Slug = value;
+					this.SendPropertyChanged("Slug");
+					this.OnSlugChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Approved", DbType="Bit NOT NULL")]
+		public bool Approved
+		{
+			get
+			{
+				return this._Approved;
+			}
+			set
+			{
+				if ((this._Approved != value))
+				{
+					this.OnApprovedChanging(value);
+					this.SendPropertyChanging();
+					this._Approved = value;
+					this.SendPropertyChanged("Approved");
+					this.OnApprovedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApprovalDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> ApprovalDate
+		{
+			get
+			{
+				return this._ApprovalDate;
+			}
+			set
+			{
+				if ((this._ApprovalDate != value))
+				{
+					this.OnApprovalDateChanging(value);
+					this.SendPropertyChanging();
+					this._ApprovalDate = value;
+					this.SendPropertyChanged("ApprovalDate");
+					this.OnApprovalDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RejectionDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> RejectionDate
+		{
+			get
+			{
+				return this._RejectionDate;
+			}
+			set
+			{
+				if ((this._RejectionDate != value))
+				{
+					this.OnRejectionDateChanging(value);
+					this.SendPropertyChanging();
+					this._RejectionDate = value;
+					this.SendPropertyChanged("RejectionDate");
+					this.OnRejectionDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApprovedByUserId", DbType="Int")]
+		public System.Nullable<int> ApprovedByUserId
+		{
+			get
+			{
+				return this._ApprovedByUserId;
+			}
+			set
+			{
+				if ((this._ApprovedByUserId != value))
+				{
+					this.OnApprovedByUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._ApprovedByUserId = value;
+					this.SendPropertyChanged("ApprovedByUserId");
+					this.OnApprovedByUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RejectedByUserId", DbType="Int")]
+		public System.Nullable<int> RejectedByUserId
+		{
+			get
+			{
+				return this._RejectedByUserId;
+			}
+			set
+			{
+				if ((this._RejectedByUserId != value))
+				{
+					this.OnRejectedByUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._RejectedByUserId = value;
+					this.SendPropertyChanged("RejectedByUserId");
+					this.OnRejectedByUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Question_Answer", Storage="_Answers", ThisKey="QuestionId", OtherKey="QuestionId")]
+		public EntitySet<Answer> Answers
+		{
+			get
+			{
+				return this._Answers;
+			}
+			set
+			{
+				this._Answers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Question", Storage="_Category", ThisKey="CategoryId", OtherKey="CategoryId", IsForeignKey=true)]
+		public Category Category
+		{
+			get
+			{
+				return this._Category.Entity;
+			}
+			set
+			{
+				Category previousValue = this._Category.Entity;
+				if (((previousValue != value) 
+							|| (this._Category.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Category.Entity = null;
+						previousValue.Questions.Remove(this);
+					}
+					this._Category.Entity = value;
+					if ((value != null))
+					{
+						value.Questions.Add(this);
+						this._CategoryId = value.CategoryId;
+					}
+					else
+					{
+						this._CategoryId = default(int);
+					}
+					this.SendPropertyChanged("Category");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Question", Storage="_User", ThisKey="CreatedByUserId", OtherKey="UserId", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.Questions.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.Questions.Add(this);
+						this._CreatedByUserId = value.UserId;
+					}
+					else
+					{
+						this._CreatedByUserId = default(int);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Answers(Answer entity)
+		{
+			this.SendPropertyChanging();
+			entity.Question = this;
+		}
+		
+		private void detach_Answers(Answer entity)
+		{
+			this.SendPropertyChanging();
+			entity.Question = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Answer")]
+	public partial class Answer : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _AnswerId;
+		
+		private int _QuestionId;
+		
+		private string _Details;
+		
+		private System.DateTime _CreatedOn;
+		
+		private int _CreatedByLawyerId;
+		
+		private bool _Approved;
+		
+		private System.Nullable<System.DateTime> _ApprovalDate;
+		
+		private System.Nullable<System.DateTime> _RejectionDate;
+		
+		private System.Nullable<int> _ApprovedByUserId;
+		
+		private System.Nullable<int> _RejectedByUserId;
+		
+		private EntityRef<Lawyer> _Lawyer;
+		
+		private EntityRef<Question> _Question;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnAnswerIdChanging(int value);
+    partial void OnAnswerIdChanged();
+    partial void OnQuestionIdChanging(int value);
+    partial void OnQuestionIdChanged();
+    partial void OnDetailsChanging(string value);
+    partial void OnDetailsChanged();
+    partial void OnCreatedOnChanging(System.DateTime value);
+    partial void OnCreatedOnChanged();
+    partial void OnCreatedByLawyerIdChanging(int value);
+    partial void OnCreatedByLawyerIdChanged();
+    partial void OnApprovedChanging(bool value);
+    partial void OnApprovedChanged();
+    partial void OnApprovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnApprovalDateChanged();
+    partial void OnRejectionDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRejectionDateChanged();
+    partial void OnApprovedByUserIdChanging(System.Nullable<int> value);
+    partial void OnApprovedByUserIdChanged();
+    partial void OnRejectedByUserIdChanging(System.Nullable<int> value);
+    partial void OnRejectedByUserIdChanged();
+    #endregion
+		
+		public Answer()
+		{
+			this._Lawyer = default(EntityRef<Lawyer>);
+			this._Question = default(EntityRef<Question>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AnswerId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int AnswerId
+		{
+			get
+			{
+				return this._AnswerId;
+			}
+			set
+			{
+				if ((this._AnswerId != value))
+				{
+					this.OnAnswerIdChanging(value);
+					this.SendPropertyChanging();
+					this._AnswerId = value;
+					this.SendPropertyChanged("AnswerId");
+					this.OnAnswerIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QuestionId", DbType="Int NOT NULL")]
+		public int QuestionId
+		{
+			get
+			{
+				return this._QuestionId;
+			}
+			set
+			{
+				if ((this._QuestionId != value))
+				{
+					if (this._Question.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnQuestionIdChanging(value);
+					this.SendPropertyChanging();
+					this._QuestionId = value;
+					this.SendPropertyChanged("QuestionId");
+					this.OnQuestionIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Details", DbType="NVarChar(2000) NOT NULL", CanBeNull=false)]
+		public string Details
+		{
+			get
+			{
+				return this._Details;
+			}
+			set
+			{
+				if ((this._Details != value))
+				{
+					this.OnDetailsChanging(value);
+					this.SendPropertyChanging();
+					this._Details = value;
+					this.SendPropertyChanged("Details");
+					this.OnDetailsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedOn", DbType="DateTime NOT NULL")]
+		public System.DateTime CreatedOn
+		{
+			get
+			{
+				return this._CreatedOn;
+			}
+			set
+			{
+				if ((this._CreatedOn != value))
+				{
+					this.OnCreatedOnChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedOn = value;
+					this.SendPropertyChanged("CreatedOn");
+					this.OnCreatedOnChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedByLawyerId", DbType="Int NOT NULL")]
+		public int CreatedByLawyerId
+		{
+			get
+			{
+				return this._CreatedByLawyerId;
+			}
+			set
+			{
+				if ((this._CreatedByLawyerId != value))
+				{
+					if (this._Lawyer.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCreatedByLawyerIdChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedByLawyerId = value;
+					this.SendPropertyChanged("CreatedByLawyerId");
+					this.OnCreatedByLawyerIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Approved", DbType="Bit NOT NULL")]
+		public bool Approved
+		{
+			get
+			{
+				return this._Approved;
+			}
+			set
+			{
+				if ((this._Approved != value))
+				{
+					this.OnApprovedChanging(value);
+					this.SendPropertyChanging();
+					this._Approved = value;
+					this.SendPropertyChanged("Approved");
+					this.OnApprovedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApprovalDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> ApprovalDate
+		{
+			get
+			{
+				return this._ApprovalDate;
+			}
+			set
+			{
+				if ((this._ApprovalDate != value))
+				{
+					this.OnApprovalDateChanging(value);
+					this.SendPropertyChanging();
+					this._ApprovalDate = value;
+					this.SendPropertyChanged("ApprovalDate");
+					this.OnApprovalDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RejectionDate", DbType="DateTime")]
+		public System.Nullable<System.DateTime> RejectionDate
+		{
+			get
+			{
+				return this._RejectionDate;
+			}
+			set
+			{
+				if ((this._RejectionDate != value))
+				{
+					this.OnRejectionDateChanging(value);
+					this.SendPropertyChanging();
+					this._RejectionDate = value;
+					this.SendPropertyChanged("RejectionDate");
+					this.OnRejectionDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApprovedByUserId", DbType="Int")]
+		public System.Nullable<int> ApprovedByUserId
+		{
+			get
+			{
+				return this._ApprovedByUserId;
+			}
+			set
+			{
+				if ((this._ApprovedByUserId != value))
+				{
+					this.OnApprovedByUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._ApprovedByUserId = value;
+					this.SendPropertyChanged("ApprovedByUserId");
+					this.OnApprovedByUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RejectedByUserId", DbType="Int")]
+		public System.Nullable<int> RejectedByUserId
+		{
+			get
+			{
+				return this._RejectedByUserId;
+			}
+			set
+			{
+				if ((this._RejectedByUserId != value))
+				{
+					this.OnRejectedByUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._RejectedByUserId = value;
+					this.SendPropertyChanged("RejectedByUserId");
+					this.OnRejectedByUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Lawyer_Answer", Storage="_Lawyer", ThisKey="CreatedByLawyerId", OtherKey="LawyerId", IsForeignKey=true)]
+		public Lawyer Lawyer
+		{
+			get
+			{
+				return this._Lawyer.Entity;
+			}
+			set
+			{
+				Lawyer previousValue = this._Lawyer.Entity;
+				if (((previousValue != value) 
+							|| (this._Lawyer.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Lawyer.Entity = null;
+						previousValue.Answers.Remove(this);
+					}
+					this._Lawyer.Entity = value;
+					if ((value != null))
+					{
+						value.Answers.Add(this);
+						this._CreatedByLawyerId = value.LawyerId;
+					}
+					else
+					{
+						this._CreatedByLawyerId = default(int);
+					}
+					this.SendPropertyChanged("Lawyer");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Question_Answer", Storage="_Question", ThisKey="QuestionId", OtherKey="QuestionId", IsForeignKey=true)]
+		public Question Question
+		{
+			get
+			{
+				return this._Question.Entity;
+			}
+			set
+			{
+				Question previousValue = this._Question.Entity;
+				if (((previousValue != value) 
+							|| (this._Question.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Question.Entity = null;
+						previousValue.Answers.Remove(this);
+					}
+					this._Question.Entity = value;
+					if ((value != null))
+					{
+						value.Answers.Add(this);
+						this._QuestionId = value.QuestionId;
+					}
+					else
+					{
+						this._QuestionId = default(int);
+					}
+					this.SendPropertyChanged("Question");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

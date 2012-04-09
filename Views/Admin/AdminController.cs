@@ -116,5 +116,239 @@ namespace Lawspot.Controllers
 
             return View(model);
         }
+
+        /// <summary>
+        /// Displays the review questions page.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="filter"></param>
+        /// <param name="sort"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ReviewQuestions(string category, string filter, string sort)
+        {
+            var model = new ReviewQuestionsViewModel();
+
+            // Categories.
+            int categoryId = 0;
+            if (category != null)
+                categoryId = int.Parse(category);
+            model.CategoryOptions = new SelectListItem[] {
+                    new SelectListItem()
+                    {
+                        Text = "All Categories",
+                        Value = "0",
+                        Selected = categoryId == 0,
+                    }
+                }.Union(this.DataContext.Categories
+                    .OrderBy(c => c.Name)
+                    .Select(c => new SelectListItem()
+                    {
+                        Text = c.Name,
+                        Value = c.CategoryId.ToString(),
+                        Selected = c.CategoryId == categoryId,
+                    }));
+
+            // Filter.
+            var filterValue = QuestionFilter.Unanswered;
+            if (filter != null)
+                filterValue = (QuestionFilter)Enum.Parse(typeof(QuestionFilter), filter, true);
+            model.FilterOptions = new SelectListItem[]
+            {
+                new SelectListItem() { Text = "All", Value = QuestionFilter.All.ToString(), Selected = filterValue == QuestionFilter.All },
+                new SelectListItem() { Text = "Unanswered", Value = QuestionFilter.Unanswered.ToString(), Selected = filterValue == QuestionFilter.Unanswered },
+                new SelectListItem() { Text = "Answered", Value = QuestionFilter.Answered.ToString(), Selected = filterValue == QuestionFilter.Answered },
+            };
+
+            // Sort order.
+            var sortValue = QuestionSortOrder.FirstPosted;
+            if (sort != null)
+                sortValue = (QuestionSortOrder)Enum.Parse(typeof(QuestionSortOrder), sort, true);
+            model.SortOptions = new SelectListItem[]
+            {
+                new SelectListItem() { Text = "First Posted", Value = QuestionSortOrder.FirstPosted.ToString(), Selected = sortValue == QuestionSortOrder.FirstPosted },
+                new SelectListItem() { Text = "Most Recent", Value = QuestionSortOrder.MostRecent.ToString(), Selected = sortValue == QuestionSortOrder.MostRecent },
+            };
+
+            // Filter and sort the questions.
+            IEnumerable<Question> questions = this.DataContext.Questions;
+            if (categoryId != 0)
+                questions = questions.Where(q => q.CategoryId == categoryId);
+            switch (filterValue)
+            {
+                case QuestionFilter.Unanswered:
+                    questions = questions.Where(q => q.Answers.Any() == false);
+                    break;
+                case QuestionFilter.Answered:
+                    questions = questions.Where(q => q.Answers.Any() == true);
+                    break;
+            }
+            switch (sortValue)
+            {
+                case QuestionSortOrder.FirstPosted:
+                    questions = questions.OrderBy(q => q.CreatedOn);
+                    break;
+                case QuestionSortOrder.MostRecent:
+                    questions = questions.OrderByDescending(q => q.CreatedOn);
+                    break;
+            }
+            model.Questions = questions
+                .ToList()
+                .Select(q => new QuestionViewModel()
+                {
+                    QuestionId = q.QuestionId,
+                    Title = q.Title,
+                    Details = q.Details,
+                    DateAndTime = q.CreatedOn.ToString("d MMM yyyy h:mmtt"),
+                    CategoryId = q.CategoryId,
+                    CategoryName = q.Category.Name,
+                });
+
+            // Categories only (used inside form).
+            model.Categories =
+                this.DataContext.Categories
+                    .OrderBy(c => c.Name)
+                    .Select(c => new SelectListItem()
+                    {
+                        Text = c.Name,
+                        Value = c.CategoryId.ToString(),
+                    });
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Approves a question and optionally modifies it.
+        /// </summary>
+        /// <param name="questionId"> The ID of the question to approve. </param>
+        /// <param name="title"> The new title of the question. </param>
+        /// <param name="details"> The new question details. </param>
+        /// <param name="categoryId"> The new category ID. </param>
+        [HttpPost]
+        public void ApproveQuestion(int questionId, string title, string details, int categoryId)
+        {
+            var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).Single();
+            question.Title = title;
+            question.Details = details;
+            question.CategoryId = categoryId;
+            question.Approved = true;
+            question.ApprovalDate = DateTime.Now;
+            question.ApprovedByUserId = this.User.Id;
+            this.DataContext.SubmitChanges();
+        }
+
+        /// <summary>
+        /// Rejects a question.
+        /// </summary>
+        /// <param name="questionId"> The ID of the question to reject. </param>
+        [HttpPost]
+        public void RejectQuestion(int questionId)
+        {
+            var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).Single();
+            question.Approved = false;
+            question.RejectionDate = DateTime.Now;
+            question.RejectedByUserId = this.User.Id;
+            this.DataContext.SubmitChanges();
+        }
+
+        /// <summary>
+        /// Displays the review answers page.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="filter"></param>
+        /// <param name="sort"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ReviewAnswers(string category, string sort)
+        {
+            var model = new ReviewAnswersViewModel();
+
+            // Categories.
+            int categoryId = 0;
+            if (category != null)
+                categoryId = int.Parse(category);
+            model.CategoryOptions = new SelectListItem[] {
+                    new SelectListItem()
+                    {
+                        Text = "All Categories",
+                        Value = "0",
+                        Selected = categoryId == 0,
+                    }
+                }.Union(this.DataContext.Categories
+                    .OrderBy(c => c.Name)
+                    .Select(c => new SelectListItem()
+                    {
+                        Text = c.Name,
+                        Value = c.CategoryId.ToString(),
+                        Selected = c.CategoryId == categoryId,
+                    }));
+
+            // Sort order.
+            var sortValue = AnswerSortOrder.FirstPosted;
+            if (sort != null)
+                sortValue = (AnswerSortOrder)Enum.Parse(typeof(AnswerSortOrder), sort, true);
+            model.SortOptions = new SelectListItem[]
+            {
+                new SelectListItem() { Text = "First Posted", Value = AnswerSortOrder.FirstPosted.ToString(), Selected = sortValue == AnswerSortOrder.FirstPosted },
+                new SelectListItem() { Text = "Most Recent", Value = AnswerSortOrder.MostRecent.ToString(), Selected = sortValue == AnswerSortOrder.MostRecent },
+            };
+
+            // Filter and sort the answers.
+            IEnumerable<Answer> answers = this.DataContext.Answers;
+            if (categoryId != 0)
+                answers = answers.Where(a => a.Question.CategoryId == categoryId);
+            switch (sortValue)
+            {
+                case AnswerSortOrder.FirstPosted:
+                    answers = answers.OrderBy(q => q.CreatedOn);
+                    break;
+                case AnswerSortOrder.MostRecent:
+                    answers = answers.OrderByDescending(q => q.CreatedOn);
+                    break;
+            }
+            model.Answers = answers
+                .ToList()
+                .Select(a => new AnswerViewModel()
+                {
+                    AnswerId = a.AnswerId,
+                    Title = a.Question.Title,
+                    Details = a.Question.Details,
+                    CategoryName = a.Question.Category.Name,
+                    DateAndTime = a.CreatedOn.ToString("d MMM yyyy h:mmtt"),
+                    Answer = a.Details,
+                });
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Approves an answer and optionally modifies it.
+        /// </summary>
+        /// <param name="answerId"> The ID of the answer to approve. </param>
+        /// <param name="answerDetails"> The new answer details. </param>
+        [HttpPost]
+        public void ApproveAnswer(int answerId, string answerDetails)
+        {
+            var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).Single();
+            answer.Details = answerDetails;
+            answer.Approved = true;
+            answer.ApprovalDate = DateTime.Now;
+            answer.ApprovedByUserId = this.User.Id;
+            this.DataContext.SubmitChanges();
+        }
+
+        /// <summary>
+        /// Rejects an answer.
+        /// </summary>
+        /// <param name="answerId"> The ID of the answer to reject. </param>
+        [HttpPost]
+        public void RejectAnswer(int answerId)
+        {
+            var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).Single();
+            answer.Approved = false;
+            answer.RejectionDate = DateTime.Now;
+            answer.RejectedByUserId = this.User.Id;
+            this.DataContext.SubmitChanges();
+        }
     }
 }
