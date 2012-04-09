@@ -11,7 +11,7 @@ using Lawspot.Shared;
 namespace Lawspot.Controllers
 {
     [ValidateInput(false)]
-    public class BaseController : Controller
+    public class BaseController : MustacheController
     {
         /// <summary>
         /// Gets a reference to the EF database context.
@@ -49,6 +49,85 @@ namespace Lawspot.Controllers
         public new CustomPrincipal User
         {
             get { return base.User as CustomPrincipal; }
+        }
+
+        /// <summary>
+        /// The extra properties to add onto the JSON view model object.
+        /// </summary>
+        private class LayoutViewModel
+        {
+            /// <summary>
+            /// The currently logged in user.
+            /// </summary>
+            public CustomPrincipal User { get; set; }
+
+            /// <summary>
+            /// The model state.
+            /// </summary>
+            public IDictionary<string, object> ModelState { get; set; }
+
+            /// <summary>
+            /// A green "all systems go" message.
+            /// </summary>
+            public string SuccessMessage { get; set; }
+        }
+
+        /// <summary>
+        /// Gets a model object of a given type.
+        /// </summary>
+        /// <param name="viewContext"> The view context. </param>
+        /// <param name="modelType"> The type of model to return. </param>
+        /// <returns> A model of the given type. </returns>
+        protected internal override object GetModel(ViewContext viewContext, Type modelType)
+        {
+            if (modelType == typeof(LayoutViewModel))
+            {
+                // Initialize the extra state that gets tacked on before the view model state.
+                var model = new LayoutViewModel();
+
+                // User.
+                model.User = ((Controller)viewContext.Controller).User as CustomPrincipal;
+
+                // Translate alert types into messages.
+                switch (viewContext.HttpContext.Request.QueryString["alert"])
+                {
+                    case "loggedin":
+                        model.SuccessMessage = "You're logged in. Welcome back to LawSpot.";
+                        break;
+                    case "loggedout":
+                        model.SuccessMessage = "You have logged out.";
+                        break;
+                    case "registered":
+                        model.SuccessMessage = string.Format("Thanks for registering!  Please check your email ({0}) to confirm your account with us.", this.User.EmailAddress);
+                        break;
+                }
+
+                // ModelState.
+                var result = new Dictionary<string, object>();
+                var modelState = ((Controller)viewContext.Controller).ModelState;
+                foreach (var key in modelState.Keys)
+                {
+                    var state = modelState[key];
+                    if (state.Errors.Count > 0)
+                    {
+                        string errorMessage = string.Join(Environment.NewLine, state.Errors.Select(e => e.ErrorMessage));
+                        var dictionary = result;
+                        var keys = key.Split('.');
+                        for (int i = 0; i < keys.Length - 1; i++)
+                        {
+                            object subDictionary;
+                            if (dictionary.TryGetValue(keys[i], out subDictionary) == false)
+                                dictionary[keys[i]] = new Dictionary<string, object>();
+                            dictionary = (Dictionary<string, object>)dictionary[keys[i]];
+                        }
+                        dictionary.Add(keys[keys.Length - 1], errorMessage);
+                    }
+                }
+                if (result.Count > 0)
+                    model.ModelState = result;
+                return model;
+            }
+            return base.GetModel(viewContext, modelType);
         }
 
         /// <summary>

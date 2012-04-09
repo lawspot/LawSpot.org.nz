@@ -218,7 +218,7 @@ namespace Lawspot.Controllers
             var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).Single();
 
             // Populate a model and show the view.
-            var model = new QuestionThankModel();
+            var model = new QuestionThankYouModel();
             model.Title = question.Title;
             model.Category = question.Category.Name;
             model.EmailAddress = question.User.EmailAddress;

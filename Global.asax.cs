@@ -44,8 +44,9 @@ namespace Lawspot
             RouteTable.Routes.MapRoute("PartnerRoute", "partner", new { controller = "Static", action = "PartnerWithUs" });
             RouteTable.Routes.MapRoute("ContactUsRoute", "contact", new { controller = "Static", action = "ContactUs" });
             RouteTable.Routes.MapRoute("AskThankYouRoute", "ask/thank-you", new { controller = "Ask", action = "ThankYou" });
-            RouteTable.Routes.MapRoute("AdminAnswerQuestionsRoute", "admin/answer-questions", new { controller = "Admin", action = "AnswerQuestions" });
-            RouteTable.Routes.MapRoute("AdminPostAnswerRoute", "admin/post-answer", new { controller = "Admin", action = "PostAnswer" });
+            RouteTable.Routes.MapRoute("AdminAnswerQuestionsRoute", "admin/answer-questions", new { controller = "LawyerAdmin", action = "AnswerQuestions" });
+            RouteTable.Routes.MapRoute("AdminPostAnswerRoute", "admin/post-answer", new { controller = "LawyerAdmin", action = "PostAnswer" });
+            RouteTable.Routes.MapRoute("AdminApproveLawyersRoute", "admin/approve-lawyers", new { controller = "Admin", action = "ApproveLawyers" });
             RouteTable.Routes.MapRoute("CategoryRoute", "{slug}", new { controller = "Browse", action = "Category" });
             RouteTable.Routes.MapRoute("QuestionRoute", "{category}/{slug}", new { controller = "Browse", action = "Question" });
         }

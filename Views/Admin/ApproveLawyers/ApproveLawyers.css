@@ -39,14 +39,14 @@ section.admin-sidebar hr {
 	margin-left: 230px;
 	padding: 5px 0 20px;
 }
-form.filter-form {
+form.filter-area {
 	margin: -45px 0 25px 0;
 }
-form.filter-form .sort {
+form.filter-area .sort {
 	text-align: right;
 	margin-bottom: 12px;
 }
-form.filter-form .filter {
+form.filter-area .filter {
 	float: right;
 }
 #category-drop-down {

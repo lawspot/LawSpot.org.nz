@@ -1,0 +1,48 @@
+﻿#admin-layout {
+    margin: -12px;
+    border-radius: 4px;
+    min-height: 530px;
+	padding: 0;
+	background: #EBEDEC url(/views/admin/sidebar.png) left repeat-y;
+}
+.admin-sidebar {
+	width: 178px;
+	padding: 15px 20px 15px 15px;
+	float: left;
+}
+.admin-profile {
+	margin-bottom: 30px;
+}
+.admin-profile img {
+	border: solid 3px #fff;
+	box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
+	float: left;
+	margin-right: 10px;
+}
+.admin-profile .user-name {
+	font-size: 1.2em;
+	display: block;
+	margin-bottom: 15px;
+}
+.admin-sidebar ul.list-arrows {
+	margin: 25px 0 25px 15px;
+	margin: 15px 30px;
+	padding: 0;
+}
+.admin-sidebar ul.list-arrows li {
+	margin-bottom: 20px;
+	list-style-image: url(/views/admin/list-arrow.png);
+	margin-bottom: 10px;
+}
+.admin-sidebar ul.list-arrows li a {
+	color: #306288;
+}
+.admin-sidebar hr {
+	margin-top: 10px;
+}
+
+.admin-body {
+	width: 710px;
+	margin-left: 230px;
+	padding: 5px 0 20px;
+}

@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Lawspot.Views.Ask
 {
-    public class QuestionThankModel
+    public class QuestionThankYouModel
     {
         public string Title { get; set; }
         public string Category { get; set; }

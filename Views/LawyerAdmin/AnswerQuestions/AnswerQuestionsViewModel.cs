@@ -4,11 +4,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web.Mvc;
 
-namespace Lawspot.Views.Admin
+namespace Lawspot.Views.LawyerAdmin
 {
     public class AnswerQuestionsViewModel
     {
-        public string FullName { get; set; }
         public IEnumerable<SelectListItem> CategoryOptions { get; set; }
         public IEnumerable<SelectListItem> FilterOptions { get; set; }
         public IEnumerable<SelectListItem> SortOptions { get; set; }
@@ -23,7 +22,7 @@ namespace Lawspot.Views.Admin
         AnsweredByMe,
     }
 
-    public enum SortOrder
+    public enum QuestionSortOrder
     {
         MostRecent,
         FirstPosted,

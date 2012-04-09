@@ -22,7 +22,7 @@ namespace Lawspot.Shared
 
         protected override IView CreatePartialView(ControllerContext context, string partialPath)
         {
-            return new MustacheView(context.Controller, partialPath);
+            throw new NotSupportedException();
         }
     }
 }

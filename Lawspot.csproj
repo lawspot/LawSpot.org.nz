@@ -132,6 +132,7 @@
     <Compile Include="Email\Code\ExposeToXsltAttribute.cs" />
     <Compile Include="Email\Code\EmailTemplate.cs" />
     <Compile Include="Shared\Code\BaseController.cs" />
+    <Compile Include="Shared\Code\MustacheController.cs" />
     <Compile Include="Shared\Code\Logger.cs" />
     <Compile Include="Shared\Code\CustomPrincipal.cs" />
     <Compile Include="Shared\Code\MustBeTrueAttribute.cs" />
@@ -139,7 +140,11 @@
     <Compile Include="Views\Account\LawyerRegister\LawyerRegisterViewModel.cs" />
     <Compile Include="Views\Account\Register\RegisterViewModel.cs" />
     <Compile Include="Views\Admin\AdminController.cs" />
-    <Compile Include="Views\Admin\AnswerQuestions\AnswerQuestionsViewModel.cs" />
+    <Compile Include="Views\Admin\ApproveLawyers\ApproveLawyersViewModel.cs" />
+    <Compile Include="Views\Admin\Layout\LayoutViewModel.cs" />
+    <Compile Include="Views\LawyerAdmin\LawyerAdminController.cs" />
+    <Compile Include="Views\LawyerAdmin\AnswerQuestions\AnswerQuestionsViewModel.cs" />
+    <Compile Include="Views\LawyerAdmin\Layout\LayoutViewModel.cs" />
     <Compile Include="Views\Ask\AskController.cs" />
     <Compile Include="Views\Ask\ThankYou\QuestionThankYouModel.cs" />
     <Compile Include="Views\Ask\Ask\QuestionViewModel.cs" />
@@ -154,7 +159,7 @@
     <Compile Include="Views\Browse\Category\CategoryPageViewModel.cs" />
     <Compile Include="Views\Browse\Browse\BrowsePageViewModel.cs" />
     <Compile Include="Views\Browse\BrowseViewModels.cs" />
-    <Compile Include="Views\Browse\Home\HomeViewModel.cs" />
+    <Compile Include="Views\Browse\Home\HomePageViewModel.cs" />
     <Compile Include="Views\Browse\Question\QuestionPageViewModel.cs" />
     <Compile Include="Views\Static\StaticController.cs" />
   </ItemGroup>
@@ -218,6 +223,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
+    <Content Include="Shared\Layout.js" />
     <Content Include="Shared\Images\background.jpg" />
     <Content Include="Shared\Images\background.png" />
     <Content Include="Shared\Images\default-avatar.jpg" />
@@ -249,13 +255,22 @@
     <Content Include="Views\Account\Register\Register.html" />
     <Content Include="Views\Account\Login\Login.css" />
     <Content Include="Views\Account\Login\Login.html" />
-    <Content Include="Views\Admin\AnswerQuestions\answered.png" />
-    <Content Include="Views\Admin\AnswerQuestions\AnswerQuestions.html" />
-    <Content Include="Views\Admin\AnswerQuestions\AnswerQuestions.css" />
-    <Content Include="Views\Admin\AnswerQuestions\AnswerQuestions.js" />
-    <Content Include="Views\Admin\AnswerQuestions\question-icon.png" />
+    <Content Include="Views\Admin\ApproveLawyers\ApproveLawyers.css" />
+    <Content Include="Views\Admin\ApproveLawyers\ApproveLawyers.html" />
+    <Content Include="Views\Admin\ApproveLawyers\ApproveLawyers.js" />
+    <Content Include="Views\Admin\Layout\Layout.css" />
+    <Content Include="Views\Admin\Layout\Layout.html" />
     <Content Include="Views\Admin\list-arrow.png" />
     <Content Include="Views\Admin\sidebar.png" />
+    <Content Include="Views\LawyerAdmin\AnswerQuestions\answered.png" />
+    <Content Include="Views\LawyerAdmin\AnswerQuestions\AnswerQuestions.css" />
+    <Content Include="Views\LawyerAdmin\AnswerQuestions\AnswerQuestions.html" />
+    <Content Include="Views\LawyerAdmin\AnswerQuestions\AnswerQuestions.js" />
+    <Content Include="Views\LawyerAdmin\AnswerQuestions\question-icon.png" />
+    <Content Include="Views\LawyerAdmin\Layout\Layout.html" />
+    <Content Include="Views\LawyerAdmin\Layout\Layout.css" />
+    <Content Include="Views\LawyerAdmin\list-arrow.png" />
+    <Content Include="Views\LawyerAdmin\sidebar.png" />
     <Content Include="Views\Ask\Ask\Ask.html" />
     <Content Include="Views\Ask\Ask\Ask.css" />
     <Content Include="Views\Ask\Ask\Ask.js" />
@@ -293,7 +308,6 @@
     <Content Include="Scripts\MicrosoftMvcValidation.js" />
     <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\Browse\Home\Home.html" />
-    <Content Include="Views\Error\Error.cshtml" />
     <Content Include="Views\Web.config" />
     <Content Include="Web.WebDrive.config">
       <DependentUpon>Web.config</DependentUpon>

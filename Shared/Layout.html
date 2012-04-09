@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿{{Model Lawspot.Controllers.BaseController+LayoutViewModel}}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>LawSpot - Legal Questions, Free Answers</title>
@@ -66,13 +67,6 @@
         {{Content}}
     </script>
     {{Model}}
-    {{LayoutScripts}}
-    <script type="text/javascript">
-        document.getElementById("_content").innerHTML = Mustache.render(document.getElementById("_contentTemplate").text, Model);
-        document.getElementById("_login").innerHTML = Mustache.render(document.getElementById("_loginTemplate").text, Model);
-        document.getElementById("_message").innerHTML = Mustache.render(document.getElementById("_messageTemplate").text, Model);
-    </script>
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    {{PageScripts}}
+    {{Scripts}}
 </body>
 </html>
