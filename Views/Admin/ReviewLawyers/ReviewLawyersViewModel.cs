@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Lawspot.Views.Admin
 {
-    public class ApproveLawyersViewModel
+    public class ReviewLawyersViewModel
     {
         public IEnumerable<SelectListItem> CategoryOptions { get; set; }
         public IEnumerable<SelectListItem> FilterOptions { get; set; }

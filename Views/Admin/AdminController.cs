@@ -45,16 +45,16 @@ namespace Lawspot.Controllers
         }
 
         /// <summary>
-        /// Displays the answer questions page.
+        /// Displays the review lawyers page.
         /// </summary>
         /// <param name="category"></param>
         /// <param name="filter"></param>
         /// <param name="sort"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ApproveLawyers(string category, string filter, string sort)
+        public ActionResult ReviewLawyers(string category, string filter, string sort)
         {
-            var model = new ApproveLawyersViewModel();
+            var model = new ReviewLawyersViewModel();
 
             // Categories.
             int categoryId = 0;
@@ -133,6 +133,37 @@ namespace Lawspot.Controllers
                 });
 
             return View(model);
+        }
+
+        /// <summary>
+        /// Approves a lawyer.
+        /// </summary>
+        /// <param name="questionId"> The ID of the lawyer to approve. </param>
+        /// <param name="title"> The new title of the question. </param>
+        /// <param name="details"> The new question details. </param>
+        /// <param name="categoryId"> The new category ID. </param>
+        [HttpPost]
+        public void ApproveLawyer(int lawyerId)
+        {
+            var lawyer = this.DataContext.Lawyers.Where(l => l.LawyerId == lawyerId).Single();
+            lawyer.Approved = true;
+            lawyer.ApprovalDate = DateTime.Now;
+            lawyer.ApprovedByUserId = this.User.Id;
+            this.DataContext.SubmitChanges();
+        }
+
+        /// <summary>
+        /// Rejects a lawyer.
+        /// </summary>
+        /// <param name="questionId"> The ID of the lawyer to reject. </param>
+        [HttpPost]
+        public void RejectLawyer(int lawyerId)
+        {
+            var lawyer = this.DataContext.Lawyers.Where(l => l.LawyerId == lawyerId).Single();
+            lawyer.Approved = false;
+            lawyer.RejectionDate = DateTime.Now;
+            lawyer.RejectedByUserId = this.User.Id;
+            this.DataContext.SubmitChanges();
         }
 
         /// <summary>

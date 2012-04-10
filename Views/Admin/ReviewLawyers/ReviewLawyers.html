@@ -1,4 +1,4 @@
-﻿{{Model Lawspot.Views.Admin.ApproveLawyersViewModel}}
+﻿{{Model Lawspot.Views.Admin.ReviewLawyersViewModel}}
 
 <h1>Lawyer Volunteers</h1>
 	            
@@ -38,13 +38,13 @@
 	    <th class="action">Action</th>
 	</tr>
     {{#Lawyers}}
-	    <tr>
+	    <tr class="lawyer-row">
 	        <td>
                 {{#Approved}}
-                    <img src="/views/admin/approvelawyers/icon-tick.jpg" width="15" height="15" alt="" />
+                    <img src="/views/admin/reviewlawyers/icon-tick.jpg" width="15" height="15" alt="" />
                 {{/Approved}}
                 {{^Approved}}
-                    <img src="/views/admin/approvelawyers/icon-cross.jpg" width="15" height="15" alt="" />
+                    <img src="/views/admin/reviewlawyers/icon-cross.jpg" width="15" height="15" alt="" />
                 {{/Approved}}
                 {{Name}}
             </td>
