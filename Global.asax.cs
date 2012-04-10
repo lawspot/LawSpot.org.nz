@@ -73,6 +73,12 @@ namespace Lawspot
             }
         }
 
+        protected void Application_BeginRequest()
+        {
+            // Stash a stopwatch in the request items so we can record the page generation time.
+            HttpContext.Current.Items["Stopwatch"] = System.Diagnostics.Stopwatch.StartNew();
+        }
+
         protected void Application_EndRequest()
         {
             // Dispose of the data context.

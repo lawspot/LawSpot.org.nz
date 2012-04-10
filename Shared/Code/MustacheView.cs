@@ -40,17 +40,15 @@ namespace Lawspot.Shared
             var viewPath = HostingEnvironment.MapPath(this.ViewPath);
             var htmlPaths = new List<string>();
             htmlPaths.Add(HostingEnvironment.MapPath("~/Shared/Layout/Layout.html"));
-            htmlPaths.Add(HostingEnvironment.MapPath("~/Shared/Layout.html"));
             string baseDirectory = Path.GetDirectoryName(viewPath);
             if (slashCount >= 4)
                 baseDirectory = Path.GetDirectoryName(baseDirectory);
             htmlPaths.Add(Path.Combine(baseDirectory, "Layout.html"));
             htmlPaths.Add(Path.Combine(baseDirectory, @"Layout\Layout.html"));
-            htmlPaths = htmlPaths.Where(path => File.Exists(path)).ToList();
             htmlPaths.Add(viewPath);
 
             // Render the view.
-            writer.Write(Render(viewContext, htmlPaths[0], htmlPaths.Skip(1)).Html);
+            writer.Write(RenderFromCache(viewContext, htmlPaths));
         }
 
         private class RenderResult
@@ -59,20 +57,103 @@ namespace Lawspot.Shared
             public string Css;
             public string Script;
             public List<object> Models;
+            public RenderResult Clone()
+            {
+                return (RenderResult)this.MemberwiseClone();
+            }
         }
 
         private class EmptyModel
         {
         }
 
+        // File system watcher to invalidate the caches.
+        private static FileSystemWatcher watcher;
+
+        // Caches.
+        private static System.Collections.Concurrent.ConcurrentDictionary<string, RenderResult> pageCache =
+            new System.Collections.Concurrent.ConcurrentDictionary<string, RenderResult>();
+        private static System.Collections.Concurrent.ConcurrentDictionary<string, Type> pageToModelTypeCache =
+            new System.Collections.Concurrent.ConcurrentDictionary<string, Type>();
+
+        private string RenderFromCache(ViewContext viewContext, IEnumerable<string> htmlPaths)
+        {
+            // Initialize the file system watcher.
+            if (watcher == null)
+            {
+                watcher = new FileSystemWatcher(HostingEnvironment.ApplicationPhysicalPath);
+                watcher.IncludeSubdirectories = true;
+                watcher.NotifyFilter = NotifyFilters.DirectoryName | NotifyFilters.FileName | NotifyFilters.LastWrite | NotifyFilters.Size;
+                watcher.Changed += (sender, e) => { pageCache.Clear(); pageToModelTypeCache.Clear(); };
+                watcher.Created += (sender, e) => { pageCache.Clear(); pageToModelTypeCache.Clear(); };
+                watcher.Deleted += (sender, e) => { pageCache.Clear(); pageToModelTypeCache.Clear(); };
+                watcher.Error += (sender, e) => { pageCache.Clear(); pageToModelTypeCache.Clear(); };
+                watcher.Renamed += (sender, e) => { pageCache.Clear(); pageToModelTypeCache.Clear(); };
+                watcher.EnableRaisingEvents = true;
+            }
+
+            // Attempt to read the page from the cache.
+            RenderResult result;
+            if (pageCache.TryGetValue(htmlPaths.Last(), out result) == false)
+            {
+                // The page isn't cached.
+                result = Render(viewContext, htmlPaths.First(), htmlPaths.Skip(1));
+                
+                // Cache it.
+                pageCache[htmlPaths.Last()] = result.Clone();
+
+                // Replace the {{Model}} tag with the JSON model.
+                return ReplaceModel(viewContext, result.Html, result.Models);
+            }
+            else
+            {
+                // Get a list of models.
+                var controller = this.Controller as Lawspot.Controllers.MustacheController;
+                if (controller == null)
+                    throw new InvalidOperationException("Controllers must derive from MustacheController.");
+                var models = new List<object>(htmlPaths.Count());
+                foreach (var htmlPath in htmlPaths)
+                {
+                    Type modelType;
+                    if (pageToModelTypeCache.TryGetValue(htmlPath, out modelType))
+                    {
+                        // Grab the model.
+                        var model = controller.GetModel(viewContext, modelType);
+                        if (modelType == null && model != null)
+                            throw new InvalidOperationException(string.Format("The page {0} has no model declaration, but a model of type {1} was provided.",
+                                ToVirtualPath(htmlPath), model.GetType().Name));
+                        if (modelType != null && model == null)
+                            throw new InvalidOperationException(string.Format("The page {0} expected a model of type {1} but no model was provided.",
+                                ToVirtualPath(htmlPath), modelType.Name));
+                        if (model != null && modelType != model.GetType())
+                            throw new InvalidOperationException(string.Format("The page {0} expected a model of type {1} but the provided model was of type {2}.",
+                                ToVirtualPath(htmlPath), modelType, model.GetType()));
+                        models.Add(model ?? new EmptyModel());
+                    }
+                }
+
+                // Replace the {{Model}} tag with the JSON model.
+                return ReplaceModel(viewContext, result.Html, models);
+            }
+        }
+
         private RenderResult Render(ViewContext viewContext, string htmlPath, IEnumerable<string> childHtmlPaths)
         {
-            var result = new RenderResult();
+            // Ensure the controller derives from MustacheController.
+            var controller = this.Controller as Lawspot.Controllers.MustacheController;
+            if (controller == null)
+                throw new InvalidOperationException("Controllers must derive from MustacheController.");
 
             // Render the children.
             RenderResult childResult = null;
             if (childHtmlPaths.Any())
                 childResult = Render(viewContext, childHtmlPaths.First(), childHtmlPaths.Skip(1));
+
+            // Check if the HTML file exists - if not, return the child result unmodified.
+            if (File.Exists(htmlPath) == false)
+                return childResult;
+
+            var result = new RenderResult();
 
             // Render the stylesheets.
             string css = CombineAndMinify(viewContext, new CssMinify(), Path.ChangeExtension(htmlPath, ".css"),
@@ -84,17 +165,14 @@ namespace Lawspot.Shared
                 @"<script type=""text/javascript"">", "</script>", @"<script src=""{0}""></script>");
             result.Script = childResult != null ? string.Concat(script, childResult.Script) : script;
 
-            // Determine the model.
+            // Determine the model type.
             var html = File.ReadAllText(htmlPath);
             string modelTypeName = null;
             html = Regex.Replace(html, @"^\s*\{\{Model\s+([^}]+)\}\}\s*$", match =>
-                {
-                    modelTypeName = match.Groups[1].Value;
-                    return string.Empty;
-                }, RegexOptions.Multiline);
-            var controller = this.Controller as Lawspot.Controllers.MustacheController;
-            if (controller == null)
-                throw new InvalidOperationException("Controllers must derive from MustacheController.");
+            {
+                modelTypeName = match.Groups[1].Value;
+                return string.Empty;
+            }, RegexOptions.Multiline);
             Type modelType = null;
             if (modelTypeName != null)
             {
@@ -104,6 +182,19 @@ namespace Lawspot.Shared
                     throw new InvalidOperationException(string.Format("Type {0} could not be loaded (referenced on page {1}).",
                         modelTypeName, ToVirtualPath(htmlPath)));
             }
+
+            // Cache the model type.
+            pageToModelTypeCache[htmlPath] = modelType;
+
+            // Replace the tags in the HTML.
+            var htmlBuilder = new StringBuilder(html);
+            htmlBuilder.Replace("{{Stylesheets}}", result.Css);
+            if (childResult != null)
+                htmlBuilder.Replace("{{Content}}", childResult.Html);
+            htmlBuilder.Replace("{{Scripts}}", result.Script);
+            result.Html = htmlBuilder.ToString();
+
+            // Grab the model.
             var model = controller.GetModel(viewContext, modelType);
             if (modelType == null && model != null)
                 throw new InvalidOperationException(string.Format("The page {0} has no model declaration, but a model of type {1} was provided.",
@@ -119,33 +210,30 @@ namespace Lawspot.Shared
             if (childResult != null)
                 result.Models.AddRange(childResult.Models);
 
-            // Replace the tags in the HTML.
-            var htmlBuilder = new StringBuilder(html);
-            htmlBuilder.Replace("{{Stylesheets}}", result.Css);
-            if (childResult != null)
-                htmlBuilder.Replace("{{Content}}", childResult.Html);
-            htmlBuilder.Replace("{{Scripts}}", result.Script);
-
-            // Generate the JSON for the model.
-            if (html.IndexOf("{{Model}}") >= 0)
-            {
-                var modelHtml = new StringBuilder();
-                modelHtml.AppendLine(@"<script type=""text/javascript"">");
-                modelHtml.Append("var Model = ");
-                var jsonSerializer = new Newtonsoft.Json.JsonSerializer();
-                jsonSerializer.ContractResolver = new ViewModelContractResolver(
-                    result.Models.Last().GetType(),
-                    result.Models.Take(result.Models.Count - 1).Select(m => m.GetType()).ToArray(),
-                    result.Models.Take(result.Models.Count - 1).ToArray());
-                jsonSerializer.Serialize(new StringWriter(modelHtml), result.Models.Last());
-                modelHtml.AppendLine(";");
-                modelHtml.AppendLine("</script>");
-                htmlBuilder.Replace("{{Model}}", modelHtml.ToString());
-            }
-
-            result.Html = htmlBuilder.ToString();
-
             return result;
+        }
+
+        private string ReplaceModel(ViewContext viewContext, string html, List<object> models)
+        {
+            var htmlBuilder = new StringBuilder(html);
+
+            var modelHtml = new StringBuilder();
+            modelHtml.AppendLine(@"<script type=""text/javascript"">");
+            modelHtml.Append("var Model = ");
+            var jsonSerializer = new Newtonsoft.Json.JsonSerializer();
+            jsonSerializer.ContractResolver = new ViewModelContractResolver(
+                models.Last().GetType(),
+                models.Take(models.Count - 1).Select(m => m.GetType()).ToArray(),
+                models.Take(models.Count - 1).ToArray());
+            jsonSerializer.Serialize(new StringWriter(modelHtml), models.Last());
+            modelHtml.AppendLine(";");
+            modelHtml.AppendLine("</script>");
+            htmlBuilder.Replace("{{Model}}", modelHtml.ToString());
+
+            // Tack on timing information.
+            htmlBuilder.AppendFormat("<!-- Took {0} ms -->", ((System.Diagnostics.Stopwatch)viewContext.HttpContext.Items["Stopwatch"]).Elapsed.TotalMilliseconds);
+
+            return htmlBuilder.ToString();
         }
 
         private static string ToVirtualPath(string path)

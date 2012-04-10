@@ -234,7 +234,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\modernizr-1.7.js" />
     <Content Include="Scripts\modernizr-1.7.min.js" />
-    <Content Include="Shared\Layout.js" />
+    <Content Include="Shared\Layout\Layout.js" />
     <Content Include="Shared\Images\background.jpg" />
     <Content Include="Shared\Images\background.png" />
     <Content Include="Shared\Images\default-avatar.jpg" />
@@ -253,7 +253,7 @@
     <Content Include="Shared\Images\progress-indicator.gif" />
     <Content Include="Shared\Images\success.png" />
     <Content Include="Shared\Images\warning.png" />
-    <Content Include="Shared\Layout.css" />
+    <Content Include="Shared\Layout\Layout.css" />
     <Content Include="Views\Account\LawyerThankYou.html" />
     <Content Include="Views\Account\LawyerRegister\handsup-top.png" />
     <Content Include="Views\Account\LawyerRegister\handsup.jpg" />
@@ -304,7 +304,7 @@
     <Content Include="Views\Browse\Browse\Browse.css" />
     <Content Include="Views\Browse\Browse\Browse.html" />
     <Content Include="Views\Browse\Home\Home.css" />
-    <Content Include="Shared\mustache.js" />
+    <Content Include="Shared\Layout\mustache.js" />
     <Content Include="Views\Browse\Home\laptop.png" />
     <Content Include="Views\Browse\lawyer.png" />
     <Content Include="Views\Browse\Question\Question.css" />
@@ -341,7 +341,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Shared\Layout.html" />
+    <Content Include="Shared\Layout\Layout.html" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
