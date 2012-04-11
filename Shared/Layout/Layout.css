@@ -202,8 +202,8 @@ section.site-message div
     }
 }
 section.site-body {
-    width: 960px;
-    padding: 12px;
+    width: 944px;
+    padding: 20px;
     margin: auto;
     background-color: #EBEDEC;
     border-radius: 4px;
@@ -221,7 +221,7 @@ a:hover {
 }
 h1 {
     font-size: 24pt;
-    margin: 10px 0 20px;
+    margin: 0 0 20px;
     color: #373737;
     font-weight: normal;
 }

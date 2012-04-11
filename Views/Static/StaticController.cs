@@ -11,6 +11,16 @@ namespace Lawspot.Controllers
 {
     public class StaticController : BaseController
     {
+        public ActionResult HowItWorks()
+        {
+            return View();
+        }
+
+        public ActionResult AboutUs()
+        {
+            return View();
+        }
+
         public ActionResult PartnerWithUs()
         {
             return View();

@@ -13,16 +13,11 @@
 }
 
 #qsubmit1 {
-	width: 500px;
+	width: 480px;
 	position: relative;
 }
 #qsubmit1-inner {
     padding: 20px;
-}
-#qsubmit1-pg2 {
-	width: 955px;
-	height: 440px;
-	padding: 0;
 }
 
 .qsubmit-field {

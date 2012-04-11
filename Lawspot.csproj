@@ -311,6 +311,13 @@
     <Content Include="Views\Browse\Question\Question.html" />
     <Content Include="Views\Browse\Question\question.png" />
     <Content Include="Views\Static\ContactUs.html" />
+    <Content Include="Views\Static\AboutUs.html" />
+    <Content Include="Views\Static\HowItWorks\HowItWorks.js" />
+    <Content Include="Views\Static\HowItWorks\HowItWorks.css" />
+    <Content Include="Views\Static\HowItWorks\howitworks-step1.png" />
+    <Content Include="Views\Static\HowItWorks\howitworks-step2.png" />
+    <Content Include="Views\Static\HowItWorks\howitworks-step3.png" />
+    <Content Include="Views\Static\HowItWorks\HowItWorks.html" />
     <Content Include="Views\Static\PartnerWithUs.html" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
