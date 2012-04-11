@@ -1,0 +1,14 @@
+﻿a.faq
+{
+    display: block;
+    padding-left: 15px;
+    margin-top: 5px;
+    background: url(/views/static/faq/arrow-right.png) 0 6px no-repeat;
+}
+a.faq.open {
+    background: url(/views/static/faq/arrow-down.png) 0 6px no-repeat;
+}
+.faqList p {
+    padding-left: 15px;
+    margin-bottom: 20px;
+}

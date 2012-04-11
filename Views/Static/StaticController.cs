@@ -16,6 +16,11 @@ namespace Lawspot.Controllers
             return View();
         }
 
+        public ActionResult FAQ()
+        {
+            return View();
+        }
+
         public ActionResult AboutUs()
         {
             return View();
