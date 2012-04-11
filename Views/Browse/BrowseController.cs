@@ -74,6 +74,8 @@ namespace Lawspot.Controllers
                 throw new HttpException(404, "Question not found.");
             if (question.Category.Slug != category)
                 throw new HttpException(404, "Question not found.");
+            if (question.Approved == false)
+                throw new HttpException(404, "Question not approved.");
 
             // Increment the number of views.
             this.DataContext.ExecuteCommand("UPDATE [Question] SET ViewCount = ViewCount + 1 WHERE QuestionId = {0}", question.QuestionId);
@@ -86,7 +88,9 @@ namespace Lawspot.Controllers
             model.CategoryUrl = string.Format("/{0}", question.Category.Slug);
             model.CreationDate = question.CreatedOn.ToString("d MMM yyyy");
             model.Views = question.ViewCount;
-            model.Answers = question.Answers.Select(a => new AnswerViewModel()
+            model.Answers = question.Answers
+                .Where(a => a.Approved)
+                .Select(a => new AnswerViewModel()
             {
                 Details = a.Details,
                 AvatarUrl = "http://dummyimage.com/60",
@@ -109,6 +113,7 @@ namespace Lawspot.Controllers
                 if (categoryId != null)
                     filteredAnswers = filteredAnswers.Where(a => a.Question.CategoryId == categoryId.Value);
                 ((IRecentAnswers)model).RecentAnswers = filteredAnswers
+                    .Where(a => a.Approved)
                     .OrderByDescending(a => a.CreatedOn)
                     .Take(5)
                     .Select(a => new AnsweredQuestionViewModel()
@@ -145,6 +150,7 @@ namespace Lawspot.Controllers
                 if (categoryId.HasValue)
                     filteredQuestions = filteredQuestions.Where(q => q.CategoryId == categoryId);
                 ((IMostViewedQuestions)model).MostViewedQuestions = filteredQuestions
+                    .Where(q => q.Approved)
                     .OrderByDescending(q => q.ViewCount)
                     .Take(5)
                     .Select(q => new QuestionViewModel()
