@@ -26,6 +26,21 @@ namespace Lawspot.Controllers
             return View();
         }
 
+        public ActionResult Privacy()
+        {
+            return View();
+        }
+
+        public ActionResult TermsOfUse()
+        {
+            return View();
+        }
+
+        public ActionResult TermsOfEngagement()
+        {
+            return View();
+        }
+
         public ActionResult PartnerWithUs()
         {
             return View();

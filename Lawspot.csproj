@@ -312,6 +312,12 @@
     <Content Include="Views\Browse\Question\question.png" />
     <Content Include="Views\Static\ContactUs.html" />
     <Content Include="Views\Static\AboutUs.html" />
+    <Content Include="Views\Static\TermsOfEngagement.html" />
+    <Content Include="Views\Static\TermsOfUse.html" />
+    <Content Include="Views\Static\Privacy.html" />
+    <Content Include="Views\Static\FAQ\arrow-down.png" />
+    <Content Include="Views\Static\FAQ\arrow-right.png" />
+    <Content Include="Views\Static\FAQ\FAQ.js" />
     <Content Include="Views\Static\FAQ\FAQ.css" />
     <Content Include="Views\Static\FAQ\FAQ.html" />
     <Content Include="Views\Static\HowItWorks\HowItWorks.js" />
