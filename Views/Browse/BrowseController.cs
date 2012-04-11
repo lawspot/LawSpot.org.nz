@@ -35,7 +35,7 @@ namespace Lawspot.Controllers
                 {
                     Uri = string.Format("/{0}", c.Slug),
                     Name = c.Name,
-                    AnswerCount = c.Questions.Sum(q => q.Answers.Count())
+                    AnswerCount = c.Questions.Sum(q => q.Answers.Count(a => a.Approved))
                 });
             model.Categories1 = categories.Take((categories.Count() + 1) / 2);
             model.Categories2 = categories.Skip((categories.Count() + 1) / 2);
@@ -138,7 +138,7 @@ namespace Lawspot.Controllers
                     {
                         Uri = string.Format("/{0}", c.Slug),
                         Name = c.Name,
-                        AnswerCount = c.Questions.Sum(q => q.Answers.Count())
+                        AnswerCount = c.Questions.Sum(q => q.Answers.Count(a => a.Approved))
                     });
                 ((ITopCategories)model).TopCategories1 = topCategories.Take(5);
                 ((ITopCategories)model).TopCategories2 = topCategories.Skip(5);
@@ -157,7 +157,7 @@ namespace Lawspot.Controllers
                     {
                         Url = string.Format("/{0}/{1}", q.Category.Slug, q.Slug),
                         Title = q.Title,
-                        AnswerCount = string.Format("{0} answers", q.Answers.Count()),
+                        AnswerCount = string.Format("{0} answers", q.Answers.Count(a => a.Approved)),
                         ViewCount = string.Format("{0} views", q.ViewCount),
                     });
             }
