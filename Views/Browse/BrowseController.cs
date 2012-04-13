@@ -27,6 +27,9 @@ namespace Lawspot.Controllers
         /// <returns></returns>
         public ActionResult Browse()
         {
+            // Activate header tab.
+            this.BrowseAnswersTabActive = true;
+
             var model = new BrowsePageViewModel();
             var categories = this.DataContext.Categories
                 .OrderBy(c => c.Name)

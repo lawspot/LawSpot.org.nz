@@ -14,6 +14,9 @@ namespace Lawspot.Controllers
         [HttpGet]
         public ActionResult Ask(string title, int? category)
         {
+            // Activate header tab.
+            this.AskALawyerTabActive = true;
+
             var model = new QuestionViewModel();
             model.Title = title;
             if (category.HasValue)

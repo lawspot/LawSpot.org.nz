@@ -10,27 +10,35 @@
     <style type="text/css">
     body { filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/shared/images/background.jpg', sizingMethod='scale'); }
     </style>
+    <script>
+      var e = ("abbr,article,aside,audio,canvas,datalist,details," +
+        "figure,footer,header,hgroup,mark,menu,meter,nav,output," +
+        "progress,section,time,video").split(',');
+      for (var i = 0; i < e.length; i++) {
+        document.createElement(e[i]);
+      }
+    </script>
     <![endif]-->
 </head>
 <body>
     <header>
         <a href="/home" class="site-logo" title="LawSpot.org.nz"><img src="/shared/images/logo.png" /></a>
-        <nav>
-        	<ul>
-        		<li><a href="/ask" class="active">Ask a Lawyer</a></li> <!-- add class="active" to current page -->
-        		<li><a href="/browse">Browse Answers</a></li>
-        		<li><a href="/how-it-works">How it works</a></li>
-        	</ul>
-        	<div id="_login">
-                <script id="_loginTemplate" type="text/template">
+        <nav id="_header">
+            <script id="_headerTemplate" type="text/template">
+        	    <ul>
+        		    <li><a href="/ask" {{#AskALawyerTabActive}} class="active" {{/AskALawyerTabActive}}>Ask a Lawyer</a></li>
+        		    <li><a href="/browse" {{#BrowseAnswersTabActive}} class="active" {{/BrowseAnswersTabActive}}>Browse Answers</a></li>
+        		    <li><a href="/how-it-works" {{#HowItWorksTabActive}} class="active" {{/HowItWorksTabActive}}>How it works</a></li>
+        	    </ul>
+        	    <div id="_login">
                     {{^User}}
                         <a href="/login">Login</a> | <a href="/register">Register</a>
                     {{/User}}
                     {{#User}}
                         <!-- <a href="/admin">My Account</a> | --> <a href="/logout">Logout</a>
                     {{/User}}
-                </script>
-            </div>
+                </div>
+            </script>
         </nav>
     </header>
     <section id="_message" class="site-message">

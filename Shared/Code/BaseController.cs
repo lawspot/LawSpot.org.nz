@@ -70,7 +70,37 @@ namespace Lawspot.Controllers
             /// A green "all systems go" message.
             /// </summary>
             public string SuccessMessage { get; set; }
+
+            /// <summary>
+            /// Indicates whether the Ask A Lawyer tab is active.
+            /// </summary>
+            public bool AskALawyerTabActive { get; set; }
+
+            /// <summary>
+            /// Indicates whether the Browse Answers tab is active.
+            /// </summary>
+            public bool BrowseAnswersTabActive { get; set; }
+
+            /// <summary>
+            /// Indicates whether the How It Works tab is active.
+            /// </summary>
+            public bool HowItWorksTabActive { get; set; }
         }
+
+        /// <summary>
+        /// Indicates whether the Ask A Lawyer tab is active.
+        /// </summary>
+        public bool AskALawyerTabActive { get; set; }
+
+        /// <summary>
+        /// Indicates whether the Browse Answers tab is active.
+        /// </summary>
+        public bool BrowseAnswersTabActive { get; set; }
+
+        /// <summary>
+        /// Indicates whether the How It Works tab is active.
+        /// </summary>
+        public bool HowItWorksTabActive { get; set; }
 
         /// <summary>
         /// Gets a model object of a given type.
@@ -101,6 +131,11 @@ namespace Lawspot.Controllers
                         model.SuccessMessage = string.Format("Thanks for registering!  Please check your email ({0}) to confirm your account with us.", this.User.EmailAddress);
                         break;
                 }
+
+                // Tab activation states.
+                model.AskALawyerTabActive = this.AskALawyerTabActive;
+                model.BrowseAnswersTabActive = this.BrowseAnswersTabActive;
+                model.HowItWorksTabActive = this.HowItWorksTabActive;
 
                 // ModelState.
                 var result = new Dictionary<string, object>();

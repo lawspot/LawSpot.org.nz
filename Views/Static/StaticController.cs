@@ -13,6 +13,9 @@ namespace Lawspot.Controllers
     {
         public ActionResult HowItWorks()
         {
+            // Activate header tab.
+            this.HowItWorksTabActive = true;
+
             return View();
         }
 
