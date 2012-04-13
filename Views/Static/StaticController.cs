@@ -41,6 +41,11 @@ namespace Lawspot.Controllers
             return View();
         }
 
+        public ActionResult ImportantNotice()
+        {
+            return View();
+        }
+
         public ActionResult PartnerWithUs()
         {
             return View();
