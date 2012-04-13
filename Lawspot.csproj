@@ -283,7 +283,7 @@
     <Content Include="Views\Admin\ReviewQuestions\question-icon.png" />
     <Content Include="Views\Admin\Layout\Layout.css" />
     <Content Include="Views\Admin\Layout\Layout.html" />
-    <Content Include="Views\Admin\list-arrow.png" />
+    <Content Include="Shared\Images\list-arrow.png" />
     <Content Include="Views\Admin\sidebar.png" />
     <Content Include="Views\LawyerAdmin\AnswerQuestions\answered.png" />
     <Content Include="Views\LawyerAdmin\AnswerQuestions\AnswerQuestions.css" />
@@ -310,8 +310,10 @@
     <Content Include="Views\Browse\Question\Question.css" />
     <Content Include="Views\Browse\Question\Question.html" />
     <Content Include="Views\Browse\Question\question.png" />
+    <Content Include="Views\Static\AboutUs\margaret-wilson.png" />
     <Content Include="Views\Static\ContactUs.html" />
-    <Content Include="Views\Static\AboutUs.html" />
+    <Content Include="Views\Static\AboutUs\AboutUs.html" />
+    <Content Include="Views\Static\AboutUs\AboutUs.css" />
     <Content Include="Views\Static\ImportantNotice.html" />
     <Content Include="Views\Static\TermsOfEngagement.html" />
     <Content Include="Views\Static\TermsOfUse.html" />

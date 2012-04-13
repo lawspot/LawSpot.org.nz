@@ -1,0 +1,28 @@
+﻿/* Table of contents */
+ul.contents {
+    margin: 20px 0 30px;
+    padding: 7px 0;
+    list-style: none;
+    display: block;
+    border-top: solid 1px #CCC;
+    border-bottom: solid 1px #CCC;
+    height: 18px;
+}
+ul.contents li {
+    float: left;
+    margin-right: 50px;
+}
+
+/* Job titles */
+#aboutus h3 em {
+    font-weight: normal;
+    margin-left: 10px;
+    color: #373737;
+}
+
+/* Images */
+#aboutus img {
+    float: right;
+    box-shadow: 0 0 6px rgba(0,0,0,.5);
+    margin: 10px;
+}

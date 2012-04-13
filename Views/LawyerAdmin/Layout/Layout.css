@@ -25,17 +25,7 @@
 	margin-bottom: 15px;
 }
 .admin-sidebar ul.list-arrows {
-	margin: 25px 0 25px 15px;
-	margin: 15px 30px;
-	padding: 0;
-}
-.admin-sidebar ul.list-arrows li {
-	margin-bottom: 20px;
-	list-style-image: url(/views/admin/list-arrow.png);
-	margin-bottom: 10px;
-}
-.admin-sidebar ul.list-arrows li a {
-	color: #306288;
+	margin-left: 15px;
 }
 .admin-sidebar hr {
 	margin-top: 10px;

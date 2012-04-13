@@ -257,7 +257,7 @@ ul.list-arrows {
 	padding: 0;
 }
 ul.list-arrows li {
-	list-style-image: url(images/list-arrow.png);
+	list-style-image: url(/shared/images/list-arrow.png);
 	margin-bottom: 10px;
 }
 ul.list-arrows li a {
