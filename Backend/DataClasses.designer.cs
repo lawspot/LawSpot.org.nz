@@ -33,15 +33,12 @@ namespace Lawspot.Backend
     partial void InsertRegion(Region instance);
     partial void UpdateRegion(Region instance);
     partial void DeleteRegion(Region instance);
-    partial void InsertMigration(Migration instance);
-    partial void UpdateMigration(Migration instance);
-    partial void DeleteMigration(Migration instance);
     partial void InsertCategory(Category instance);
     partial void UpdateCategory(Category instance);
     partial void DeleteCategory(Category instance);
-    partial void InsertUser(User instance);
-    partial void UpdateUser(User instance);
-    partial void DeleteUser(User instance);
+    partial void InsertMigration(Migration instance);
+    partial void UpdateMigration(Migration instance);
+    partial void DeleteMigration(Migration instance);
     partial void InsertQuestion(Question instance);
     partial void UpdateQuestion(Question instance);
     partial void DeleteQuestion(Question instance);
@@ -51,6 +48,9 @@ namespace Lawspot.Backend
     partial void InsertLawyer(Lawyer instance);
     partial void UpdateLawyer(Lawyer instance);
     partial void DeleteLawyer(Lawyer instance);
+    partial void InsertUser(User instance);
+    partial void UpdateUser(User instance);
+    partial void DeleteUser(User instance);
     #endregion
 		
 		public DataClassesDataContext() : 
@@ -91,14 +91,6 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		public System.Data.Linq.Table<Migration> Migrations
-		{
-			get
-			{
-				return this.GetTable<Migration>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Category> Categories
 		{
 			get
@@ -107,11 +99,11 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		public System.Data.Linq.Table<User> Users
+		public System.Data.Linq.Table<Migration> Migrations
 		{
 			get
 			{
-				return this.GetTable<User>();
+				return this.GetTable<Migration>();
 			}
 		}
 		
@@ -136,6 +128,14 @@ namespace Lawspot.Backend
 			get
 			{
 				return this.GetTable<Lawyer>();
+			}
+		}
+		
+		public System.Data.Linq.Table<User> Users
+		{
+			get
+			{
+				return this.GetTable<User>();
 			}
 		}
 	}
@@ -251,116 +251,6 @@ namespace Lawspot.Backend
 		{
 			this.SendPropertyChanging();
 			entity.Region = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Migrations")]
-	public partial class Migration : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _MigrationId;
-		
-		private int _Version;
-		
-		private System.DateTime _RunAt;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnMigrationIdChanging(int value);
-    partial void OnMigrationIdChanged();
-    partial void OnVersionChanging(int value);
-    partial void OnVersionChanged();
-    partial void OnRunAtChanging(System.DateTime value);
-    partial void OnRunAtChanged();
-    #endregion
-		
-		public Migration()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MigrationId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int MigrationId
-		{
-			get
-			{
-				return this._MigrationId;
-			}
-			set
-			{
-				if ((this._MigrationId != value))
-				{
-					this.OnMigrationIdChanging(value);
-					this.SendPropertyChanging();
-					this._MigrationId = value;
-					this.SendPropertyChanged("MigrationId");
-					this.OnMigrationIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Version", DbType="Int NOT NULL")]
-		public int Version
-		{
-			get
-			{
-				return this._Version;
-			}
-			set
-			{
-				if ((this._Version != value))
-				{
-					this.OnVersionChanging(value);
-					this.SendPropertyChanging();
-					this._Version = value;
-					this.SendPropertyChanged("Version");
-					this.OnVersionChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RunAt", DbType="DateTime NOT NULL")]
-		public System.DateTime RunAt
-		{
-			get
-			{
-				return this._RunAt;
-			}
-			set
-			{
-				if ((this._RunAt != value))
-				{
-					this.OnRunAtChanging(value);
-					this.SendPropertyChanging();
-					this._RunAt = value;
-					this.SendPropertyChanged("RunAt");
-					this.OnRunAtChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 	
@@ -530,284 +420,91 @@ namespace Lawspot.Backend
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
-	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Migrations")]
+	public partial class Migration : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private int _UserId;
+		private int _MigrationId;
 		
-		private string _EmailAddress;
+		private int _Version;
 		
-		private string _Password;
-		
-		private System.Data.Linq.Binary _Avatar;
-		
-		private int _RegionId;
-		
-		private bool _IsVolunteerAdmin;
-		
-		private bool _IsCLCLawyer;
-		
-		private System.DateTime _CreatedOn;
-		
-		private EntitySet<Question> _Questions;
-		
-		private EntitySet<Lawyer> _Lawyers;
-		
-		private EntityRef<Region> _Region;
+		private System.DateTimeOffset _RunAt;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnUserIdChanging(int value);
-    partial void OnUserIdChanged();
-    partial void OnEmailAddressChanging(string value);
-    partial void OnEmailAddressChanged();
-    partial void OnPasswordChanging(string value);
-    partial void OnPasswordChanged();
-    partial void OnAvatarChanging(System.Data.Linq.Binary value);
-    partial void OnAvatarChanged();
-    partial void OnRegionIdChanging(int value);
-    partial void OnRegionIdChanged();
-    partial void OnIsVolunteerAdminChanging(bool value);
-    partial void OnIsVolunteerAdminChanged();
-    partial void OnIsCLCLawyerChanging(bool value);
-    partial void OnIsCLCLawyerChanged();
-    partial void OnCreatedOnChanging(System.DateTime value);
-    partial void OnCreatedOnChanged();
+    partial void OnMigrationIdChanging(int value);
+    partial void OnMigrationIdChanged();
+    partial void OnVersionChanging(int value);
+    partial void OnVersionChanged();
+    partial void OnRunAtChanging(System.DateTimeOffset value);
+    partial void OnRunAtChanged();
     #endregion
 		
-		public User()
+		public Migration()
 		{
-			this._Questions = new EntitySet<Question>(new Action<Question>(this.attach_Questions), new Action<Question>(this.detach_Questions));
-			this._Lawyers = new EntitySet<Lawyer>(new Action<Lawyer>(this.attach_Lawyers), new Action<Lawyer>(this.detach_Lawyers));
-			this._Region = default(EntityRef<Region>);
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int UserId
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MigrationId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int MigrationId
 		{
 			get
 			{
-				return this._UserId;
+				return this._MigrationId;
 			}
 			set
 			{
-				if ((this._UserId != value))
+				if ((this._MigrationId != value))
 				{
-					this.OnUserIdChanging(value);
+					this.OnMigrationIdChanging(value);
 					this.SendPropertyChanging();
-					this._UserId = value;
-					this.SendPropertyChanged("UserId");
-					this.OnUserIdChanged();
+					this._MigrationId = value;
+					this.SendPropertyChanged("MigrationId");
+					this.OnMigrationIdChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmailAddress", DbType="NVarChar(256) NOT NULL", CanBeNull=false)]
-		public string EmailAddress
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Version", DbType="Int NOT NULL")]
+		public int Version
 		{
 			get
 			{
-				return this._EmailAddress;
+				return this._Version;
 			}
 			set
 			{
-				if ((this._EmailAddress != value))
+				if ((this._Version != value))
 				{
-					this.OnEmailAddressChanging(value);
+					this.OnVersionChanging(value);
 					this.SendPropertyChanging();
-					this._EmailAddress = value;
-					this.SendPropertyChanged("EmailAddress");
-					this.OnEmailAddressChanged();
+					this._Version = value;
+					this.SendPropertyChanged("Version");
+					this.OnVersionChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(60) NOT NULL", CanBeNull=false)]
-		public string Password
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RunAt", DbType="DateTimeOffset NOT NULL")]
+		public System.DateTimeOffset RunAt
 		{
 			get
 			{
-				return this._Password;
+				return this._RunAt;
 			}
 			set
 			{
-				if ((this._Password != value))
+				if ((this._RunAt != value))
 				{
-					this.OnPasswordChanging(value);
+					this.OnRunAtChanging(value);
 					this.SendPropertyChanging();
-					this._Password = value;
-					this.SendPropertyChanged("Password");
-					this.OnPasswordChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Avatar", DbType="Image", UpdateCheck=UpdateCheck.Never)]
-		public System.Data.Linq.Binary Avatar
-		{
-			get
-			{
-				return this._Avatar;
-			}
-			set
-			{
-				if ((this._Avatar != value))
-				{
-					this.OnAvatarChanging(value);
-					this.SendPropertyChanging();
-					this._Avatar = value;
-					this.SendPropertyChanged("Avatar");
-					this.OnAvatarChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RegionId", DbType="Int NOT NULL")]
-		public int RegionId
-		{
-			get
-			{
-				return this._RegionId;
-			}
-			set
-			{
-				if ((this._RegionId != value))
-				{
-					if (this._Region.HasLoadedOrAssignedValue)
-					{
-						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
-					}
-					this.OnRegionIdChanging(value);
-					this.SendPropertyChanging();
-					this._RegionId = value;
-					this.SendPropertyChanged("RegionId");
-					this.OnRegionIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsVolunteerAdmin", DbType="Bit NOT NULL")]
-		public bool IsVolunteerAdmin
-		{
-			get
-			{
-				return this._IsVolunteerAdmin;
-			}
-			set
-			{
-				if ((this._IsVolunteerAdmin != value))
-				{
-					this.OnIsVolunteerAdminChanging(value);
-					this.SendPropertyChanging();
-					this._IsVolunteerAdmin = value;
-					this.SendPropertyChanged("IsVolunteerAdmin");
-					this.OnIsVolunteerAdminChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsCLCLawyer", DbType="Bit NOT NULL")]
-		public bool IsCLCLawyer
-		{
-			get
-			{
-				return this._IsCLCLawyer;
-			}
-			set
-			{
-				if ((this._IsCLCLawyer != value))
-				{
-					this.OnIsCLCLawyerChanging(value);
-					this.SendPropertyChanging();
-					this._IsCLCLawyer = value;
-					this.SendPropertyChanged("IsCLCLawyer");
-					this.OnIsCLCLawyerChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedOn", DbType="DateTime NOT NULL")]
-		public System.DateTime CreatedOn
-		{
-			get
-			{
-				return this._CreatedOn;
-			}
-			set
-			{
-				if ((this._CreatedOn != value))
-				{
-					this.OnCreatedOnChanging(value);
-					this.SendPropertyChanging();
-					this._CreatedOn = value;
-					this.SendPropertyChanged("CreatedOn");
-					this.OnCreatedOnChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Question", Storage="_Questions", ThisKey="UserId", OtherKey="CreatedByUserId")]
-		public EntitySet<Question> Questions
-		{
-			get
-			{
-				return this._Questions;
-			}
-			set
-			{
-				this._Questions.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Lawyer", Storage="_Lawyers", ThisKey="UserId", OtherKey="UserId")]
-		public EntitySet<Lawyer> Lawyers
-		{
-			get
-			{
-				return this._Lawyers;
-			}
-			set
-			{
-				this._Lawyers.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Region_User", Storage="_Region", ThisKey="RegionId", OtherKey="RegionId", IsForeignKey=true)]
-		public Region Region
-		{
-			get
-			{
-				return this._Region.Entity;
-			}
-			set
-			{
-				Region previousValue = this._Region.Entity;
-				if (((previousValue != value) 
-							|| (this._Region.HasLoadedOrAssignedValue == false)))
-				{
-					this.SendPropertyChanging();
-					if ((previousValue != null))
-					{
-						this._Region.Entity = null;
-						previousValue.Users.Remove(this);
-					}
-					this._Region.Entity = value;
-					if ((value != null))
-					{
-						value.Users.Add(this);
-						this._RegionId = value.RegionId;
-					}
-					else
-					{
-						this._RegionId = default(int);
-					}
-					this.SendPropertyChanged("Region");
+					this._RunAt = value;
+					this.SendPropertyChanged("RunAt");
+					this.OnRunAtChanged();
 				}
 			}
 		}
@@ -831,30 +528,6 @@ namespace Lawspot.Backend
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
-		
-		private void attach_Questions(Question entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_Questions(Question entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
-		
-		private void attach_Lawyers(Lawyer entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = this;
-		}
-		
-		private void detach_Lawyers(Lawyer entity)
-		{
-			this.SendPropertyChanging();
-			entity.User = null;
-		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Question")]
@@ -871,7 +544,7 @@ namespace Lawspot.Backend
 		
 		private int _CategoryId;
 		
-		private System.DateTime _CreatedOn;
+		private System.DateTimeOffset _CreatedOn;
 		
 		private int _CreatedByUserId;
 		
@@ -881,9 +554,9 @@ namespace Lawspot.Backend
 		
 		private bool _Approved;
 		
-		private System.Nullable<System.DateTime> _ApprovalDate;
+		private System.Nullable<System.DateTimeOffset> _ApprovalDate;
 		
-		private System.Nullable<System.DateTime> _RejectionDate;
+		private System.Nullable<System.DateTimeOffset> _RejectionDate;
 		
 		private System.Nullable<int> _ApprovedByUserId;
 		
@@ -907,7 +580,7 @@ namespace Lawspot.Backend
     partial void OnDetailsChanged();
     partial void OnCategoryIdChanging(int value);
     partial void OnCategoryIdChanged();
-    partial void OnCreatedOnChanging(System.DateTime value);
+    partial void OnCreatedOnChanging(System.DateTimeOffset value);
     partial void OnCreatedOnChanged();
     partial void OnCreatedByUserIdChanging(int value);
     partial void OnCreatedByUserIdChanged();
@@ -917,9 +590,9 @@ namespace Lawspot.Backend
     partial void OnSlugChanged();
     partial void OnApprovedChanging(bool value);
     partial void OnApprovedChanged();
-    partial void OnApprovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnApprovalDateChanging(System.Nullable<System.DateTimeOffset> value);
     partial void OnApprovalDateChanged();
-    partial void OnRejectionDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRejectionDateChanging(System.Nullable<System.DateTimeOffset> value);
     partial void OnRejectionDateChanged();
     partial void OnApprovedByUserIdChanging(System.Nullable<int> value);
     partial void OnApprovedByUserIdChanged();
@@ -1019,8 +692,8 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedOn", DbType="DateTime NOT NULL")]
-		public System.DateTime CreatedOn
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedOn", DbType="DateTimeOffset NOT NULL")]
+		public System.DateTimeOffset CreatedOn
 		{
 			get
 			{
@@ -1123,8 +796,8 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApprovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> ApprovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApprovalDate", DbType="DateTimeOffset")]
+		public System.Nullable<System.DateTimeOffset> ApprovalDate
 		{
 			get
 			{
@@ -1143,8 +816,8 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RejectionDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RejectionDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RejectionDate", DbType="DateTimeOffset")]
+		public System.Nullable<System.DateTimeOffset> RejectionDate
 		{
 			get
 			{
@@ -1329,15 +1002,15 @@ namespace Lawspot.Backend
 		
 		private string _Details;
 		
-		private System.DateTime _CreatedOn;
+		private System.DateTimeOffset _CreatedOn;
 		
 		private int _CreatedByLawyerId;
 		
 		private bool _Approved;
 		
-		private System.Nullable<System.DateTime> _ApprovalDate;
+		private System.Nullable<System.DateTimeOffset> _ApprovalDate;
 		
-		private System.Nullable<System.DateTime> _RejectionDate;
+		private System.Nullable<System.DateTimeOffset> _RejectionDate;
 		
 		private System.Nullable<int> _ApprovedByUserId;
 		
@@ -1357,15 +1030,15 @@ namespace Lawspot.Backend
     partial void OnQuestionIdChanged();
     partial void OnDetailsChanging(string value);
     partial void OnDetailsChanged();
-    partial void OnCreatedOnChanging(System.DateTime value);
+    partial void OnCreatedOnChanging(System.DateTimeOffset value);
     partial void OnCreatedOnChanged();
     partial void OnCreatedByLawyerIdChanging(int value);
     partial void OnCreatedByLawyerIdChanged();
     partial void OnApprovedChanging(bool value);
     partial void OnApprovedChanged();
-    partial void OnApprovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnApprovalDateChanging(System.Nullable<System.DateTimeOffset> value);
     partial void OnApprovalDateChanged();
-    partial void OnRejectionDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRejectionDateChanging(System.Nullable<System.DateTimeOffset> value);
     partial void OnRejectionDateChanged();
     partial void OnApprovedByUserIdChanging(System.Nullable<int> value);
     partial void OnApprovedByUserIdChanged();
@@ -1444,8 +1117,8 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedOn", DbType="DateTime NOT NULL")]
-		public System.DateTime CreatedOn
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedOn", DbType="DateTimeOffset NOT NULL")]
+		public System.DateTimeOffset CreatedOn
 		{
 			get
 			{
@@ -1508,8 +1181,8 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApprovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> ApprovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApprovalDate", DbType="DateTimeOffset")]
+		public System.Nullable<System.DateTimeOffset> ApprovalDate
 		{
 			get
 			{
@@ -1528,8 +1201,8 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RejectionDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RejectionDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RejectionDate", DbType="DateTimeOffset")]
+		public System.Nullable<System.DateTimeOffset> RejectionDate
 		{
 			get
 			{
@@ -1697,7 +1370,7 @@ namespace Lawspot.Backend
 		
 		private string _FirmName;
 		
-		private System.DateTime _CreatedOn;
+		private System.DateTimeOffset _CreatedOn;
 		
 		private bool _Approved;
 		
@@ -1705,9 +1378,9 @@ namespace Lawspot.Backend
 		
 		private System.Nullable<int> _RejectedByUserId;
 		
-		private System.Nullable<System.DateTime> _ApprovalDate;
+		private System.Nullable<System.DateTimeOffset> _ApprovalDate;
 		
-		private System.Nullable<System.DateTime> _RejectionDate;
+		private System.Nullable<System.DateTimeOffset> _RejectionDate;
 		
 		private EntitySet<Answer> _Answers;
 		
@@ -1733,7 +1406,7 @@ namespace Lawspot.Backend
     partial void OnSpecialisationCategoryIdChanged();
     partial void OnFirmNameChanging(string value);
     partial void OnFirmNameChanged();
-    partial void OnCreatedOnChanging(System.DateTime value);
+    partial void OnCreatedOnChanging(System.DateTimeOffset value);
     partial void OnCreatedOnChanged();
     partial void OnApprovedChanging(bool value);
     partial void OnApprovedChanged();
@@ -1741,9 +1414,9 @@ namespace Lawspot.Backend
     partial void OnApprovedByUserIdChanged();
     partial void OnRejectedByUserIdChanging(System.Nullable<int> value);
     partial void OnRejectedByUserIdChanged();
-    partial void OnApprovalDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnApprovalDateChanging(System.Nullable<System.DateTimeOffset> value);
     partial void OnApprovalDateChanged();
-    partial void OnRejectionDateChanging(System.Nullable<System.DateTime> value);
+    partial void OnRejectionDateChanging(System.Nullable<System.DateTimeOffset> value);
     partial void OnRejectionDateChanged();
     #endregion
 		
@@ -1903,8 +1576,8 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedOn", DbType="DateTime NOT NULL")]
-		public System.DateTime CreatedOn
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedOn", DbType="DateTimeOffset NOT NULL")]
+		public System.DateTimeOffset CreatedOn
 		{
 			get
 			{
@@ -1983,8 +1656,8 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApprovalDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> ApprovalDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApprovalDate", DbType="DateTimeOffset")]
+		public System.Nullable<System.DateTimeOffset> ApprovalDate
 		{
 			get
 			{
@@ -2003,8 +1676,8 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RejectionDate", DbType="DateTime")]
-		public System.Nullable<System.DateTime> RejectionDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RejectionDate", DbType="DateTimeOffset")]
+		public System.Nullable<System.DateTimeOffset> RejectionDate
 		{
 			get
 			{
@@ -2134,6 +1807,333 @@ namespace Lawspot.Backend
 		{
 			this.SendPropertyChanging();
 			entity.Lawyer = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
+	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _UserId;
+		
+		private string _EmailAddress;
+		
+		private string _Password;
+		
+		private System.Data.Linq.Binary _Avatar;
+		
+		private int _RegionId;
+		
+		private bool _IsVolunteerAdmin;
+		
+		private bool _IsCLCLawyer;
+		
+		private System.DateTimeOffset _CreatedOn;
+		
+		private EntitySet<Question> _Questions;
+		
+		private EntitySet<Lawyer> _Lawyers;
+		
+		private EntityRef<Region> _Region;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnUserIdChanging(int value);
+    partial void OnUserIdChanged();
+    partial void OnEmailAddressChanging(string value);
+    partial void OnEmailAddressChanged();
+    partial void OnPasswordChanging(string value);
+    partial void OnPasswordChanged();
+    partial void OnAvatarChanging(System.Data.Linq.Binary value);
+    partial void OnAvatarChanged();
+    partial void OnRegionIdChanging(int value);
+    partial void OnRegionIdChanged();
+    partial void OnIsVolunteerAdminChanging(bool value);
+    partial void OnIsVolunteerAdminChanged();
+    partial void OnIsCLCLawyerChanging(bool value);
+    partial void OnIsCLCLawyerChanged();
+    partial void OnCreatedOnChanging(System.DateTimeOffset value);
+    partial void OnCreatedOnChanged();
+    #endregion
+		
+		public User()
+		{
+			this._Questions = new EntitySet<Question>(new Action<Question>(this.attach_Questions), new Action<Question>(this.detach_Questions));
+			this._Lawyers = new EntitySet<Lawyer>(new Action<Lawyer>(this.attach_Lawyers), new Action<Lawyer>(this.detach_Lawyers));
+			this._Region = default(EntityRef<Region>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UserId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int UserId
+		{
+			get
+			{
+				return this._UserId;
+			}
+			set
+			{
+				if ((this._UserId != value))
+				{
+					this.OnUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._UserId = value;
+					this.SendPropertyChanged("UserId");
+					this.OnUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmailAddress", DbType="NVarChar(256) NOT NULL", CanBeNull=false)]
+		public string EmailAddress
+		{
+			get
+			{
+				return this._EmailAddress;
+			}
+			set
+			{
+				if ((this._EmailAddress != value))
+				{
+					this.OnEmailAddressChanging(value);
+					this.SendPropertyChanging();
+					this._EmailAddress = value;
+					this.SendPropertyChanged("EmailAddress");
+					this.OnEmailAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Password", DbType="VarChar(60) NOT NULL", CanBeNull=false)]
+		public string Password
+		{
+			get
+			{
+				return this._Password;
+			}
+			set
+			{
+				if ((this._Password != value))
+				{
+					this.OnPasswordChanging(value);
+					this.SendPropertyChanging();
+					this._Password = value;
+					this.SendPropertyChanged("Password");
+					this.OnPasswordChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Avatar", DbType="Image", UpdateCheck=UpdateCheck.Never)]
+		public System.Data.Linq.Binary Avatar
+		{
+			get
+			{
+				return this._Avatar;
+			}
+			set
+			{
+				if ((this._Avatar != value))
+				{
+					this.OnAvatarChanging(value);
+					this.SendPropertyChanging();
+					this._Avatar = value;
+					this.SendPropertyChanged("Avatar");
+					this.OnAvatarChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RegionId", DbType="Int NOT NULL")]
+		public int RegionId
+		{
+			get
+			{
+				return this._RegionId;
+			}
+			set
+			{
+				if ((this._RegionId != value))
+				{
+					if (this._Region.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnRegionIdChanging(value);
+					this.SendPropertyChanging();
+					this._RegionId = value;
+					this.SendPropertyChanged("RegionId");
+					this.OnRegionIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsVolunteerAdmin", DbType="Bit NOT NULL")]
+		public bool IsVolunteerAdmin
+		{
+			get
+			{
+				return this._IsVolunteerAdmin;
+			}
+			set
+			{
+				if ((this._IsVolunteerAdmin != value))
+				{
+					this.OnIsVolunteerAdminChanging(value);
+					this.SendPropertyChanging();
+					this._IsVolunteerAdmin = value;
+					this.SendPropertyChanged("IsVolunteerAdmin");
+					this.OnIsVolunteerAdminChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_IsCLCLawyer", DbType="Bit NOT NULL")]
+		public bool IsCLCLawyer
+		{
+			get
+			{
+				return this._IsCLCLawyer;
+			}
+			set
+			{
+				if ((this._IsCLCLawyer != value))
+				{
+					this.OnIsCLCLawyerChanging(value);
+					this.SendPropertyChanging();
+					this._IsCLCLawyer = value;
+					this.SendPropertyChanged("IsCLCLawyer");
+					this.OnIsCLCLawyerChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedOn", DbType="DateTimeOffset NOT NULL")]
+		public System.DateTimeOffset CreatedOn
+		{
+			get
+			{
+				return this._CreatedOn;
+			}
+			set
+			{
+				if ((this._CreatedOn != value))
+				{
+					this.OnCreatedOnChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedOn = value;
+					this.SendPropertyChanged("CreatedOn");
+					this.OnCreatedOnChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Question", Storage="_Questions", ThisKey="UserId", OtherKey="CreatedByUserId")]
+		public EntitySet<Question> Questions
+		{
+			get
+			{
+				return this._Questions;
+			}
+			set
+			{
+				this._Questions.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Lawyer", Storage="_Lawyers", ThisKey="UserId", OtherKey="UserId")]
+		public EntitySet<Lawyer> Lawyers
+		{
+			get
+			{
+				return this._Lawyers;
+			}
+			set
+			{
+				this._Lawyers.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Region_User", Storage="_Region", ThisKey="RegionId", OtherKey="RegionId", IsForeignKey=true)]
+		public Region Region
+		{
+			get
+			{
+				return this._Region.Entity;
+			}
+			set
+			{
+				Region previousValue = this._Region.Entity;
+				if (((previousValue != value) 
+							|| (this._Region.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Region.Entity = null;
+						previousValue.Users.Remove(this);
+					}
+					this._Region.Entity = value;
+					if ((value != null))
+					{
+						value.Users.Add(this);
+						this._RegionId = value.RegionId;
+					}
+					else
+					{
+						this._RegionId = default(int);
+					}
+					this.SendPropertyChanged("Region");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Questions(Question entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Questions(Question entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
+		
+		private void attach_Lawyers(Lawyer entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_Lawyers(Lawyer entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
 		}
 	}
 }

@@ -71,7 +71,7 @@ namespace Lawspot.Shared
             email.ServerHost = string.Format("{0}.{1}", Environment.MachineName,
                     System.Net.NetworkInformation.IPGlobalProperties.GetIPGlobalProperties().DomainName);;
             email.ServerCommandLine = Environment.CommandLine;
-            email.CurrentTime = DateTime.Now.ToLocalTime().ToString("d/M/yyyy hh:mm:ss.fff tt");
+            email.CurrentTime = DateTime.Now.ToString("d/M/yyyy hh:mm:ss.fff tt K");
 
             // Pull out the HTTP information.
             if (HttpContext.Current != null)

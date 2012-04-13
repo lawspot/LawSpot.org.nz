@@ -98,7 +98,7 @@ namespace Lawspot.Controllers
             {
                 // Register a new user.
                 user = new User();
-                user.CreatedOn = DateTime.Now;
+                user.CreatedOn = DateTimeOffset.Now;
                 user.EmailAddress = model.EmailAddress;
                 user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
                 user.RegionId = model.RegionId;
@@ -179,7 +179,7 @@ namespace Lawspot.Controllers
             {
                 // Register a new user.
                 user = new User();
-                user.CreatedOn = DateTime.Now;
+                user.CreatedOn = DateTimeOffset.Now;
                 user.EmailAddress = model.EmailAddress;
                 user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
                 user.RegionId = model.RegionId;
@@ -188,7 +188,7 @@ namespace Lawspot.Controllers
 
             // Register a new lawyer.
             var lawyer = new Lawyer();
-            lawyer.CreatedOn = DateTime.Now;
+            lawyer.CreatedOn = DateTimeOffset.Now;
             lawyer.User = user;
             lawyer.FirstName = model.FirstName;
             lawyer.LastName = model.LastName;

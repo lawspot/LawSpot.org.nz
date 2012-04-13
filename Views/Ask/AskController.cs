@@ -99,7 +99,7 @@ namespace Lawspot.Controllers
                     {
                         // Register a new user.
                         user = new User();
-                        user.CreatedOn = DateTime.Now;
+                        user.CreatedOn = DateTimeOffset.Now;
                         user.EmailAddress = model.Registration.EmailAddress;
                         user.Password = BCrypt.Net.BCrypt.HashPassword(model.Registration.Password, workFactor: 12);
                         user.RegionId = model.Registration.RegionId;
@@ -170,7 +170,7 @@ namespace Lawspot.Controllers
             question.Title = model.Title;
             question.Details = model.Details;
             question.CategoryId = model.CategoryId;
-            question.CreatedOn = DateTime.Now;
+            question.CreatedOn = DateTimeOffset.Now;
             question.User = user;
             question.Slug = slug.ToString();
             this.DataContext.Questions.InsertOnSubmit(question);

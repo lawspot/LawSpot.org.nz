@@ -147,7 +147,7 @@ namespace Lawspot.Controllers
         {
             var lawyer = this.DataContext.Lawyers.Where(l => l.LawyerId == lawyerId).Single();
             lawyer.Approved = true;
-            lawyer.ApprovalDate = DateTime.Now;
+            lawyer.ApprovalDate = DateTimeOffset.Now;
             lawyer.ApprovedByUserId = this.User.Id;
             this.DataContext.SubmitChanges();
         }
@@ -161,7 +161,7 @@ namespace Lawspot.Controllers
         {
             var lawyer = this.DataContext.Lawyers.Where(l => l.LawyerId == lawyerId).Single();
             lawyer.Approved = false;
-            lawyer.RejectionDate = DateTime.Now;
+            lawyer.RejectionDate = DateTimeOffset.Now;
             lawyer.RejectedByUserId = this.User.Id;
             this.DataContext.SubmitChanges();
         }
@@ -281,7 +281,7 @@ namespace Lawspot.Controllers
             question.Details = details;
             question.CategoryId = categoryId;
             question.Approved = true;
-            question.ApprovalDate = DateTime.Now;
+            question.ApprovalDate = DateTimeOffset.Now;
             question.ApprovedByUserId = this.User.Id;
             this.DataContext.SubmitChanges();
         }
@@ -295,7 +295,7 @@ namespace Lawspot.Controllers
         {
             var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).Single();
             question.Approved = false;
-            question.RejectionDate = DateTime.Now;
+            question.RejectionDate = DateTimeOffset.Now;
             question.RejectedByUserId = this.User.Id;
             this.DataContext.SubmitChanges();
         }
@@ -381,7 +381,7 @@ namespace Lawspot.Controllers
             var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).Single();
             answer.Details = answerDetails;
             answer.Approved = true;
-            answer.ApprovalDate = DateTime.Now;
+            answer.ApprovalDate = DateTimeOffset.Now;
             answer.ApprovedByUserId = this.User.Id;
             this.DataContext.SubmitChanges();
         }
@@ -395,7 +395,7 @@ namespace Lawspot.Controllers
         {
             var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).Single();
             answer.Approved = false;
-            answer.RejectionDate = DateTime.Now;
+            answer.RejectionDate = DateTimeOffset.Now;
             answer.RejectedByUserId = this.User.Id;
             this.DataContext.SubmitChanges();
         }

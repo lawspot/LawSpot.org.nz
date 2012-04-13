@@ -167,7 +167,7 @@ namespace Lawspot.Controllers
         {
             // Create a new answer for the question.
             var answer = new Answer();
-            answer.CreatedOn = DateTime.Now;
+            answer.CreatedOn = DateTimeOffset.Now;
             answer.Details = answerText;
             answer.Lawyer = this.DataContext.Users.Single(u => u.EmailAddress == this.User.EmailAddress).Lawyers.Single();
             answer.QuestionId = questionId;

@@ -126,7 +126,7 @@ namespace Lawspot.Controllers
                         Details = a.Details.Length > 100 ? a.Details.Substring(0, 100) : a.Details,
                         AvatarUri = "/shared/images/default-avatar.jpg",
                         AnsweredBy = a.Lawyer.FullName,
-                        AnsweredHoursAgo = string.Format("{0} hours", Math.Round(DateTime.Now.Subtract(a.CreatedOn).TotalHours))
+                        AnsweredHoursAgo = string.Format("{0} hours", Math.Round(DateTimeOffset.Now.Subtract(a.CreatedOn).TotalHours))
                     });
             }
 
