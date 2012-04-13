@@ -8,6 +8,7 @@
 	display: block;
 	background: url(/views/account/lawyerregister/handsup-top.png) no-repeat;
 	height: 36px;
+	margin-top: -10px;
 }
 #law-register-image {
 	display: block;
