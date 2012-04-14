@@ -203,6 +203,7 @@
     <Content Include="Email\Assets\header.jpg" />
     <Content Include="Email\Assets\logo.png" />
     <Content Include="Email\Assets\twitter.png" />
+    <Content Include="Email\Templates\LawyerRegister.xslt" />
     <Content Include="Email\Templates\Error.xslt" />
     <Content Include="Email\Templates\Register.xslt" />
     <Content Include="Email\Test Data\Register.xml" />
@@ -250,6 +251,8 @@
     <Content Include="Shared\Images\success.png" />
     <Content Include="Shared\Images\warning.png" />
     <Content Include="Shared\Layout\Layout.css" />
+    <Content Include="Views\Account\ValidateEmailAddressFailure.html" />
+    <Content Include="Views\Account\ValidateEmailAddressSuccess.html" />
     <Content Include="Views\Account\LawyerThankYou.html" />
     <Content Include="Views\Account\LawyerRegister\handsup-top.png" />
     <Content Include="Views\Account\LawyerRegister\handsup.jpg" />
