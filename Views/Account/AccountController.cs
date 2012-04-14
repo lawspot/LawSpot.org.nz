@@ -297,12 +297,17 @@ namespace Lawspot.Controllers
             if (user == null)
                 return View("ValidateEmailAddressFailure");
 
+            // Check the user hasn't already validated their email address.
+            if (user.EmailValidated == true)
+                return View("ValidateEmailAddressSuccess");
+
             // Check the token is valid.
             if (user.EmailValidationToken != token)
                 return View("ValidateEmailAddressFailure");
 
             // Mark the account as validated.
             user.EmailValidated = true;
+            user.EmailValidationToken = null;
             this.DataContext.SubmitChanges();
 
             // Success!
