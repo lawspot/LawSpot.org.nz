@@ -579,5 +579,123 @@ namespace Lawspot.Controllers
 
             return new EmptyResult();
         }
+
+        /// <summary>
+        /// Displays the account settings page.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult AccountSettings()
+        {
+            return View(InitializeAccountSettingsViewModel());
+        }
+
+        /// <summary>
+        /// Populates a AccountSettingsViewModel object.
+        /// </summary>
+        /// <returns></returns>
+        private AccountSettingsViewModel InitializeAccountSettingsViewModel()
+        {
+            // Get the user details.
+            var user = this.DataContext.Users.Where(u => u.UserId == this.User.Id).Single();
+
+            var model = new AccountSettingsViewModel();
+            if (this.Request.Form["EmailAddress"] == null)
+                model.EmailAddress = user.EmailAddress;
+            if (this.Request.Form["RegionId"] == null)
+                model.RegionId = user.RegionId;
+            model.RegionName = user.Region.Name;
+            model.Regions = this.DataContext.Regions
+                .Select(r => new SelectListItem()
+                {
+                    Text = r.Name,
+                    Value = r.RegionId.ToString(),
+                    Selected = r.RegionId == user.RegionId,
+                });
+            return model;
+        }
+
+        /// <summary>
+        /// When applied to an action method, calls the method when a parameter with the given key
+        /// matches the given value.
+        /// </summary>
+        private class FormSelectorAttribute : ActionMethodSelectorAttribute
+        {
+            public FormSelectorAttribute(string key, string value)
+            {
+                if (key == null)
+                    throw new ArgumentNullException("key");
+                if (value == null)
+                    throw new ArgumentNullException("value");
+                this.Key = key;
+                this.Value = value;
+            }
+
+            /// <summary>
+            /// The form key that must be present to select the method.
+            /// </summary>
+            public string Key { get; set; }
+
+            /// <summary>
+            /// The value that the form key must have in order to select the method.
+            /// </summary>
+            public string Value { get; set; }
+
+            /// <summary>
+            /// Determines whether the action method selection is valid for the specified controller context.
+            /// </summary>
+            /// <param name="controllerContext"> The controller context. </param>
+            /// <param name="methodInfo"> Information about the action method. </param>
+            /// <returns> <c>true</c> if the action method selection is valid for the specified
+            /// controller context; otherwise, <c>false</c>. </returns>
+            public override bool IsValidForRequest(ControllerContext controllerContext, MethodInfo methodInfo)
+            {
+                var formValue = controllerContext.HttpContext.Request.Form[this.Key];
+                if (formValue == this.Value)
+                    return true;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Called to change the user's email address.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost, ActionName("AccountSettings"), FormSelector("selector", "email")]
+        public ActionResult ChangeEmailAddress(ChangeEmailAddressViewModel model)
+        {
+            if (ModelState.IsValid == false)
+            {
+                var model2 = InitializeAccountSettingsViewModel();
+                model2.EmailAddress = model.EmailAddress;
+                model2.ExpandEmailAddressSection = true;
+                return View(model2);
+            }
+
+            // Change the user's email address.
+            var user = this.DataContext.Users.Where(u => u.UserId == this.User.Id).Single();
+            user.EmailAddress = model.EmailAddress;
+            this.DataContext.SubmitChanges();
+
+            // Re-issue the login cookie with the new email address.
+            Login(user, this.User.RememberMe);
+
+            return RedirectToAction("AccountSettings", new { alert = "updated" });
+        }
+
+        /// <summary>
+        /// Called to change the user's region.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost, ActionName("AccountSettings"), FormSelector("selector", "region")]
+        public ActionResult ChangeRegion(int regionId)
+        {
+            // Change the user's region.
+            var user = this.DataContext.Users.Where(u => u.UserId == this.User.Id).Single();
+            user.RegionId = regionId;
+            this.DataContext.SubmitChanges();
+
+            return RedirectToAction("AccountSettings", new { alert = "updated" });
+        }
     }
 }

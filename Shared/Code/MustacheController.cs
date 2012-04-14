@@ -28,7 +28,7 @@ namespace Lawspot.Controllers
             if (modelType == null)
                 return null;
             var model = viewContext.ViewData.Model;
-            if (modelType.IsAssignableFrom(model.GetType()))
+            if (model != null && modelType.IsAssignableFrom(model.GetType()))
                 return model;
             return null;
         }

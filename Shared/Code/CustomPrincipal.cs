@@ -12,8 +12,9 @@ namespace Lawspot.Shared
         /// Populates a CustomPrincipal using a user entity instance.
         /// </summary>
         /// <param name="user"> The user details. </param>
+        /// <param name="rememberMe"> <c>true</c> if the user ticked "remember me" when logging in. </param>
         /// <returns> A CustomPrincipal. </returns>
-        public static CustomPrincipal FromUser(User user)
+        public static CustomPrincipal FromUser(User user, bool rememberMe)
         {
             if (user == null)
                 throw new ArgumentNullException("user");
@@ -24,6 +25,7 @@ namespace Lawspot.Shared
             result.CanVetQuestions = user.CanVetQuestions;
             result.CanVetAnswers = user.CanVetAnswers;
             result.CanVetLawyers = user.CanVetLawyers;
+            result.RememberMe = rememberMe;
             return result;
         }
 
@@ -52,6 +54,7 @@ namespace Lawspot.Shared
             result.CanVetQuestions = ticket.UserData.Contains("q");
             result.CanVetAnswers = ticket.UserData.Contains("v");
             result.CanVetLawyers = ticket.UserData.Contains("l");
+            result.RememberMe = ticket.UserData.Contains("R");
             return result;
         }
 
@@ -71,6 +74,11 @@ namespace Lawspot.Shared
         /// The email address of the user.
         /// </summary>
         public string EmailAddress { get; set; }
+
+        /// <summary>
+        /// Indicates whether the user ticked remember me when logging in.
+        /// </summary>
+        public bool RememberMe { get; set; }
 
         /// <summary>
         /// The user can answer questions.
@@ -110,6 +118,8 @@ namespace Lawspot.Shared
                 userData.Append("v");
             if (this.CanVetLawyers)
                 userData.Append("l");
+            if (this.RememberMe)
+                userData.Append("R");
             return new FormsAuthenticationTicket(1, this.EmailAddress, DateTime.Now,
                 DateTime.Now.Add(FormsAuthentication.Timeout), persistant,
                 userData.ToString(), FormsAuthentication.FormsCookiePath);

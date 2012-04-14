@@ -1,0 +1,55 @@
+﻿{{Model Lawspot.Views.Admin.AccountSettingsViewModel}}
+
+<h1> Account Settings </h1>
+
+<div class="section {{#ExpandEmailAddressSection}}expanded{{/ExpandEmailAddressSection}}">
+    <a class="change" href="#">Change</a>
+    <a class="hide" href="#">Hide</a>          
+    <h2> Email Address </h2>
+    <hr />
+    <div class="current-value">{{EmailAddress}}</div>
+    <div class="description"> Set your email contact information </div>
+    <div class="edit">
+        <form method="post">
+            <input type="hidden" name="selector" value="email" />
+            <div class="field-label">
+                <label for="email-address">Email Address:</label>
+            </div>
+            <div class="offset-field">
+                <input id="email-address" name="EmailAddress" type="text" value="{{EmailAddress}}" />
+                <div class="validation-error">{{ModelState.EmailAddress}}</div>
+            </div>
+            <div class="offset-field">
+                <button>CHANGE EMAIL ADDRESS</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="section {{#ExpandRegionSection}}expanded{{/ExpandRegionSection}}">
+    <a class="change" href="#">Change</a>
+    <a class="hide" href="#">Hide</a>   
+    <h2> Region </h2>
+    <hr />
+    <div class="current-value"> {{RegionName}} </div>
+    <div class="description"> The nearest region to you. </div>
+    <div class="edit">
+        <form method="post">
+            <input type="hidden" name="selector" value="region" />
+            <div class="field-label">
+                <label for="region">Region:</label>
+            </div>
+            <div class="offset-field">
+                <select id="region" name="RegionId">
+                    {{#Regions}}
+                        <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+                    {{/Regions}}
+                </select>
+                <div class="validation-error">{{ModelState.RegionId}}</div>
+            </div>
+            <div class="offset-field">
+                <button>CHANGE REGION</button>
+            </div>
+        </form>
+    </div>
+</div>

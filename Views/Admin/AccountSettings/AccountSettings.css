@@ -1,0 +1,49 @@
+﻿.section {
+    margin-top: 30px;
+}
+
+.change {
+    margin-top: 7px;
+    float: right;
+}
+
+.hide {
+    margin-top: 7px;
+    float: right;
+    display: none;
+}
+
+.section hr {
+    border: none;
+    border-top: solid 1px #E0DCC4;
+    border-bottom: solid 1px white;
+    background: none;
+    display: block;
+    margin: 0 0 8px 0;
+}
+
+.current-value {
+    float: right;
+}
+
+.edit {
+    display: none;
+    margin-top: 40px;
+}
+
+/* Show the various bits when a section is expanded */
+.section.expanded .change {
+    display: none;
+}
+.section.expanded .hide {
+    display: block;
+}
+.section.expanded .description {
+    display: none;
+}
+.section.expanded .current-value {
+    display: none;
+}
+.section.expanded .edit {
+    display: block;
+}

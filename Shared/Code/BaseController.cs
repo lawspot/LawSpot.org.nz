@@ -130,6 +130,9 @@ namespace Lawspot.Controllers
                     case "registered":
                         model.SuccessMessage = string.Format("Thanks for registering!  Please check your email ({0}) to confirm your account with us.", this.User.EmailAddress);
                         break;
+                    case "updated":
+                        model.SuccessMessage = "Your changes were saved.";
+                        break;
                 }
 
                 // Tab activation states.
@@ -172,7 +175,7 @@ namespace Lawspot.Controllers
         /// <param name="rememberMe"> <c>true</c> to make the cookie persistant. </param>
         protected void Login(User user, bool rememberMe)
         {
-            var ticket = Lawspot.Shared.CustomPrincipal.FromUser(user).ToTicket(rememberMe);
+            var ticket = Lawspot.Shared.CustomPrincipal.FromUser(user, rememberMe).ToTicket(rememberMe);
             string encryptedTicket = FormsAuthentication.Encrypt(ticket);
             var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
             cookie.Path = FormsAuthentication.FormsCookiePath;
