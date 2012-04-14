@@ -213,7 +213,7 @@ section.site-body {
 
 /* Theme */
 a {
-    color: #425BC0;
+    color: #306288;
     text-decoration: none;
 }
 a:hover {
@@ -448,8 +448,8 @@ input[type].validation-error-field,
 
 /* Sidebar elements */
 .sidebar {
-    width: 340px;
-    margin-left: 20px;
+    width: 335px;
+    margin-left: 25px;
     float: right;
 }
 .sidebar .laptop {
