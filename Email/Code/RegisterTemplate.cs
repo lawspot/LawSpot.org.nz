@@ -19,6 +19,24 @@ namespace Lawspot.Email
             this.TemplateFilePath = "Register.xslt";
             this.Subject = "Thanks for registering with LawSpot";
         }
+
+        /// <summary>
+        /// The email address of the user that registered.
+        /// </summary>
+        [ExposeToXslt]
+        public string EmailAddress { get; set; }
+
+        /// <summary>
+        /// The password that was used to register.
+        /// </summary>
+        [ExposeToXslt]
+        public string Password { get; set; }
+
+        /// <summary>
+        /// The URL of the validation link.
+        /// </summary>
+        [ExposeToXslt]
+        public string ValidateEmailUri { get; set; }
     }
 
 }

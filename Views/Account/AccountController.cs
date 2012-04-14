@@ -97,12 +97,7 @@ namespace Lawspot.Controllers
             else
             {
                 // Register a new user.
-                user = new User();
-                user.CreatedOn = DateTimeOffset.Now;
-                user.EmailAddress = model.EmailAddress;
-                user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
-                user.RegionId = model.RegionId;
-                this.DataContext.Users.InsertOnSubmit(user);
+                user = Register(model.EmailAddress, model.Password, model.RegionId);
 
                 // Alert the user that they have registered successfully.
                 alert = "registered";
@@ -178,12 +173,7 @@ namespace Lawspot.Controllers
             else
             {
                 // Register a new user.
-                user = new User();
-                user.CreatedOn = DateTimeOffset.Now;
-                user.EmailAddress = model.EmailAddress;
-                user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
-                user.RegionId = model.RegionId;
-                this.DataContext.Users.InsertOnSubmit(user);
+                user = Register(model.EmailAddress, model.Password, model.RegionId);
             }
 
             // Register a new lawyer.
@@ -246,6 +236,29 @@ namespace Lawspot.Controllers
 
             // Redirect to the home page.
             return RedirectToAction("Home", "Browse", new { alert = "loggedout" });
+        }
+
+        [HttpGet]
+        public ActionResult ValidateEmailAddress(int? userId, string token)
+        {
+            if (userId == null)
+                return View("ValidateEmailAddressFailure");
+
+            // Get the users details.
+            var user = this.DataContext.Users.SingleOrDefault(u => u.UserId == userId.Value);
+            if (user == null)
+                return View("ValidateEmailAddressFailure");
+
+            // Check the token is valid.
+            if (user.EmailValidationToken != token)
+                return View("ValidateEmailAddressFailure");
+
+            // Mark the account as validated.
+            user.EmailValidated = true;
+            this.DataContext.SubmitChanges();
+
+            // Success!
+            return View("ValidateEmailAddressSuccess");
         }
     }
 }

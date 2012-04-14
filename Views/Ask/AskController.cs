@@ -99,12 +99,7 @@ namespace Lawspot.Controllers
                     else
                     {
                         // Register a new user.
-                        user = new User();
-                        user.CreatedOn = DateTimeOffset.Now;
-                        user.EmailAddress = model.Registration.EmailAddress;
-                        user.Password = BCrypt.Net.BCrypt.HashPassword(model.Registration.Password, workFactor: 12);
-                        user.RegionId = model.Registration.RegionId;
-                        this.DataContext.Users.InsertOnSubmit(user);
+                        user = Register(model.Registration.EmailAddress, model.Registration.Password, model.Registration.RegionId);
                         registered = true;
                     }
                 }

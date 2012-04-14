@@ -185,6 +185,44 @@ namespace Lawspot.Controllers
         }
 
         /// <summary>
+        /// Registers a user account and sends the user an email.
+        /// </summary>
+        /// <param name="emailAddress"> The user's email address. </param>
+        /// <param name="password"> The user's password. </param>
+        /// <param name="regionId"> The ID of the nearest region. </param>
+        /// <returns> A reference to the user. </returns>
+        /// <remarks> Call DataContext.SubmitChanges() to save. </remarks>
+        protected User Register(string emailAddress, string password, int regionId)
+        {
+            // Create a random (max 50 char) token.
+            var token = new System.Text.StringBuilder();
+            var random = new System.Security.Cryptography.RNGCryptoServiceProvider();
+            var randomBytes = new byte[50];
+            random.GetBytes(randomBytes);
+            for (int i = 0; i < 50; i++)
+                token.Append('A' + (randomBytes[i] % 26));
+
+            // Register a new user.
+            var user = new User();
+            user.CreatedOn = DateTimeOffset.Now;
+            user.EmailAddress = emailAddress;
+            user.Password = BCrypt.Net.BCrypt.HashPassword(password, workFactor: 12);
+            user.RegionId = regionId;
+            user.EmailValidationToken = token.ToString();
+            this.DataContext.Users.InsertOnSubmit(user);
+
+            // Send them an email.
+            var registrationEmail = new Lawspot.Email.RegisterTemplate();
+            registrationEmail.EmailAddress = emailAddress;
+            registrationEmail.Password = password;
+            registrationEmail.ValidateEmailUri = string.Format("{0}/validate-email?userId={1}&token={2}",
+                registrationEmail.BaseUrl, Uri.EscapeDataString(user.UserId.ToString()),
+                Uri.EscapeDataString(token.ToString()));
+
+            return user;
+        }
+
+        /// <summary>
         /// Utility method to set a query string parameter in a URL.
         /// </summary>
         /// <param name="uri"> The URL to change. </param>
