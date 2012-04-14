@@ -201,7 +201,7 @@ namespace Lawspot.Controllers
             var randomBytes = new byte[50];
             random.GetBytes(randomBytes);
             for (int i = 0; i < 50; i++)
-                token.Append('A' + (randomBytes[i] % 26));
+                token.Append((char)((int)'A' + (randomBytes[i] % 26)));
 
             // Register a new user.
             var user = new User();
