@@ -11,9 +11,17 @@ namespace Lawspot.Controllers
 {
     public class AccountController : BaseController
     {
+        /// <summary>
+        /// Displays the login page.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult Login()
         {
+            // If the user is logged in already, redirect to the home page.
+            if (this.User != null)
+                return RedirectToAction("Home", "Browse", new { alert = this.Request.QueryString["alert"] });
+
             var model = new LoginViewModel();
             model.RememberMe = true;
             if (this.Request.UrlReferrer != null)
@@ -23,6 +31,11 @@ namespace Lawspot.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Logs the user in.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Login(LoginViewModel model)
         {
@@ -50,6 +63,10 @@ namespace Lawspot.Controllers
             return RedirectToAction("Home", "Browse", new { alert = "loggedin" });
         }
 
+        /// <summary>
+        /// Displays the user registration page.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult Register()
         {
@@ -61,6 +78,11 @@ namespace Lawspot.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Registers a new user.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Register(RegisterViewModel model)
         {
@@ -76,6 +98,7 @@ namespace Lawspot.Controllers
 
             // Check an account with the email doesn't already exist.
             string alert;
+            bool registered = false;
             var user = this.DataContext.Users.FirstOrDefault(u => u.EmailAddress == model.EmailAddress);
             if (user != null)
             {
@@ -98,11 +121,16 @@ namespace Lawspot.Controllers
             {
                 // Register a new user.
                 user = Register(model.EmailAddress, model.Password, model.RegionId);
+                registered = true;
 
                 // Alert the user that they have registered successfully.
                 alert = "registered";
             }
             this.DataContext.SubmitChanges();
+
+            // Send the user an email if they registered.
+            if (registered)
+                SendRegistrationEmail(user, model.Password, lawyer: false);
 
             // Log in as that user.
             Login(user, rememberMe: true);
@@ -127,6 +155,10 @@ namespace Lawspot.Controllers
             });
         }
 
+        /// <summary>
+        /// Displays the lawyer registration page.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult LawyerRegister()
         {
@@ -136,6 +168,11 @@ namespace Lawspot.Controllers
             return View(model);
         }
 
+        /// <summary>
+        /// Registers a new lawyer.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult LawyerRegister(LawyerRegisterViewModel model)
         {
@@ -154,6 +191,7 @@ namespace Lawspot.Controllers
                 model.FirmName = model.FirmName.Trim();
 
             var user = this.DataContext.Users.FirstOrDefault(u => u.EmailAddress == model.EmailAddress);
+            bool registered = false;
             if (user != null)
             {
                 // The user already exists.
@@ -168,7 +206,8 @@ namespace Lawspot.Controllers
             else
             {
                 // Register a new user.
-                user = Register(model.EmailAddress, model.Password, model.RegionId, lawyer: true);
+                user = Register(model.EmailAddress, model.Password, model.RegionId);
+                registered = true;
             }
 
             // Register a new lawyer.
@@ -185,6 +224,10 @@ namespace Lawspot.Controllers
 
             // Save.
             this.DataContext.SubmitChanges();
+
+            // Send the user a registration email if they registered.
+            if (registered)
+                SendRegistrationEmail(user, model.Password, lawyer: true);
 
             // Log in as the new user.
             Login(user, rememberMe: true);
@@ -223,6 +266,10 @@ namespace Lawspot.Controllers
             });
         }
 
+        /// <summary>
+        /// Logs the user out.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult Logout()
         {
@@ -233,6 +280,12 @@ namespace Lawspot.Controllers
             return RedirectToAction("Home", "Browse", new { alert = "loggedout" });
         }
 
+        /// <summary>
+        /// Validates the users email address.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult ValidateEmailAddress(int? userId, string token)
         {

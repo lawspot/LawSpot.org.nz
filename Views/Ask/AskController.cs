@@ -175,6 +175,10 @@ namespace Lawspot.Controllers
             // Save changes.
             this.DataContext.SubmitChanges();
 
+            // Send the user a registration email if they registered.
+            if (registered)
+                SendRegistrationEmail(user, model.Registration.Password, lawyer: false);
+
             // Redirect to the thank you page.
             return RedirectToAction("ThankYou", new { questionId = question.QuestionId, registered = registered });
         }
