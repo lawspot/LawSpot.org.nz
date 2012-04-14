@@ -1,12 +1,16 @@
-﻿<h1> Thank You For Registering </h1>
+﻿{{Model Lawspot.Views.Account.LawyerThankYouViewModel}}
+
+<h1> Thank You For Registering </h1>
 
 <p> Thank you! </p>
 
-<p>
-    You will now receive an email asking you to confirm your email address. Once you've done that,
-    we will need to verify a few of your details. If you have any questions in the meantime, please
-    contact <a href="&#109;ailto&#58;support&#64;lawspot.org.nz">support&#64;lawspot.org.nz</a>.
-</p>
+{{#Registered}}
+    <p>
+        You will now receive an email asking you to confirm your email address. Once you've done that,
+        we will need to verify a few of your details. If you have any questions in the meantime, please
+        contact <a href="&#109;ailto&#58;support&#64;lawspot.org.nz">support&#64;lawspot.org.nz</a>.
+    </p>
+{{/Registered}}
 
 <p>
     Please note that LawSpot is currently being piloted in the Wellington region. This means that

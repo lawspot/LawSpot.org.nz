@@ -232,17 +232,22 @@ namespace Lawspot.Controllers
             // Log in as the new user.
             Login(user, rememberMe: true);
 
-            // Redirect to home page.
-            return RedirectToAction("LawyerThankYou");
+            // Redirect to thank you page.
+            return RedirectToAction("LawyerThankYou", new { emailAddress = user.EmailAddress, registered = registered });
         }
 
         /// <summary>
         /// Displays a thank you page to lawyers that have registered.
         /// </summary>
+        /// <param name="emailAddress"> The email address of the lawyer. </param>
+        /// <param name="registered"> <c>true</c> if the user account was registered. </param>
         /// <returns></returns>
-        public ActionResult LawyerThankYou()
+        public ActionResult LawyerThankYou(string emailAddress, bool registered)
         {
-            return View();
+            var model = new LawyerThankYouViewModel();
+            model.EmailAddress = emailAddress;
+            model.Registered = registered;
+            return View(model);
         }
 
         /// <summary>
