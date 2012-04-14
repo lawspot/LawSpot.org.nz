@@ -104,6 +104,7 @@ input.ask-textbox {
 .speech h1 {
 	font-size: 12pt;
 	font-weight: bold;
+	margin-top: 12px;
 }
 .speech {
 	background-color: #E9D3BE;
