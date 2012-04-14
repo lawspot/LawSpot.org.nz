@@ -445,3 +445,26 @@ input[type].validation-error-field,
 .validation-error-field {
     border-color: Red;
 }
+
+/* Sidebar elements */
+.sidebar {
+    width: 340px;
+    margin-left: 20px;
+    float: right;
+}
+.sidebar .laptop {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.sidebar section {
+    border: 1px solid #BBB7B6;
+    border-radius: 3px;
+    background: #DEDDDB;
+    padding: 5px 12px 12px;
+    margin-bottom: 16px;
+}
+.sidebar .lawyer {
+    float: left;
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+    margin: 10px 10px 0 0;
+}
