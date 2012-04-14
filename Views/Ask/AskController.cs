@@ -75,6 +75,7 @@ namespace Lawspot.Controllers
             }
 
             User user;
+            bool registered = false;
             if (this.User == null)
             {
                 if (model.ShowRegistration)
@@ -104,6 +105,7 @@ namespace Lawspot.Controllers
                         user.Password = BCrypt.Net.BCrypt.HashPassword(model.Registration.Password, workFactor: 12);
                         user.RegionId = model.Registration.RegionId;
                         this.DataContext.Users.InsertOnSubmit(user);
+                        registered = true;
                     }
                 }
                 else
@@ -179,7 +181,7 @@ namespace Lawspot.Controllers
             this.DataContext.SubmitChanges();
 
             // Redirect to the thank you page.
-            return RedirectToAction("ThankYou", new { questionId = question.QuestionId });
+            return RedirectToAction("ThankYou", new { questionId = question.QuestionId, registered = registered });
         }
 
         /// <summary>
@@ -215,8 +217,14 @@ namespace Lawspot.Controllers
             }
         }
 
+        /// <summary>
+        /// Displays the "thank you for submitting a question" page.
+        /// </summary>
+        /// <param name="questionId"> The ID of the new question. </param>
+        /// <param name="registered"> <c>true</c> if the user registered to ask the question. </param>
+        /// <returns></returns>
         [HttpGet]
-        public ActionResult ThankYou(int questionId)
+        public ActionResult ThankYou(int questionId, bool registered)
         {
             // Load the question from the database.
             var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).Single();
@@ -226,6 +234,7 @@ namespace Lawspot.Controllers
             model.Title = question.Title;
             model.Category = question.Category.Name;
             model.EmailAddress = question.User.EmailAddress;
+            model.Registered = registered;
             return View(model);
         }
     }

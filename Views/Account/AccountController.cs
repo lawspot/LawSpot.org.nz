@@ -244,9 +244,7 @@ namespace Lawspot.Controllers
             // Remove the authentication cookie.
             FormsAuthentication.SignOut();
 
-            // Redirect to the referrer, or to the home page.
-            if (this.Request.UrlReferrer != null)
-                return Redirect(SetUriParameter(this.Request.UrlReferrer, "alert", "loggedout").ToString());
+            // Redirect to the home page.
             return RedirectToAction("Home", "Browse", new { alert = "loggedout" });
         }
     }

@@ -19,18 +19,20 @@ function stretchDivider() {
 }
 stretchDivider();
 
-$("#login-link").click(function () {
-    $("#register").hide();
-    $("#login").show();
+document.getElementById("login-link").onclick = function () {
+    document.getElementById("register").style.display = "none";
+    document.getElementById("login").style.display = "block";
     stretchDivider();
-    $("#ShowRegistration").val("false");
-    $("#login input[type=text]").focus();
-});
+    document.getElementById("ShowRegistration").value = "false";
+    document.getElementById("LoginEmailAddress").focus();
+    return false;
+};
 
-$("#register-link").click(function () {
-    $("#login").hide();
-    $("#register").show();
+document.getElementById("register-link").onclick = function () {
+    document.getElementById("login").style.display = "none";
+    document.getElementById("register").style.display = "block";
     stretchDivider();
-    $("#ShowRegistration").val("true");
-    $("#register input[type=text]").focus();
-});
+    document.getElementById("ShowRegistration").value = "true";
+    document.getElementById("EmailAddress").focus();
+    return false;
+};

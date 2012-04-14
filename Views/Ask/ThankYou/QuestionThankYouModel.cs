@@ -11,5 +11,6 @@ namespace Lawspot.Views.Ask
         public string Title { get; set; }
         public string Category { get; set; }
         public string EmailAddress { get; set; }
+        public bool Registered { get; set; }
     }
 }
