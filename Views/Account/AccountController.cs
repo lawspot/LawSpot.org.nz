@@ -107,11 +107,6 @@ namespace Lawspot.Controllers
             // Log in as that user.
             Login(user, rememberMe: true);
 
-            // Send the user an email to thank them for registering.
-            var message = new Lawspot.Email.RegisterTemplate();
-            message.To.Add(user.EmailAddress);
-            message.Send();
-
             // Redirect to the original referrer, or to the home page.
             if (string.IsNullOrEmpty(model.RedirectUrl) == false)
                 return Redirect(SetUriParameter(new Uri(model.RedirectUrl), "alert", alert).ToString());

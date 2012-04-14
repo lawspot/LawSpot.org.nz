@@ -57,8 +57,8 @@
     </p>
 
     <p>
-      <strong>The LawSpot Team</strong>
-      <a href="{BaseUrl}">www.lawspot.org.nz</a>
+      <strong>The LawSpot Team</strong><br />
+      <a href="{BaseUrl}">www.lawspot.org.nz</a><br />
       Legal Questions. Free Answers.
     </p>
   </xsl:template>

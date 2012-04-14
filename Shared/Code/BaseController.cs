@@ -216,11 +216,13 @@ namespace Lawspot.Controllers
             var registrationEmail = new Lawspot.Email.RegisterTemplate();
             if (lawyer)
                 registrationEmail.UseLawyerRegistrationTemplate();
+            registrationEmail.To.Add(emailAddress);
             registrationEmail.EmailAddress = emailAddress;
             registrationEmail.Password = password;
             registrationEmail.ValidateEmailUri = string.Format("{0}/validate-email?userId={1}&token={2}",
                 registrationEmail.BaseUrl, Uri.EscapeDataString(user.UserId.ToString()),
                 Uri.EscapeDataString(token.ToString()));
+            registrationEmail.Send();
 
             return user;
         }
