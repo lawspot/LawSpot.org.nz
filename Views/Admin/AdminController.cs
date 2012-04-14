@@ -664,6 +664,11 @@ namespace Lawspot.Controllers
         [HttpPost, ActionName("AccountSettings"), FormSelector("selector", "email")]
         public ActionResult ChangeEmailAddress(ChangeEmailAddressViewModel model)
         {
+            // Check that there isn't already a user with that email address.
+            var existingUser = this.DataContext.Users.FirstOrDefault(u => u.EmailAddress == model.EmailAddress);
+            if (existingUser != null)
+                ModelState.AddModelError("EmailAddress", "That email address is already in use by another member.");
+
             if (ModelState.IsValid == false)
             {
                 var model2 = InitializeAccountSettingsViewModel();
