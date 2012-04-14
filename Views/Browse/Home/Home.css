@@ -45,8 +45,8 @@ input.ask-textbox {
     font-size: smaller;
 }
 .sidebar {
-    width: 350px;
-    margin-left: 10px;
+    width: 340px;
+    margin-left: 20px;
     float: right;
 }
 .sidebar .laptop {
