@@ -190,9 +190,10 @@ namespace Lawspot.Controllers
         /// <param name="emailAddress"> The user's email address. </param>
         /// <param name="password"> The user's password. </param>
         /// <param name="regionId"> The ID of the nearest region. </param>
+        /// <param name="lawyer"> The user registered as a lawyer. </param>
         /// <returns> A reference to the user. </returns>
         /// <remarks> Call DataContext.SubmitChanges() to save. </remarks>
-        protected User Register(string emailAddress, string password, int regionId)
+        protected User Register(string emailAddress, string password, int regionId, bool lawyer = false)
         {
             // Create a random (max 50 char) token.
             var token = new System.Text.StringBuilder();
@@ -213,6 +214,8 @@ namespace Lawspot.Controllers
 
             // Send them an email.
             var registrationEmail = new Lawspot.Email.RegisterTemplate();
+            if (lawyer)
+                registrationEmail.UseLawyerRegistrationTemplate();
             registrationEmail.EmailAddress = emailAddress;
             registrationEmail.Password = password;
             registrationEmail.ValidateEmailUri = string.Format("{0}/validate-email?userId={1}&token={2}",

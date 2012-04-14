@@ -21,6 +21,14 @@ namespace Lawspot.Email
         }
 
         /// <summary>
+        /// Indicates that a lawyer registered, not a regular user.
+        /// </summary>
+        public void UseLawyerRegistrationTemplate()
+        {
+            this.TemplateFilePath = "LawyerRegister.xslt";
+        }
+
+        /// <summary>
         /// The email address of the user that registered.
         /// </summary>
         [ExposeToXslt]

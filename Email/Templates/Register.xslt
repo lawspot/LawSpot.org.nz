@@ -13,7 +13,7 @@
 
     <p>
       Please follow the link below to confirm that this is your email address and to confirm that
-      you read and understood the website’s <a href="{BaseUrl}/terms">Terms of Use</a>.
+      you read and understood the website’s <a href="{BaseUrl}/terms">Terms of Use</a>:
     </p>
 
     <p style="font-size: larger; text-align: center">
@@ -25,7 +25,7 @@
     </p>
 
     <p>
-      Email: <xsl:value-of select="EmailAddress"/>
+      Email: <xsl:value-of select="EmailAddress"/><br />
       Password: <xsl:value-of select="Password"/>
     </p>
 

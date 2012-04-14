@@ -173,7 +173,7 @@ namespace Lawspot.Controllers
             else
             {
                 // Register a new user.
-                user = Register(model.EmailAddress, model.Password, model.RegionId);
+                user = Register(model.EmailAddress, model.Password, model.RegionId, lawyer: true);
             }
 
             // Register a new lawyer.
