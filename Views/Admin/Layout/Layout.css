@@ -18,6 +18,9 @@
 .admin-sidebar ul.list-arrows {
 	margin-left: 15px;
 }
+.admin-sidebar hr {
+    margin-top: 10px;
+}
 .admin-body {
 	width: 710px;
 	margin-left: 230px;

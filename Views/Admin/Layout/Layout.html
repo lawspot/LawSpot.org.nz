@@ -3,14 +3,29 @@
 <div id="admin-layout">
 
     <section class="admin-sidebar">
-    		<h1>Community Law Centre Admin Page</h1>
-    		<a href="/logout">Logout</a>
+
     		<ul class="list-arrows">
-    			<li><a href="/admin/review-lawyers">View Lawyers</a></li>
-    			<li><a href="/admin/review-answers">View Answers</a></li>
-    			<li><a href="/admin/review-questions">View Questions</a></li>
-    			<li><a href="#">Account Settings</a></li>
+                {{#User.CanAnswerQuestions}}
+                    <li><a href="/admin/answer-questions">Answer Questions</a></li>
+                {{/User.CanAnswerQuestions}}
+                {{#User.CanVetLawyers}}
+    			    <li><a href="/admin/review-lawyers">View Lawyers</a></li>
+                {{/User.CanVetLawyers}}
+                {{#User.CanVetQuestions}}
+    			    <li><a href="/admin/review-questions">View Questions</a></li>
+                {{/User.CanVetQuestions}}
+                {{#User.CanVetAnswers}}
+    			    <li><a href="/admin/review-answers">View Answers</a></li>
+                {{/User.CanVetAnswers}}
+    			<li><a href="/admin/account-settings">Account Settings</a></li>
     		</ul>
+
+            <hr />
+
+            <ul class="list-arrows">
+    	        <li><a href="/contact">Contact Us</a></li>
+    	        <li><a href="/faq">LawSpot FAQ</a></li>
+            </ul>
 		</section>
     	
     <section class="admin-body">

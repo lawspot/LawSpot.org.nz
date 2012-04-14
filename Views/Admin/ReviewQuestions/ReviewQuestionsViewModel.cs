@@ -14,27 +14,4 @@ namespace Lawspot.Views.Admin
         public IEnumerable<SelectListItem> SortOptions { get; set; }
         public IEnumerable<QuestionViewModel> Questions { get; set; }
     }
-
-    public enum QuestionFilter
-    {
-        Unanswered,
-        All,
-        Answered,
-    }
-
-    public enum QuestionSortOrder
-    {
-        MostRecent,
-        FirstPosted,
-    }
-
-    public class QuestionViewModel
-    {
-        public int QuestionId { get; set; }
-        public string Title { get; set; }
-        public string Details { get; set; }
-        public string DateAndTime { get; set; }
-        public int CategoryId { get; set; }
-        public string CategoryName { get; set; }
-    }
 }

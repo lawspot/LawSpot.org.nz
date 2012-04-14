@@ -56,10 +56,10 @@
 		</div>
 	
 		<div id="qa-account-answer">
-            {{#User.IsLawyer}}
-			    <!-- Logged in -->
+            {{#User.CanAnswerQuestions}}
+			    <!-- The user can answer questions -->
 			    <button onclick="window.location.href = '/admin/answer-questions'">Answer this Question</button>
-            {{/User.IsLawyer}}
+            {{/User.CanAnswerQuestions}}
             {{^User}}
 			    <!-- Logged out -->
 			    <p class="large-text">Are you a lawyer? <a href="/login">Login</a> or <a href="/lawyer-register">register</a> to answer this question.</p>

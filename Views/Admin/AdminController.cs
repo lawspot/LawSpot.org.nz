@@ -13,8 +13,7 @@ namespace Lawspot.Controllers
     public class AdminController : BaseController
     {
         /// <summary>
-        /// All methods on this controller require that the logged in user be a volunteer admin or
-        /// a CLC lawyer.
+        /// All methods on this controller require that the user be logged in.
         /// </summary>
         /// <param name="filterContext"> The request context. </param>
         protected override void OnAuthorization(AuthorizationContext filterContext)
@@ -22,8 +21,6 @@ namespace Lawspot.Controllers
             base.OnAuthorization(filterContext);
             if (this.User == null)
                 filterContext.Result = new HttpUnauthorizedResult();
-            else if (this.User.IsVolunteerAdmin == false && this.User.IsCLCLawyer == false)
-                filterContext.Result = new HttpStatusCodeResult(403);
         }
 
         /// <summary>
@@ -45,6 +42,137 @@ namespace Lawspot.Controllers
         }
 
         /// <summary>
+        /// Displays the answer questions page.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <param name="filter"></param>
+        /// <param name="sort"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult AnswerQuestions(string category, string filter, string sort)
+        {
+            // Ensure the user is allow to answer questions.
+            if (this.User.CanAnswerQuestions == false)
+                return new HttpStatusCodeResult(403);
+
+            var model = new AnswerQuestionsViewModel();
+
+            // Get the specialisation category of the current user.
+            int specialisationCategoryId = 0;
+            var user = this.DataContext.Users.Where(u => u.UserId == this.User.Id).Single();
+            if (user.IsRegisteredLawyer)
+                specialisationCategoryId = user.Lawyer.SpecialisationCategoryId ?? 0;
+
+            // Categories.
+            int categoryId = specialisationCategoryId;
+            if (category != null)
+                categoryId = int.Parse(category);
+            model.CategoryOptions = new SelectListItem[] {
+                    new SelectListItem()
+                    {
+                        Text = "All Categories",
+                        Value = "0",
+                        Selected = categoryId == 0,
+                    }
+                }.Union(
+                    this.DataContext.Categories
+                    .OrderBy(c => c.Name)
+                    .ToList()
+                    .Select(c => new SelectListItem()
+                    {
+                        Text = c.Name,
+                        Value = c.CategoryId.ToString(),
+                        Selected = c.CategoryId == categoryId,
+                    }));
+
+            // Filter.
+            var filterValue = QuestionFilter.Unanswered;
+            if (filter != null)
+                filterValue = (QuestionFilter)Enum.Parse(typeof(QuestionFilter), filter, true);
+            model.FilterOptions = new SelectListItem[]
+            {
+                new SelectListItem() { Text = "All", Value = QuestionFilter.All.ToString(), Selected = filterValue == QuestionFilter.All },
+                new SelectListItem() { Text = "Unanswered", Value = QuestionFilter.Unanswered.ToString(), Selected = filterValue == QuestionFilter.Unanswered },
+                new SelectListItem() { Text = "Answered", Value = QuestionFilter.Answered.ToString(), Selected = filterValue == QuestionFilter.Answered },
+                new SelectListItem() { Text = "Answered by Me", Value = QuestionFilter.AnsweredByMe.ToString(), Selected = filterValue == QuestionFilter.AnsweredByMe },
+            };
+
+            // Sort order.
+            var sortValue = QuestionSortOrder.FirstPosted;
+            if (sort != null)
+                sortValue = (QuestionSortOrder)Enum.Parse(typeof(QuestionSortOrder), sort, true);
+            model.SortOptions = new SelectListItem[]
+            {
+                new SelectListItem() { Text = "First Posted", Value = QuestionSortOrder.FirstPosted.ToString(), Selected = sortValue == QuestionSortOrder.FirstPosted },
+                new SelectListItem() { Text = "Most Recent", Value = QuestionSortOrder.MostRecent.ToString(), Selected = sortValue == QuestionSortOrder.MostRecent },
+            };
+
+            // Filter and sort the questions.
+            IEnumerable<Question> questions = this.DataContext.Questions;
+            if (categoryId != 0)
+                questions = questions.Where(q => q.CategoryId == categoryId);
+            switch (filterValue)
+            {
+                case QuestionFilter.Unanswered:
+                    questions = questions.Where(q => q.Answers.Any() == false);
+                    break;
+                case QuestionFilter.Answered:
+                    questions = questions.Where(q => q.Answers.Any() == true);
+                    break;
+                case QuestionFilter.AnsweredByMe:
+                    questions = questions.Where(q => q.Answers.Any(a => a.CreatedByUserId == this.User.Id));
+                    break;
+            }
+            switch (sortValue)
+            {
+                case QuestionSortOrder.FirstPosted:
+                    questions = questions.OrderBy(q => q.CreatedOn);
+                    break;
+                case QuestionSortOrder.MostRecent:
+                    questions = questions.OrderByDescending(q => q.CreatedOn);
+                    break;
+            }
+            model.Questions = questions
+                .Where(q => q.Approved == true)
+                .ToList()
+                .Select(q => new QuestionViewModel()
+                {
+                    QuestionId = q.QuestionId,
+                    Title = q.Title,
+                    Details = q.Details,
+                    DateAndTime = q.CreatedOn.ToString("d MMM yyyy h:mmtt"),
+                    CategoryName = q.Category.Name,
+                });
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Submits an answer to a question.
+        /// </summary>
+        /// <param name="questionId"></param>
+        /// <param name="answerText"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult PostAnswer(int questionId, string answerText)
+        {
+            // Ensure the user is allow to answer questions.
+            if (this.User.CanAnswerQuestions == false)
+                return new HttpStatusCodeResult(403);
+
+            // Create a new answer for the question.
+            var answer = new Answer();
+            answer.CreatedOn = DateTimeOffset.Now;
+            answer.Details = answerText;
+            answer.CreatedByUserId = this.User.Id;
+            answer.QuestionId = questionId;
+            this.DataContext.Answers.InsertOnSubmit(answer);
+            this.DataContext.SubmitChanges();
+
+            return new EmptyResult();
+        }
+
+        /// <summary>
         /// Displays the review lawyers page.
         /// </summary>
         /// <param name="category"></param>
@@ -54,6 +182,10 @@ namespace Lawspot.Controllers
         [HttpGet]
         public ActionResult ReviewLawyers(string category, string filter, string sort)
         {
+            // Ensure the user is allow to vet lawyers.
+            if (this.User.CanVetLawyers == false)
+                return new HttpStatusCodeResult(403);
+
             var model = new ReviewLawyersViewModel();
 
             // Categories.
@@ -143,13 +275,19 @@ namespace Lawspot.Controllers
         /// <param name="details"> The new question details. </param>
         /// <param name="categoryId"> The new category ID. </param>
         [HttpPost]
-        public void ApproveLawyer(int lawyerId)
+        public ActionResult ApproveLawyer(int lawyerId)
         {
+            // Ensure the user is allow to vet lawyers.
+            if (this.User.CanVetLawyers == false)
+                return new HttpStatusCodeResult(403);
+
             var lawyer = this.DataContext.Lawyers.Where(l => l.LawyerId == lawyerId).Single();
             lawyer.Approved = true;
             lawyer.ApprovalDate = DateTimeOffset.Now;
             lawyer.ApprovedByUserId = this.User.Id;
             this.DataContext.SubmitChanges();
+
+            return new EmptyResult();
         }
 
         /// <summary>
@@ -157,13 +295,19 @@ namespace Lawspot.Controllers
         /// </summary>
         /// <param name="questionId"> The ID of the lawyer to reject. </param>
         [HttpPost]
-        public void RejectLawyer(int lawyerId)
+        public ActionResult RejectLawyer(int lawyerId)
         {
+            // Ensure the user is allow to vet lawyers.
+            if (this.User.CanVetLawyers == false)
+                return new HttpStatusCodeResult(403);
+
             var lawyer = this.DataContext.Lawyers.Where(l => l.LawyerId == lawyerId).Single();
             lawyer.Approved = false;
             lawyer.RejectionDate = DateTimeOffset.Now;
             lawyer.RejectedByUserId = this.User.Id;
             this.DataContext.SubmitChanges();
+
+            return new EmptyResult();
         }
 
         /// <summary>
@@ -176,6 +320,10 @@ namespace Lawspot.Controllers
         [HttpGet]
         public ActionResult ReviewQuestions(string category, string filter, string sort)
         {
+            // Ensure the user is allow to vet questions.
+            if (this.User.CanVetQuestions == false)
+                return new HttpStatusCodeResult(403);
+
             var model = new ReviewQuestionsViewModel();
 
             // Categories.
@@ -273,9 +421,14 @@ namespace Lawspot.Controllers
         /// <param name="title"> The new title of the question. </param>
         /// <param name="details"> The new question details. </param>
         /// <param name="categoryId"> The new category ID. </param>
+        /// <returns></returns>
         [HttpPost]
-        public void ApproveQuestion(int questionId, string title, string details, int categoryId)
+        public ActionResult ApproveQuestion(int questionId, string title, string details, int categoryId)
         {
+            // Ensure the user is allow to vet questions.
+            if (this.User.CanVetQuestions == false)
+                return new HttpStatusCodeResult(403);
+
             var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).Single();
             question.Title = title;
             question.Details = details;
@@ -284,20 +437,29 @@ namespace Lawspot.Controllers
             question.ApprovalDate = DateTimeOffset.Now;
             question.ApprovedByUserId = this.User.Id;
             this.DataContext.SubmitChanges();
+
+            return new EmptyResult();
         }
 
         /// <summary>
         /// Rejects a question.
         /// </summary>
         /// <param name="questionId"> The ID of the question to reject. </param>
+        /// <returns></returns>
         [HttpPost]
-        public void RejectQuestion(int questionId)
+        public ActionResult RejectQuestion(int questionId)
         {
+            // Ensure the user is allow to vet questions.
+            if (this.User.CanVetQuestions == false)
+                return new HttpStatusCodeResult(403);
+
             var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).Single();
             question.Approved = false;
             question.RejectionDate = DateTimeOffset.Now;
             question.RejectedByUserId = this.User.Id;
             this.DataContext.SubmitChanges();
+
+            return new EmptyResult();
         }
 
         /// <summary>
@@ -310,6 +472,10 @@ namespace Lawspot.Controllers
         [HttpGet]
         public ActionResult ReviewAnswers(string category, string sort)
         {
+            // Ensure the user is allow to vet answers.
+            if (this.User.CanVetAnswers == false)
+                return new HttpStatusCodeResult(403);
+
             var model = new ReviewAnswersViewModel();
 
             // Categories.
@@ -375,29 +541,43 @@ namespace Lawspot.Controllers
         /// </summary>
         /// <param name="answerId"> The ID of the answer to approve. </param>
         /// <param name="answerDetails"> The new answer details. </param>
+        /// <returns></returns>
         [HttpPost]
-        public void ApproveAnswer(int answerId, string answerDetails)
+        public ActionResult ApproveAnswer(int answerId, string answerDetails)
         {
+            // Ensure the user is allow to vet answers.
+            if (this.User.CanVetAnswers == false)
+                return new HttpStatusCodeResult(403);
+
             var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).Single();
             answer.Details = answerDetails;
             answer.Approved = true;
             answer.ApprovalDate = DateTimeOffset.Now;
             answer.ApprovedByUserId = this.User.Id;
             this.DataContext.SubmitChanges();
+
+            return new EmptyResult();
         }
 
         /// <summary>
         /// Rejects an answer.
         /// </summary>
         /// <param name="answerId"> The ID of the answer to reject. </param>
+        /// <returns></returns>
         [HttpPost]
-        public void RejectAnswer(int answerId)
+        public ActionResult RejectAnswer(int answerId)
         {
+            // Ensure the user is allow to vet answers.
+            if (this.User.CanVetAnswers == false)
+                return new HttpStatusCodeResult(403);
+
             var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).Single();
             answer.Approved = false;
             answer.RejectionDate = DateTimeOffset.Now;
             answer.RejectedByUserId = this.User.Id;
             this.DataContext.SubmitChanges();
+
+            return new EmptyResult();
         }
     }
 }

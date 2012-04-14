@@ -20,9 +20,10 @@ namespace Lawspot.Shared
             var result = new CustomPrincipal();
             result.Id = user.UserId;
             result.EmailAddress = user.EmailAddress;
-            result.IsVolunteerAdmin = user.IsVolunteerAdmin;
-            result.IsLawyer = user.IsRegisteredLawyer && user.Lawyer.Approved;
-            result.IsCLCLawyer = user.IsCLCLawyer;
+            result.CanAnswerQuestions = user.CanAnswerQuestions;
+            result.CanVetQuestions = user.CanVetQuestions;
+            result.CanVetAnswers = user.CanVetAnswers;
+            result.CanVetLawyers = user.CanVetLawyers;
             return result;
         }
 
@@ -47,9 +48,10 @@ namespace Lawspot.Shared
                 return null;    // Old format cookie.
             result.Id = int.Parse(ticket.UserData.Substring(0, identifierLength));
             result.EmailAddress = ticket.Name;
-            result.IsVolunteerAdmin = ticket.UserData.Contains("V");
-            result.IsLawyer = ticket.UserData.Contains("L");
-            result.IsCLCLawyer = ticket.UserData.Contains("C");
+            result.CanAnswerQuestions = ticket.UserData.Contains("a");
+            result.CanVetQuestions = ticket.UserData.Contains("q");
+            result.CanVetAnswers = ticket.UserData.Contains("v");
+            result.CanVetLawyers = ticket.UserData.Contains("l");
             return result;
         }
 
@@ -71,19 +73,24 @@ namespace Lawspot.Shared
         public string EmailAddress { get; set; }
 
         /// <summary>
-        /// The user is an approved lawyer.
+        /// The user can answer questions.
         /// </summary>
-        public bool IsLawyer { get; set; }
+        public bool CanAnswerQuestions { get; set; }
 
         /// <summary>
-        /// The user is a community law centre lawyer.
+        /// The user can approve and reject questions.
         /// </summary>
-        public bool IsCLCLawyer { get; set; }
+        public bool CanVetQuestions { get; set; }
 
         /// <summary>
-        /// The user is a volunteer that vets and recategorizes questions.
+        /// The user can approve and reject answers.
         /// </summary>
-        public bool IsVolunteerAdmin { get; set; }
+        public bool CanVetAnswers { get; set; }
+
+        /// <summary>
+        /// The user can approve and reject lawyers.
+        /// </summary>
+        public bool CanVetLawyers { get; set; }
 
         /// <summary>
         /// Creates a new forms authentication ticket using the information in this principal.
@@ -95,12 +102,14 @@ namespace Lawspot.Shared
         {
             var userData = new System.Text.StringBuilder();
             userData.Append(this.Id.ToString());
-            if (this.IsLawyer)
-                userData.Append("L");
-            if (this.IsCLCLawyer)
-                userData.Append("C");
-            if (this.IsVolunteerAdmin)
-                userData.Append("V");
+            if (this.CanAnswerQuestions)
+                userData.Append("a");
+            if (this.CanVetQuestions)
+                userData.Append("q");
+            if (this.CanVetAnswers)
+                userData.Append("v");
+            if (this.CanVetLawyers)
+                userData.Append("l");
             return new FormsAuthenticationTicket(1, this.EmailAddress, DateTime.Now,
                 DateTime.Now.Add(FormsAuthentication.Timeout), persistant,
                 userData.ToString(), FormsAuthentication.FormsCookiePath);

@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Web.Mvc;
 
-namespace Lawspot.Views.LawyerAdmin
+namespace Lawspot.Views.Admin
 {
     public class AnswerQuestionsViewModel
     {
@@ -34,6 +34,7 @@ namespace Lawspot.Views.LawyerAdmin
         public string Title { get; set; }
         public string Details { get; set; }
         public string DateAndTime { get; set; }
+        public int CategoryId { get; set; }
         public string CategoryName { get; set; }
     }
 }

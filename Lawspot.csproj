@@ -121,6 +121,9 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backend\DataClasses.cs">
+      <DependentUpon>DataClasses.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Backend\User.cs" />
     <Compile Include="Backend\Lawyer.cs" />
     <Compile Include="Backend\DataClasses.designer.cs">
@@ -146,9 +149,7 @@
     <Compile Include="Views\Admin\ReviewAnswers\ReviewAnswersViewModel.cs" />
     <Compile Include="Views\Admin\ReviewQuestions\ReviewQuestionsViewModel.cs" />
     <Compile Include="Views\Admin\Layout\LayoutViewModel.cs" />
-    <Compile Include="Views\LawyerAdmin\LawyerAdminController.cs" />
-    <Compile Include="Views\LawyerAdmin\AnswerQuestions\AnswerQuestionsViewModel.cs" />
-    <Compile Include="Views\LawyerAdmin\Layout\LayoutViewModel.cs" />
+    <Compile Include="Views\Admin\AnswerQuestions\AnswerQuestionsViewModel.cs" />
     <Compile Include="Views\Ask\AskController.cs" />
     <Compile Include="Views\Ask\ThankYou\QuestionThankYouModel.cs" />
     <Compile Include="Views\Ask\Ask\QuestionViewModel.cs" />
@@ -192,6 +193,8 @@
     <Content Include="Backend\Migrations\16.sql" />
     <Content Include="Backend\Migrations\17.sql" />
     <Content Include="Backend\Migrations\18.sql" />
+    <Content Include="Backend\Migrations\19.sql" />
+    <Content Include="Backend\Migrations\20.sql" />
     <Content Include="Default.htm" />
     <Content Include="Email\Assets\facebook.png" />
     <Content Include="Email\Assets\header-original.png" />
@@ -276,13 +279,11 @@
     <Content Include="Views\Admin\Layout\Layout.html" />
     <Content Include="Shared\Images\list-arrow.png" />
     <Content Include="Views\Admin\sidebar.png" />
-    <Content Include="Views\LawyerAdmin\AnswerQuestions\answered.png" />
-    <Content Include="Views\LawyerAdmin\AnswerQuestions\AnswerQuestions.css" />
-    <Content Include="Views\LawyerAdmin\AnswerQuestions\AnswerQuestions.html" />
-    <Content Include="Views\LawyerAdmin\AnswerQuestions\AnswerQuestions.js" />
-    <Content Include="Views\LawyerAdmin\AnswerQuestions\question-icon.png" />
-    <Content Include="Views\LawyerAdmin\Layout\Layout.html" />
-    <Content Include="Views\LawyerAdmin\Layout\Layout.css" />
+    <Content Include="Views\Admin\AnswerQuestions\answered.png" />
+    <Content Include="Views\Admin\AnswerQuestions\AnswerQuestions.css" />
+    <Content Include="Views\Admin\AnswerQuestions\AnswerQuestions.html" />
+    <Content Include="Views\Admin\AnswerQuestions\AnswerQuestions.js" />
+    <Content Include="Views\Admin\AnswerQuestions\question-icon.png" />
     <Content Include="Views\Ask\Ask\Ask.html" />
     <Content Include="Views\Ask\Ask\Ask.css" />
     <Content Include="Views\Ask\Ask\Ask.js" />
