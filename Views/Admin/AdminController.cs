@@ -108,7 +108,8 @@ namespace Lawspot.Controllers
             };
 
             // Filter and sort the questions.
-            IEnumerable<Question> questions = this.DataContext.Questions;
+            IEnumerable<Question> questions = this.DataContext.Questions
+                .Where(q => q.Approved == true);
             if (categoryId != 0)
                 questions = questions.Where(q => q.CategoryId == categoryId);
             switch (filterValue)
@@ -133,7 +134,7 @@ namespace Lawspot.Controllers
                     break;
             }
             model.Questions = questions
-                .Where(q => q.Approved == true)
+                .Take(100)
                 .ToList()
                 .Select(q => new QuestionViewModel()
                 {
@@ -211,13 +212,14 @@ namespace Lawspot.Controllers
                     }));
 
             // Filter.
-            var filterValue = LawyerFilter.NotYetApproved;
+            var filterValue = LawyerFilter.Unreviewed;
             if (filter != null)
                 filterValue = (LawyerFilter)Enum.Parse(typeof(LawyerFilter), filter, true);
             model.FilterOptions = new SelectListItem[]
             {
-                new SelectListItem() { Text = "Not Yet Approved", Value = LawyerFilter.NotYetApproved.ToString(), Selected = filterValue == LawyerFilter.NotYetApproved },
+                new SelectListItem() { Text = "Unreviewed", Value = LawyerFilter.Unreviewed.ToString(), Selected = filterValue == LawyerFilter.Unreviewed },
                 new SelectListItem() { Text = "Approved", Value = LawyerFilter.Approved.ToString(), Selected = filterValue == LawyerFilter.Approved },
+                new SelectListItem() { Text = "Rejected", Value = LawyerFilter.Rejected.ToString(), Selected = filterValue == LawyerFilter.Rejected },
             };
 
             // Sort order.
@@ -236,11 +238,14 @@ namespace Lawspot.Controllers
                 lawyers = lawyers.Where(l => l.SpecialisationCategoryId == categoryId);
             switch (filterValue)
             {
-                case LawyerFilter.Approved:
-                    lawyers = lawyers.Where(l => l.Approved == true);
+                case LawyerFilter.Unreviewed:
+                    lawyers = lawyers.Where(l => l.ReviewDate == null);
                     break;
-                case LawyerFilter.NotYetApproved:
-                    lawyers = lawyers.Where(l => l.Approved == false);
+                case LawyerFilter.Approved:
+                    lawyers = lawyers.Where(l => l.Approved == true && l.ReviewDate != null);
+                    break;
+                case LawyerFilter.Rejected:
+                    lawyers = lawyers.Where(l => l.Approved == false && l.ReviewDate != null);
                     break;
             }
             switch (sortValue)
@@ -253,6 +258,7 @@ namespace Lawspot.Controllers
                     break;
             }
             model.Lawyers = lawyers
+                .Take(100)
                 .ToList()
                 .Select(l => new LawyerViewModel()
                 {
@@ -283,8 +289,8 @@ namespace Lawspot.Controllers
 
             var lawyer = this.DataContext.Lawyers.Where(l => l.LawyerId == lawyerId).Single();
             lawyer.Approved = true;
-            lawyer.ApprovalDate = DateTimeOffset.Now;
-            lawyer.ApprovedByUserId = this.User.Id;
+            lawyer.ReviewDate = DateTimeOffset.Now;
+            lawyer.ReviewedByUserId = this.User.Id;
             lawyer.User.CanAnswerQuestions = true;
             this.DataContext.SubmitChanges();
 
@@ -304,8 +310,8 @@ namespace Lawspot.Controllers
 
             var lawyer = this.DataContext.Lawyers.Where(l => l.LawyerId == lawyerId).Single();
             lawyer.Approved = false;
-            lawyer.RejectionDate = DateTimeOffset.Now;
-            lawyer.RejectedByUserId = this.User.Id;
+            lawyer.ReviewDate = DateTimeOffset.Now;
+            lawyer.ReviewedByUserId = this.User.Id;
             lawyer.User.CanAnswerQuestions = false;
             this.DataContext.SubmitChanges();
 
@@ -436,8 +442,8 @@ namespace Lawspot.Controllers
             question.Details = details;
             question.CategoryId = categoryId;
             question.Approved = true;
-            question.ApprovalDate = DateTimeOffset.Now;
-            question.ApprovedByUserId = this.User.Id;
+            question.ReviewDate = DateTimeOffset.Now;
+            question.ReviewedByUserId = this.User.Id;
             this.DataContext.SubmitChanges();
 
             return new EmptyResult();
@@ -457,8 +463,8 @@ namespace Lawspot.Controllers
 
             var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).Single();
             question.Approved = false;
-            question.RejectionDate = DateTimeOffset.Now;
-            question.RejectedByUserId = this.User.Id;
+            question.ReviewDate = DateTimeOffset.Now;
+            question.ReviewedByUserId = this.User.Id;
             this.DataContext.SubmitChanges();
 
             return new EmptyResult();
@@ -472,7 +478,7 @@ namespace Lawspot.Controllers
         /// <param name="sort"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ReviewAnswers(string category, string sort)
+        public ActionResult ReviewAnswers(string category, string filter, string sort)
         {
             // Ensure the user is allow to vet answers.
             if (this.User.CanVetAnswers == false)
@@ -500,6 +506,17 @@ namespace Lawspot.Controllers
                         Selected = c.CategoryId == categoryId,
                     }));
 
+            // Filter.
+            var filterValue = AnswerFilter.Unreviewed;
+            if (filter != null)
+                filterValue = (AnswerFilter)Enum.Parse(typeof(AnswerFilter), filter, true);
+            model.FilterOptions = new SelectListItem[]
+            {
+                new SelectListItem() { Text = "Unreviewed", Value = AnswerFilter.Unreviewed.ToString(), Selected = filterValue == AnswerFilter.Unreviewed },
+                new SelectListItem() { Text = "Approved", Value = AnswerFilter.Approved.ToString(), Selected = filterValue == AnswerFilter.Approved },
+                new SelectListItem() { Text = "Rejected", Value = AnswerFilter.Rejected.ToString(), Selected = filterValue == AnswerFilter.Rejected },
+            };
+
             // Sort order.
             var sortValue = AnswerSortOrder.FirstPosted;
             if (sort != null)
@@ -514,6 +531,18 @@ namespace Lawspot.Controllers
             IEnumerable<Answer> answers = this.DataContext.Answers;
             if (categoryId != 0)
                 answers = answers.Where(a => a.Question.CategoryId == categoryId);
+            switch (filterValue)
+            {
+                case AnswerFilter.Unreviewed:
+                    answers = answers.Where(a => a.ReviewDate == null);
+                    break;
+                case AnswerFilter.Approved:
+                    answers = answers.Where(a => a.Approved == true && a.ReviewDate != null);
+                    break;
+                case AnswerFilter.Rejected:
+                    answers = answers.Where(a => a.Approved == false && a.ReviewDate != null);
+                    break;
+            }
             switch (sortValue)
             {
                 case AnswerSortOrder.FirstPosted:
@@ -554,8 +583,8 @@ namespace Lawspot.Controllers
             var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).Single();
             answer.Details = answerDetails;
             answer.Approved = true;
-            answer.ApprovalDate = DateTimeOffset.Now;
-            answer.ApprovedByUserId = this.User.Id;
+            answer.ReviewDate = DateTimeOffset.Now;
+            answer.ReviewedByUserId = this.User.Id;
             this.DataContext.SubmitChanges();
 
             return new EmptyResult();
@@ -575,8 +604,8 @@ namespace Lawspot.Controllers
 
             var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).Single();
             answer.Approved = false;
-            answer.RejectionDate = DateTimeOffset.Now;
-            answer.RejectedByUserId = this.User.Id;
+            answer.ReviewDate = DateTimeOffset.Now;
+            answer.ReviewedByUserId = this.User.Id;
             this.DataContext.SubmitChanges();
 
             return new EmptyResult();

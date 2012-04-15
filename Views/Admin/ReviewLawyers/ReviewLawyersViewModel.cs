@@ -16,8 +16,9 @@ namespace Lawspot.Views.Admin
 
     public enum LawyerFilter
     {
-        NotYetApproved,
+        Unreviewed,
         Approved,
+        Rejected,
     }
 
     public enum LawyerSortOrder

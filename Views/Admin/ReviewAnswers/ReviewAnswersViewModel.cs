@@ -10,7 +10,15 @@ namespace Lawspot.Views.Admin
     {
         public IEnumerable<SelectListItem> CategoryOptions { get; set; }
         public IEnumerable<SelectListItem> SortOptions { get; set; }
+        public IEnumerable<SelectListItem> FilterOptions { get; set; }
         public IEnumerable<AnswerViewModel> Answers { get; set; }
+    }
+
+    public enum AnswerFilter
+    {
+        Unreviewed,
+        Approved,
+        Rejected,
     }
 
     public enum AnswerSortOrder

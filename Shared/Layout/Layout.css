@@ -115,6 +115,7 @@ header {
     height: 100px;
     width: 984px;
     margin: auto;
+    position: relative;
 }
 a.site-logo {
 	display: block;

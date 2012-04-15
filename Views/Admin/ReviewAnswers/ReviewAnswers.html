@@ -11,6 +11,14 @@
             {{/SortOptions}}
         </select>
     </div>
+    <div class="filter">
+	    Show
+	    <select id="filter-drop-down" name="filter" onchange="this.form.submit()">
+            {{#FilterOptions}}
+	            <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+            {{/FilterOptions}}
+	    </select>
+    </div>
     <div class="category">
 	    View questions asked in
 	    <select id="category-drop-down" name="category" onchange="this.form.submit()">
