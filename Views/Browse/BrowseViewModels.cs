@@ -24,11 +24,10 @@ namespace Lawspot.Views.Browse
     public class AnsweredQuestionViewModel
     {
         public string Uri { get; set; }
-        public string AvatarUri { get; set; }
         public string Title { get; set; }
         public string Details { get; set; }
         public string AnsweredBy { get; set; }
-        public string AnsweredHoursAgo { get; set; }
+        public string AnsweredTime { get; set; }
     }
 
     public class QuestionViewModel

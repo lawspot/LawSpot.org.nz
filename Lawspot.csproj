@@ -207,7 +207,8 @@
     <Content Include="Email\Templates\LawyerRegister.xslt" />
     <Content Include="Email\Templates\Error.xslt" />
     <Content Include="Email\Templates\Register.xslt" />
-    <Content Include="Email\Test Data\Register.xml" />
+    <Content Include="Email\Test Data\Register2.xml" />
+    <Content Include="Email\Test Data\Register1.xml" />
     <Content Include="Global.asax" />
     <Content Include="Lib\BCrypt.Net.dll" />
     <Content Include="Lib\BCrypt.Net.XML" />
@@ -235,7 +236,6 @@
     <Content Include="Shared\Layout\Layout.js" />
     <Content Include="Shared\Images\background.jpg" />
     <Content Include="Shared\Images\background.png" />
-    <Content Include="Shared\Images\default-avatar.jpg" />
     <Content Include="Shared\Images\error.png" />
     <Content Include="Shared\Images\favicon-original.png" />
     <Content Include="Shared\Images\favicon.ico" />
@@ -308,6 +308,7 @@
     <Content Include="Shared\Layout\mustache.js" />
     <Content Include="Views\Browse\Home\laptop.png" />
     <Content Include="Views\Browse\lawyer.png" />
+    <Content Include="Views\Browse\Question\answer.png" />
     <Content Include="Views\Browse\Question\Question.css" />
     <Content Include="Views\Browse\Question\Question.html" />
     <Content Include="Views\Browse\Question\question.png" />

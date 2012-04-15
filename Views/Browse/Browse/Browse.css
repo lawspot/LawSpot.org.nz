@@ -23,21 +23,6 @@ input.ask-textbox {
 .question {
     margin: 22px 0;
 }
-.question .frame {
-    float: left;
-    background: white;
-    border: 1px solid #5A5957;
-    padding: 2px;
-    border-radius: 3px;
-}
-.question .frame img {
-    width: 49px;
-    height: 64px;
-    vertical-align: middle;
-}
-.question .body {
-    margin-left: 70px;
-}
 .question .title, .question .details, .question .asked {
     margin: 6px 0;
 }

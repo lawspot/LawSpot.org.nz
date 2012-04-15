@@ -122,9 +122,9 @@ input.ask-textbox {
 }
 .qa-lawyer-profile {
 	float: left;
-}
-.qa-lawyer-profile img {
-	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+	width: 76px;
+	text-align: center;
+	font-size: 9pt;
 	margin-bottom: 10px;
 }
 .qa-lawyer-profile a {
@@ -157,6 +157,7 @@ input.ask-textbox {
 	font-size: 0.9em;
 }
 #qa-notice {
+    clear: left;
 	margin-top: 30px;
 	font-size: 10pt;
 }

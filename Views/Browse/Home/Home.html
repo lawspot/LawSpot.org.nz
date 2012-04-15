@@ -51,22 +51,15 @@
 
 {{#RecentAnswers}}
     <div class="question">
-        <div class="frame">
-            <img src="{{AvatarUri}}" />
+        <div class="title">
+            <a href="{{Uri}}">{{Title}}</a>
         </div>
-        
-        <div class="body">
-            <div class="title">
-                <a href="{{Uri}}">{{Title}}</a>
-            </div>
-            <div class="details">
-                {{Details}}
-            </div>
-            <div class="asked">
-                {{AnsweredBy}} answered {{AnsweredHoursAgo}} ago
-            </div>
+        <div class="details">
+            {{Details}}
         </div>
-        <div style="clear: left"></div>
+        <div class="asked">
+            {{AnsweredBy}} answered {{AnsweredTime}}
+        </div>
     </div>
 {{/RecentAnswers}}
 {{^RecentAnswers}}

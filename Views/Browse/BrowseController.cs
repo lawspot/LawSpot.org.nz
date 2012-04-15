@@ -96,7 +96,6 @@ namespace Lawspot.Controllers
                 .Select(a => new AnswerViewModel()
             {
                 Details = a.Details,
-                AvatarUrl = "http://dummyimage.com/60",
             });
             PopulateModel(model);
             return View(model);
@@ -123,9 +122,10 @@ namespace Lawspot.Controllers
                         Uri = string.Format("/{0}/{1}", a.Question.Category.Slug, a.Question.Slug),
                         Title = a.Question.Title,
                         Details = a.Details.Length > 100 ? a.Details.Substring(0, 100) : a.Details,
-                        AvatarUri = "/shared/images/default-avatar.jpg",
                         AnsweredBy = "Community Law Centre",
-                        AnsweredHoursAgo = string.Format("{0} hours", Math.Round(DateTimeOffset.Now.Subtract(a.CreatedOn).TotalHours))
+                        AnsweredTime = DateTimeOffset.Now.Subtract(a.CreatedOn).TotalHours > 24 ?
+                            string.Format("{0:d MMMM yyyy}", a.CreatedOn) :
+                            string.Format("{0} hours ago", Math.Round(DateTimeOffset.Now.Subtract(a.CreatedOn).TotalHours)),
                     });
             }
 

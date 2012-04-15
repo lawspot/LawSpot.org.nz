@@ -22,7 +22,5 @@ namespace Lawspot.Views.Browse
     public class AnswerViewModel
     {
         public string Details { get; set; }
-        public string AvatarUrl { get; set; }
-        public string ProfileUrl { get; set; }
     }
 }
