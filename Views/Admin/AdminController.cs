@@ -285,6 +285,7 @@ namespace Lawspot.Controllers
             lawyer.Approved = true;
             lawyer.ApprovalDate = DateTimeOffset.Now;
             lawyer.ApprovedByUserId = this.User.Id;
+            lawyer.User.CanAnswerQuestions = true;
             this.DataContext.SubmitChanges();
 
             return new EmptyResult();
@@ -305,6 +306,7 @@ namespace Lawspot.Controllers
             lawyer.Approved = false;
             lawyer.RejectionDate = DateTimeOffset.Now;
             lawyer.RejectedByUserId = this.User.Id;
+            lawyer.User.CanAnswerQuestions = false;
             this.DataContext.SubmitChanges();
 
             return new EmptyResult();
