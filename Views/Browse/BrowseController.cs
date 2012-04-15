@@ -122,7 +122,7 @@ namespace Lawspot.Controllers
                         Uri = string.Format("/{0}/{1}", a.Question.Category.Slug, a.Question.Slug),
                         Title = a.Question.Title,
                         Details = a.Details.Length > 100 ? a.Details.Substring(0, 100) : a.Details,
-                        AnsweredBy = "Community Law Centre",
+                        AnsweredBy = "Wellington Community Law Centre",
                         AnsweredTime = DateTimeOffset.Now.Subtract(a.CreatedOn).TotalHours > 24 ?
                             string.Format("{0:d MMMM yyyy}", a.CreatedOn) :
                             string.Format("{0} hours ago", Math.Round(DateTimeOffset.Now.Subtract(a.CreatedOn).TotalHours)),
