@@ -33,8 +33,8 @@
       and only under the supervision of the Wellington Community Law Centre. We'll be sure to let
       you know over the next few weeks when lawyers from other regions can start submitting
       answers.  You may still be able to help with the pilot even if you're not based in Wellington
-      - to find out more, please email us at <a href="&#109;ailto&#58;recruitment&#64;lawspot.org.nz">
-      recruitment&#64;lawspot.org.nz</a>.
+      - to find out more, please email us at <a href="&#109;ailto&#58;volunteer&#64;lawspot.org.nz">
+      volunteer&#64;lawspot.org.nz</a>.
     </p>
 
     <p>
