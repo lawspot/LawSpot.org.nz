@@ -28,23 +28,21 @@
     <![endif]-->
 
     <header>
-        <a href="/" class="site-logo" title="LawSpot.org.nz"><img src="/shared/images/logo.png" /></a>
+        <a href="/" class="site-logo" title="LawSpot.org.nz"><img src="/shared/images/logo.png" alt="LawSpot.org.nz" /></a>
         <nav id="_header">
-            <script id="_headerTemplate" type="text/template">
-        	    <ul>
-        		    <li><a href="/ask" {{#AskALawyerTabActive}} class="active" {{/AskALawyerTabActive}}>Ask a Lawyer</a></li>
-        		    <li><a href="/browse" {{#BrowseAnswersTabActive}} class="active" {{/BrowseAnswersTabActive}}>Browse Answers</a></li>
-        		    <li><a href="/how-it-works" {{#HowItWorksTabActive}} class="active" {{/HowItWorksTabActive}}>How it works</a></li>
-        	    </ul>
-        	    <div id="_login">
-                    {{^User}}
-                        <a href="/login">Login</a> | <a href="/register">Register</a>
-                    {{/User}}
-                    {{#User}}
-                        <a href="/admin/account-settings">My Account</a> | <a href="/logout">Logout</a>
-                    {{/User}}
+        	<ul>
+        		<li><a id="_askALawyerTab" href="/ask">Ask a Lawyer</a></li>
+        		<li><a id="_browseAnswersTab" href="/browse">Browse Answers</a></li>
+        		<li><a id="_howItWorksTab" href="/how-it-works">How it works</a></li>
+        	</ul>
+        	<div id="_login">
+                <div id="_notLoggedIn">
+                    <a href="/login">Login</a> | <a href="/register">Register</a>
                 </div>
-            </script>
+                <div id="_loggedIn">
+                    <a href="/admin/account-settings">My Account</a> | <a href="/logout">Logout</a>
+                </div>
+            </div>
         </nav>
     </header>
     <section id="_message" class="site-message">

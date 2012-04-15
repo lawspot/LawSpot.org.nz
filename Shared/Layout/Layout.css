@@ -164,7 +164,7 @@ nav li a:hover, nav li a.active {
 	background: url(/shared/images/nav-active.png);
 	text-decoration: none;
 }
-nav #_login {
+#_login {
 	display: block;
 	float: left;
 	height: 25px;
@@ -176,11 +176,14 @@ nav #_login {
 	color: #fff;
 	text-align: right;
 }
-nav #_login a {
+#_login a {
 	color: #efefef;
 }
-nav #_login a:hover {
+#_login a:hover {
 	text-decoration: underline;
+}
+#loggedIn {
+    display: none;
 }
 
 /* Content */
