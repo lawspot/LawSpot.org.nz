@@ -182,7 +182,7 @@ nav li a:hover, nav li a.active {
 #_login a:hover {
 	text-decoration: underline;
 }
-#loggedIn {
+#_loggedIn {
     display: none;
 }
 
