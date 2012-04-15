@@ -54,6 +54,7 @@ button,
 input,
 select,
 textarea {
+    -moz-box-sizing: border-box;
     box-sizing: border-box;
     font-size: 100%;
     margin: 0;
