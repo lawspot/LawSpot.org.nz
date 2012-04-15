@@ -39,7 +39,7 @@ namespace Lawspot.Controllers
             return View();
         }
 
-        public ActionResult TermsOfEngagement()
+        public ActionResult LawyerPolicy()
         {
             return View();
         }
