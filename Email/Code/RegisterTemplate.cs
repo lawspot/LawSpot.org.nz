@@ -45,6 +45,12 @@ namespace Lawspot.Email
         /// </summary>
         [ExposeToXslt]
         public string ValidateEmailUri { get; set; }
+
+        /// <summary>
+        /// The user registered as part of asking a question.
+        /// </summary>
+        [ExposeToXslt]
+        public bool AskedQuestion { get; set; }
     }
 
 }

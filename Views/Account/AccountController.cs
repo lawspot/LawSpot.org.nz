@@ -130,7 +130,7 @@ namespace Lawspot.Controllers
 
             // Send the user an email if they registered.
             if (registered)
-                SendRegistrationEmail(user, model.Password, lawyer: false);
+                SendRegistrationEmail(user, model.Password, lawyer: false, askedQuestion: false);
 
             // Log in as that user.
             Login(user, rememberMe: true);
@@ -227,7 +227,7 @@ namespace Lawspot.Controllers
 
             // Send the user a registration email if they registered.
             if (registered)
-                SendRegistrationEmail(user, model.Password, lawyer: true);
+                SendRegistrationEmail(user, model.Password, lawyer: true, askedQuestion: false);
 
             // Log in as the new user.
             Login(user, rememberMe: true);

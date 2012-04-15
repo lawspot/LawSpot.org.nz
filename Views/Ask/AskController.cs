@@ -177,7 +177,7 @@ namespace Lawspot.Controllers
 
             // Send the user a registration email if they registered.
             if (registered)
-                SendRegistrationEmail(user, model.Registration.Password, lawyer: false);
+                SendRegistrationEmail(user, model.Registration.Password, lawyer: false, askedQuestion: true);
 
             // Redirect to the thank you page.
             return RedirectToAction("ThankYou", new { questionId = question.QuestionId, registered = registered });

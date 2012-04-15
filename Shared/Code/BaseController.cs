@@ -220,8 +220,9 @@ namespace Lawspot.Controllers
         /// <param name="user"> The details of the user that registered. </param>
         /// <param name="password"> The user's password. </param>
         /// <param name="lawyer"> The user registered as a lawyer. </param>
+        /// <param name="askedQuestion"> The user registered as part of asking a question. </param>
         /// <returns> A reference to the user. </returns>
-        protected void SendRegistrationEmail(User user, string password, bool lawyer)
+        protected void SendRegistrationEmail(User user, string password, bool lawyer, bool askedQuestion)
         {
             // Send them an email.
             var registrationEmail = new Lawspot.Email.RegisterTemplate();
@@ -233,6 +234,7 @@ namespace Lawspot.Controllers
             registrationEmail.ValidateEmailUri = string.Format("{0}/validate-email?userId={1}&token={2}",
                 registrationEmail.BaseUrl, Uri.EscapeDataString(user.UserId.ToString()),
                 Uri.EscapeDataString(user.EmailValidationToken));
+            registrationEmail.AskedQuestion = askedQuestion;
             registrationEmail.Send();
         }
 
