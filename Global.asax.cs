@@ -33,7 +33,7 @@ namespace Lawspot
             RouteTable.Routes.IgnoreRoute("robots.txt");
 
             // Register routes.
-            RouteTable.Routes.MapRoute("HomeRoute", "home", new { controller = "Browse", action = "Home" });
+            RouteTable.Routes.MapRoute("HomeRoute", "", new { controller = "Browse", action = "Home" });
             RouteTable.Routes.MapRoute("BrowseRoute", "browse", new { controller = "Browse", action = "Browse" });
             RouteTable.Routes.MapRoute("LoginRoute", "login", new { controller = "Account", action = "Login" });
             RouteTable.Routes.MapRoute("LogoutRoute", "logout", new { controller = "Account", action = "Logout" });
