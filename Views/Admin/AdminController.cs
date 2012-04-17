@@ -291,6 +291,7 @@ namespace Lawspot.Controllers
             lawyer.Approved = true;
             lawyer.ReviewDate = DateTimeOffset.Now;
             lawyer.ReviewedByUserId = this.User.Id;
+            lawyer.RejectionReason = null;
             lawyer.User.CanAnswerQuestions = true;
             this.DataContext.SubmitChanges();
 
@@ -301,8 +302,9 @@ namespace Lawspot.Controllers
         /// Rejects a lawyer.
         /// </summary>
         /// <param name="questionId"> The ID of the lawyer to reject. </param>
+        /// <param name="reason"> The reason for rejecting the lawyer. </param>
         [HttpPost]
-        public ActionResult RejectLawyer(int lawyerId)
+        public ActionResult RejectLawyer(int lawyerId, string reason)
         {
             // Ensure the user is allow to vet lawyers.
             if (this.User.CanVetLawyers == false)
@@ -312,6 +314,7 @@ namespace Lawspot.Controllers
             lawyer.Approved = false;
             lawyer.ReviewDate = DateTimeOffset.Now;
             lawyer.ReviewedByUserId = this.User.Id;
+            lawyer.RejectionReason = reason;
             lawyer.User.CanAnswerQuestions = false;
             this.DataContext.SubmitChanges();
 
@@ -444,6 +447,7 @@ namespace Lawspot.Controllers
             question.Approved = true;
             question.ReviewDate = DateTimeOffset.Now;
             question.ReviewedByUserId = this.User.Id;
+            question.RejectionReason = null;
             this.DataContext.SubmitChanges();
 
             return new EmptyResult();
@@ -453,9 +457,10 @@ namespace Lawspot.Controllers
         /// Rejects a question.
         /// </summary>
         /// <param name="questionId"> The ID of the question to reject. </param>
+        /// <param name="reason"> The reason for rejecting the question. </param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult RejectQuestion(int questionId)
+        public ActionResult RejectQuestion(int questionId, string reason)
         {
             // Ensure the user is allow to vet questions.
             if (this.User.CanVetQuestions == false)
@@ -465,6 +470,7 @@ namespace Lawspot.Controllers
             question.Approved = false;
             question.ReviewDate = DateTimeOffset.Now;
             question.ReviewedByUserId = this.User.Id;
+            question.RejectionReason = reason;
             this.DataContext.SubmitChanges();
 
             return new EmptyResult();
@@ -585,6 +591,7 @@ namespace Lawspot.Controllers
             answer.Approved = true;
             answer.ReviewDate = DateTimeOffset.Now;
             answer.ReviewedByUserId = this.User.Id;
+            answer.RejectionReason = null;
             this.DataContext.SubmitChanges();
 
             return new EmptyResult();
@@ -594,9 +601,10 @@ namespace Lawspot.Controllers
         /// Rejects an answer.
         /// </summary>
         /// <param name="answerId"> The ID of the answer to reject. </param>
+        /// <param name="reason"> The reason for rejecting the answer. </param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult RejectAnswer(int answerId)
+        public ActionResult RejectAnswer(int answerId, string reason)
         {
             // Ensure the user is allow to vet answers.
             if (this.User.CanVetAnswers == false)
@@ -606,6 +614,7 @@ namespace Lawspot.Controllers
             answer.Approved = false;
             answer.ReviewDate = DateTimeOffset.Now;
             answer.ReviewedByUserId = this.User.Id;
+            answer.RejectionReason = reason;
             this.DataContext.SubmitChanges();
 
             return new EmptyResult();
