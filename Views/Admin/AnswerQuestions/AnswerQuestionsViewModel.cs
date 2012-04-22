@@ -14,7 +14,7 @@ namespace Lawspot.Views.Admin
         public IEnumerable<QuestionViewModel> Questions { get; set; }
     }
 
-    public enum QuestionFilter
+    public enum AnswerQuestionsFilter
     {
         Unanswered,
         All,

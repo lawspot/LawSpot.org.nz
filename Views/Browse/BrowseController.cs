@@ -36,7 +36,7 @@ namespace Lawspot.Controllers
                 .ToList()
                 .Select(c => new CategoryViewModel()
                 {
-                    Uri = string.Format("/{0}", c.Slug),
+                    Uri = c.AbsolutePath,
                     Name = c.Name,
                     AnswerCount = c.Questions.Sum(q => q.Answers.Count(a => a.Approved))
                 });
@@ -88,7 +88,7 @@ namespace Lawspot.Controllers
             model.Details = question.Details;
             model.CategoryId = question.CategoryId;
             model.CategoryName = question.Category.Name;
-            model.CategoryUrl = string.Format("/{0}", question.Category.Slug);
+            model.CategoryUrl = question.Category.AbsolutePath;
             model.CreationDate = question.CreatedOn.ToString("d MMM yyyy");
             model.Views = question.ViewCount;
             model.Answers = question.Answers
@@ -119,7 +119,7 @@ namespace Lawspot.Controllers
                     .Take(5)
                     .Select(a => new AnsweredQuestionViewModel()
                     {
-                        Uri = string.Format("/{0}/{1}", a.Question.Category.Slug, a.Question.Slug),
+                        Uri = a.Question.AbsolutePath,
                         Title = a.Question.Title,
                         Details = a.Details.Length > 100 ? a.Details.Substring(0, 100) : a.Details,
                         AnsweredBy = "Wellington Community Law Centre",
@@ -138,7 +138,7 @@ namespace Lawspot.Controllers
                     .ToList()
                     .Select(c => new CategoryViewModel()
                     {
-                        Uri = string.Format("/{0}", c.Slug),
+                        Uri = c.AbsolutePath,
                         Name = c.Name,
                         AnswerCount = c.Questions.Sum(q => q.Answers.Count(a => a.Approved))
                     });
@@ -157,7 +157,7 @@ namespace Lawspot.Controllers
                     .Take(5)
                     .Select(q => new QuestionViewModel()
                     {
-                        Url = string.Format("/{0}/{1}", q.Category.Slug, q.Slug),
+                        Url = q.AbsolutePath,
                         Title = q.Title,
                         AnswerCount = string.Format("{0} answers", q.Answers.Count(a => a.Approved)),
                         ViewCount = string.Format("{0} views", q.ViewCount),

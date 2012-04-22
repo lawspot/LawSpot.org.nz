@@ -121,6 +121,8 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Backend\Category.cs" />
+    <Compile Include="Backend\Question.cs" />
     <Compile Include="Backend\DataClasses.cs">
       <DependentUpon>DataClasses.dbml</DependentUpon>
     </Compile>
@@ -132,8 +134,13 @@
       <DependentUpon>DataClasses.dbml</DependentUpon>
     </Compile>
     <Compile Include="Backend\LawspotDataContext.cs" />
-    <Compile Include="Email\Code\ErrorTemplate.cs" />
-    <Compile Include="Email\Code\RegisterTemplate.cs" />
+    <Compile Include="Email\Code\AnswerApprovedMessage.cs" />
+    <Compile Include="Email\Code\LawyerRejectedMessage.cs" />
+    <Compile Include="Email\Code\LawyerApprovedMessage.cs" />
+    <Compile Include="Email\Code\QuestionRejectedMessage.cs" />
+    <Compile Include="Email\Code\QuestionAnsweredMessage.cs" />
+    <Compile Include="Email\Code\ErrorMessage.cs" />
+    <Compile Include="Email\Code\RegisterMessage.cs" />
     <Compile Include="Email\Code\ExposeToXsltAttribute.cs" />
     <Compile Include="Email\Code\EmailTemplate.cs" />
     <Compile Include="Shared\Code\BaseController.cs" />
@@ -207,9 +214,19 @@
     <Content Include="Email\Assets\header.jpg" />
     <Content Include="Email\Assets\logo.png" />
     <Content Include="Email\Assets\twitter.png" />
+    <Content Include="Email\Templates\AnswerApproved.xslt" />
+    <Content Include="Email\Templates\LawyerRejected.xslt" />
+    <Content Include="Email\Templates\LawyerApproved.xslt" />
+    <Content Include="Email\Templates\QuestionRejected.xslt" />
+    <Content Include="Email\Templates\QuestionAnswered.xslt" />
     <Content Include="Email\Templates\LawyerRegister.xslt" />
     <Content Include="Email\Templates\Error.xslt" />
     <Content Include="Email\Templates\Register.xslt" />
+    <Content Include="Email\Test Data\AnswerApproved.xml" />
+    <Content Include="Email\Test Data\LawyerRejected.xml" />
+    <Content Include="Email\Test Data\LawyerApproved.xml" />
+    <Content Include="Email\Test Data\QuestionRejected.xml" />
+    <Content Include="Email\Test Data\QuestionAnswered.xml" />
     <Content Include="Email\Test Data\Register2.xml" />
     <Content Include="Email\Test Data\Register1.xml" />
     <Content Include="Global.asax" />

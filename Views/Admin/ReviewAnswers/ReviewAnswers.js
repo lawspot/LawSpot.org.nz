@@ -32,7 +32,18 @@ $(".question-container a").click(function (e) {
     }
     else {
         // The question is not expanded - expand it.
+
+        // Manipulate the data.
         var data = Model.Answers[container.index()];
+        data.CannedRejectionReasons = [];
+        for (var i in Model.CannedRejectionReasons) {
+            data.CannedRejectionReasons[i] = {
+                Text: Model.CannedRejectionReasons[i].Text,
+                Value: Model.CannedRejectionReasons[i].Value
+            };
+        }
+
+        // Expand the form.
         innerContent.hide();
         innerContent.html(Mustache.render(document.getElementById("answer-template").text, data));
         innerContent.slideDown("fast");
@@ -43,11 +54,44 @@ $(".question-container a").click(function (e) {
             // Don't submit the form.
             e.preventDefault();
 
-            // Determine whether the reject button was clicked.
-            var reject = $(this).hasClass("red");
-            if (reject == false) {
+            // Determine what action to take.
+            var action = $(this).attr("data-action");
+            var url, postData, template;
+            if (action == "go-to-reject") {
+                // The user clicked reject on the initial form.
+                $(".initial-form", innerContent).hide();
+                $(".rejection-form", innerContent).show();
+                return;
+            }
+            else if (action == "go-to-initial") {
+                // The user clicked cancel on the rejection form.
+                $(".initial-form", innerContent).show();
+                $(".rejection-form", innerContent).hide();
+                return;
+            }
+            else if (action == "approve") {
+                // The user clicked on the approve button.
+
                 // Populate the data object from the form.
-                data.Answer = $(".answer", this.form).val();
+                data.CategoryId = $(".category", this.form).val();
+                data.Title = $(".title", this.form).val();
+                data.Details = $(".details", this.form).val();
+
+                // Details to send to the server.
+                url = "post-approve-answer";
+                postData = { answerId: data.AnswerId, answerDetails: data.Answer };
+                template = "approval-template";
+            }
+            else if (action == "reject") {
+                // The user clicked on the second reject button.
+
+                // Populate the data object from the form.
+                data.RejectionReason = $(".reason", this.form).val();
+
+                // Details to send to the server.
+                url = "post-reject-answer";
+                postData = { answerId: data.AnswerId, reason: data.RejectionReason };
+                template = "rejection-template";
             }
 
             // Disable the button and display the progress indicator.
@@ -56,19 +100,19 @@ $(".question-container a").click(function (e) {
 
             jQuery.ajax({
                 type: "POST",
-                url: reject ? "post-reject-answer" : "post-approve-answer",
-                data: { answerId: data.AnswerId, answerDetails: data.Answer },
-                error: function () {
+                url: url,
+                data: postData,
+                error: function (xhr, status, error) {
                     // Re-enable the submit button and hide the progress indicator.
                     $("button", innerContent).removeAttr("disabled");
                     $(".progress-indicator", innerContent).hide();
 
                     // Display an error message.
-                    alert("Failed to submit answer " + (reject ? "rejection" : "approval") + ".  Please try again.");
+                    alert(status == "error" ? xhr.responseText : "Something went wrong.  Please try again.");
                 },
                 success: function () {
                     // Render the success box.
-                    var successBox = $(Mustache.render(document.getElementById(reject ? "rejection-template" : "approval-template").text, data));
+                    var successBox = $(Mustache.render(document.getElementById(template).text, data));
 
                     // Show the success box.
                     container.replaceWith(successBox);
@@ -87,6 +131,14 @@ $(".question-container a").click(function (e) {
                     });
                 }
             });
+        });
+
+        // Hook up the canned rejection reason drop-down.
+        $(".canned-rejection-reasons", innerContent).change(function (e) {
+            var reason = $(this).val();
+            if (reason)
+                $(".reason").val(reason);
+            this.selectedIndex = 0;
         });
     }
 

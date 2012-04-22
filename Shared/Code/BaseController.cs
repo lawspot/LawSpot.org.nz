@@ -225,7 +225,7 @@ namespace Lawspot.Controllers
         protected void SendRegistrationEmail(User user, string password, bool lawyer, bool askedQuestion)
         {
             // Send them an email.
-            var registrationEmail = new Lawspot.Email.RegisterTemplate();
+            var registrationEmail = new Lawspot.Email.RegisterMessage();
             if (lawyer)
                 registrationEmail.UseLawyerRegistrationTemplate();
             registrationEmail.To.Add(user.EmailAddress);

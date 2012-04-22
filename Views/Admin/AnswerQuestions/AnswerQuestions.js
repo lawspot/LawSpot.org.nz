@@ -70,13 +70,13 @@ $(".question-container a").click(function (e) {
                 type: "POST",
                 url: "post-answer",
                 data: { questionId: data.QuestionId, answerText: data.Answer },
-                error: function () {
+                error: function (xhr, status, error) {
                     // Re-enable the submit button and hide the progress indicator.
                     $("button", innerContent).removeAttr("disabled");
                     $(".progress-indicator", innerContent).hide();
 
                     // Display an error message.
-                    alert("Failed to submit answer.  Please try again.");
+                    alert(status == "error" ? xhr.responseText : "Failed to submit answer.  Please try again.");
                 },
                 success: function () {
                     // Render the success box.

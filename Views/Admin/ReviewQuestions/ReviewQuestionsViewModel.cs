@@ -12,6 +12,14 @@ namespace Lawspot.Views.Admin
         public IEnumerable<SelectListItem> CategoryOptions { get; set; }
         public IEnumerable<SelectListItem> FilterOptions { get; set; }
         public IEnumerable<SelectListItem> SortOptions { get; set; }
+        public IEnumerable<SelectListItem> CannedRejectionReasons { get; set; }
         public IEnumerable<QuestionViewModel> Questions { get; set; }
+    }
+
+    public enum ReviewQuestionsFilter
+    {
+        Unreviewed,
+        Approved,
+        Rejected,
     }
 }

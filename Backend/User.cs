@@ -29,5 +29,34 @@ namespace Lawspot.Backend
                 return lawyer;
             }
         }
+
+        /// <summary>
+        /// Gets the user's full name, if they are a lawyer, or their email address otherwise.
+        /// </summary>
+        public string DisplayName
+        {
+            get
+            {
+                var lawyer = this.Lawyers.SingleOrDefault();
+                if (lawyer == null)
+                    return this.EmailAddress;
+                return lawyer.FullName;
+            }
+        }
+
+        /// <summary>
+        /// Gets the user's full name + email address, if they are a lawyer, or just their email
+        /// address otherwise, in the form "Full Name &lt;email@domain.com&gt;".
+        /// </summary>
+        public string EmailDisplayName
+        {
+            get
+            {
+                var lawyer = this.Lawyers.SingleOrDefault();
+                if (lawyer == null)
+                    return this.EmailAddress;
+                return string.Format("{0} <{1}>", lawyer.FullName, this.EmailAddress);
+            }
+        }
     }
 }

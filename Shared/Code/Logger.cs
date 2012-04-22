@@ -51,7 +51,7 @@ namespace Lawspot.Shared
         {
             if (message == null)
                 throw new ArgumentNullException("message");
-            var email = new ErrorTemplate();
+            var email = new ErrorMessage();
             email.Application = ConfigurationManager.AppSettings["DomainName"];
             email.To.Add(ConfigurationManager.AppSettings["SendErrorEmailTo"]);
 
@@ -61,12 +61,12 @@ namespace Lawspot.Shared
             else
                 email.Subject = "LawSpot error: " + message;
 
-            email.ErrorMessage = message;
+            email.Message = message;
             email.StackTrace = exception == null ? null : exception.ToString();
             if (exception != null)
             {
                 foreach (var key in exception.Data.Keys)
-                    email.ExceptionData.Add(new ErrorTemplate.NameValuePair() { Name = key.ToString(), Value = exception.Data[key].ToString() });
+                    email.ExceptionData.Add(new ErrorMessage.NameValuePair() { Name = key.ToString(), Value = exception.Data[key].ToString() });
             }
             email.ServerHost = string.Format("{0}.{1}", Environment.MachineName,
                     System.Net.NetworkInformation.IPGlobalProperties.GetIPGlobalProperties().DomainName);;
@@ -112,7 +112,7 @@ namespace Lawspot.Shared
                         bool isBlacklisted =
                             name.IndexOf("Password", StringComparison.OrdinalIgnoreCase) >= 0;
 
-                        email.RequestFormData.Add(new ErrorTemplate.NameValuePair()
+                        email.RequestFormData.Add(new ErrorMessage.NameValuePair()
                         {
                             Name = name,
                             Value = isBlacklisted && value.Length > 0 ? "<blocked>" : value
@@ -132,7 +132,7 @@ namespace Lawspot.Shared
                     var name = request.Cookies[i].Name;
                     var value = request.Cookies[i].Value ?? string.Empty;
                     bool isBlacklisted = name == ".ASPXAUTH";
-                    email.RequestCookies.Add(new ErrorTemplate.NameValuePair()
+                    email.RequestCookies.Add(new ErrorMessage.NameValuePair()
                     {
                         Name = name,
                         Value = isBlacklisted && value.Length > 0 ? "<blocked>" : value

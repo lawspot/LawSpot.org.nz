@@ -55,3 +55,59 @@ form.filter-area .filter {
 #lawyers-list .moredetail {
 	font-size: 8pt;
 }
+
+
+#rejection-form {
+    width: 654px;
+	position: absolute;
+	display: none;
+    padding: 20px 40px 20px;
+	border-radius: 10px;
+	margin-bottom: 15px;
+	-webkit-box-shadow: inset 1px 1px 6px 1px rgba(0, 0, 0, 0.3);
+	-moz-box-shadow: inset 1px 1px 6px 1px rgba(0, 0, 0, 0.3);
+	box-shadow: inset 1px 1px 6px 1px rgba(0, 0, 0, 0.3);
+	background-color: #D8D1BC;
+	color: #4A4632;
+}
+
+#rejection-form label {
+    display: block;
+    font-weight: bold;
+}
+
+#rejection-form textarea {
+    width: 100%;
+    margin: 10px 0 15px;
+}
+
+#rejection-form .rejection-reasons-container {
+    float: right;
+}
+
+#rejection-form .rejection-reasons-container label {
+    display: inline;
+}
+
+#rejection-form .rejection-reasons-container select {
+    margin-left: 5px;
+    width: 240px;
+}
+
+#rejection-form .reason-container {
+    margin-top: 20px;
+}
+
+#rejection-form .button-row {
+    text-align: center;
+}
+
+#rejection-form button.red {
+    margin-right: 10px;
+}
+
+#rejection-form .progress-indicator {
+    display: none;
+    position: absolute;
+    margin: 12px 0 0 20px;
+}

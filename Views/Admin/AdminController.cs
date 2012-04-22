@@ -42,6 +42,44 @@ namespace Lawspot.Controllers
         }
 
         /// <summary>
+        /// Returns a response with a status code and a plain text response.
+        /// </summary>
+        public class StatusPlusTextResult : ActionResult
+        {
+            public StatusPlusTextResult(int statusCode, string content)
+            {
+                if (content == null)
+                    throw new ArgumentNullException("content");
+                this.StatusCode = statusCode;
+                this.Content = content;
+            }
+
+            /// <summary>
+            /// The HTTP status code to return.
+            /// </summary>
+            public int StatusCode { get; set; }
+
+            /// <summary>
+            /// The text to return in the response.
+            /// </summary>
+            public string Content { get; set; }
+
+            /// <summary>
+            /// Enables processing of the result of an action method by a custom type that inherits
+            /// from the ActionResult class.
+            /// </summary>
+            /// <param name="context"> The context in which the result is executed. The context
+            /// information includes the controller, HTTP content, request context, and route
+            /// data.</param>
+            public override void ExecuteResult(ControllerContext context)
+            {
+                context.HttpContext.Response.StatusCode = this.StatusCode;
+                context.HttpContext.Response.ContentType = "text/plain";
+                context.HttpContext.Response.Write(this.Content);
+            }
+        }
+
+        /// <summary>
         /// Displays the answer questions page.
         /// </summary>
         /// <param name="category"></param>
@@ -86,15 +124,15 @@ namespace Lawspot.Controllers
                     }));
 
             // Filter.
-            var filterValue = QuestionFilter.Unanswered;
+            var filterValue = AnswerQuestionsFilter.Unanswered;
             if (filter != null)
-                filterValue = (QuestionFilter)Enum.Parse(typeof(QuestionFilter), filter, true);
+                filterValue = (AnswerQuestionsFilter)Enum.Parse(typeof(AnswerQuestionsFilter), filter, true);
             model.FilterOptions = new SelectListItem[]
             {
-                new SelectListItem() { Text = "All", Value = QuestionFilter.All.ToString(), Selected = filterValue == QuestionFilter.All },
-                new SelectListItem() { Text = "Unanswered", Value = QuestionFilter.Unanswered.ToString(), Selected = filterValue == QuestionFilter.Unanswered },
-                new SelectListItem() { Text = "Answered", Value = QuestionFilter.Answered.ToString(), Selected = filterValue == QuestionFilter.Answered },
-                new SelectListItem() { Text = "Answered by Me", Value = QuestionFilter.AnsweredByMe.ToString(), Selected = filterValue == QuestionFilter.AnsweredByMe },
+                new SelectListItem() { Text = "All", Value = AnswerQuestionsFilter.All.ToString(), Selected = filterValue == AnswerQuestionsFilter.All },
+                new SelectListItem() { Text = "Unanswered", Value = AnswerQuestionsFilter.Unanswered.ToString(), Selected = filterValue == AnswerQuestionsFilter.Unanswered },
+                new SelectListItem() { Text = "Answered", Value = AnswerQuestionsFilter.Answered.ToString(), Selected = filterValue == AnswerQuestionsFilter.Answered },
+                new SelectListItem() { Text = "Answered by Me", Value = AnswerQuestionsFilter.AnsweredByMe.ToString(), Selected = filterValue == AnswerQuestionsFilter.AnsweredByMe },
             };
 
             // Sort order.
@@ -114,13 +152,13 @@ namespace Lawspot.Controllers
                 questions = questions.Where(q => q.CategoryId == categoryId);
             switch (filterValue)
             {
-                case QuestionFilter.Unanswered:
+                case AnswerQuestionsFilter.Unanswered:
                     questions = questions.Where(q => q.Answers.Any() == false);
                     break;
-                case QuestionFilter.Answered:
+                case AnswerQuestionsFilter.Answered:
                     questions = questions.Where(q => q.Answers.Any() == true);
                     break;
-                case QuestionFilter.AnsweredByMe:
+                case AnswerQuestionsFilter.AnsweredByMe:
                     questions = questions.Where(q => q.Answers.Any(a => a.CreatedByUserId == this.User.Id));
                     break;
             }
@@ -155,11 +193,17 @@ namespace Lawspot.Controllers
         /// <param name="answerText"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult PostAnswer(int questionId, string answerText)
+        public StatusPlusTextResult PostAnswer(int questionId, string answerText)
         {
             // Ensure the user is allow to answer questions.
             if (this.User.CanAnswerQuestions == false)
-                return new HttpStatusCodeResult(403);
+                return new StatusPlusTextResult(403, "Your account is not authorized to answer questions.");
+
+            // Validate the input.
+            if (string.IsNullOrWhiteSpace(answerText))
+                return new StatusPlusTextResult(400, "The answer details cannot be blank.");
+            if (answerText.Length > 2000)
+                return new StatusPlusTextResult(400, "The answer is too long.");
 
             // Create a new answer for the question.
             var answer = new Answer();
@@ -170,7 +214,7 @@ namespace Lawspot.Controllers
             this.DataContext.Answers.InsertOnSubmit(answer);
             this.DataContext.SubmitChanges();
 
-            return new EmptyResult();
+            return new StatusPlusTextResult(200, "Success");
         }
 
         /// <summary>
@@ -188,6 +232,13 @@ namespace Lawspot.Controllers
                 return new HttpStatusCodeResult(403);
 
             var model = new ReviewLawyersViewModel();
+
+            // Populate the list of precanned rejection responses.
+            model.CannedRejectionReasons = new SelectListItem[] {
+                new SelectListItem() { Text = "Select a canned response", Value = "" },
+                new SelectListItem() { Text = "Not Based In Wellington", Value = "You are not based in Wellington: LawSpot is currently being piloted in the Wellington region. This means that for the moment only lawyers based in Wellington will be able to submit answers to questions, and only under the supervision of the Wellington Community Law Centre. We'll be sure to let you know over the next few weeks when lawyers from other regions can start submitting answers. You may still be able to help with the pilot even if you're not based in Wellington - to find out more, please email us at volunteer@lawspot.org.nz." },
+                new SelectListItem() { Text = "No Certificate", Value = "You do not appear to hold a current practising certificate." },
+            };
 
             // Categories.
             int categoryId = 0;
@@ -281,13 +332,15 @@ namespace Lawspot.Controllers
         /// <param name="details"> The new question details. </param>
         /// <param name="categoryId"> The new category ID. </param>
         [HttpPost]
-        public ActionResult ApproveLawyer(int lawyerId)
+        public StatusPlusTextResult ApproveLawyer(int lawyerId)
         {
             // Ensure the user is allow to vet lawyers.
             if (this.User.CanVetLawyers == false)
-                return new HttpStatusCodeResult(403);
+                return new StatusPlusTextResult(403, "Your account is not authorized to approve lawyers.");
 
-            var lawyer = this.DataContext.Lawyers.Where(l => l.LawyerId == lawyerId).Single();
+            var lawyer = this.DataContext.Lawyers.Where(l => l.LawyerId == lawyerId).SingleOrDefault();
+            if (lawyer == null)
+                return new StatusPlusTextResult(400, "The lawyer account doesn't exist.");
             lawyer.Approved = true;
             lawyer.ReviewDate = DateTimeOffset.Now;
             lawyer.ReviewedByUserId = this.User.Id;
@@ -295,7 +348,13 @@ namespace Lawspot.Controllers
             lawyer.User.CanAnswerQuestions = true;
             this.DataContext.SubmitChanges();
 
-            return new EmptyResult();
+            // Send a message to the lawyer saying that their account has approved.
+            var acceptanceMessage = new Email.LawyerRejectedMessage();
+            acceptanceMessage.To.Add(lawyer.User.EmailDisplayName);
+            acceptanceMessage.Name = lawyer.FullName;
+            acceptanceMessage.Send();
+
+            return new StatusPlusTextResult(200, "Success");
         }
 
         /// <summary>
@@ -304,13 +363,21 @@ namespace Lawspot.Controllers
         /// <param name="questionId"> The ID of the lawyer to reject. </param>
         /// <param name="reason"> The reason for rejecting the lawyer. </param>
         [HttpPost]
-        public ActionResult RejectLawyer(int lawyerId, string reason)
+        public StatusPlusTextResult RejectLawyer(int lawyerId, string reason)
         {
             // Ensure the user is allow to vet lawyers.
             if (this.User.CanVetLawyers == false)
-                return new HttpStatusCodeResult(403);
+                return new StatusPlusTextResult(403, "Your account is not authorized to reject lawyers.");
 
-            var lawyer = this.DataContext.Lawyers.Where(l => l.LawyerId == lawyerId).Single();
+            // Validate the input.
+            if (string.IsNullOrWhiteSpace(reason))
+                return new StatusPlusTextResult(400, "Please enter a reason why the lawyer account is being rejected.");
+            if (reason.Length > 1000)
+                return new StatusPlusTextResult(400, "Your rejection reason is too long.");
+
+            var lawyer = this.DataContext.Lawyers.Where(l => l.LawyerId == lawyerId).SingleOrDefault();
+            if (lawyer == null)
+                return new StatusPlusTextResult(400, "The lawyer account doesn't exist.");
             lawyer.Approved = false;
             lawyer.ReviewDate = DateTimeOffset.Now;
             lawyer.ReviewedByUserId = this.User.Id;
@@ -318,7 +385,14 @@ namespace Lawspot.Controllers
             lawyer.User.CanAnswerQuestions = false;
             this.DataContext.SubmitChanges();
 
-            return new EmptyResult();
+            // Send a message to the lawyer saying that their account has been "put on hold".
+            var rejectionMessage = new Email.LawyerRejectedMessage();
+            rejectionMessage.To.Add(lawyer.User.EmailDisplayName);
+            rejectionMessage.Name = lawyer.FullName;
+            rejectionMessage.Reason = reason;
+            rejectionMessage.Send();
+
+            return new StatusPlusTextResult(200, "Success");
         }
 
         /// <summary>
@@ -336,6 +410,15 @@ namespace Lawspot.Controllers
                 return new HttpStatusCodeResult(403);
 
             var model = new ReviewQuestionsViewModel();
+
+            // Populate the list of precanned rejection responses.
+            model.CannedRejectionReasons = new SelectListItem[] {
+                new SelectListItem() { Text = "Select a canned response", Value = "" },
+                new SelectListItem() { Text = "Duplicate Question", Value = "Your question, or a similar question, has already been answered and published by LawSpot." },
+                new SelectListItem() { Text = "Off-topic", Value = "Your question relates to an area of law that LawSpot doesn’t cover: LawSpot does not answer questions about conveyancing or property leasing (except residential tenancies), or questions from landlords (unless they are community groups), or from business ventures and commercial employers." },
+                new SelectListItem() { Text = "Offensive Material", Value = "Your question contained offensive material." },
+                new SelectListItem() { Text = "Privacy Issue", Value = "Your question contained information that may, if published online, reveal your identity." },
+            };
 
             // Categories.
             int categoryId = 0;
@@ -358,14 +441,14 @@ namespace Lawspot.Controllers
                     }));
 
             // Filter.
-            var filterValue = QuestionFilter.Unanswered;
+            var filterValue = ReviewQuestionsFilter.Unreviewed;
             if (filter != null)
-                filterValue = (QuestionFilter)Enum.Parse(typeof(QuestionFilter), filter, true);
+                filterValue = (ReviewQuestionsFilter)Enum.Parse(typeof(ReviewQuestionsFilter), filter, true);
             model.FilterOptions = new SelectListItem[]
             {
-                new SelectListItem() { Text = "All", Value = QuestionFilter.All.ToString(), Selected = filterValue == QuestionFilter.All },
-                new SelectListItem() { Text = "Unanswered", Value = QuestionFilter.Unanswered.ToString(), Selected = filterValue == QuestionFilter.Unanswered },
-                new SelectListItem() { Text = "Answered", Value = QuestionFilter.Answered.ToString(), Selected = filterValue == QuestionFilter.Answered },
+                new SelectListItem() { Text = "Unreviewed", Value = ReviewQuestionsFilter.Unreviewed.ToString(), Selected = filterValue == ReviewQuestionsFilter.Unreviewed },
+                new SelectListItem() { Text = "Approved", Value = ReviewQuestionsFilter.Approved.ToString(), Selected = filterValue == ReviewQuestionsFilter.Approved },
+                new SelectListItem() { Text = "Rejected", Value = ReviewQuestionsFilter.Rejected.ToString(), Selected = filterValue == ReviewQuestionsFilter.Rejected },
             };
 
             // Sort order.
@@ -384,11 +467,14 @@ namespace Lawspot.Controllers
                 questions = questions.Where(q => q.CategoryId == categoryId);
             switch (filterValue)
             {
-                case QuestionFilter.Unanswered:
-                    questions = questions.Where(q => q.Answers.Any() == false);
+                case ReviewQuestionsFilter.Unreviewed:
+                    questions = questions.Where(q => q.ReviewDate == null);
                     break;
-                case QuestionFilter.Answered:
-                    questions = questions.Where(q => q.Answers.Any() == true);
+                case ReviewQuestionsFilter.Approved:
+                    questions = questions.Where(q => q.ReviewDate != null && q.Approved == true);
+                    break;
+                case ReviewQuestionsFilter.Rejected:
+                    questions = questions.Where(q => q.ReviewDate != null && q.Approved == false);
                     break;
             }
             switch (sortValue)
@@ -434,13 +520,25 @@ namespace Lawspot.Controllers
         /// <param name="categoryId"> The new category ID. </param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult ApproveQuestion(int questionId, string title, string details, int categoryId)
+        public StatusPlusTextResult ApproveQuestion(int questionId, string title, string details, int categoryId)
         {
             // Ensure the user is allow to vet questions.
             if (this.User.CanVetQuestions == false)
-                return new HttpStatusCodeResult(403);
+                return new StatusPlusTextResult(403, "Your account is not authorized to approve questions.");
 
-            var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).Single();
+            // Validate the input.
+            if (string.IsNullOrWhiteSpace(title))
+                return new StatusPlusTextResult(400, "The question title cannot be blank.");
+            if (title.Length > 150)
+                return new StatusPlusTextResult(400, "The question title is too long.");
+            if (string.IsNullOrWhiteSpace(details))
+                return new StatusPlusTextResult(400, "The question details cannot be blank.");
+            if (details.Length > 600)
+                return new StatusPlusTextResult(400, "The question details are too long.");
+
+            var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).SingleOrDefault();
+            if (question == null)
+                return new StatusPlusTextResult(400, "The question doesn't exist.");
             question.Title = title;
             question.Details = details;
             question.CategoryId = categoryId;
@@ -450,7 +548,7 @@ namespace Lawspot.Controllers
             question.RejectionReason = null;
             this.DataContext.SubmitChanges();
 
-            return new EmptyResult();
+            return new StatusPlusTextResult(200, "Success");
         }
 
         /// <summary>
@@ -460,20 +558,36 @@ namespace Lawspot.Controllers
         /// <param name="reason"> The reason for rejecting the question. </param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult RejectQuestion(int questionId, string reason)
+        public StatusPlusTextResult RejectQuestion(int questionId, string reason)
         {
             // Ensure the user is allow to vet questions.
             if (this.User.CanVetQuestions == false)
-                return new HttpStatusCodeResult(403);
+                return new StatusPlusTextResult(403, "Your account is not authorized to reject questions.");
 
-            var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).Single();
+            // Validate the input.
+            if (string.IsNullOrWhiteSpace(reason))
+                return new StatusPlusTextResult(400, "Please enter a reason why the question is being rejected.");
+            if (reason.Length > 1000)
+                return new StatusPlusTextResult(400, "Your rejection reason is too long.");
+
+            var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).SingleOrDefault();
+            if (question == null)
+                return new StatusPlusTextResult(400, "The question doesn't exist.");
             question.Approved = false;
             question.ReviewDate = DateTimeOffset.Now;
             question.ReviewedByUserId = this.User.Id;
             question.RejectionReason = reason;
             this.DataContext.SubmitChanges();
 
-            return new EmptyResult();
+            // Send a message to the user saying their question has been rejected.
+            var rejectionMessage = new Email.QuestionRejectedMessage();
+            rejectionMessage.To.Add(question.User.EmailDisplayName);
+            rejectionMessage.Question = question.Title;
+            rejectionMessage.QuestionDate = question.CreatedOn.ToString("d MMM");
+            rejectionMessage.Reason = reason;
+            rejectionMessage.Send();
+
+            return new StatusPlusTextResult(200, "Success");
         }
 
         /// <summary>
@@ -491,6 +605,15 @@ namespace Lawspot.Controllers
                 return new HttpStatusCodeResult(403);
 
             var model = new ReviewAnswersViewModel();
+
+            // Populate the list of precanned rejection responses.
+            model.CannedRejectionReasons = new SelectListItem[] {
+                new SelectListItem() { Text = "Select a canned response", Value = "" },
+                new SelectListItem() { Text = "Duplicate Answer", Value = "Your answer is similar to another answer that has already been published by LawSpot." },
+                new SelectListItem() { Text = "Off-topic", Value = "Your answer relates to an area of law that LawSpot doesn’t cover: LawSpot does not cover conveyancing or property leasing (except residential tenancies), or questions from landlords (unless they are community groups), or from business ventures and commercial employers." },
+                new SelectListItem() { Text = "Offensive Material", Value = "Your answer contained offensive material." },
+                new SelectListItem() { Text = "Privacy Issue", Value = "Your answer contained information that may, if published online, reveal your identity." },
+            };
 
             // Categories.
             int categoryId = 0;
@@ -513,14 +636,14 @@ namespace Lawspot.Controllers
                     }));
 
             // Filter.
-            var filterValue = AnswerFilter.Unreviewed;
+            var filterValue = ReviewAnswersFilter.Unreviewed;
             if (filter != null)
-                filterValue = (AnswerFilter)Enum.Parse(typeof(AnswerFilter), filter, true);
+                filterValue = (ReviewAnswersFilter)Enum.Parse(typeof(ReviewAnswersFilter), filter, true);
             model.FilterOptions = new SelectListItem[]
             {
-                new SelectListItem() { Text = "Unreviewed", Value = AnswerFilter.Unreviewed.ToString(), Selected = filterValue == AnswerFilter.Unreviewed },
-                new SelectListItem() { Text = "Approved", Value = AnswerFilter.Approved.ToString(), Selected = filterValue == AnswerFilter.Approved },
-                new SelectListItem() { Text = "Rejected", Value = AnswerFilter.Rejected.ToString(), Selected = filterValue == AnswerFilter.Rejected },
+                new SelectListItem() { Text = "Unreviewed", Value = ReviewAnswersFilter.Unreviewed.ToString(), Selected = filterValue == ReviewAnswersFilter.Unreviewed },
+                new SelectListItem() { Text = "Approved", Value = ReviewAnswersFilter.Approved.ToString(), Selected = filterValue == ReviewAnswersFilter.Approved },
+                new SelectListItem() { Text = "Rejected", Value = ReviewAnswersFilter.Rejected.ToString(), Selected = filterValue == ReviewAnswersFilter.Rejected },
             };
 
             // Sort order.
@@ -539,13 +662,13 @@ namespace Lawspot.Controllers
                 answers = answers.Where(a => a.Question.CategoryId == categoryId);
             switch (filterValue)
             {
-                case AnswerFilter.Unreviewed:
+                case ReviewAnswersFilter.Unreviewed:
                     answers = answers.Where(a => a.ReviewDate == null);
                     break;
-                case AnswerFilter.Approved:
+                case ReviewAnswersFilter.Approved:
                     answers = answers.Where(a => a.Approved == true && a.ReviewDate != null);
                     break;
-                case AnswerFilter.Rejected:
+                case ReviewAnswersFilter.Rejected:
                     answers = answers.Where(a => a.Approved == false && a.ReviewDate != null);
                     break;
             }
@@ -580,13 +703,22 @@ namespace Lawspot.Controllers
         /// <param name="answerDetails"> The new answer details. </param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult ApproveAnswer(int answerId, string answerDetails)
+        public StatusPlusTextResult ApproveAnswer(int answerId, string answerDetails)
         {
             // Ensure the user is allow to vet answers.
             if (this.User.CanVetAnswers == false)
-                return new HttpStatusCodeResult(403);
+                return new StatusPlusTextResult(403, "Your account is not authorized to approve answers.");
 
-            var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).Single();
+            // Validate the input.
+            if (string.IsNullOrWhiteSpace(answerDetails))
+                return new StatusPlusTextResult(400, "The answer details cannot be blank.");
+            if (answerDetails.Length > 2000)
+                return new StatusPlusTextResult(400, "The answer is too long.");
+
+            // Approve the anwer in the DB.
+            var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).SingleOrDefault();
+            if (answer == null)
+                return new StatusPlusTextResult(400, "The answer doesn't exist.");
             answer.Details = answerDetails;
             answer.Approved = true;
             answer.ReviewDate = DateTimeOffset.Now;
@@ -594,7 +726,24 @@ namespace Lawspot.Controllers
             answer.RejectionReason = null;
             this.DataContext.SubmitChanges();
 
-            return new EmptyResult();
+            // Send a message to the lawyer that answered the question.
+            var answerPublishedMessage = new Email.AnswerApprovedMessage();
+            answerPublishedMessage.To.Add(answer.User.EmailDisplayName);
+            answerPublishedMessage.Name = answer.User.DisplayName;
+            answerPublishedMessage.Question = answer.Question.Title;
+            answerPublishedMessage.QuestionUrl = answerPublishedMessage.BaseUrl + answer.Question.AbsolutePath;
+            answerPublishedMessage.Answer = answer.Details;
+            answerPublishedMessage.UnansweredQuestionCount = 0;
+            answerPublishedMessage.Send();
+
+            // Send a message to the user who asked the question.
+            var questionAnsweredMessage = new Email.QuestionAnsweredMessage();
+            questionAnsweredMessage.To.Add(answer.Question.User.EmailAddress);
+            questionAnsweredMessage.Question = answer.Question.Title;
+            questionAnsweredMessage.Answer = answer.Details;
+            questionAnsweredMessage.Send();
+
+            return new StatusPlusTextResult(200, "Success");
         }
 
         /// <summary>
@@ -604,20 +753,28 @@ namespace Lawspot.Controllers
         /// <param name="reason"> The reason for rejecting the answer. </param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult RejectAnswer(int answerId, string reason)
+        public StatusPlusTextResult RejectAnswer(int answerId, string reason)
         {
             // Ensure the user is allow to vet answers.
             if (this.User.CanVetAnswers == false)
-                return new HttpStatusCodeResult(403);
+                return new StatusPlusTextResult(403, "Your account is not authorized to reject answers.");
 
-            var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).Single();
+            // Validate the input.
+            if (string.IsNullOrWhiteSpace(reason))
+                return new StatusPlusTextResult(400, "Please enter a reason why the answer is being rejected.");
+            if (reason.Length > 1000)
+                return new StatusPlusTextResult(400, "Your rejection reason is too long.");
+
+            var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).SingleOrDefault();
+            if (answer == null)
+                return new StatusPlusTextResult(400, "The answer doesn't exist.");
             answer.Approved = false;
             answer.ReviewDate = DateTimeOffset.Now;
             answer.ReviewedByUserId = this.User.Id;
             answer.RejectionReason = reason;
             this.DataContext.SubmitChanges();
 
-            return new EmptyResult();
+            return new StatusPlusTextResult(200, "Success");
         }
 
         /// <summary>

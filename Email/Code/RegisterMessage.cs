@@ -12,9 +12,9 @@ namespace Lawspot.Email
     /// <summary>
     /// The email template for when a user registers.
     /// </summary>
-    public class RegisterTemplate : EmailTemplate
+    public class RegisterMessage : EmailTemplate
     {
-        public RegisterTemplate()
+        public RegisterMessage()
         {
             this.TemplateFilePath = "Register.xslt";
             this.Subject = "Please confirm your email address with LawSpot";

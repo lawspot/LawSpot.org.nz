@@ -54,7 +54,7 @@ span.question-time {
 .question-container form small {
 	font-size: 0.8em;
 }
-select.category {
+select.category, select.canned-rejection-reasons {
     margin-left: 5px;
 	width: 240px;
 }
@@ -90,9 +90,6 @@ select.category {
 	-moz-box-shadow: inset 1px 1px 6px 1px rgba(0, 0, 0, 0.3);
 	box-shadow: inset 1px 1px 6px 1px rgba(0, 0, 0, 0.3);
 }
-.expanded form {
-	display: block;
-}
 
 .action-complete {
 	padding: 5px 10px 20px;
@@ -126,4 +123,11 @@ select.category {
 .centre {
 	margin: 0 auto;
 	text-align: center;
+}
+
+.initial-form {
+    display: block;
+}
+.rejection-form {
+    display: none;
 }

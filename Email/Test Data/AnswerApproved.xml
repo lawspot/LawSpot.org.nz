@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type="text/xsl" href="../Templates/AnswerApproved.xslt"?>
+<Root>
+  <BaseUrl>http://localhost:59766</BaseUrl>
+  <CurrentDate>Friday, 6 April 2012</CurrentDate>
+  <Name>Don Quixote</Name>
+  <Question>What can I do with a drunken sailor?</Question>
+  <QuestionUrl>http://localhost:59766/test/test</QuestionUrl>
+  <Answer>Kick him in the nuts.</Answer>
+  <UnansweredQuestionCount>123</UnansweredQuestionCount>
+</Root>

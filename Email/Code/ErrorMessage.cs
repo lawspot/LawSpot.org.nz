@@ -6,12 +6,12 @@ namespace Lawspot.Email
     /// <summary>
     /// Used when emailing exception details to an admin.
     /// </summary>
-    public class ErrorTemplate : EmailTemplate
+    public class ErrorMessage : EmailTemplate
     {
         /// <summary>
         /// Creates a new ErrorEmail instance.
         /// </summary>
-        public ErrorTemplate()
+        public ErrorMessage()
         {
             this.TemplateFilePath = "Error.xslt";
             this.RequestTime = "N/A";
@@ -39,17 +39,17 @@ namespace Lawspot.Email
         /// The error message.
         /// </summary>
         [ExposeToXslt]
-        public string ErrorMessage { get; set; }
+        public string Message { get; set; }
 
         /// <summary>
         /// The error message.
         /// </summary>
         [ExposeToXslt]
-        public string ErrorMessageHtml
+        public string MessageHtml
         {
             get
             {
-                return System.Net.WebUtility.HtmlEncode(this.ErrorMessage).Replace(Environment.NewLine, "<br />");
+                return System.Net.WebUtility.HtmlEncode(this.Message).Replace(Environment.NewLine, "<br />");
             }
         }
 
