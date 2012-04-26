@@ -19,14 +19,14 @@
     <p>
       IMPORTANT NOTICE:<br/>
       The answer provided above is intended for general informational purposes only and cannot be
-      considered a substitute for face-to-face. It should not be relied upon as the sole basis for
-      taking action in relation to a legal issue. Laws change frequently, and small variations in
-      the facts, or a fact not provided in the question, can often change a legal outcome or a
-      lawyer’s conclusion. No liability whatsoever is accepted by the authors or publishers of the
-      answer, for loss, damage or inconvenience arising in any way from the use of this site.
-      Although LawSpot has verified that each lawyer volunteer holds a current practising
-      certificate, he or she may not necessarily have experience in the particular area of law
-      involved.
+      considered a substitute for face-to-face legal advice. It should not be relied upon as the
+      sole basis for taking action in relation to a legal issue. Laws change frequently, and small
+      variations in the facts, or a fact not provided in the question, can often change a legal
+      outcome or a lawyer’s conclusion. No liability whatsoever is accepted by the authors or
+      publishers of the answer, for loss, damage or inconvenience arising in any way from the use
+      of this site. Although LawSpot has verified that each lawyer volunteer holds a current
+      practising certificate, he or she may not necessarily have experience in the particular area
+      of law involved.
     </p>
 
     <p>
