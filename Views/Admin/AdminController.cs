@@ -468,7 +468,7 @@ namespace Lawspot.Controllers
             switch (filterValue)
             {
                 case ReviewQuestionsFilter.Unreviewed:
-                    questions = questions.Where(q => q.ReviewDate == null);
+                    questions = questions.Where(q => q.ReviewDate == null && q.User.EmailValidated);
                     break;
                 case ReviewQuestionsFilter.Approved:
                     questions = questions.Where(q => q.ReviewDate != null && q.Approved == true);
