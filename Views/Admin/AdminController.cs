@@ -417,7 +417,7 @@ namespace Lawspot.Controllers
                 new SelectListItem() { Text = "Duplicate Question", Value = "Your question, or a similar question, has already been answered and published by LawSpot." },
                 new SelectListItem() { Text = "Off-topic", Value = "Your question relates to an area of law that LawSpot doesn’t cover: LawSpot does not answer questions about conveyancing or property leasing (except residential tenancies), or questions from landlords (unless they are community groups), or from business ventures and commercial employers." },
                 new SelectListItem() { Text = "Offensive Material", Value = "Your question contained offensive material." },
-                new SelectListItem() { Text = "Privacy Issue", Value = "Your question contained information that may, if published online, reveal your identity." },
+                new SelectListItem() { Text = "Privacy Issue", Value = "Your question contained information that may, if published online, reveal the identity of a particular person or organisation." },
             };
 
             // Categories.
