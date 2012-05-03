@@ -609,10 +609,10 @@ namespace Lawspot.Controllers
             // Populate the list of precanned rejection responses.
             model.CannedRejectionReasons = new SelectListItem[] {
                 new SelectListItem() { Text = "Select a canned response", Value = "" },
-                new SelectListItem() { Text = "Duplicate Answer", Value = "Your answer is similar to another answer that has already been published by LawSpot." },
-                new SelectListItem() { Text = "Off-topic", Value = "Your answer relates to an area of law that LawSpot doesn’t cover: LawSpot does not cover conveyancing or property leasing (except residential tenancies), or questions from landlords (unless they are community groups), or from business ventures and commercial employers." },
-                new SelectListItem() { Text = "Offensive Material", Value = "Your answer contained offensive material." },
-                new SelectListItem() { Text = "Privacy Issue", Value = "Your answer contained information that may, if published online, reveal your identity." },
+                new SelectListItem() { Text = "Didn't Answer Question", Value = "You haven’t answered the question." },
+                new SelectListItem() { Text = "Too Complex", Value = "Your answer is too long/poorly drafted/too complex for users." },
+                new SelectListItem() { Text = "Bzzz Wrong", Value = "You’ve got the law wrong on this – try again." },
+                new SelectListItem() { Text = "Law Change", Value = "The law in this area has recently changed – try again." },
             };
 
             // Categories.
