@@ -44,11 +44,6 @@ namespace Lawspot.Controllers
             return View();
         }
 
-        public ActionResult AnswerPolicy()
-        {
-            return View();
-        }
-
         public ActionResult ImportantNotice()
         {
             return View();
