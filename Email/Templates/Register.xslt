@@ -8,16 +8,46 @@
     </p>
 
     <p>
-      Thanks for registering with Lawspot.
+      Thanks for registering.
     </p>
 
     <p>
-      Please follow the link below to confirm that this is your email address and to confirm that
-      you read and understood the website’s <a href="{BaseUrl}/terms">Terms of Use</a>:
+      Before you can use this service, you must confirm that you understand and accept the
+      website’s <a href="{BaseUrl}/terms">Terms of Use</a> and in particular you accept that:
+    </p>
+
+    <ul>
+      <li>
+        LawSpot’s lawyer volunteers may also respond to questions submitted by someone who may be
+        the other party to your legal issue;
+      </li>
+      <li>
+        the LawSpot lawyer who answers your question may already act for the other party to your
+        legal issue in the course of his or her regular employment, or in the course of volunteering
+        at a community law centre; and
+      </li>
+      <li>
+        each LawSpot lawyer is only obliged to tell you information about the relevant area of
+        law as at the time they answer your question, and to tell you if they are aware of other
+        questions received or answers published by LawSpot that are relevant to your question.
+      </li>
+      <li>
+        You are aware that by agreeing to these terms, a LawSpot lawyer may, in the course of
+        volunteering for LawSpot, end up acting in a manner that could have negative implications
+        for your own legal position. However, you are aware that there are alternatives to
+        consenting to these terms. For example, you could seek face-to-face advice at a local
+        Community Law Centre, or retain a lawyer to advise you. Further, none of these terms affect
+        the obligation that applies to all lawyers, to exercise independent judgment when answering
+        questions and to give objective advice based on the lawyer’s understanding of the law.
+      </li>
+    </ul>
+
+    <p>
+      If you understand and consent to the above, please follow this link:
     </p>
 
     <p style="font-size: larger; text-align: center">
-      <a href="{ValidateEmailUri}">Confirm your email address</a>
+      <a href="{ValidateEmailUri}">I have read and understood the Terms of Use</a>
     </p>
 
     <xsl:if test="AskedQuestion = 'True'">
