@@ -337,7 +337,6 @@
     <Content Include="Views\Static\ContactUs.html" />
     <Content Include="Views\Static\AboutUs\AboutUs.html" />
     <Content Include="Views\Static\AboutUs\AboutUs.css" />
-    <Content Include="Views\Static\AnswerPolicy.html" />
     <Content Include="Views\Static\ImportantNotice.html" />
     <Content Include="Views\Static\LawyerPolicy.html" />
     <Content Include="Views\Static\TermsOfUse.html" />
