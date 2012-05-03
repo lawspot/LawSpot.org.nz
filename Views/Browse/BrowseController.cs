@@ -114,7 +114,7 @@ namespace Lawspot.Controllers
                 if (categoryId != null)
                     filteredAnswers = filteredAnswers.Where(a => a.Question.CategoryId == categoryId.Value);
                 ((IRecentAnswers)model).RecentAnswers = filteredAnswers
-                    .Where(a => a.Approved)
+                    .Where(a => a.Approved && a.Question.Approved)
                     .OrderByDescending(a => a.CreatedOn)
                     .Take(5)
                     .Select(a => new AnsweredQuestionViewModel()
