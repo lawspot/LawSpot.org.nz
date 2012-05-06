@@ -12,8 +12,8 @@
       <Column Name="CategoryId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="Slug" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
-      <Association Name="Category_Lawyer" Member="Lawyers" ThisKey="CategoryId" OtherKey="SpecialisationCategoryId" Type="Lawyer" />
       <Association Name="Category_Question" Member="Questions" ThisKey="CategoryId" OtherKey="CategoryId" Type="Question" />
+      <Association Name="Category_Lawyer" Member="Lawyers" ThisKey="CategoryId" OtherKey="SpecialisationCategoryId" Type="Lawyer" />
     </Type>
   </Table>
   <Table Name="dbo.Migrations" Member="Migrations">
@@ -37,28 +37,10 @@
       <Column Name="CanVetLawyers" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="EmailValidated" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="EmailValidationToken" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Association Name="User_Lawyer" Member="Lawyers" ThisKey="UserId" OtherKey="UserId" Type="Lawyer" />
       <Association Name="User_Question" Member="Questions" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Question" />
       <Association Name="User_Answer" Member="Answers" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Answer" />
+      <Association Name="User_Lawyer" Member="Lawyers" ThisKey="UserId" OtherKey="UserId" Type="Lawyer" />
       <Association Name="Region_User" Member="Region" ThisKey="RegionId" OtherKey="RegionId" Type="Region" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Lawyer" Member="Lawyers">
-    <Type Name="Lawyer">
-      <Column Name="LawyerId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="FirstName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="LastName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="YearOfAdmission" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="SpecialisationCategoryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="FirmName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="CreatedOn" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
-      <Column Name="Approved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="ReviewDate" Type="System.DateTimeOffset" DbType="DateTimeOffset" CanBeNull="true" />
-      <Column Name="ReviewedByUserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="RejectionReason" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
-      <Association Name="Category_Lawyer" Member="Category" ThisKey="SpecialisationCategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
-      <Association Name="User_Lawyer" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Question" Member="Questions">
@@ -93,6 +75,24 @@
       <Column Name="RejectionReason" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
       <Association Name="User_Answer" Member="User" ThisKey="CreatedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
       <Association Name="Question_Answer" Member="Question" ThisKey="QuestionId" OtherKey="QuestionId" Type="Question" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Lawyer" Member="Lawyers">
+    <Type Name="Lawyer">
+      <Column Name="LawyerId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="YearOfAdmission" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SpecialisationCategoryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EmployerName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="CreatedOn" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
+      <Column Name="Approved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="ReviewDate" Type="System.DateTimeOffset" DbType="DateTimeOffset" CanBeNull="true" />
+      <Column Name="ReviewedByUserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RejectionReason" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
+      <Association Name="Category_Lawyer" Member="Category" ThisKey="SpecialisationCategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
+      <Association Name="User_Lawyer" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

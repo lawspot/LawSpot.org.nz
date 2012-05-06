@@ -187,8 +187,8 @@ namespace Lawspot.Controllers
             model.EmailAddress = model.EmailAddress.Trim();
             model.FirstName = model.FirstName.Trim();
             model.LastName = model.LastName.Trim();
-            if (model.FirmName != null)
-                model.FirmName = model.FirmName.Trim();
+            if (model.EmployerName != null)
+                model.EmployerName = model.EmployerName.Trim();
 
             var user = this.DataContext.Users.FirstOrDefault(u => u.EmailAddress == model.EmailAddress);
             bool registered = false;
@@ -218,7 +218,7 @@ namespace Lawspot.Controllers
             lawyer.LastName = model.LastName;
             lawyer.YearOfAdmission = model.YearAdmitted;
             lawyer.SpecialisationCategoryId = model.SpecialisationCategoryId == 0 ? (int?)null : model.SpecialisationCategoryId;
-            lawyer.FirmName = model.FirmName;
+            lawyer.EmployerName = model.EmployerName;
             lawyer.Approved = false;
             this.DataContext.Lawyers.InsertOnSubmit(lawyer);
 

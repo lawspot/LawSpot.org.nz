@@ -1,0 +1,1 @@
+﻿sp_RENAME 'Lawyer.FirmName' , 'EmployerName', 'COLUMN'

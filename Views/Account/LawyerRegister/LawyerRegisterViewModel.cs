@@ -23,7 +23,7 @@ namespace Lawspot.Views.Account
         public int SpecialisationCategoryId { get; set; }
         public IEnumerable<SelectListItem> Categories { get; set; }
 
-        [StringLength(100, ErrorMessage = "Your firm name is too long.")]
-        public string FirmName { get; set; }
+        [StringLength(100, ErrorMessage = "Your employer name is too long.")]
+        public string EmployerName { get; set; }
     }
 }
