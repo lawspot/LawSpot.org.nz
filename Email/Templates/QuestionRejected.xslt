@@ -10,7 +10,7 @@
     <p>
       Thanks for submitting your question to LawSpot. Unfortunately, your question
       "<xsl:value-of select="Question"/>" submitted on <xsl:value-of select="QuestionDate"/> cannot
-      be answered by the LawSpot service.
+      be answered by the LawSpot service, for the following reason:
     </p>
 
     <p>
