@@ -32,8 +32,8 @@ namespace Lawspot.Views.Admin
     {
         public int LawyerId { get; set; }
         public bool Approved { get; set; }
-        public string Name { get; set; }
-        public string EmailAddress { get; set; }
+        public string NameHtml { get; set; }
+        public string EmailAddressHtml { get; set; }
         public int YearAdmitted { get; set; }
         public string DateRegistered { get; set; }
     }

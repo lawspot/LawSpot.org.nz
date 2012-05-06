@@ -315,13 +315,29 @@ namespace Lawspot.Controllers
                 {
                     LawyerId = l.LawyerId,
                     Approved = l.Approved,
-                    Name = l.FullName,
-                    EmailAddress = l.User.EmailAddress,
+                    NameHtml = TrimWithTooltip(l.FullName, 20),
+                    EmailAddressHtml = TrimWithTooltip(l.User.EmailAddress, 25),
                     DateRegistered = l.CreatedOn.ToString("d MMM yyyy"),
                     YearAdmitted = l.YearOfAdmission,
                 });
 
             return View(model);
+        }
+
+        /// <summary>
+        /// Creates a text span, truncated and with a tooltip if the text is too long.
+        /// </summary>
+        /// <param name="text"> The text to display. </param>
+        /// <param name="maxLength"> The maximum length of the text. </param>
+        /// <returns> A HTML string to display the text. </returns>
+        private string TrimWithTooltip(string text, int maxLength)
+        {
+            if (text == null)
+                return string.Empty;
+            if (text.Length <= maxLength)
+                return System.Net.WebUtility.HtmlEncode(text);
+            return string.Format(@"<span title=""{0}"">{1}</span>", System.Net.WebUtility.HtmlEncode(text),
+                System.Net.WebUtility.HtmlEncode(text.Substring(0, maxLength) + "..."));
         }
 
         /// <summary>
