@@ -10,7 +10,8 @@
     <p>
       Thanks for submitting your question to LawSpot. Unfortunately, your question
       "<xsl:value-of select="Question"/>" submitted on <xsl:value-of select="QuestionDate"/> cannot
-      be answered by the LawSpot service, for the following reason:
+      be answered by the LawSpot service and has not been passed onto a lawyer. Your question was
+      rejected for the following reason:
     </p>
 
     <p>
