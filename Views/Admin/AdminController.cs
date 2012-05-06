@@ -609,8 +609,8 @@ namespace Lawspot.Controllers
             // Populate the list of precanned rejection responses.
             model.CannedRejectionReasons = new SelectListItem[] {
                 new SelectListItem() { Text = "Select a canned response", Value = "" },
-                new SelectListItem() { Text = "Didn't Answer Question", Value = "You haven’t answered the question." },
-                new SelectListItem() { Text = "Too Complex", Value = "Your answer is too long/poorly drafted/too complex for users." },
+                new SelectListItem() { Text = "Didn't Answer Question", Value = "You haven’t answered the question - try again." },
+                new SelectListItem() { Text = "Too Complex", Value = "Your answer is too long/poorly drafted/too complex for users - try again." },
                 new SelectListItem() { Text = "Bzzz Wrong", Value = "You’ve got the law wrong on this – try again." },
                 new SelectListItem() { Text = "Law Change", Value = "The law in this area has recently changed – try again." },
             };
