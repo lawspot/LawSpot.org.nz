@@ -194,7 +194,7 @@ namespace Lawspot.Controllers
                 Text = c.Name,
                 Value = c.CategoryId.ToString(),
                 Selected = model.CategoryId == c.CategoryId
-            });
+            }).OrderBy(sli => sli.Text);
 
             if (model.Registration == null)
             {
