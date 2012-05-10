@@ -29,6 +29,11 @@ $(".question-container a").click(function (e) {
             this.innerHTML = "";
             container.removeClass("expanded");
         });
+
+        // Unreserve the question.
+        reserveQuestion_questionId = 0;
+        reserveQuestion_container = null;
+        checkForQuestionReservation(false);
     }
     else {
         // The question is not expanded - expand it.
@@ -37,6 +42,11 @@ $(".question-container a").click(function (e) {
         innerContent.html(Mustache.render(document.getElementById("answer-template").text, data));
         innerContent.slideDown("fast");
         container.addClass("expanded");
+
+        // Reserve the question.
+        reserveQuestion_questionId = data.QuestionId;
+        reserveQuestion_container = container;
+        checkForQuestionReservation(false);
 
         // Set the focus to the first textarea.
         $("textarea", innerContent).focus();
@@ -105,3 +115,30 @@ $(".question-container a").click(function (e) {
     // Prevent the hyperlink from navigating.
     e.preventDefault();
 });
+
+var reserveQuestion_sessionId = Math.round(Math.random() * 2147483647);
+var reserveQuestion_questionId = 0;
+var reserveQuestion_container = null;
+
+function checkForQuestionReservation(reserve) {
+    var questionId = reserveQuestion_questionId;
+    var container = reserveQuestion_container;
+    jQuery.ajax({
+        type: "POST",
+        url: "check-for-question-reservation",
+        data: { questionId: questionId, sessionId: reserveQuestion_sessionId, reserve: reserve },
+        success: function (displayWarning) {
+            if (questionId === reserveQuestion_questionId && questionId > 0 && container) {
+                if (displayWarning)
+                    $(".reservation-warning", container).slideDown("fast");
+                else
+                    $(".reservation-warning", container).slideUp("fast");
+            }
+        }
+    });
+}
+
+window.setInterval(function () {
+    if (reserveQuestion_container)
+        checkForQuestionReservation($("textarea", reserveQuestion_container).val().length > 0);
+}, 10000);

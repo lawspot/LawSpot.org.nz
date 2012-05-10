@@ -924,5 +924,74 @@ namespace Lawspot.Controllers
 
             return RedirectToAction("AccountSettings", new { alert = "updated" });
         }
+
+        private class Reservation
+        {
+            public int UserId;
+            public int SessionId;
+            public DateTime UpdatedOn;
+        }
+
+        // question ID -> queue of reservations.
+        private static Dictionary<int, List<Reservation>> questionToReservationList =
+            new Dictionary<int, List<Reservation>>();
+
+        /// <summary>
+        /// Determines if a warning should be displayed because another user has reserved a question.
+        /// </summary>
+        /// <param name="questionId"> The ID of the question. </param>
+        /// <param name="sessionId"> Uniquely identifies the user's session. </param>
+        /// <param name="reserve"> <c>true</c> to reserve the question. </param>
+        /// <returns> <c>true</c> if a warning should be displayed, <c>false</c> otherwise. </returns>
+        [HttpPost]
+        public ActionResult CheckForQuestionReservation(int questionId, int sessionId, bool reserve)
+        {
+            lock (questionToReservationList)
+            {
+                // Remove the session ID from other questions, plus remove any reservations that are
+                // older than the threshold.
+                const int maxReservationAge = 20;   // in seconds
+                bool reservationExists = false;
+                foreach (var questionIdAndQueue in questionToReservationList)
+                {
+                    var reservationsToRemove = new List<Reservation>();
+                    foreach (var reservation in questionIdAndQueue.Value)
+                    {
+                        // Check if the reservation has expired.
+                        if (DateTime.Now.Subtract(reservation.UpdatedOn).TotalSeconds > maxReservationAge)
+                            reservationsToRemove.Add(reservation);
+                        else if (reservation.UserId == this.User.Id && sessionId == reservation.SessionId)
+                        {
+                            if (questionIdAndQueue.Key == questionId)
+                                reservationExists = true;
+                            else
+                                reservationsToRemove.Add(reservation);
+                        }
+                    }
+                    foreach (var reservationToRemove in reservationsToRemove)
+                        questionIdAndQueue.Value.Remove(reservationToRemove);
+                }
+
+                // If the user has typed at least one character, put them in the reservation queue.
+                // (Assuming they're not already in there).
+                if (reserve == true && reservationExists == false)
+                {
+                    // Add a new reservation.
+                    if (questionToReservationList.ContainsKey(questionId) == false)
+                        questionToReservationList[questionId] = new List<Reservation>();
+                    var reservation = new Reservation();
+                    reservation.UserId = this.User.Id;
+                    reservation.SessionId = sessionId;
+                    reservation.UpdatedOn = DateTime.Now;
+                    questionToReservationList[questionId].Add(reservation);
+                }
+
+                // Display a warning if there is at least one reservation from another user.
+                return Json(
+                    questionToReservationList.ContainsKey(questionId) &&
+                    questionToReservationList[questionId].Count > 0 &&
+                    questionToReservationList[questionId][0].UserId != this.User.Id);
+            }
+        }
     }
 }

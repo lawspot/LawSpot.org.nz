@@ -135,6 +135,7 @@
     </Compile>
     <Compile Include="Backend\LawspotDataContext.cs" />
     <Compile Include="Email\Code\AnswerApprovedMessage.cs" />
+    <Compile Include="Email\Code\AnswerRejectedMessage.cs" />
     <Compile Include="Email\Code\LawyerRejectedMessage.cs" />
     <Compile Include="Email\Code\LawyerApprovedMessage.cs" />
     <Compile Include="Email\Code\QuestionRejectedMessage.cs" />

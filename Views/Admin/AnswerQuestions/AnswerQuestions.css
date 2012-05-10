@@ -106,3 +106,11 @@ span.question-time {
 	margin: 0 auto;
 	text-align: center;
 }
+
+.reservation-warning {
+    display: none;
+    color: red;
+}
+.reservation-warning img {
+    vertical-align: bottom;
+}
