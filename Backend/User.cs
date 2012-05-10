@@ -31,16 +31,16 @@ namespace Lawspot.Backend
         }
 
         /// <summary>
-        /// Gets the user's full name, if they are a lawyer, or their email address otherwise.
+        /// Gets the user's first name, if they are a lawyer, or "there" otherwise.
         /// </summary>
-        public string DisplayName
+        public string EmailGreeting
         {
             get
             {
                 var lawyer = this.Lawyers.SingleOrDefault();
                 if (lawyer == null)
-                    return this.EmailAddress;
-                return lawyer.FullName;
+                    return "there";
+                return lawyer.FirstName;
             }
         }
 

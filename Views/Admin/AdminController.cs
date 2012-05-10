@@ -367,7 +367,7 @@ namespace Lawspot.Controllers
             // Send a message to the lawyer saying that their account has approved.
             var acceptanceMessage = new Email.LawyerApprovedMessage();
             acceptanceMessage.To.Add(lawyer.User.EmailDisplayName);
-            acceptanceMessage.Name = lawyer.FullName;
+            acceptanceMessage.Name = lawyer.User.EmailGreeting;
             acceptanceMessage.Send();
 
             return new StatusPlusTextResult(200, "Success");
@@ -404,7 +404,7 @@ namespace Lawspot.Controllers
             // Send a message to the lawyer saying that their account has been "put on hold".
             var rejectionMessage = new Email.LawyerRejectedMessage();
             rejectionMessage.To.Add(lawyer.User.EmailDisplayName);
-            rejectionMessage.Name = lawyer.FullName;
+            rejectionMessage.Name = lawyer.User.EmailGreeting;
             rejectionMessage.Reason = reason;
             rejectionMessage.Send();
 
@@ -745,7 +745,7 @@ namespace Lawspot.Controllers
             // Send a message to the lawyer that answered the question.
             var answerPublishedMessage = new Email.AnswerApprovedMessage();
             answerPublishedMessage.To.Add(answer.User.EmailDisplayName);
-            answerPublishedMessage.Name = answer.User.DisplayName;
+            answerPublishedMessage.Name = answer.User.EmailGreeting;
             answerPublishedMessage.Question = answer.Question.Title;
             answerPublishedMessage.QuestionUrl = answerPublishedMessage.BaseUrl + answer.Question.AbsolutePath;
             answerPublishedMessage.Answer = answer.Details;
@@ -789,6 +789,15 @@ namespace Lawspot.Controllers
             answer.ReviewedByUserId = this.User.Id;
             answer.RejectionReason = reason;
             this.DataContext.SubmitChanges();
+
+            // Send a message to the lawyer saying their answer has been rejected.
+            var rejectionMessage = new Email.AnswerRejectedMessage();
+            rejectionMessage.To.Add(answer.User.EmailDisplayName);
+            rejectionMessage.Name = answer.User.EmailGreeting;
+            rejectionMessage.Question = answer.Question.Title;
+            rejectionMessage.AnswerDate = answer.CreatedOn.ToString("d MMM");
+            rejectionMessage.Reason = reason;
+            rejectionMessage.Send();
 
             return new StatusPlusTextResult(200, "Success");
         }
