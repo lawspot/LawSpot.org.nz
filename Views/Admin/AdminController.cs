@@ -365,7 +365,7 @@ namespace Lawspot.Controllers
             this.DataContext.SubmitChanges();
 
             // Send a message to the lawyer saying that their account has approved.
-            var acceptanceMessage = new Email.LawyerRejectedMessage();
+            var acceptanceMessage = new Email.LawyerApprovedMessage();
             acceptanceMessage.To.Add(lawyer.User.EmailDisplayName);
             acceptanceMessage.Name = lawyer.FullName;
             acceptanceMessage.Send();
