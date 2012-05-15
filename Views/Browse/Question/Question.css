@@ -119,6 +119,7 @@ input.ask-textbox {
 
 #qa-answers article {
 	margin: 15px 0;
+	clear: left;
 }
 .qa-lawyer-profile {
 	float: left;
