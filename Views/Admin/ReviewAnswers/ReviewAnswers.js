@@ -73,9 +73,7 @@ $(".question-container a").click(function (e) {
                 // The user clicked on the approve button.
 
                 // Populate the data object from the form.
-                data.CategoryId = $(".category", this.form).val();
-                data.Title = $(".title", this.form).val();
-                data.Details = $(".details", this.form).val();
+                data.Answer = $(".answer", this.form).val();
 
                 // Details to send to the server.
                 url = "post-approve-answer";
