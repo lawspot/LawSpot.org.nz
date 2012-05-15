@@ -749,7 +749,8 @@ namespace Lawspot.Controllers
             answerPublishedMessage.Question = answer.Question.Title;
             answerPublishedMessage.QuestionUrl = answerPublishedMessage.BaseUrl + answer.Question.AbsolutePath;
             answerPublishedMessage.Answer = answer.Details;
-            answerPublishedMessage.UnansweredQuestionCount = 0;
+            answerPublishedMessage.UnansweredQuestionCount = this.DataContext.Questions.
+                Count(q => q.Approved == true && q.Answers.Count(a => a.Approved == true) == 0);
             answerPublishedMessage.Send();
 
             // Send a message to the user who asked the question.
