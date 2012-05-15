@@ -218,6 +218,7 @@
     <Content Include="Email\Assets\logo.png" />
     <Content Include="Email\Assets\twitter.png" />
     <Content Include="Email\Templates\AnswerApproved.xslt" />
+    <Content Include="Email\Templates\AnswerRejected.xslt" />
     <Content Include="Email\Templates\LawyerRejected.xslt" />
     <Content Include="Email\Templates\LawyerApproved.xslt" />
     <Content Include="Email\Templates\QuestionRejected.xslt" />
