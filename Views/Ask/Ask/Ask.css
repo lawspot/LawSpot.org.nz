@@ -48,7 +48,7 @@
 	position: absolute;
 	background: #000;
 	opacity: 0.2;
-	filter: opacity(0.2);
+	filter: alpha(opacity=20);
 	border-radius: 2px 0 0 2px;
 }
 #qsubmit-overlay2 {
