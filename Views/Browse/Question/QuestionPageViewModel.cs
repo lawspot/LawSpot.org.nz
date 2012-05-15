@@ -7,7 +7,7 @@ namespace Lawspot.Views.Browse
     public class QuestionPageViewModel : ITopCategories
     {
         public string Title { get; set; }
-        public string Details { get; set; }
+        public string DetailsHtml { get; set; }
         public int CategoryId { get; set; }
         public string CategoryUrl { get; set; }
         public string CategoryName { get; set; }
@@ -21,6 +21,6 @@ namespace Lawspot.Views.Browse
 
     public class AnswerViewModel
     {
-        public string Details { get; set; }
+        public string DetailsHtml { get; set; }
     }
 }

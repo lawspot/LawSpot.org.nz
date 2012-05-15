@@ -145,6 +145,7 @@
     <Compile Include="Email\Code\ExposeToXsltAttribute.cs" />
     <Compile Include="Email\Code\EmailTemplate.cs" />
     <Compile Include="Shared\Code\BaseController.cs" />
+    <Compile Include="Shared\Code\StringUtilities.cs" />
     <Compile Include="Shared\Code\MustacheController.cs" />
     <Compile Include="Shared\Code\Logger.cs" />
     <Compile Include="Shared\Code\CustomPrincipal.cs" />

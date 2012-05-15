@@ -51,7 +51,7 @@
 		<img src="/views/browse/question/question.png" class="ask-avatar" width="68" height="98" alt="" />
 		<div class="speech question">
 			<h1>{{Title}}</h1>
-			<p><strong>Question Details:</strong> {{Details}}</p>
+			<p><strong>Question Details:</strong> {{{DetailsHtml}}}</p>
 			<p class="postdata">Asked {{CreationDate}} under <a href="{{CategoryUrl}}">{{CategoryName}}</a> | {{Views}} View(s)</p>
 		</div>
 	
@@ -77,7 +77,7 @@
                     Wellington Community Law Centre
 			    </div>
 			    <div class="speech answer">
-				    <p>{{Details}}</p>
+				    <p>{{{DetailsHtml}}}</p>
 				    <p class="notice">The <strong class="orange-text">IMPORTANT NOTICE</strong> below is part of this answer.</p>
 			    </div>
 		    </article>

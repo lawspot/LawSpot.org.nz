@@ -85,7 +85,7 @@ namespace Lawspot.Controllers
 
             var model = new QuestionPageViewModel();
             model.Title = question.Title;
-            model.Details = question.Details;
+            model.DetailsHtml = StringUtilities.ConvertTextToHtml(question.Details);
             model.CategoryId = question.CategoryId;
             model.CategoryName = question.Category.Name;
             model.CategoryUrl = question.Category.AbsolutePath;
@@ -95,7 +95,7 @@ namespace Lawspot.Controllers
                 .Where(a => a.Approved)
                 .Select(a => new AnswerViewModel()
             {
-                Details = a.Details,
+                DetailsHtml = StringUtilities.ConvertTextToHtml(a.Details),
             });
             PopulateModel(model);
             return View(model);
