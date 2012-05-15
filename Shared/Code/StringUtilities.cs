@@ -53,8 +53,8 @@ namespace Lawspot.Controllers
                 }
                 else if (urlIndex < text.Length && urlIndex < newLineIndex && urlIndex < lineFeedIndex)
                 {
-                    // Convert hyperlink to <a href="http://www.example.com">www.example.com</a>.
-                    result.AppendFormat(@"<a href=""{0}"">{1}</a>", url, WebUtility.HtmlEncode(url.Host));
+                    // Convert hyperlink to <a href="http://www.example.com" rel="nofollow">www.example.com</a>.
+                    result.AppendFormat(@"<a href=""{0}"" rel=""nofollow"">{1}</a>", url, WebUtility.HtmlEncode(url.Host));
                     start += match.Length;
                 }
             }
