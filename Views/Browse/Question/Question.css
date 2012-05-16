@@ -92,15 +92,13 @@ input.ask-textbox {
 	padding: 0 10px;
 	width: 480px;
 	margin-left: 85px;
-}
-.speech .postdata {
-	font-size: 0.8em;
+	position: relative;
 }
 .speech:before { /* speech bubble triangle */
 	content:  "";
 	width: 15px;
 	height: 15px;
-	display: block;
+	display: none\9;    /* Hide in IE 8 and below */
 	background-color: #E9D3BE;
 	border-left: solid 1px #E9C299;
 	border-bottom: solid 1px #E9C299;
@@ -112,6 +110,7 @@ input.ask-textbox {
 	-webkit-transform: rotate(45deg);
 	-ms-transform: rotate(45deg);
 }
+
 #qa-account-answer {
 	margin: 15px 0 15px 80px;
 	text-align: center;
@@ -120,6 +119,7 @@ input.ask-textbox {
 #qa-answers article {
 	margin: 15px 0;
 	clear: left;
+	padding: 1px;   /* IE 8 fix */
 }
 .qa-lawyer-profile {
 	float: left;
