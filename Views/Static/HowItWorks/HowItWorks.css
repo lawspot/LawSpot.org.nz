@@ -20,7 +20,8 @@
 	background: url('images/howitworks-step1.png') no-repeat;
 }
 #hiw2 {
-	margin: 0 auto;
+	float: left;
+	margin-left: 26px;
 	background: url('images/howitworks-step2.png') no-repeat;
 }
 #hiw3 {
