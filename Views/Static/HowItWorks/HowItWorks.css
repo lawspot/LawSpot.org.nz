@@ -17,16 +17,16 @@
 }
 #hiw1 {
 	float: left;
-	background: url('images/howitworks-step1.png') no-repeat;
+	background: url('/views/static/howitworks/howitworks-step1.png') no-repeat;
 }
 #hiw2 {
 	float: left;
 	margin-left: 26px;
-	background: url('images/howitworks-step2.png') no-repeat;
+	background: url('/views/static/howitworks/howitworks-step2.png') no-repeat;
 }
 #hiw3 {
 	float: right;
-	background: url('images/howitworks-step3.png') no-repeat;
+	background: url('/views/static/howitworks/howitworks-step3.png') no-repeat;
 }
 a.twitter-follow-button {
 	margin-top:5px;
