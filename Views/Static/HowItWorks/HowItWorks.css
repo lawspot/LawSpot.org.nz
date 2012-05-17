@@ -7,12 +7,11 @@
 }
 #hiw div span {
 	position: relative;
-	top: 208px;
-	left: 2px;
+	top: 220px;
+	left: 9px;
 	display: block;
 	background-color: #fff;
 	width: 277px;
-	padding: 5px 8px;
 	font-size: 0.95em;
 }
 #hiw1 {
