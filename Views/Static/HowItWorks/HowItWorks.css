@@ -1,12 +1,31 @@
-﻿#hiw {
-	text-align: center;
+#hiw {
 	margin-bottom: 20px;
 }
-#hiw-1 {
-	float: left;
+#hiw div {
+	width: 297px;
+	height: 309px;
 }
-#hiw-3 {
+#hiw div span {
+	position: relative;
+	top: 210px;
+	left: 2px;
+	display: block;
+	background-color: #fff;
+	width: 277px;
+	padding: 5px 8px;
+	font-size: 0.95em;
+}
+#hiw1 {
+	float: left;
+	background: url('images/howitworks-step1.png') no-repeat;
+}
+#hiw2 {
+	margin: 0 auto;
+	background: url('images/howitworks-step2.png') no-repeat;
+}
+#hiw3 {
 	float: right;
+	background: url('images/howitworks-step3.png') no-repeat;
 }
 a.twitter-follow-button {
 	margin-top:5px;
