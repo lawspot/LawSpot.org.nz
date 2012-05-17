@@ -47,6 +47,7 @@ input.ask-textbox {
 	text-align: center;
 }
 .ask-sidebar .ask-textbox {
+	border: 1px solid #918F90;
 	width: 278px;
 	height: 40px;
 	padding: 0 10px;
