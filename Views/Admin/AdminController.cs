@@ -202,7 +202,7 @@ namespace Lawspot.Controllers
             // Validate the input.
             if (string.IsNullOrWhiteSpace(answerText))
                 return new StatusPlusTextResult(400, "The answer details cannot be blank.");
-            if (answerText.Length > 2000)
+            if (answerText.Length > 20000)
                 return new StatusPlusTextResult(400, "The answer is too long.");
 
             // Create a new answer for the question.
@@ -728,7 +728,7 @@ namespace Lawspot.Controllers
             // Validate the input.
             if (string.IsNullOrWhiteSpace(answerDetails))
                 return new StatusPlusTextResult(400, "The answer details cannot be blank.");
-            if (answerDetails.Length > 2000)
+            if (answerDetails.Length > 20000)
                 return new StatusPlusTextResult(400, "The answer is too long.");
 
             // Approve the anwer in the DB.
