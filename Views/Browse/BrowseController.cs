@@ -121,7 +121,7 @@ namespace Lawspot.Controllers
                     {
                         Uri = a.Question.AbsolutePath,
                         Title = a.Question.Title,
-                        Details = a.Details.Length > 100 ? a.Details.Substring(0, 100) : a.Details,
+                        Details = StringUtilities.SummarizeText(a.Details, 150),
                         AnsweredBy = "Wellington Community Law Centre",
                         AnsweredTime = DateTimeOffset.Now.Subtract(a.CreatedOn).TotalHours > 24 ?
                             string.Format("{0:d MMMM yyyy}", a.CreatedOn) :

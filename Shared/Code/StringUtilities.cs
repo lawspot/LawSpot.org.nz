@@ -60,5 +60,24 @@ namespace Lawspot.Controllers
             }
             return result.ToString();
         }
+
+        /// <summary>
+        /// Summarizes text longer than a certain number of characters.
+        /// </summary>
+        /// <param name="maxLength"> The maximum number of characters to return. </param>
+        /// <returns> Summarized text. </returns>
+        public static string SummarizeText(string text, int maxLength)
+        {
+            if (string.IsNullOrEmpty(text))
+                return string.Empty;
+            if (text.Length <= maxLength)
+                return text;
+            text = text.Substring(0, maxLength - 3);
+            int spaceIndex = text.LastIndexOf(' ');
+            if (spaceIndex > 0)
+                text = text.Substring(0, spaceIndex);
+            text += "...";
+            return text;
+        }
     }
 }
