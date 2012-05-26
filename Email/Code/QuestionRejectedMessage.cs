@@ -36,7 +36,7 @@ namespace Lawspot.Email
         /// The reason the question was rejected.
         /// </summary>
         [ExposeToXslt]
-        public string Reason { get; set; }
+        public string ReasonHtml { get; set; }
     }
 
 }

@@ -14,7 +14,7 @@
     </p>
 
     <p>
-      <xsl:value-of select="Reason"/>
+      <xsl:value-of select="ReasonHtml" disable-output-escaping="yes"/>
     </p>
 
     <p>

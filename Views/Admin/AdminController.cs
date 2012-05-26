@@ -214,7 +214,7 @@ namespace Lawspot.Controllers
             this.DataContext.Answers.InsertOnSubmit(answer);
             this.DataContext.SubmitChanges();
 
-            return new StatusPlusTextResult(200, "Success");
+            return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(answer.Details));
         }
 
         /// <summary>
@@ -564,7 +564,7 @@ namespace Lawspot.Controllers
             question.RejectionReason = null;
             this.DataContext.SubmitChanges();
 
-            return new StatusPlusTextResult(200, "Success");
+            return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(question.Details));
         }
 
         /// <summary>
@@ -600,10 +600,10 @@ namespace Lawspot.Controllers
             rejectionMessage.To.Add(question.User.EmailDisplayName);
             rejectionMessage.Question = question.Title;
             rejectionMessage.QuestionDate = question.CreatedOn.ToString("d MMM");
-            rejectionMessage.Reason = reason;
+            rejectionMessage.ReasonHtml = StringUtilities.ConvertTextToHtml(reason);
             rejectionMessage.Send();
 
-            return new StatusPlusTextResult(200, "Success");
+            return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(reason));
         }
 
         /// <summary>
@@ -760,7 +760,7 @@ namespace Lawspot.Controllers
             questionAnsweredMessage.Answer = answer.Details;
             questionAnsweredMessage.Send();
 
-            return new StatusPlusTextResult(200, "Success");
+            return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(answer.Details));
         }
 
         /// <summary>
@@ -797,10 +797,10 @@ namespace Lawspot.Controllers
             rejectionMessage.Name = answer.User.EmailGreeting;
             rejectionMessage.Question = answer.Question.Title;
             rejectionMessage.AnswerDate = answer.CreatedOn.ToString("d MMM");
-            rejectionMessage.Reason = reason;
+            rejectionMessage.ReasonHtml = StringUtilities.ConvertTextToHtml(reason);
             rejectionMessage.Send();
 
-            return new StatusPlusTextResult(200, "Success");
+            return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(reason));
         }
 
         /// <summary>

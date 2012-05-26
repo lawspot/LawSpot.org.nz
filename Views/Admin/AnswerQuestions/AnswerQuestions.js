@@ -88,7 +88,9 @@ $(".question-container a").click(function (e) {
                     // Display an error message.
                     alert(status == "error" ? xhr.responseText : "Failed to submit answer.  Please try again.");
                 },
-                success: function () {
+                success: function (answerHtml) {
+                    data.AnswerHtml = answerHtml;
+
                     // Render the success box.
                     var successBox = $(Mustache.render(document.getElementById("success-template").text, data));
 

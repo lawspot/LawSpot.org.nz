@@ -108,8 +108,9 @@ $(".question-container a").click(function (e) {
                     // Display an error message.
                     alert(status == "error" ? xhr.responseText : "Something went wrong.  Please try again.");
                 },
-                success: function () {
+                success: function (response) {
                     // Render the success box.
+                    data.ResponseHtml = response;
                     var successBox = $(Mustache.render(document.getElementById(template).text, data));
 
                     // Show the success box.
