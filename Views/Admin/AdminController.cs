@@ -889,7 +889,7 @@ namespace Lawspot.Controllers
         {
             // Check that there isn't already a user with that email address.
             var existingUser = this.DataContext.Users.FirstOrDefault(u => u.EmailAddress == model.EmailAddress);
-            if (existingUser != null)
+            if (existingUser != null && existingUser.UserId != this.User.Id)
                 ModelState.AddModelError("EmailAddress", "That email address is already in use by another member.");
 
             if (ModelState.IsValid == false)
@@ -907,6 +907,28 @@ namespace Lawspot.Controllers
 
             // Re-issue the login cookie with the new email address.
             Login(user, this.User.RememberMe);
+
+            return RedirectToAction("AccountSettings", new { alert = "updated" });
+        }
+
+        /// <summary>
+        /// Called to change the user's password.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost, ActionName("AccountSettings"), FormSelector("selector", "password")]
+        public ActionResult ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid == false)
+            {
+                var model2 = InitializeAccountSettingsViewModel();
+                model2.ExpandPasswordSection = true;
+                return View(model2);
+            }
+
+            // Change the user's password.
+            var user = this.DataContext.Users.Where(u => u.UserId == this.User.Id).Single();
+            user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
+            this.DataContext.SubmitChanges();
 
             return RedirectToAction("AccountSettings", new { alert = "updated" });
         }

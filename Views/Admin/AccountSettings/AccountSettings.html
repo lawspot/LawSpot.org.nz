@@ -8,7 +8,7 @@
     <h2> Email Address </h2>
     <hr />
     <div class="current-value">{{EmailAddress}}</div>
-    <div class="description"> Set your email contact information </div>
+    <div class="description"> Change your email address. </div>
     <div class="edit">
         <form method="post">
             <input type="hidden" name="selector" value="email" />
@@ -16,11 +16,42 @@
                 <label for="email-address">Email Address:</label>
             </div>
             <div class="offset-field">
-                <input id="email-address" name="EmailAddress" type="text" value="{{EmailAddress}}" />
+                <input id="email-address" name="EmailAddress" type="text" value="{{EmailAddress}}" {{#ExpandEmailAddressSection}}autofocus{{/ExpandEmailAddressSection}} />
                 <div class="validation-error">{{ModelState.EmailAddress}}</div>
             </div>
             <div class="offset-field">
                 <button>CHANGE EMAIL ADDRESS</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="section {{#ExpandPasswordSection}}expanded{{/ExpandPasswordSection}}">
+    <a class="change" href="#">Change</a>
+    <a class="hide" href="#">Hide</a>          
+    <h2> Password </h2>
+    <hr />
+    <div class="current-value"></div>
+    <div class="description"> Change your password. </div>
+    <div class="edit">
+        <form method="post">
+            <input type="hidden" name="selector" value="password" />
+            <div class="field-label">
+                <label for="password">Password:</label>
+            </div>
+            <div class="offset-field">
+                <input id="password" name="Password" type="password" value="{{Password}}" {{#ExpandPasswordSection}}autofocus{{/ExpandPasswordSection}} />
+                <div class="validation-error">{{ModelState.Password}}</div>
+            </div>
+            <div class="field-label">
+                <label for="confirm-password">Confirm Password:</label>
+            </div>
+            <div class="offset-field">
+                <input id="confirm-password" name="ConfirmPassword" type="password" value="{{ConfirmPassword}}" />
+                <div class="validation-error">{{ModelState.ConfirmPassword}}</div>
+            </div>
+            <div class="offset-field">
+                <button>CHANGE PASSWORD</button>
             </div>
         </form>
     </div>
@@ -32,7 +63,7 @@
     <h2> Region </h2>
     <hr />
     <div class="current-value"> {{RegionName}} </div>
-    <div class="description"> The nearest region to you. </div>
+    <div class="description"> Change your location. </div>
     <div class="edit">
         <form method="post">
             <input type="hidden" name="selector" value="region" />
@@ -40,7 +71,7 @@
                 <label for="region">Region:</label>
             </div>
             <div class="offset-field">
-                <select id="region" name="RegionId">
+                <select id="region" name="RegionId" {{#ExpandRegionSection}}autofocus{{/ExpandRegionSection}}>
                     {{#Regions}}
                         <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
                     {{/Regions}}
