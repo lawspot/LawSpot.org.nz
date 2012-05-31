@@ -113,7 +113,7 @@ namespace Lawspot
 
             // Determine the URL to redirect to.
             var redirectUrl = "/500";
-            if (HttpContext.Current.IsCustomErrorEnabled)
+            if (this.Context.IsCustomErrorEnabled)
             {
                 var section = (System.Web.Configuration.CustomErrorsSection)System.Configuration.ConfigurationManager.GetSection("system.web/customErrors");
                 if (section != null)
@@ -123,25 +123,32 @@ namespace Lawspot
                     if (errorElement != null)
                         redirectUrl = errorElement.Redirect;
                 }
+
+                // Send the response to the client.
+                this.Context.Response.StatusCode = statusCode;
+                this.Context.Response.TrySkipIisCustomErrors = true;
+                this.Context.ClearError();
+
+                // Render a view.
+                var httpContext = new HttpContextWrapper(this.Context);
+                this.Context.RewritePath(redirectUrl, false);
+                var routeData = RouteTable.Routes.GetRouteData(httpContext);
+                var mvcHandler = new CustomMvcHandler(new RequestContext(httpContext, routeData));
+                mvcHandler.Process(httpContext);
+            }
+        }
+
+        private class CustomMvcHandler : MvcHandler
+        {
+            public CustomMvcHandler(RequestContext requestContext)
+                : base(requestContext)
+            {
             }
 
-            // Send the response to the client.
-            var context = HttpContext.Current;
-            context.Response.StatusCode = statusCode;
-            context.Response.TrySkipIisCustomErrors = true;
-            context.ClearError();
-            
-            // Render a view.
-            if (HttpRuntime.UsingIntegratedPipeline)
+            public void Process(HttpContextBase context)
             {
-                context.Server.TransferRequest(redirectUrl, true);
+                this.ProcessRequest(context);
             }
-            else
-            {
-                context.RewritePath(redirectUrl, false);
-                IHttpHandler httpHandler = new MvcHttpHandler();
-                httpHandler.ProcessRequest(context);
-            }
-        } 
+        }
     }
 }

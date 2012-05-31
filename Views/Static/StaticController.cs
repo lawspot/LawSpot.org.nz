@@ -59,12 +59,12 @@ namespace Lawspot.Controllers
             return View();
         }
 
-        public ActionResult Error404()
+        public ActionResult Error404(Exception ex)
         {
             return View("404");
         }
 
-        public ActionResult Error500()
+        public ActionResult Error500(Exception ex)
         {
             return View("500");
         }
