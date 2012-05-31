@@ -55,7 +55,7 @@ namespace Lawspot.Controllers
         {
             var category = this.DataContext.Categories.Where(c => c.Slug == slug).SingleOrDefault();
             if (category == null)
-                return new HttpStatusCodeResult(404);
+                throw new HttpException(404, "Category not found");
             
             var model = new CategoryPageViewModel();
             model.CategoryId = category.CategoryId;
@@ -74,11 +74,11 @@ namespace Lawspot.Controllers
         {
             var question = this.DataContext.Questions.Where(q => q.Slug == slug).SingleOrDefault();
             if (question == null)
-                return new HttpStatusCodeResult(404);
+                throw new HttpException(404, "Question not found");
             if (string.Equals(question.Category.Slug, category, StringComparison.OrdinalIgnoreCase) == false)
-                return new HttpStatusCodeResult(404);
+                throw new HttpException(404, "Category not found");
             if (question.Approved == false)
-                return new HttpStatusCodeResult(404);
+                throw new HttpException(404, "Question not approved");
 
             // Increment the number of views.
             this.DataContext.ExecuteCommand("UPDATE [Question] SET ViewCount = ViewCount + 1 WHERE QuestionId = {0}", question.QuestionId);

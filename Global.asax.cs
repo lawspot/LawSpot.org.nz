@@ -51,6 +51,8 @@ namespace Lawspot
             RouteTable.Routes.MapRoute("ImportantNoticeRoute", "important-notice", new { controller = "Static", action = "ImportantNotice" });
             RouteTable.Routes.MapRoute("PartnerRoute", "partner", new { controller = "Static", action = "PartnerWithUs" });
             RouteTable.Routes.MapRoute("ContactUsRoute", "contact", new { controller = "Static", action = "ContactUs" });
+            RouteTable.Routes.MapRoute("404Route", "404", new { controller = "Static", action = "Error404" });
+            RouteTable.Routes.MapRoute("500Route", "500", new { controller = "Static", action = "Error500" });
             RouteTable.Routes.MapRoute("AskThankYouRoute", "ask/thank-you", new { controller = "Ask", action = "ThankYou" });
             RouteTable.Routes.MapRoute("AdminAnswerQuestionsRoute", "admin/answer-questions", new { controller = "Admin", action = "AnswerQuestions" });
             RouteTable.Routes.MapRoute("AdminPostAnswerRoute", "admin/post-answer", new { controller = "Admin", action = "PostAnswer" });
@@ -97,8 +99,49 @@ namespace Lawspot
 
         protected void Application_Error(object sender, EventArgs e)
         {
-            Exception ex = Server.GetLastError().GetBaseException();
-            Lawspot.Shared.Logger.LogError(ex);
+            // Get a reference to the error.
+            var ex = Server.GetLastError().GetBaseException();
+
+            // Determine the status code to return.
+            int statusCode = 500;
+            if (ex is HttpException)
+                statusCode = ((HttpException)ex).GetHttpCode();
+
+            // Log everything except 404s.
+            if (statusCode != 404)
+                Lawspot.Shared.Logger.LogError(ex);
+
+            // Determine the URL to redirect to.
+            var redirectUrl = "/500";
+            if (HttpContext.Current.IsCustomErrorEnabled)
+            {
+                var section = (System.Web.Configuration.CustomErrorsSection)System.Configuration.ConfigurationManager.GetSection("system.web/customErrors");
+                if (section != null)
+                {
+                    redirectUrl = section.DefaultRedirect;
+                    var errorElement = section.Errors[statusCode.ToString()];
+                    if (errorElement != null)
+                        redirectUrl = errorElement.Redirect;
+                }
+            }
+
+            // Send the response to the client.
+            var context = HttpContext.Current;
+            context.Response.StatusCode = statusCode;
+            context.Response.TrySkipIisCustomErrors = true;
+            context.ClearError();
+            
+            // Render a view.
+            if (HttpRuntime.UsingIntegratedPipeline)
+            {
+                context.Server.TransferRequest(redirectUrl, true);
+            }
+            else
+            {
+                context.RewritePath(redirectUrl, false);
+                IHttpHandler httpHandler = new MvcHttpHandler();
+                httpHandler.ProcessRequest(context);
+            }
         } 
     }
 }

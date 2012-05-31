@@ -91,7 +91,7 @@ namespace Lawspot.Controllers
         {
             // Ensure the user is allow to answer questions.
             if (this.User.CanAnswerQuestions == false)
-                return new HttpStatusCodeResult(403);
+                throw new HttpException(403, "Access denied");
 
             var model = new AnswerQuestionsViewModel();
 
@@ -229,7 +229,7 @@ namespace Lawspot.Controllers
         {
             // Ensure the user is allow to vet lawyers.
             if (this.User.CanVetLawyers == false)
-                return new HttpStatusCodeResult(403);
+                throw new HttpException(403, "Access denied");
 
             var model = new ReviewLawyersViewModel();
 
@@ -433,7 +433,7 @@ namespace Lawspot.Controllers
         {
             // Ensure the user is allow to vet questions.
             if (this.User.CanVetQuestions == false)
-                return new HttpStatusCodeResult(403);
+                throw new HttpException(403, "Access denied");
 
             var model = new ReviewQuestionsViewModel();
 
@@ -641,7 +641,7 @@ namespace Lawspot.Controllers
         {
             // Ensure the user is allow to vet answers.
             if (this.User.CanVetAnswers == false)
-                return new HttpStatusCodeResult(403);
+                throw new HttpException(403, "Access denied");
 
             var model = new ReviewAnswersViewModel();
 

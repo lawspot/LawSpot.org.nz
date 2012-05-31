@@ -59,6 +59,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\BCrypt.Net.dll</HintPath>
     </Reference>
+    <Reference Include="Lucene.Net, Version=2.9.4.2, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\Lucene.Net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -67,6 +71,7 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>Lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="System.configuration" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
     <Reference Include="System.Data.Linq" />
@@ -103,7 +108,6 @@
       <HintPath>Lib\System.Web.Razor.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Routing" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Web.WebPages, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -239,6 +243,7 @@
     <Content Include="Lib\BCrypt.Net.dll" />
     <Content Include="Lib\BCrypt.Net.XML" />
     <Content Include="Lib\LICENSE.txt" />
+    <Content Include="Lib\Lucene.Net.dll" />
     <Content Include="Lib\Microsoft.Web.Infrastructure.dll" />
     <Content Include="Lib\Microsoft.Web.Infrastructure.xml" />
     <Content Include="Lib\Newtonsoft.Json.dll" />
@@ -342,6 +347,8 @@
     <Content Include="Views\Static\ContactUs.html" />
     <Content Include="Views\Static\AboutUs\AboutUs.html" />
     <Content Include="Views\Static\AboutUs\AboutUs.css" />
+    <Content Include="Views\Static\404.html" />
+    <Content Include="Views\Static\500.html" />
     <Content Include="Views\Static\ImportantNotice.html" />
     <Content Include="Views\Static\LawyerPolicy.html" />
     <Content Include="Views\Static\TermsOfUse.html" />
