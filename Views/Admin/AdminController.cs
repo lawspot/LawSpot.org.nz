@@ -357,6 +357,7 @@ namespace Lawspot.Controllers
             var lawyer = this.DataContext.Lawyers.Where(l => l.LawyerId == lawyerId).SingleOrDefault();
             if (lawyer == null)
                 return new StatusPlusTextResult(400, "The lawyer account doesn't exist.");
+            bool statusChange = lawyer.Approved != true || lawyer.ReviewDate == null;
             lawyer.Approved = true;
             lawyer.ReviewDate = DateTimeOffset.Now;
             lawyer.ReviewedByUserId = this.User.Id;
@@ -365,10 +366,14 @@ namespace Lawspot.Controllers
             this.DataContext.SubmitChanges();
 
             // Send a message to the lawyer saying that their account has approved.
-            var acceptanceMessage = new Email.LawyerApprovedMessage();
-            acceptanceMessage.To.Add(lawyer.User.EmailDisplayName);
-            acceptanceMessage.Name = lawyer.User.EmailGreeting;
-            acceptanceMessage.Send();
+            // But only if the lawyer's status has changed.
+            if (statusChange)
+            {
+                var acceptanceMessage = new Email.LawyerApprovedMessage();
+                acceptanceMessage.To.Add(lawyer.User.EmailDisplayName);
+                acceptanceMessage.Name = lawyer.User.EmailGreeting;
+                acceptanceMessage.Send();
+            }
 
             return new StatusPlusTextResult(200, "Success");
         }
@@ -394,6 +399,7 @@ namespace Lawspot.Controllers
             var lawyer = this.DataContext.Lawyers.Where(l => l.LawyerId == lawyerId).SingleOrDefault();
             if (lawyer == null)
                 return new StatusPlusTextResult(400, "The lawyer account doesn't exist.");
+            bool statusChange = lawyer.Approved != false || lawyer.ReviewDate == null;
             lawyer.Approved = false;
             lawyer.ReviewDate = DateTimeOffset.Now;
             lawyer.ReviewedByUserId = this.User.Id;
@@ -402,11 +408,15 @@ namespace Lawspot.Controllers
             this.DataContext.SubmitChanges();
 
             // Send a message to the lawyer saying that their account has been "put on hold".
-            var rejectionMessage = new Email.LawyerRejectedMessage();
-            rejectionMessage.To.Add(lawyer.User.EmailDisplayName);
-            rejectionMessage.Name = lawyer.User.EmailGreeting;
-            rejectionMessage.Reason = reason;
-            rejectionMessage.Send();
+            // But only if the lawyer's status has changed.
+            if (statusChange)
+            {
+                var rejectionMessage = new Email.LawyerRejectedMessage();
+                rejectionMessage.To.Add(lawyer.User.EmailDisplayName);
+                rejectionMessage.Name = lawyer.User.EmailGreeting;
+                rejectionMessage.Reason = reason;
+                rejectionMessage.Send();
+            }
 
             return new StatusPlusTextResult(200, "Success");
         }
@@ -464,7 +474,9 @@ namespace Lawspot.Controllers
             {
                 new SelectListItem() { Text = "Unreviewed", Value = ReviewQuestionsFilter.Unreviewed.ToString(), Selected = filterValue == ReviewQuestionsFilter.Unreviewed },
                 new SelectListItem() { Text = "Approved", Value = ReviewQuestionsFilter.Approved.ToString(), Selected = filterValue == ReviewQuestionsFilter.Approved },
+                new SelectListItem() { Text = "Approved By Me", Value = ReviewQuestionsFilter.ApprovedByMe.ToString(), Selected = filterValue == ReviewQuestionsFilter.ApprovedByMe },
                 new SelectListItem() { Text = "Rejected", Value = ReviewQuestionsFilter.Rejected.ToString(), Selected = filterValue == ReviewQuestionsFilter.Rejected },
+                new SelectListItem() { Text = "Rejected By Me", Value = ReviewQuestionsFilter.RejectedByMe.ToString(), Selected = filterValue == ReviewQuestionsFilter.RejectedByMe },
             };
 
             // Sort order.
@@ -489,8 +501,14 @@ namespace Lawspot.Controllers
                 case ReviewQuestionsFilter.Approved:
                     questions = questions.Where(q => q.ReviewDate != null && q.Approved == true);
                     break;
+                case ReviewQuestionsFilter.ApprovedByMe:
+                    questions = questions.Where(q => q.ReviewDate != null && q.Approved == true && q.ReviewedByUserId == this.User.Id);
+                    break;
                 case ReviewQuestionsFilter.Rejected:
                     questions = questions.Where(q => q.ReviewDate != null && q.Approved == false);
+                    break;
+                case ReviewQuestionsFilter.RejectedByMe:
+                    questions = questions.Where(q => q.ReviewDate != null && q.Approved == false && q.ReviewedByUserId == this.User.Id);
                     break;
             }
             switch (sortValue)
@@ -589,6 +607,7 @@ namespace Lawspot.Controllers
             var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).SingleOrDefault();
             if (question == null)
                 return new StatusPlusTextResult(400, "The question doesn't exist.");
+            bool statusChange = question.Approved != false || question.ReviewDate == null;
             question.Approved = false;
             question.ReviewDate = DateTimeOffset.Now;
             question.ReviewedByUserId = this.User.Id;
@@ -596,12 +615,16 @@ namespace Lawspot.Controllers
             this.DataContext.SubmitChanges();
 
             // Send a message to the user saying their question has been rejected.
-            var rejectionMessage = new Email.QuestionRejectedMessage();
-            rejectionMessage.To.Add(question.User.EmailDisplayName);
-            rejectionMessage.Question = question.Title;
-            rejectionMessage.QuestionDate = question.CreatedOn.ToString("d MMM");
-            rejectionMessage.ReasonHtml = StringUtilities.ConvertTextToHtml(reason);
-            rejectionMessage.Send();
+            // But only if the question's status has changed.
+            if (statusChange)
+            {
+                var rejectionMessage = new Email.QuestionRejectedMessage();
+                rejectionMessage.To.Add(question.User.EmailDisplayName);
+                rejectionMessage.Question = question.Title;
+                rejectionMessage.QuestionDate = question.CreatedOn.ToString("d MMM");
+                rejectionMessage.ReasonHtml = StringUtilities.ConvertTextToHtml(reason);
+                rejectionMessage.Send();
+            }
 
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(reason));
         }
@@ -659,7 +682,9 @@ namespace Lawspot.Controllers
             {
                 new SelectListItem() { Text = "Unreviewed", Value = ReviewAnswersFilter.Unreviewed.ToString(), Selected = filterValue == ReviewAnswersFilter.Unreviewed },
                 new SelectListItem() { Text = "Approved", Value = ReviewAnswersFilter.Approved.ToString(), Selected = filterValue == ReviewAnswersFilter.Approved },
+                new SelectListItem() { Text = "Approved By Me", Value = ReviewAnswersFilter.ApprovedByMe.ToString(), Selected = filterValue == ReviewAnswersFilter.ApprovedByMe },
                 new SelectListItem() { Text = "Rejected", Value = ReviewAnswersFilter.Rejected.ToString(), Selected = filterValue == ReviewAnswersFilter.Rejected },
+                new SelectListItem() { Text = "Rejected By Me", Value = ReviewAnswersFilter.RejectedByMe.ToString(), Selected = filterValue == ReviewAnswersFilter.RejectedByMe },
             };
 
             // Sort order.
@@ -684,8 +709,14 @@ namespace Lawspot.Controllers
                 case ReviewAnswersFilter.Approved:
                     answers = answers.Where(a => a.Approved == true && a.ReviewDate != null);
                     break;
+                case ReviewAnswersFilter.ApprovedByMe:
+                    answers = answers.Where(a => a.Approved == true && a.ReviewDate != null && a.ReviewedByUserId == this.User.Id);
+                    break;
                 case ReviewAnswersFilter.Rejected:
                     answers = answers.Where(a => a.Approved == false && a.ReviewDate != null);
+                    break;
+                case ReviewAnswersFilter.RejectedByMe:
+                    answers = answers.Where(a => a.Approved == false && a.ReviewDate != null && a.ReviewedByUserId == this.User.Id);
                     break;
             }
             switch (sortValue)
@@ -735,6 +766,7 @@ namespace Lawspot.Controllers
             var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).SingleOrDefault();
             if (answer == null)
                 return new StatusPlusTextResult(400, "The answer doesn't exist.");
+            bool statusChange = answer.Approved != true || answer.ReviewDate == null;
             answer.Details = answerDetails;
             answer.Approved = true;
             answer.ReviewDate = DateTimeOffset.Now;
@@ -742,23 +774,29 @@ namespace Lawspot.Controllers
             answer.RejectionReason = null;
             this.DataContext.SubmitChanges();
 
-            // Send a message to the lawyer that answered the question.
-            var answerPublishedMessage = new Email.AnswerApprovedMessage();
-            answerPublishedMessage.To.Add(answer.User.EmailDisplayName);
-            answerPublishedMessage.Name = answer.User.EmailGreeting;
-            answerPublishedMessage.Question = answer.Question.Title;
-            answerPublishedMessage.QuestionUrl = answerPublishedMessage.BaseUrl + answer.Question.AbsolutePath;
-            answerPublishedMessage.Answer = answer.Details;
-            answerPublishedMessage.UnansweredQuestionCount = this.DataContext.Questions.
-                Count(q => q.Approved == true && q.Answers.Count(a => a.Approved == true) == 0);
-            answerPublishedMessage.Send();
+            // Only send emails if the answer's status has changed.
+            if (statusChange)
+            {
 
-            // Send a message to the user who asked the question.
-            var questionAnsweredMessage = new Email.QuestionAnsweredMessage();
-            questionAnsweredMessage.To.Add(answer.Question.User.EmailAddress);
-            questionAnsweredMessage.Question = answer.Question.Title;
-            questionAnsweredMessage.Answer = answer.Details;
-            questionAnsweredMessage.Send();
+                // Send a message to the lawyer that answered the question.
+                var answerPublishedMessage = new Email.AnswerApprovedMessage();
+                answerPublishedMessage.To.Add(answer.User.EmailDisplayName);
+                answerPublishedMessage.Name = answer.User.EmailGreeting;
+                answerPublishedMessage.Question = answer.Question.Title;
+                answerPublishedMessage.QuestionUrl = answerPublishedMessage.BaseUrl + answer.Question.AbsolutePath;
+                answerPublishedMessage.Answer = answer.Details;
+                answerPublishedMessage.UnansweredQuestionCount = this.DataContext.Questions.
+                    Count(q => q.Approved == true && q.Answers.Count(a => a.Approved == true) == 0);
+                answerPublishedMessage.Send();
+
+                // Send a message to the user who asked the question.
+                var questionAnsweredMessage = new Email.QuestionAnsweredMessage();
+                questionAnsweredMessage.To.Add(answer.Question.User.EmailAddress);
+                questionAnsweredMessage.Question = answer.Question.Title;
+                questionAnsweredMessage.Answer = answer.Details;
+                questionAnsweredMessage.Send();
+
+            }
 
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(answer.Details));
         }
@@ -785,20 +823,25 @@ namespace Lawspot.Controllers
             var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).SingleOrDefault();
             if (answer == null)
                 return new StatusPlusTextResult(400, "The answer doesn't exist.");
+            bool statusChange = answer.Approved != false || answer.ReviewDate == null;
             answer.Approved = false;
             answer.ReviewDate = DateTimeOffset.Now;
             answer.ReviewedByUserId = this.User.Id;
             answer.RejectionReason = reason;
             this.DataContext.SubmitChanges();
 
-            // Send a message to the lawyer saying their answer has been rejected.
-            var rejectionMessage = new Email.AnswerRejectedMessage();
-            rejectionMessage.To.Add(answer.User.EmailDisplayName);
-            rejectionMessage.Name = answer.User.EmailGreeting;
-            rejectionMessage.Question = answer.Question.Title;
-            rejectionMessage.AnswerDate = answer.CreatedOn.ToString("d MMM");
-            rejectionMessage.ReasonHtml = StringUtilities.ConvertTextToHtml(reason);
-            rejectionMessage.Send();
+            // Only send an email if the answer's status has changed.
+            if (statusChange)
+            {
+                // Send a message to the lawyer saying their answer has been rejected.
+                var rejectionMessage = new Email.AnswerRejectedMessage();
+                rejectionMessage.To.Add(answer.User.EmailDisplayName);
+                rejectionMessage.Name = answer.User.EmailGreeting;
+                rejectionMessage.Question = answer.Question.Title;
+                rejectionMessage.AnswerDate = answer.CreatedOn.ToString("d MMM");
+                rejectionMessage.ReasonHtml = StringUtilities.ConvertTextToHtml(reason);
+                rejectionMessage.Send();
+            }
 
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(reason));
         }

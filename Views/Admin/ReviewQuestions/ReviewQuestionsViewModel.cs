@@ -20,6 +20,8 @@ namespace Lawspot.Views.Admin
     {
         Unreviewed,
         Approved,
+        ApprovedByMe,
         Rejected,
+        RejectedByMe,
     }
 }
