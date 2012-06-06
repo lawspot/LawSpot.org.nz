@@ -38,7 +38,7 @@ $(".question-container a").click(function (e) {
     else {
         // The question is not expanded - expand it.
         innerContent.hide();
-        var data = Model.Questions[container.index()];
+        var data = Model.Questions.Items[container.index()];
         innerContent.html(Mustache.render(document.getElementById("answer-template").text, data));
         innerContent.slideDown("fast");
         container.addClass("expanded");

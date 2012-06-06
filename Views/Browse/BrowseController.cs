@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Lawspot.Backend;
+using Lawspot.Shared;
 using Lawspot.Views.Browse;
 
 namespace Lawspot.Controllers

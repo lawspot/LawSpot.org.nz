@@ -237,21 +237,5 @@ namespace Lawspot.Controllers
             registrationEmail.AskedQuestion = askedQuestion;
             registrationEmail.Send();
         }
-
-        /// <summary>
-        /// Utility method to set a query string parameter in a URL.
-        /// </summary>
-        /// <param name="uri"> The URL to change. </param>
-        /// <param name="key"> The parameter key. </param>
-        /// <param name="value"> The parameter value. </param>
-        /// <returns> The provided URL, with the given parameter set to the given value. </returns>
-        protected Uri SetUriParameter(Uri uri, string key, string value)
-        {
-            var builder = new UriBuilder(uri);
-            var parameters = HttpUtility.ParseQueryString(builder.Query);
-            parameters[key] = value;
-            builder.Query = parameters.ToString();
-            return builder.Uri;
-        }
     }
 }

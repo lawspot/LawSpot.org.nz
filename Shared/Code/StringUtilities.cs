@@ -3,7 +3,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Lawspot.Controllers
+namespace Lawspot.Shared
 {
     public static class StringUtilities
     {
@@ -78,6 +78,22 @@ namespace Lawspot.Controllers
                 text = text.Substring(0, spaceIndex);
             text += "...";
             return text;
+        }
+
+        /// <summary>
+        /// Utility method to set a query string parameter in a URL.
+        /// </summary>
+        /// <param name="uri"> The URL to change. </param>
+        /// <param name="key"> The parameter key. </param>
+        /// <param name="value"> The parameter value. </param>
+        /// <returns> The provided URL, with the given parameter set to the given value. </returns>
+        public static Uri SetUriParameter(Uri uri, string key, object value)
+        {
+            var builder = new UriBuilder(uri);
+            var parameters = System.Web.HttpUtility.ParseQueryString(builder.Query);
+            parameters[key] = value.ToString();
+            builder.Query = parameters.ToString();
+            return builder.Uri;
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Web.Mvc;
+using Lawspot.Shared;
 
 namespace Lawspot.Views.Admin
 {
@@ -12,7 +13,7 @@ namespace Lawspot.Views.Admin
         public IEnumerable<SelectListItem> SortOptions { get; set; }
         public IEnumerable<SelectListItem> FilterOptions { get; set; }
         public IEnumerable<SelectListItem> CannedRejectionReasons { get; set; }
-        public IEnumerable<AnswerViewModel> Answers { get; set; }
+        public PagedListView<AnswerViewModel> Answers { get; set; }
     }
 
     public enum ReviewAnswersFilter

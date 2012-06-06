@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Lawspot.Backend;
+using Lawspot.Shared;
 using Lawspot.Views.Admin;
 
 namespace Lawspot.Controllers
@@ -85,9 +86,10 @@ namespace Lawspot.Controllers
         /// <param name="category"></param>
         /// <param name="filter"></param>
         /// <param name="sort"></param>
+        /// <param name="page"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult AnswerQuestions(string category, string filter, string sort)
+        public ActionResult AnswerQuestions(string category, string filter, string sort, int page = 1)
         {
             // Ensure the user is allow to answer questions.
             if (this.User.CanAnswerQuestions == false)
@@ -171,7 +173,7 @@ namespace Lawspot.Controllers
                     questions = questions.OrderByDescending(q => q.CreatedOn);
                     break;
             }
-            model.Questions = questions
+            model.Questions = new PagedListView<QuestionViewModel>(questions
                 .Take(100)
                 .ToList()
                 .Select(q => new QuestionViewModel()
@@ -181,7 +183,7 @@ namespace Lawspot.Controllers
                     Details = q.Details,
                     DateAndTime = q.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     CategoryName = q.Category.Name,
-                });
+                }), page, 20, Request.Url);
 
             return View(model);
         }
@@ -427,9 +429,10 @@ namespace Lawspot.Controllers
         /// <param name="category"></param>
         /// <param name="filter"></param>
         /// <param name="sort"></param>
+        /// <param name="page"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ReviewQuestions(string category, string filter, string sort)
+        public ActionResult ReviewQuestions(string category, string filter, string sort, int page = 1)
         {
             // Ensure the user is allow to vet questions.
             if (this.User.CanVetQuestions == false)
@@ -520,7 +523,7 @@ namespace Lawspot.Controllers
                     questions = questions.OrderByDescending(q => q.CreatedOn);
                     break;
             }
-            model.Questions = questions
+            model.Questions = new PagedListView<QuestionViewModel>(questions
                 .ToList()
                 .Select(q => new QuestionViewModel()
                 {
@@ -530,7 +533,7 @@ namespace Lawspot.Controllers
                     DateAndTime = q.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     CategoryId = q.CategoryId,
                     CategoryName = q.Category.Name,
-                });
+                }), page, 20, Request.Url);
 
             // Categories only (used inside form).
             model.Categories =
@@ -635,9 +638,10 @@ namespace Lawspot.Controllers
         /// <param name="category"></param>
         /// <param name="filter"></param>
         /// <param name="sort"></param>
+        /// <param name="page"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ReviewAnswers(string category, string filter, string sort)
+        public ActionResult ReviewAnswers(string category, string filter, string sort, int page = 1)
         {
             // Ensure the user is allow to vet answers.
             if (this.User.CanVetAnswers == false)
@@ -728,7 +732,7 @@ namespace Lawspot.Controllers
                     answers = answers.OrderByDescending(q => q.CreatedOn);
                     break;
             }
-            model.Answers = answers
+            model.Answers = new PagedListView<AnswerViewModel>(answers
                 .ToList()
                 .Select(a => new AnswerViewModel()
                 {
@@ -738,7 +742,7 @@ namespace Lawspot.Controllers
                     CategoryName = a.Question.Category.Name,
                     DateAndTime = a.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     Answer = a.Details,
-                });
+                }), page, 20, Request.Url);
 
             return View(model);
         }

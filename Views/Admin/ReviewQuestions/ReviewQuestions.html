@@ -30,7 +30,7 @@
 </form>
 
 <div>
-    {{#Questions}}
+    {{#Questions.Items}}
 	    <article class="question-container">
 	        <img class="left" src="/views/admin/reviewquestions/question-icon.png" width="27" height="19" alt="" />
 	        <div class="question-header">
@@ -40,12 +40,47 @@
 	        </div>
             <div class="inner-content"></div>
 	    </article>
-    {{/Questions}}
+    {{/Questions.Items}}
 </div>
 
-<p id="no-more-questions" style="display: none; {{^Questions}} display: block; {{/Questions}}">
-    There are no questions that meet your criteria.
+{{^Questions.Items}}
+    <p>There are no questions that meet your criteria.</p>
+{{/Questions.Items}}
+
+<p id="no-more-questions" style="display: none">
+    You have dealt with all the questions on this page.  <a href="javascript:window.location.reload()">Refresh the page</a> to see if there any more.
 </p>
+
+{{! Page numbers }}
+{{#Questions}}
+    {{#ShowPageLabels}}
+        <div class="page-numbers">
+            {{#HasPrevious}}
+                <a class="button" href="{{PreviousUri}}">Previous</a>
+            {{/HasPrevious}}
+            {{^HasPrevious}}
+                <span class="button disabled">Previous</span>
+            {{/HasPrevious}}
+            {{#PageLabels}}
+                {{#NavigateUri}}
+                    <a class="button" href="{{NavigateUri}}">{{Text}}</a>
+                {{/NavigateUri}}
+                {{#IsCurrentPage}}
+                    <span class="button current-page">{{Text}}</span>
+                {{/IsCurrentPage}}
+                {{#IsEllipsis}}
+                    <span class="ellipsis">{{Text}}</span>
+                {{/IsEllipsis}}
+            {{/PageLabels}}
+            {{#HasNext}}
+                <a class="button" href="{{NextUri}}">Next</a>
+            {{/HasNext}}
+            {{^HasNext}}
+                <span class="button disabled">Next</span>
+            {{/HasNext}}
+        </div>
+    {{/ShowPageLabels}}
+{{/Questions}}
 
 {{! Change the mustache set delimiter so that tags within the templates are not replaced }}
 {{=** **=}}

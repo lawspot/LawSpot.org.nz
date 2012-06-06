@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Lawspot.Backend;
 using Lawspot.Views.Account;
+using Lawspot.Shared;
 
 namespace Lawspot.Controllers
 {
@@ -59,7 +60,7 @@ namespace Lawspot.Controllers
 
             // Redirect to the original referrer, or to the home page.
             if (string.IsNullOrEmpty(model.RedirectUrl) == false)
-                return Redirect(SetUriParameter(new Uri(this.Request.Url, model.RedirectUrl), "alert", "loggedin").ToString());
+                return Redirect(StringUtilities.SetUriParameter(new Uri(this.Request.Url, model.RedirectUrl), "alert", "loggedin").ToString());
             return RedirectToAction("Home", "Browse", new { alert = "loggedin" });
         }
 
@@ -137,7 +138,7 @@ namespace Lawspot.Controllers
 
             // Redirect to the original referrer, or to the home page.
             if (string.IsNullOrEmpty(model.RedirectUrl) == false)
-                return Redirect(SetUriParameter(new Uri(model.RedirectUrl), "alert", alert).ToString());
+                return Redirect(StringUtilities.SetUriParameter(new Uri(model.RedirectUrl), "alert", alert).ToString());
             return RedirectToAction("Home", "Browse", new { alert = alert });
         }
 

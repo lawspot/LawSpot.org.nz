@@ -25,3 +25,27 @@
 	margin-left: 230px;
 	padding: 20px 20px 20px 0;
 }
+
+/* Page numbers */
+.page-numbers {
+    text-align: right;
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    margin-top: 10px;
+}
+.page-numbers .button {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #BCBBBA;
+    background: white;
+}
+.page-numbers .current-page {
+    font-weight: bold;
+}
+.page-numbers .disabled {
+    color: #BCBBBA;
+}

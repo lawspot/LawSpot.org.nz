@@ -34,7 +34,7 @@ $(".question-container a").click(function (e) {
         // The question is not expanded - expand it.
 
         // Manipulate the data.
-        var data = Model.Answers[container.index()];
+        var data = Model.Answers.Items[container.index()];
         data.CannedRejectionReasons = [];
         for (var i in Model.CannedRejectionReasons) {
             data.CannedRejectionReasons[i] = {

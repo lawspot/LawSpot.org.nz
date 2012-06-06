@@ -34,7 +34,7 @@ $(".question-container a").click(function (e) {
         // The question is not expanded - expand it.
 
         // Manipulate the data.
-        var data = Model.Questions[container.index()];
+        var data = Model.Questions.Items[container.index()];
         data.Categories = [];
         for (var i in Model.Categories) {
             data.Categories[i] = {
