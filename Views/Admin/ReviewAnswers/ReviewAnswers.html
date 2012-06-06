@@ -29,20 +29,6 @@
     </div>
 </form>
 
-<div>
-    {{#Answers.Items}}
-	    <article class="question-container">
-	        <img class="left" src="/views/admin/reviewanswers/answer-icon.png" width="27" height="19" alt="" />
-	        <div class="question-header">
-	            <a href="#">{{Title}}</a><br />
-                <span class="question-time">{{DateAndTime}}</span>
-                <span class="question-category">{{CategoryName}}</span>
-	        </div>
-            <div class="inner-content"></div>
-	    </article>
-    {{/Answers.Items}}
-</div>
-
 {{! Page numbers }}
 {{#Answers}}
     {{#ShowPageLabels}}
@@ -73,6 +59,20 @@
         </div>
     {{/ShowPageLabels}}
 {{/Answers}}
+
+<div>
+    {{#Answers.Items}}
+	    <article class="question-container">
+	        <img class="left" src="/views/admin/reviewanswers/answer-icon.png" width="27" height="19" alt="" />
+	        <div class="question-header">
+	            <a href="#">{{Title}}</a><br />
+                <span class="question-time">{{DateAndTime}}</span>
+                <span class="question-category">{{CategoryName}}</span>
+	        </div>
+            <div class="inner-content"></div>
+	    </article>
+    {{/Answers.Items}}
+</div>
 
 {{^Answers.Items}}
     <p>There are no answers that meet your criteria.</p>
