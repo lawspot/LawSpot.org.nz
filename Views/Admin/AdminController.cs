@@ -183,7 +183,7 @@ namespace Lawspot.Controllers
                     Details = q.Details,
                     DateAndTime = q.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     CategoryName = q.Category.Name,
-                }), page, 20, Request.Url);
+                }), page, 10, Request.Url);
 
             return View(model);
         }
@@ -533,7 +533,7 @@ namespace Lawspot.Controllers
                     DateAndTime = q.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     CategoryId = q.CategoryId,
                     CategoryName = q.Category.Name,
-                }), page, 20, Request.Url);
+                }), page, 10, Request.Url);
 
             // Categories only (used inside form).
             model.Categories =
@@ -742,7 +742,7 @@ namespace Lawspot.Controllers
                     CategoryName = a.Question.Category.Name,
                     DateAndTime = a.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     Answer = a.Details,
-                }), page, 20, Request.Url);
+                }), page, 10, Request.Url);
 
             return View(model);
         }
