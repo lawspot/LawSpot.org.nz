@@ -43,14 +43,6 @@
     {{/Answers.Items}}
 </div>
 
-{{^Answers.Items}}
-    <p>There are no answers that meet your criteria.</p>
-{{/Answers.Items}}
-
-<p id="no-more-questions" style="display: none">
-    You have dealt with all the answers on this page.  <a href="javascript:window.location.reload()">Refresh the page</a> to see if there any more.
-</p>
-
 {{! Page numbers }}
 {{#Answers}}
     {{#ShowPageLabels}}
@@ -81,6 +73,14 @@
         </div>
     {{/ShowPageLabels}}
 {{/Answers}}
+
+{{^Answers.Items}}
+    <p>There are no answers that meet your criteria.</p>
+{{/Answers.Items}}
+
+<p id="no-more-questions" style="display: none">
+    You have dealt with all the answers on this page.  <a href="javascript:window.location.reload()">Refresh the page</a> to see if there any more.
+</p>
 
 {{! Change the mustache set delimiter so that tags within the templates are not replaced }}
 {{=** **=}}

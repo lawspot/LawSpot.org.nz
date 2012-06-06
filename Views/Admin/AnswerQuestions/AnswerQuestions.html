@@ -29,28 +29,6 @@
     </div>
 </form>
 
-<div>
-    {{#Questions.Items}}
-	    <article class="question-container">
-	        <img class="left" src="/views/admin/answerquestions/question-icon.png" width="27" height="19" alt="" />
-	        <div class="question-header">
-	            <a href="#">{{Title}}</a><br />
-                <span class="question-time">{{DateAndTime}}</span>
-                <span class="question-category">{{CategoryName}}</span>
-	        </div>
-            <div class="inner-content"></div>
-	    </article>
-    {{/Questions.Items}}
-</div>
-
-{{^Questions.Items}}
-    <p>There are no questions that meet your criteria.</p>
-{{/Questions.Items}}
-
-<p id="no-more-questions" style="display: none">
-    You have dealt with all the questions on this page.  <a href="javascript:window.location.reload()">Refresh the page</a> to see if there any more.
-</p>
-
 {{! Page numbers }}
 {{#Questions}}
     {{#ShowPageLabels}}
@@ -81,6 +59,28 @@
         </div>
     {{/ShowPageLabels}}
 {{/Questions}}
+
+<div>
+    {{#Questions.Items}}
+	    <article class="question-container">
+	        <img class="left" src="/views/admin/answerquestions/question-icon.png" width="27" height="19" alt="" />
+	        <div class="question-header">
+	            <a href="#">{{Title}}</a><br />
+                <span class="question-time">{{DateAndTime}}</span>
+                <span class="question-category">{{CategoryName}}</span>
+	        </div>
+            <div class="inner-content"></div>
+	    </article>
+    {{/Questions.Items}}
+</div>
+
+{{^Questions.Items}}
+    <p>There are no questions that meet your criteria.</p>
+{{/Questions.Items}}
+
+<p id="no-more-questions" style="display: none">
+    You have dealt with all the questions on this page.  <a href="javascript:window.location.reload()">Refresh the page</a> to see if there any more.
+</p>
 
 {{! Change the mustache set delimiter so that tags within the templates are not replaced }}
 {{=** **=}}

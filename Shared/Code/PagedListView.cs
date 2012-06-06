@@ -63,7 +63,7 @@ namespace Lawspot.Shared
                         labels.Add(PageLabel.CreateClickableLabel(i, requestUri));
                 }
                 labels.Add(PageLabel.CreateCurrentPageLabel(this.PageNumber));
-                if (this.PageNumber < this.PageCount - labelsAfterCurrent - 1)
+                if (this.PageNumber < this.PageCount - labelsAfterCurrent)
                 {
                     // 7 8 .. 12
                     for (int i = this.PageNumber + 1; i < this.PageNumber + labelsAfterCurrent; i++)
