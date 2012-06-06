@@ -257,6 +257,16 @@ h2.underline {
 .orange-text {
 	color: #CF720B;
 }
+.left {
+	float: left;
+}
+.right {
+	float: right;
+}
+.centre {
+	margin: 0 auto;
+	text-align: center;
+}
 ul.list-arrows {
 	margin: 15px 30px;
 	padding: 0;
