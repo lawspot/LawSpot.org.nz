@@ -742,6 +742,7 @@ namespace Lawspot.Controllers
                     CategoryName = a.Question.Category.Name,
                     DateAndTime = a.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     Answer = a.Details,
+                    AnsweredBy = a.User.EmailDisplayName,
                 }), page, 10, Request.Url);
 
             return View(model);

@@ -49,6 +49,7 @@ span.question-time {
 }
 .question-container textarea {
 	width: 620px;
+	height: 250px;
 	margin-top: 10px;
 }
 .question-container form small {
