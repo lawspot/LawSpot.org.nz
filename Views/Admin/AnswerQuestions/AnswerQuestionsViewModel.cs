@@ -19,6 +19,7 @@ namespace Lawspot.Views.Admin
     {
         Unanswered,
         All,
+        Pending,
         Answered,
         AnsweredByMe,
     }

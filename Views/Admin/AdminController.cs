@@ -197,6 +197,7 @@ namespace Lawspot.Controllers
             {
                 new SelectListItem() { Text = "All", Value = AnswerQuestionsFilter.All.ToString(), Selected = filterValue == AnswerQuestionsFilter.All },
                 new SelectListItem() { Text = "Unanswered", Value = AnswerQuestionsFilter.Unanswered.ToString(), Selected = filterValue == AnswerQuestionsFilter.Unanswered },
+                new SelectListItem() { Text = "Pending", Value = AnswerQuestionsFilter.Pending.ToString(), Selected = filterValue == AnswerQuestionsFilter.Pending },
                 new SelectListItem() { Text = "Answered", Value = AnswerQuestionsFilter.Answered.ToString(), Selected = filterValue == AnswerQuestionsFilter.Answered },
                 new SelectListItem() { Text = "Answered by Me", Value = AnswerQuestionsFilter.AnsweredByMe.ToString(), Selected = filterValue == AnswerQuestionsFilter.AnsweredByMe },
             };
@@ -221,8 +222,11 @@ namespace Lawspot.Controllers
                 case AnswerQuestionsFilter.Unanswered:
                     questions = questions.Where(q => q.Answers.Any(a => a.Approved == true || a.ReviewDate == null) == false);
                     break;
+                case AnswerQuestionsFilter.Pending:
+                    questions = questions.Where(q => q.Answers.Where(a => a.Approved == false).Any(a => a.ReviewDate == null) == true);
+                    break;
                 case AnswerQuestionsFilter.Answered:
-                    questions = questions.Where(q => q.Answers.Any(a => a.Approved == true || a.ReviewDate == null) == true);
+                    questions = questions.Where(q => q.Answers.Any(a => a.Approved == true) == true);
                     break;
                 case AnswerQuestionsFilter.AnsweredByMe:
                     questions = questions.Where(q => q.Answers.Any(a => a.CreatedByUserId == this.User.Id));
