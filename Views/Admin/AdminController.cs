@@ -97,7 +97,7 @@ namespace Lawspot.Controllers
             var lastQuestionSubmitted = this.DataContext.Questions
                 .Where(q => q.CreatedByUserId == this.User.Id)
                 .OrderByDescending(q => q.CreatedOn).FirstOrDefault();
-            model.LastQuestionSubmitted = lastQuestionSubmitted == null ? "Never" :
+            model.LastQuestionSubmitted = lastQuestionSubmitted == null ? "N/A" :
                 StringUtilities.ConvertToRelativeTime(DateTimeOffset.Now.Subtract(lastQuestionSubmitted.CreatedOn));
 
             // Question vetter stats.
@@ -109,7 +109,7 @@ namespace Lawspot.Controllers
                     .Where(q => q.ReviewedByUserId == this.User.Id)
                     .OrderByDescending(q => q.ReviewDate)
                     .FirstOrDefault();
-                model.LastQuestionReviewed = lastQuestionReviewed == null ? "Never" :
+                model.LastQuestionReviewed = lastQuestionReviewed == null ? "N/A" :
                     StringUtilities.ConvertToRelativeTime(DateTimeOffset.Now.Subtract(lastQuestionReviewed.CreatedOn));
             }
 
@@ -124,7 +124,7 @@ namespace Lawspot.Controllers
                     .Where(a => a.CreatedByUserId == this.User.Id)
                     .OrderByDescending(a => a.CreatedOn)
                     .FirstOrDefault();
-                model.LastAnswerSubmitted = lastAnswerSubmitted == null ? "Never" :
+                model.LastAnswerSubmitted = lastAnswerSubmitted == null ? "N/A" :
                     StringUtilities.ConvertToRelativeTime(DateTimeOffset.Now.Subtract(lastAnswerSubmitted.CreatedOn));
             }
 
@@ -137,7 +137,7 @@ namespace Lawspot.Controllers
                     .Where(a => a.ReviewedByUserId == this.User.Id)
                     .OrderByDescending(a => a.ReviewDate)
                     .FirstOrDefault();
-                model.LastAnswerReviewed = lastAnswerReviewed == null ? "Never" :
+                model.LastAnswerReviewed = lastAnswerReviewed == null ? "N/A" :
                     StringUtilities.ConvertToRelativeTime(DateTimeOffset.Now.Subtract(lastAnswerReviewed.CreatedOn));
             }
 
@@ -219,10 +219,10 @@ namespace Lawspot.Controllers
             switch (filterValue)
             {
                 case AnswerQuestionsFilter.Unanswered:
-                    questions = questions.Where(q => q.Answers.Any() == false);
+                    questions = questions.Where(q => q.Answers.Any(a => a.Approved == true || a.ReviewDate == null) == false);
                     break;
                 case AnswerQuestionsFilter.Answered:
-                    questions = questions.Where(q => q.Answers.Any() == true);
+                    questions = questions.Where(q => q.Answers.Any(a => a.Approved == true || a.ReviewDate == null) == true);
                     break;
                 case AnswerQuestionsFilter.AnsweredByMe:
                     questions = questions.Where(q => q.Answers.Any(a => a.CreatedByUserId == this.User.Id));
