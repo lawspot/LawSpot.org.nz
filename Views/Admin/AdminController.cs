@@ -195,7 +195,7 @@ namespace Lawspot.Controllers
         /// <param name="answerText"></param>
         /// <returns></returns>
         [HttpPost]
-        public StatusPlusTextResult PostAnswer(int questionId, string answerText)
+        public StatusPlusTextResult PostAnswer(int questionId, string answerText, string references)
         {
             // Ensure the user is allow to answer questions.
             if (this.User.CanAnswerQuestions == false)
@@ -206,6 +206,8 @@ namespace Lawspot.Controllers
                 return new StatusPlusTextResult(400, "The answer details cannot be blank.");
             if (answerText.Length > 20000)
                 return new StatusPlusTextResult(400, "The answer is too long.");
+            if (references.Length > 20000)
+                return new StatusPlusTextResult(400, "The references are too long.");
 
             // Create a new answer for the question.
             var answer = new Answer();
@@ -213,6 +215,7 @@ namespace Lawspot.Controllers
             answer.Details = answerText;
             answer.CreatedByUserId = this.User.Id;
             answer.QuestionId = questionId;
+            answer.References = references;
             this.DataContext.Answers.InsertOnSubmit(answer);
             this.DataContext.SubmitChanges();
 
@@ -743,6 +746,7 @@ namespace Lawspot.Controllers
                     DateAndTime = a.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     Answer = a.Details,
                     AnsweredBy = a.User.EmailDisplayName,
+                    ReferencesHtml = StringUtilities.ConvertTextToHtml(a.References),
                 }), page, 10, Request.Url);
 
             return View(model);

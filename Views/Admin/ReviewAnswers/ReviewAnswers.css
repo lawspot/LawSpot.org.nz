@@ -63,13 +63,16 @@ select.category, select.canned-rejection-reasons {
 	margin-left: 10px;
 }
 .inner-content textarea {
-	width: 620px;
-	margin: 10px 0 15px;
+	width: 635px;
+	margin: 10px 0 0 0;
 }
 .inner-content .question-label {
 	display: block;
 	float: left;
 	width: 300px;
+}
+.inner-content .buttons {
+	margin: 15px 0 0 0;
 }
 .admin-labels {
 	margin-top: 10px;

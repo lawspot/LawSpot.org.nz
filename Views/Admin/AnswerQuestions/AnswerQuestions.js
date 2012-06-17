@@ -49,7 +49,7 @@ $(".question-container a").click(function (e) {
         checkForQuestionReservation(false);
 
         // Set the focus to the first textarea.
-        $("textarea", innerContent).focus();
+        $("textarea", innerContent).get(0).focus();
 
         // Make the important notice link work.
         $("a.important-notice-link", innerContent).click(function (e) {
@@ -65,12 +65,13 @@ $(".question-container a").click(function (e) {
             // Don't submit the form.
             e.preventDefault();
 
-            data.Answer = $("textarea", this).val();
+            data.Answer = $("textarea[name=LawyerAnswer]", this).val();
             if (data.Answer === "") {
                 $(".validation-error", innerContent).text("Please enter your answer.");
                 $("textarea", innerContent).focus();
                 return;
             }
+            data.References = $("textarea[name=References]", this).val();
 
             // Disable the button and display the progress indicator.
             $("button", innerContent).attr("disabled", "disabled");
@@ -79,7 +80,7 @@ $(".question-container a").click(function (e) {
             jQuery.ajax({
                 type: "POST",
                 url: "post-answer",
-                data: { questionId: data.QuestionId, answerText: data.Answer },
+                data: { questionId: data.QuestionId, answerText: data.Answer, references: data.References },
                 error: function (xhr, status, error) {
                     // Re-enable the submit button and hide the progress indicator.
                     $("button", innerContent).removeAttr("disabled");

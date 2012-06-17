@@ -47,10 +47,15 @@ span.question-time {
 	color: #4A4632;
 	*display: none;
 }
-.question-container textarea {
-	width: 620px;
+.question-container textarea[name=LawyerAnswer] {
+	width: 635px;
 	height: 250px;
-	margin-top: 10px;
+	margin: 10px 0;
+}
+.question-container textarea[name=References] {
+	width: 635px;
+	height: 100px;
+	margin: 10px 0 0 0;
 }
 .question-container form small {
 	font-size: 0.8em;

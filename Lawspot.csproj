@@ -219,6 +219,7 @@
     <Content Include="Backend\Migrations\25.sql" />
     <Content Include="Backend\Migrations\26.sql" />
     <Content Include="Backend\Migrations\27.sql" />
+    <Content Include="Backend\Migrations\28.sql" />
     <Content Include="Default.htm" />
     <Content Include="Email\Assets\facebook.png" />
     <Content Include="Email\Assets\header-original.png" />

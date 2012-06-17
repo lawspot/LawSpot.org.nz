@@ -94,8 +94,12 @@
 	    <p>{{Details}}</p>
 	    <label><strong>Answer</strong> by {{AnsweredBy}}</label><br />
 	    <textarea class="answer">{{Answer}}</textarea>
+        {{#ReferencesHtml}}
+            <p><strong>References</strong></p>
+            <p>{{{ReferencesHtml}}}</p>
+        {{/ReferencesHtml}}
 	            		
-	    <div class="centre">
+	    <div class="buttons centre">
 	        <button data-action="approve">APPROVE</button>
 	        <button class="red" data-action="go-to-reject">REJECT</button>
             <img class="progress-indicator" src="/shared/images/progress-indicator.gif" />
