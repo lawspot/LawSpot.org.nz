@@ -245,7 +245,7 @@ namespace Lawspot.Controllers
         /// <returns> A login message. </returns>
         private static string GetLoginMessage(CustomPrincipal user)
         {
-            var result = new System.Text.StringBuilder("You're logged in. Welcome back to LawSpot.");
+            var result = new System.Text.StringBuilder("You're logged in.");
 
             var counts = new List<Tuple<int, string>>();
             if (user.CanVetQuestions)
@@ -277,6 +277,8 @@ namespace Lawspot.Controllers
                     "pending lawyer"));
             }
             counts.RemoveAll(c => c.Item1 == 0);
+            if (counts.Count <= 2)
+                result.Append(" Welcome back to LawSpot.");
             if (counts.Count > 0)
             {
                 for (int i = 0; i < counts.Count; i ++)
