@@ -6,15 +6,52 @@
 	            
 <table id="profile-stats">
 	<tr>
-	    <td class="label">Questions answered:</td>
-	    <td>{{QuestionsAnswered}}</td>
+	    <td class="label">Questions submitted:</td>
+	    <td>{{QuestionsSubmitted}}</td>
 	</tr>
 	<tr>
-	    <td class="label">Questions approved:</td>
-	    <td>{{QuestionsApproved}}</td>
+	    <td class="label">Questions that were published:</td>
+	    <td>{{QuestionsPublished}}</td>
 	</tr>
-	<tr>
-	    <td class="label">Last answer submitted:</td>
-	    <td>{{LastAnswerSubmitted}}</td>
+    <tr>
+	    <td class="label">Last question submitted:</td>
+	    <td>{{LastQuestionSubmitted}}</td>
 	</tr>
+
+    {{#User.CanAnswerQuestions}}
+        <tr class="divider-row">
+	        <td class="label">Answers submitted:</td>
+	        <td>{{AnswersSubmitted}}</td>
+	    </tr>
+	    <tr>
+	        <td class="label">Answers that were published:</td>
+	        <td>{{AnswersPublished}}</td>
+	    </tr>
+	    <tr>
+	        <td class="label">Last answer submitted:</td>
+	        <td>{{LastAnswerSubmitted}}</td>
+	    </tr>
+    {{/User.CanAnswerQuestions}}
+
+    {{#User.CanVetQuestions}}
+        <tr class="divider-row">
+	        <td class="label">Questions reviewed:</td>
+	        <td>{{QuestionsReviewed}}</td>
+	    </tr>
+	    <tr>
+	        <td class="label">Last answer submitted:</td>
+	        <td>{{LastQuestionReviewed}}</td>
+	    </tr>
+    {{/User.CanVetQuestions}}
+
+    {{#User.CanVetAnswers}}
+        <tr class="divider-row">
+	        <td class="label">Answers reviewed:</td>
+	        <td>{{AnswersReviewed}}</td>
+	    </tr>
+	    <tr>
+	        <td class="label">Last answer reviewed:</td>
+	        <td>{{LastAnswerReviewed}}</td>
+	    </tr>
+    {{/User.CanVetAnswers}}
 </table>

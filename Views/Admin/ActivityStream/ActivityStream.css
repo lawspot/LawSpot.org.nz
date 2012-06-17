@@ -1,6 +1,14 @@
 ﻿/* Profile page */
 #profile-stats {
 	width: 300px;
+	margin-top: 20px;
+}
+#profile-stats tr.divider-row {
+	border-top: 1px solid #ccc;
+	padding-top: 10px;
+}
+#profile-stats tr.divider-row td {
+	padding-top: 10px;
 }
 #profile-stats td {
 	padding-bottom: 10px;

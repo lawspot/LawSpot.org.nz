@@ -88,13 +88,58 @@ namespace Lawspot.Controllers
         public ActionResult ActivityStream()
         {
             var model = new ActivityStreamViewModel();
-            model.QuestionsAnswered = this.DataContext.Questions
-                .Count(q => q.CreatedByUserId == this.User.Id && q.Answers.Count(a => a.Approved) > 0);
-            model.QuestionsApproved = this.DataContext.Questions
+
+            // Question stats.
+            model.QuestionsSubmitted = this.DataContext.Questions
+                .Count(q => q.CreatedByUserId == this.User.Id);
+            model.QuestionsPublished = this.DataContext.Questions
                 .Count(q => q.CreatedByUserId == this.User.Id && q.Approved);
-            var lastAnswerSubmitted = this.DataContext.Answers.OrderByDescending(a => a.CreatedOn).FirstOrDefault();
-            model.LastAnswerSubmitted = lastAnswerSubmitted == null ? "Never" :
-                StringUtilities.ConvertToRelativeTime(DateTimeOffset.Now.Subtract(lastAnswerSubmitted.CreatedOn));
+            var lastQuestionSubmitted = this.DataContext.Questions
+                .Where(q => q.CreatedByUserId == this.User.Id)
+                .OrderByDescending(q => q.CreatedOn).FirstOrDefault();
+            model.LastQuestionSubmitted = lastQuestionSubmitted == null ? "Never" :
+                StringUtilities.ConvertToRelativeTime(DateTimeOffset.Now.Subtract(lastQuestionSubmitted.CreatedOn));
+
+            // Question vetter stats.
+            if (this.User.CanVetQuestions)
+            {
+                model.QuestionsReviewed = this.DataContext.Questions
+                    .Count(q => q.ReviewedByUserId == this.User.Id);
+                var lastQuestionReviewed = this.DataContext.Questions
+                    .Where(q => q.ReviewedByUserId == this.User.Id)
+                    .OrderByDescending(q => q.ReviewDate)
+                    .FirstOrDefault();
+                model.LastQuestionReviewed = lastQuestionReviewed == null ? "Never" :
+                    StringUtilities.ConvertToRelativeTime(DateTimeOffset.Now.Subtract(lastQuestionReviewed.CreatedOn));
+            }
+
+            // Answer stats.
+            if (this.User.CanAnswerQuestions)
+            {
+                model.AnswersSubmitted = this.DataContext.Answers
+                    .Count(a => a.CreatedByUserId == this.User.Id);
+                model.AnswersPublished = this.DataContext.Answers
+                    .Count(a => a.CreatedByUserId == this.User.Id && a.Approved);
+                var lastAnswerSubmitted = this.DataContext.Answers
+                    .Where(a => a.CreatedByUserId == this.User.Id)
+                    .OrderByDescending(a => a.CreatedOn)
+                    .FirstOrDefault();
+                model.LastAnswerSubmitted = lastAnswerSubmitted == null ? "Never" :
+                    StringUtilities.ConvertToRelativeTime(DateTimeOffset.Now.Subtract(lastAnswerSubmitted.CreatedOn));
+            }
+
+            // Answer vetter stats.
+            if (this.User.CanVetAnswers)
+            {
+                model.AnswersReviewed = this.DataContext.Answers
+                    .Count(a => a.ReviewedByUserId == this.User.Id);
+                var lastAnswerReviewed = this.DataContext.Answers
+                    .Where(a => a.ReviewedByUserId == this.User.Id)
+                    .OrderByDescending(a => a.ReviewDate)
+                    .FirstOrDefault();
+                model.LastAnswerReviewed = lastAnswerReviewed == null ? "Never" :
+                    StringUtilities.ConvertToRelativeTime(DateTimeOffset.Now.Subtract(lastAnswerReviewed.CreatedOn));
+            }
 
             return View(model);
         }
