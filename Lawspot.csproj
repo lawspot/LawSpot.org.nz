@@ -149,6 +149,7 @@
     <Compile Include="Email\Code\ExposeToXsltAttribute.cs" />
     <Compile Include="Email\Code\EmailTemplate.cs" />
     <Compile Include="Shared\Code\BaseController.cs" />
+    <Compile Include="Shared\Code\CacheProvider.cs" />
     <Compile Include="Shared\Code\PagedListView.cs" />
     <Compile Include="Shared\Code\StringUtilities.cs" />
     <Compile Include="Shared\Code\MustacheController.cs" />

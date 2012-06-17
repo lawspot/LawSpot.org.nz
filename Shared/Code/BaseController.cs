@@ -123,6 +123,8 @@ namespace Lawspot.Controllers
                 {
                     case "loggedin":
                         model.SuccessMessage = "You're logged in. Welcome back to LawSpot.";
+                        if (model.User.CanAnswerQuestions)
+                            model.SuccessMessage += string.Format(" There are {0} unanswered questions.", GetUnansweredQuestionCount());
                         break;
                     case "loggedout":
                         model.SuccessMessage = "You have logged out.";
@@ -236,6 +238,16 @@ namespace Lawspot.Controllers
                 Uri.EscapeDataString(user.EmailValidationToken));
             registrationEmail.AskedQuestion = askedQuestion;
             registrationEmail.Send();
+        }
+
+        /// <summary>
+        /// Gets the total number of unanswered questions.
+        /// </summary>
+        /// <returns> The total number of unanswered questions. </returns>
+        private int GetUnansweredQuestionCount()
+        {
+            return CacheProvider.CacheDatabaseQuery("UnansweredQuestionCount", connection =>
+                connection.Questions.Count(q => q.Answers.Count(a => a.ReviewDate == null || a.Approved) == 0), TimeSpan.FromMinutes(5));
         }
     }
 }
