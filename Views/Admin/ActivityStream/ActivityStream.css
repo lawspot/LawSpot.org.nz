@@ -1,0 +1,30 @@
+﻿/* Profile page */
+#profile-stats {
+	width: 300px;
+}
+#profile-stats td {
+	padding-bottom: 10px;
+}
+#profile-stats .label {
+	text-align: right;
+	padding-right: 10px;
+}
+.mayor-icon {
+	padding-top: 10px;
+}
+#profile-timeline article {
+	background-color: #dedede;
+	padding: 1px 8px;
+	border-top: solid 1px #ccc;
+	border-left: solid 1px #ccc;
+	border-bottom: solid 1px #aaa;
+	border-right: solid 1px #aaa;
+	margin-bottom: 10px;
+}
+#profile-timeline article.alt {
+	background-color: #efefef;
+}
+#profile-timeline .postdata {
+	font-size: 0.9em;
+	color: #575757;
+}

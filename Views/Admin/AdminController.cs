@@ -81,6 +81,25 @@ namespace Lawspot.Controllers
         }
 
         /// <summary>
+        /// Displays the activity stream page.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ActivityStream()
+        {
+            var model = new ActivityStreamViewModel();
+            model.QuestionsAnswered = this.DataContext.Questions
+                .Count(q => q.CreatedByUserId == this.User.Id && q.Answers.Count(a => a.Approved) > 0);
+            model.QuestionsApproved = this.DataContext.Questions
+                .Count(q => q.CreatedByUserId == this.User.Id && q.Approved);
+            var lastAnswerSubmitted = this.DataContext.Answers.OrderByDescending(a => a.CreatedOn).FirstOrDefault();
+            model.LastAnswerSubmitted = lastAnswerSubmitted == null ? "Never" :
+                StringUtilities.ConvertToRelativeTime(DateTimeOffset.Now.Subtract(lastAnswerSubmitted.CreatedOn));
+
+            return View(model);
+        }
+
+        /// <summary>
         /// Displays the answer questions page.
         /// </summary>
         /// <param name="category"></param>

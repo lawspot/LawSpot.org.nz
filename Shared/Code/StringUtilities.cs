@@ -95,5 +95,27 @@ namespace Lawspot.Shared
             builder.Query = parameters.ToString();
             return builder.Uri;
         }
+
+        /// <summary>
+        /// Converts a time-span into a relative time string.
+        /// </summary>
+        /// <param name="timeSpan"></param>
+        /// <returns></returns>
+        public static string ConvertToRelativeTime(TimeSpan timeSpan)
+        {
+            if (timeSpan.TotalMinutes < 1.0)
+                return "less than a minute ago";
+            if (timeSpan.TotalMinutes < 1.5)
+                return string.Format("1 minute ago", Math.Round(timeSpan.TotalMinutes));
+            if (timeSpan.TotalMinutes < 60.0)
+                return string.Format("{0} minutes ago", Math.Round(timeSpan.TotalMinutes));
+            if (timeSpan.TotalMinutes < 90.0)
+                return string.Format("1 hour ago", Math.Round(timeSpan.TotalMinutes));
+            if (timeSpan.TotalHours < 24.0)
+                return string.Format("{0} hours ago", Math.Round(timeSpan.TotalHours));
+            if (timeSpan.TotalHours < 36.0)
+                return string.Format("1 day ago", Math.Round(timeSpan.TotalHours));
+            return string.Format("{0} days ago", Math.Round(timeSpan.TotalDays));
+        }
     }
 }

@@ -161,6 +161,7 @@
     <Compile Include="Views\Account\LawyerThankYou\LawyerThankYouViewModel.cs" />
     <Compile Include="Views\Account\Register\RegisterViewModel.cs" />
     <Compile Include="Views\Admin\AccountSettings\AccountSettingsViewModel.cs" />
+    <Compile Include="Views\Admin\ActivityStream\ActivityStreamViewModel.cs" />
     <Compile Include="Views\Admin\AdminController.cs" />
     <Compile Include="Views\Admin\ReviewLawyers\ReviewLawyersViewModel.cs" />
     <Compile Include="Views\Admin\ReviewAnswers\ReviewAnswersViewModel.cs" />
@@ -302,6 +303,8 @@
     <Content Include="Views\Account\Login\Login.html" />
     <Content Include="Views\Admin\AccountSettings\AccountSettings.css" />
     <Content Include="Views\Admin\AccountSettings\AccountSettings.js" />
+    <Content Include="Views\Admin\ActivityStream\ActivityStream.css" />
+    <Content Include="Views\Admin\ActivityStream\ActivityStream.html" />
     <Content Include="Views\Admin\approved.png" />
     <Content Include="Views\Admin\AccountSettings\AccountSettings.html" />
     <Content Include="Views\Admin\ReviewLawyers\ReviewLawyers.js" />
