@@ -122,9 +122,7 @@ namespace Lawspot.Controllers
                 switch (viewContext.HttpContext.Request.QueryString["alert"])
                 {
                     case "loggedin":
-                        model.SuccessMessage = "You're logged in. Welcome back to LawSpot.";
-                        if (model.User.CanAnswerQuestions)
-                            model.SuccessMessage += string.Format(" There are {0} unanswered questions.", GetUnansweredQuestionCount());
+                        model.SuccessMessage = GetLoginMessage(model.User);
                         break;
                     case "loggedout":
                         model.SuccessMessage = "You have logged out.";
@@ -241,13 +239,65 @@ namespace Lawspot.Controllers
         }
 
         /// <summary>
-        /// Gets the total number of unanswered questions.
+        /// Gets the message to display on login.
         /// </summary>
-        /// <returns> The total number of unanswered questions. </returns>
-        private int GetUnansweredQuestionCount()
+        /// <param name="user"> The logged in user. </param>
+        /// <returns> A login message. </returns>
+        private static string GetLoginMessage(CustomPrincipal user)
         {
-            return CacheProvider.CacheDatabaseQuery("UnansweredQuestionCount", connection =>
-                connection.Questions.Count(q => q.Answers.Count(a => a.ReviewDate == null || a.Approved) == 0), TimeSpan.FromMinutes(5));
+            var result = new System.Text.StringBuilder("You're logged in. Welcome back to LawSpot.");
+
+            var counts = new List<Tuple<int, string>>();
+            if (user.CanVetQuestions)
+            {
+                counts.Add(new Tuple<int, string>(
+                    CacheProvider.CacheDatabaseQuery("UnreviewedQuestionCount", connection =>
+                        connection.Questions.Count(q => q.ReviewDate == null), TimeSpan.FromMinutes(2)),
+                    "unreviewed question"));
+            }
+            if (user.CanAnswerQuestions)
+            {
+                counts.Add(new Tuple<int, string>(
+                    CacheProvider.CacheDatabaseQuery("UnansweredQuestionCount", connection =>
+                        connection.Questions.Count(q => q.Answers.Count(a => a.ReviewDate == null || a.Approved) == 0), TimeSpan.FromMinutes(2)),
+                    "unanswered question"));
+            }
+            if (user.CanVetAnswers)
+            {
+                counts.Add(new Tuple<int, string>(
+                    CacheProvider.CacheDatabaseQuery("UnreviewedAnswerCount", connection =>
+                        connection.Answers.Count(a => a.ReviewDate == null), TimeSpan.FromMinutes(2)),
+                    "unreviewed answer"));
+            }
+            if (user.CanVetLawyers)
+            {
+                counts.Add(new Tuple<int, string>(
+                    CacheProvider.CacheDatabaseQuery("UnreviewedLawyerCount", connection =>
+                        connection.Lawyers.Count(l => l.ReviewDate == null), TimeSpan.FromMinutes(2)),
+                    "pending lawyer"));
+            }
+            counts.RemoveAll(c => c.Item1 == 0);
+            if (counts.Count > 0)
+            {
+                for (int i = 0; i < counts.Count; i ++)
+                {
+                    var count = counts[i].Item1;
+                    var noun = counts[i].Item2;
+                    if (i == 0)
+                        result.Append(count != 1 ? " There are " : " There is ");
+                    else if (i == counts.Count - 1)
+                        result.Append(" and ");
+                    else
+                        result.Append(", ");
+                    result.Append(count);
+                    result.Append(" ");
+                    result.Append(noun);
+                    if (count != 1)
+                        result.Append("s");
+                }
+                result.Append(".");
+            }
+            return result.ToString();
         }
     }
 }
