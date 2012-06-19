@@ -248,7 +248,7 @@ namespace Lawspot.Controllers
                 {
                     QuestionId = q.QuestionId,
                     Title = q.Title,
-                    Details = q.Details,
+                    DetailsHtml = StringUtilities.ConvertTextToHtml(q.Details),
                     DateAndTime = q.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     CategoryName = q.Category.Name,
                 }), page, 10, Request.Url);
