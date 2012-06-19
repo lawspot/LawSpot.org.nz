@@ -259,7 +259,7 @@ namespace Lawspot.Controllers
             {
                 counts.Add(new Tuple<int, string>(
                     CacheProvider.CacheDatabaseQuery("UnansweredQuestionCount", connection =>
-                        connection.Questions.Count(q => q.Answers.Count(a => a.ReviewDate == null || a.Approved) == 0), TimeSpan.FromMinutes(2)),
+                        connection.Questions.Count(q => q.Approved && q.Answers.Any(a => a.ReviewDate == null || a.Approved) == false), TimeSpan.FromMinutes(2)),
                     "unanswered question"));
             }
             if (user.CanVetAnswers)
