@@ -23,6 +23,17 @@ form.filter-form .filter {
 
 .question-container {
 	padding: 8px 20px 15px 8px;
+	position: relative;
+}
+.question-container .star {
+	position: absolute;
+	left: 2px;
+	top: 0px;
+}
+.question-container .notification {
+	position: absolute;
+	left: 22px;
+	top: 10px;
 }
 .question-container .question-header {
 	margin-left: 40px;
@@ -113,10 +124,13 @@ span.question-time {
 	text-align: center;
 }
 
-.reservation-warning {
+.warning {
     display: none;
     color: red;
+    font-size: smaller;
 }
-.reservation-warning img {
-    vertical-align: bottom;
+.warning img {
+    vertical-align: baseline;
+    position: relative;
+    top: 2px;
 }

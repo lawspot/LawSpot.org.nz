@@ -56,6 +56,8 @@ namespace Lawspot
             RouteTable.Routes.MapRoute("AskThankYouRoute", "ask/thank-you", new { controller = "Ask", action = "ThankYou" });
             RouteTable.Routes.MapRoute("AdminActivityStreamRoute", "admin/activity-stream", new { controller = "Admin", action = "ActivityStream" });
             RouteTable.Routes.MapRoute("AdminAnswerQuestionsRoute", "admin/answer-questions", new { controller = "Admin", action = "AnswerQuestions" });
+            RouteTable.Routes.MapRoute("AdminCheckQuestionStatusRoute", "admin/check-question-status", new { controller = "Admin", action = "CheckQuestionStatus" });
+            RouteTable.Routes.MapRoute("AdminSaveDraftAnswerRoute", "admin/save-draft-answer", new { controller = "Admin", action = "SaveDraftAnswer" });
             RouteTable.Routes.MapRoute("AdminPostAnswerRoute", "admin/post-answer", new { controller = "Admin", action = "PostAnswer" });
             RouteTable.Routes.MapRoute("AdminReviewLawyersRoute", "admin/review-lawyers", new { controller = "Admin", action = "ReviewLawyers" });
             RouteTable.Routes.MapRoute("AdminPostRejectLawyerRoute", "admin/post-reject-lawyer", new { controller = "Admin", action = "RejectLawyer" });
@@ -67,7 +69,6 @@ namespace Lawspot
             RouteTable.Routes.MapRoute("AdminPostRejectAnswerRoute", "admin/post-reject-answer", new { controller = "Admin", action = "RejectAnswer" });
             RouteTable.Routes.MapRoute("AdminPostApproveAnswerRoute", "admin/post-approve-answer", new { controller = "Admin", action = "ApproveAnswer" });
             RouteTable.Routes.MapRoute("AdminAccountSettingsRoute", "admin/account-settings", new { controller = "Admin", action = "AccountSettings" });
-            RouteTable.Routes.MapRoute("AdminCheckForQuestionReservationRoute", "admin/check-for-question-reservation", new { controller = "Admin", action = "CheckForQuestionReservation" });
             RouteTable.Routes.MapRoute("CategoryRoute", "{slug}", new { controller = "Browse", action = "Category" });
             RouteTable.Routes.MapRoute("QuestionRoute", "{category}/{slug}", new { controller = "Browse", action = "Question" });
         }

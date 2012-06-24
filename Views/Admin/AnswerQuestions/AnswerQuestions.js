@@ -1,7 +1,18 @@
 ﻿/* {{Include //ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js}} */
 
+var saveDraftTimerId = null;
+var saveDraftContainer = null;
+
 $(".question-container a").click(function (e) {
     var container = $(this).closest(".question-container");
+
+    // Stop saving drafts.
+    if (saveDraftTimerId) {
+        saveDraft(saveDraftContainer);
+        window.clearInterval(saveDraftTimerId);
+        saveDraftTimerId = null;
+        saveDraftContainer = null;
+    }
 
     // Close any siblings.
     container.siblings().each(function (index, element) {
@@ -22,6 +33,9 @@ $(".question-container a").click(function (e) {
         }
     });
 
+    // Get the data for the question/answer.
+    var data = Model.Questions.Items[container.index()];
+
     var innerContent = $(".inner-content", container);
     if (container.hasClass("expanded")) {
         // The question is already expanded - close it.
@@ -29,24 +43,18 @@ $(".question-container a").click(function (e) {
             this.innerHTML = "";
             container.removeClass("expanded");
         });
-
-        // Unreserve the question.
-        reserveQuestion_questionId = 0;
-        reserveQuestion_container = null;
-        checkForQuestionReservation(false);
     }
     else {
         // The question is not expanded - expand it.
         innerContent.hide();
-        var data = Model.Questions.Items[container.index()];
         innerContent.html(Mustache.render(document.getElementById("answer-template").text, data));
         innerContent.slideDown("fast");
         container.addClass("expanded");
 
-        // Reserve the question.
-        reserveQuestion_questionId = data.QuestionId;
-        reserveQuestion_container = container;
-        checkForQuestionReservation(false);
+        // Save drafts intermittently.
+        saveDraftContainer = container;
+        saveDraft(container);
+        saveDraftTimerId = window.setInterval(function () { saveDraft(container); }, 30000);
 
         // Set the focus to the first textarea.
         $("textarea", innerContent).get(0).focus();
@@ -119,29 +127,38 @@ $(".question-container a").click(function (e) {
     e.preventDefault();
 });
 
-var reserveQuestion_sessionId = Math.round(Math.random() * 2147483647);
-var reserveQuestion_questionId = 0;
-var reserveQuestion_container = null;
+function saveDraft(container) {
+    var data = Model.Questions.Items[container.index()];
+    var answerText = $("textarea[name=LawyerAnswer]", container).val();
+    var references = $("textarea[name=References]", container).val();
+    var checkQuestionStatus = (data.Answer === answerText && data.References === references);
+    var warningElement = $(".warning", container);
 
-function checkForQuestionReservation(reserve) {
-    var questionId = reserveQuestion_questionId;
-    var container = reserveQuestion_container;
     jQuery.ajax({
         type: "POST",
-        url: "check-for-question-reservation",
-        data: { questionId: questionId, sessionId: reserveQuestion_sessionId, reserve: reserve },
-        success: function (displayWarning) {
-            if (questionId === reserveQuestion_questionId && questionId > 0 && container) {
-                if (displayWarning)
-                    $(".reservation-warning", container).slideDown("fast");
-                else
-                    $(".reservation-warning", container).slideUp("fast");
+        url: checkQuestionStatus ?  "/admin/check-question-status" : "/admin/save-draft-answer",
+        data: checkQuestionStatus ? { questionId: data.QuestionId} : { questionId: data.QuestionId, answerText: answerText, references: references },
+        success: function (warningText) {
+            if (warningText) {
+                $("span", warningElement).text(warningText);
+                warningElement.slideDown("fast");
+            }
+            else
+                warningElement.slideUp("fast");
+            if (!checkQuestionStatus) {
+                data.Answer = answerText;
+                data.References = references;
             }
         }
     });
 }
 
-window.setInterval(function () {
-    if (reserveQuestion_container)
-        checkForQuestionReservation($("textarea", reserveQuestion_container).val().length > 0);
-}, 10000);
+window.onbeforeunload = function () {
+    // Save a draft.
+    if (saveDraftTimerId) {
+        saveDraft(saveDraftContainer);
+        window.clearInterval(saveDraftTimerId);
+        saveDraftTimerId = null;
+        saveDraftContainer = null;
+    }
+}

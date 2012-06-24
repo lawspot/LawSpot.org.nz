@@ -14,7 +14,7 @@ namespace Lawspot.Views.Admin
         public IEnumerable<SelectListItem> FilterOptions { get; set; }
         public IEnumerable<SelectListItem> SortOptions { get; set; }
         public IEnumerable<SelectListItem> CannedRejectionReasons { get; set; }
-        public PagedListView<QuestionViewModel> Questions { get; set; }
+        public PagedListView<ReviewQuestionViewModel> Questions { get; set; }
     }
 
     public enum ReviewQuestionsFilter
@@ -24,5 +24,15 @@ namespace Lawspot.Views.Admin
         ApprovedByMe,
         Rejected,
         RejectedByMe,
+    }
+
+    public class ReviewQuestionViewModel
+    {
+        public int QuestionId { get; set; }
+        public string Title { get; set; }
+        public string Details { get; set; }
+        public string DateAndTime { get; set; }
+        public int CategoryId { get; set; }
+        public string CategoryName { get; set; }
     }
 }

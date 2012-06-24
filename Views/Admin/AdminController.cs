@@ -144,6 +144,47 @@ namespace Lawspot.Controllers
             return View(model);
         }
 
+        private enum AnswerOrDraftStatus
+        {
+            Draft,
+            Pending,
+            Approved,
+            Rejected,
+        }
+
+        private class AnswerOrDraft
+        {
+            public int QuestionId { get; set; }
+            public string Details { get; set; }
+            public string References { get; set; }
+            public DateTimeOffset UpdatedOn { get; set; }
+            public User User { get; set; }
+            public AnswerOrDraftStatus Status { get; set; }
+
+            public string Notification
+            {
+                get
+                {
+                    switch (this.Status)
+                    {
+                        case AnswerOrDraftStatus.Draft:
+                            return string.Format("{0} has started drafting an answer for this question (last updated: {1:g})",
+                                this.User.DisplayName, this.UpdatedOn);
+                        case AnswerOrDraftStatus.Pending:
+                            return string.Format("{0} posted an answer for this question on {1:g}",
+                                this.User.DisplayName, this.UpdatedOn);
+                        case AnswerOrDraftStatus.Approved:
+                            return string.Format("{0} posted an answer for this question and it was approved.",
+                                this.User.DisplayName, this.UpdatedOn);
+                        case AnswerOrDraftStatus.Rejected:
+                            return string.Format("{0} posted an answer for this question but it was rejected on {1:g}",
+                                this.User.DisplayName, this.UpdatedOn);
+                    }
+                    throw new NotImplementedException();
+                }
+            }
+        }
+
         /// <summary>
         /// Displays the answer questions page.
         /// </summary>
@@ -197,7 +238,7 @@ namespace Lawspot.Controllers
             {
                 new SelectListItem() { Text = "All", Value = AnswerQuestionsFilter.All.ToString(), Selected = filterValue == AnswerQuestionsFilter.All },
                 new SelectListItem() { Text = "Unanswered", Value = AnswerQuestionsFilter.Unanswered.ToString(), Selected = filterValue == AnswerQuestionsFilter.Unanswered },
-                new SelectListItem() { Text = "Pending", Value = AnswerQuestionsFilter.Pending.ToString(), Selected = filterValue == AnswerQuestionsFilter.Pending },
+                new SelectListItem() { Text = "Pending Approval", Value = AnswerQuestionsFilter.Pending.ToString(), Selected = filterValue == AnswerQuestionsFilter.Pending },
                 new SelectListItem() { Text = "Answered", Value = AnswerQuestionsFilter.Answered.ToString(), Selected = filterValue == AnswerQuestionsFilter.Answered },
                 new SelectListItem() { Text = "Answered by Me", Value = AnswerQuestionsFilter.AnsweredByMe.ToString(), Selected = filterValue == AnswerQuestionsFilter.AnsweredByMe },
             };
@@ -241,17 +282,41 @@ namespace Lawspot.Controllers
                     questions = questions.OrderByDescending(q => q.CreatedOn);
                     break;
             }
-            model.Questions = new PagedListView<QuestionViewModel>(questions
-                .Take(100)
-                .ToList()
-                .Select(q => new QuestionViewModel()
+            model.Questions = new PagedListView<AnswerQuestionViewModel>(questions
+                .Select(q => new AnswerQuestionViewModel()
                 {
                     QuestionId = q.QuestionId,
                     Title = q.Title,
                     DetailsHtml = StringUtilities.ConvertTextToHtml(q.Details),
                     DateAndTime = q.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     CategoryName = q.Category.Name,
+                    Answer = string.Empty,
+                    References = string.Empty,
                 }), page, 10, Request.Url);
+
+            // Get all the draft answers and answers relating to the questions.
+            var answers = GetAnswers(model.Questions.Items.Select(q => q.QuestionId));
+
+            // Populate the questions with draft answer details.
+            foreach (var question in model.Questions.Items)
+            {
+                var ownAnswer = answers.Where(a => a.QuestionId == question.QuestionId &&
+                    a.User.UserId == this.User.Id).OrderByDescending(a => a.UpdatedOn).FirstOrDefault();
+                if (ownAnswer != null)
+                {
+                    // The user has a answer for this question.
+                    question.Answer = ownAnswer.Details;
+                    question.References = ownAnswer.References;
+                }
+
+                var otherAnswer = answers.Where(a => a.QuestionId == question.QuestionId &&
+                    a.User.UserId != this.User.Id).OrderByDescending(a => a.UpdatedOn).FirstOrDefault();
+                if (otherAnswer != null)
+                {
+                    // Another user has a draft for this question.
+                    question.Notification = otherAnswer.Notification;
+                }
+            }
 
             return View(model);
         }
@@ -285,9 +350,117 @@ namespace Lawspot.Controllers
             answer.QuestionId = questionId;
             answer.References = references;
             this.DataContext.Answers.InsertOnSubmit(answer);
+
+            // Delete any drafts.
+            this.DataContext.DraftAnswers.DeleteAllOnSubmit(this.DataContext.DraftAnswers.Where(da =>
+                da.CreatedByUserId == this.User.Id && da.QuestionId == questionId));
+
+            // Save changes.
             this.DataContext.SubmitChanges();
 
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(answer.Details));
+        }
+
+        /// <summary>
+        /// Checks the status of a question.
+        /// </summary>
+        /// <param name="questionId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public StatusPlusTextResult CheckQuestionStatus(int questionId)
+        {
+            var answers = GetAnswers(new int[] { questionId });
+            var existingAnswer = answers.Where(a => a.User.UserId != this.User.Id)
+                .OrderByDescending(a => a.UpdatedOn).FirstOrDefault();
+            if (existingAnswer != null)
+                return new StatusPlusTextResult(200, existingAnswer.Notification);
+            return new StatusPlusTextResult(200, string.Empty);
+        }
+
+        /// <summary>
+        /// Gets a list of answers for the given question IDs, either draft or posted.
+        /// </summary>
+        /// <param name="questionIds"></param>
+        /// <returns></returns>
+        private List<AnswerOrDraft> GetAnswers(IEnumerable<int> questionIds)
+        {
+            var answers = questionIds.Join(this.DataContext.DraftAnswers,
+                qId => qId,
+                da => da.QuestionId,
+                (q, da) => new AnswerOrDraft()
+                {
+                    QuestionId = da.QuestionId,
+                    Details = da.Details,
+                    References = da.References,
+                    UpdatedOn = da.UpdatedOn,
+                    User = da.User,
+                    Status = AnswerOrDraftStatus.Draft,
+                });
+            answers = answers.Union(questionIds.Join(this.DataContext.Answers,
+                qId => qId,
+                da => da.QuestionId,
+                (q, a) => new AnswerOrDraft()
+                {
+                    QuestionId = a.QuestionId,
+                    Details = a.Details,
+                    References = a.References,
+                    UpdatedOn = a.CreatedOn,
+                    User = a.User,
+                    Status = a.ReviewDate != null && a.Approved ? AnswerOrDraftStatus.Approved :
+                        (a.ReviewDate != null && a.Approved == false ? AnswerOrDraftStatus.Rejected : AnswerOrDraftStatus.Pending),
+                }));
+            return answers.ToList();
+        }
+
+        /// <summary>
+        /// Saves an answer as a draft.
+        /// </summary>
+        /// <param name="questionId"></param>
+        /// <param name="answerText"></param>
+        /// <param name="references"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public StatusPlusTextResult SaveDraftAnswer(int questionId, string answerText, string references)
+        {
+            // Ensure the user is allow to answer questions.
+            if (this.User.CanAnswerQuestions == false)
+                return new StatusPlusTextResult(403, "Your account is not authorized to answer questions.");
+
+            // Check if there is already a draft.
+            var draftAnswer = this.DataContext.DraftAnswers.Where(da => da.CreatedByUserId == this.User.Id &&
+                da.QuestionId == questionId).SingleOrDefault();
+
+            // If there is nothing to save, delete the draft.
+            if (string.IsNullOrWhiteSpace(answerText) && string.IsNullOrWhiteSpace(references))
+            {
+                if (draftAnswer != null)
+                {
+                    this.DataContext.DraftAnswers.DeleteOnSubmit(draftAnswer);
+                    this.DataContext.SubmitChanges();
+                }
+            }
+            else
+            {
+
+                if (draftAnswer == null)
+                {
+                    // Create a new draft answer.
+                    draftAnswer = new DraftAnswer();
+                    this.DataContext.DraftAnswers.InsertOnSubmit(draftAnswer);
+                    draftAnswer.CreatedOn = DateTimeOffset.Now;
+                    draftAnswer.CreatedByUserId = this.User.Id;
+                    draftAnswer.QuestionId = questionId;
+                }
+
+                // Save the changes to the draft answer.
+                draftAnswer.Details = answerText ?? string.Empty;
+                draftAnswer.References = references ?? string.Empty;
+                draftAnswer.UpdatedOn = DateTimeOffset.Now;
+                this.DataContext.SubmitChanges();
+
+            }
+
+            return CheckQuestionStatus(questionId);
         }
 
         /// <summary>
@@ -594,9 +767,9 @@ namespace Lawspot.Controllers
                     questions = questions.OrderByDescending(q => q.CreatedOn);
                     break;
             }
-            model.Questions = new PagedListView<QuestionViewModel>(questions
+            model.Questions = new PagedListView<ReviewQuestionViewModel>(questions
                 .ToList()
-                .Select(q => new QuestionViewModel()
+                .Select(q => new ReviewQuestionViewModel()
                 {
                     QuestionId = q.QuestionId,
                     Title = q.Title,
@@ -1066,75 +1239,6 @@ namespace Lawspot.Controllers
             this.DataContext.SubmitChanges();
 
             return RedirectToAction("AccountSettings", new { alert = "updated" });
-        }
-
-        private class Reservation
-        {
-            public int UserId;
-            public int SessionId;
-            public DateTime UpdatedOn;
-        }
-
-        // question ID -> queue of reservations.
-        private static Dictionary<int, List<Reservation>> questionToReservationList =
-            new Dictionary<int, List<Reservation>>();
-
-        /// <summary>
-        /// Determines if a warning should be displayed because another user has reserved a question.
-        /// </summary>
-        /// <param name="questionId"> The ID of the question. </param>
-        /// <param name="sessionId"> Uniquely identifies the user's session. </param>
-        /// <param name="reserve"> <c>true</c> to reserve the question. </param>
-        /// <returns> <c>true</c> if a warning should be displayed, <c>false</c> otherwise. </returns>
-        [HttpPost]
-        public ActionResult CheckForQuestionReservation(int questionId, int sessionId, bool reserve)
-        {
-            lock (questionToReservationList)
-            {
-                // Remove the session ID from other questions, plus remove any reservations that are
-                // older than the threshold.
-                const int maxReservationAge = 20;   // in seconds
-                bool reservationExists = false;
-                foreach (var questionIdAndQueue in questionToReservationList)
-                {
-                    var reservationsToRemove = new List<Reservation>();
-                    foreach (var reservation in questionIdAndQueue.Value)
-                    {
-                        // Check if the reservation has expired.
-                        if (DateTime.Now.Subtract(reservation.UpdatedOn).TotalSeconds > maxReservationAge)
-                            reservationsToRemove.Add(reservation);
-                        else if (reservation.UserId == this.User.Id && sessionId == reservation.SessionId)
-                        {
-                            if (questionIdAndQueue.Key == questionId)
-                                reservationExists = true;
-                            else
-                                reservationsToRemove.Add(reservation);
-                        }
-                    }
-                    foreach (var reservationToRemove in reservationsToRemove)
-                        questionIdAndQueue.Value.Remove(reservationToRemove);
-                }
-
-                // If the user has typed at least one character, put them in the reservation queue.
-                // (Assuming they're not already in there).
-                if (reserve == true && reservationExists == false)
-                {
-                    // Add a new reservation.
-                    if (questionToReservationList.ContainsKey(questionId) == false)
-                        questionToReservationList[questionId] = new List<Reservation>();
-                    var reservation = new Reservation();
-                    reservation.UserId = this.User.Id;
-                    reservation.SessionId = sessionId;
-                    reservation.UpdatedOn = DateTime.Now;
-                    questionToReservationList[questionId].Add(reservation);
-                }
-
-                // Display a warning if there is at least one reservation from another user.
-                return Json(
-                    questionToReservationList.ContainsKey(questionId) &&
-                    questionToReservationList[questionId].Count > 0 &&
-                    questionToReservationList[questionId][0].UserId != this.User.Id);
-            }
         }
     }
 }

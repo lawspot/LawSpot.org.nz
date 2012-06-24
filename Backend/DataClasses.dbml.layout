@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="DataClasses">
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.75" name="DataClasses">
   <DataContextMoniker Name="/DataClassesDataContext" />
   <nestedChildShapes>
     <classShape Id="9206d451-f66d-49e5-987e-d4fc18498d79" absoluteBounds="0.5, 2.25, 2, 1.1939925130208344">
@@ -46,7 +46,7 @@
         <classShapeMoniker Id="b0e9190d-63b6-4718-89f7-5b630ecc3775" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(5.25 : 3.49600341796875); (6.5 : 3.49600341796875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
+    <associationConnector edgePoints="[(5.25 : 3.49600341796875); (5.57291666666667 : 3.49600341796875 : JumpStart); (5.73958333333333 : 3.49600341796875 : JumpEnd); (6.5 : 3.49600341796875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/DataClassesDataContext/User/User_Question" />
       <nodes>
         <classShapeMoniker Id="10667fb5-eb87-458d-8de6-ef9c96c66265" />
@@ -79,18 +79,38 @@
         <elementListCompartment Id="a4817b19-020c-490e-8971-27f9a72861ee" absoluteBounds="6.515, 5.335, 1.9700000000000002, 2.1724039713541665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
       </nestedChildShapes>
     </classShape>
-    <associationConnector edgePoints="[(5.25 : 5.43350341796875); (6.5 : 5.43350341796875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(5.25 : 5.43350341796875); (5.57291666666667 : 5.43350341796875 : JumpStart); (5.73958333333333 : 5.43350341796875 : JumpEnd); (6.5 : 5.43350341796875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/DataClassesDataContext/User/User_Answer" />
       <nodes>
         <classShapeMoniker Id="10667fb5-eb87-458d-8de6-ef9c96c66265" />
         <classShapeMoniker Id="2012a08f-d575-4f09-ab22-8eb7b587e6ff" />
       </nodes>
     </associationConnector>
-    <associationConnector edgePoints="[(7.5 : 4.1170068359375); (7.5 : 4.875)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+    <associationConnector edgePoints="[(7.5 : 4.1170068359375); (7.5 : 4.875)]" fixedFrom="NotFixed" fixedTo="NotFixed">
       <AssociationMoniker Name="/DataClassesDataContext/Question/Question_Answer" />
       <nodes>
         <classShapeMoniker Id="b0e9190d-63b6-4718-89f7-5b630ecc3775" />
         <classShapeMoniker Id="2012a08f-d575-4f09-ab22-8eb7b587e6ff" />
+      </nodes>
+    </associationConnector>
+    <classShape Id="508c9bd7-c900-47e3-aeba-6e303ef1c8c7" absoluteBounds="4, 6.375, 2, 2.1554996744791666">
+      <DataClassMoniker Name="/DataClassesDataContext/DraftAnswer" />
+      <nestedChildShapes>
+        <elementListCompartment Id="c5d4e7e1-5731-4d8e-89d6-2c5d7df6a555" absoluteBounds="4.015, 6.835, 1.9700000000000002, 1.5954996744791665" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+    <associationConnector edgePoints="[(4.625 : 5.9920068359375); (4.625 : 6.375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/DataClassesDataContext/User/User_DraftAnswer" />
+      <nodes>
+        <classShapeMoniker Id="10667fb5-eb87-458d-8de6-ef9c96c66265" />
+        <classShapeMoniker Id="508c9bd7-c900-47e3-aeba-6e303ef1c8c7" />
+      </nodes>
+    </associationConnector>
+    <associationConnector edgePoints="[(6.5 : 2.38064697265625); (5.65625 : 2.38064697265625); (5.65625 : 6.375)]" fixedFrom="Algorithm" fixedTo="Algorithm">
+      <AssociationMoniker Name="/DataClassesDataContext/Question/Question_DraftAnswer" />
+      <nodes>
+        <classShapeMoniker Id="b0e9190d-63b6-4718-89f7-5b630ecc3775" />
+        <classShapeMoniker Id="508c9bd7-c900-47e3-aeba-6e303ef1c8c7" />
       </nodes>
     </associationConnector>
   </nestedChildShapes>

@@ -51,6 +51,9 @@ namespace Lawspot.Backend
     partial void InsertAnswer(Answer instance);
     partial void UpdateAnswer(Answer instance);
     partial void DeleteAnswer(Answer instance);
+    partial void InsertDraftAnswer(DraftAnswer instance);
+    partial void UpdateDraftAnswer(DraftAnswer instance);
+    partial void DeleteDraftAnswer(DraftAnswer instance);
     #endregion
 		
 		public DataClassesDataContext() : 
@@ -136,6 +139,14 @@ namespace Lawspot.Backend
 			get
 			{
 				return this.GetTable<Answer>();
+			}
+		}
+		
+		public System.Data.Linq.Table<DraftAnswer> DraftAnswers
+		{
+			get
+			{
+				return this.GetTable<DraftAnswer>();
 			}
 		}
 	}
@@ -566,6 +577,8 @@ namespace Lawspot.Backend
 		
 		private EntitySet<Answer> _Answers;
 		
+		private EntitySet<DraftAnswer> _DraftAnswers;
+		
 		private EntityRef<Region> _Region;
 		
     #region Extensibility Method Definitions
@@ -603,6 +616,7 @@ namespace Lawspot.Backend
 			this._Questions = new EntitySet<Question>(new Action<Question>(this.attach_Questions), new Action<Question>(this.detach_Questions));
 			this._Lawyers = new EntitySet<Lawyer>(new Action<Lawyer>(this.attach_Lawyers), new Action<Lawyer>(this.detach_Lawyers));
 			this._Answers = new EntitySet<Answer>(new Action<Answer>(this.attach_Answers), new Action<Answer>(this.detach_Answers));
+			this._DraftAnswers = new EntitySet<DraftAnswer>(new Action<DraftAnswer>(this.attach_DraftAnswers), new Action<DraftAnswer>(this.detach_DraftAnswers));
 			this._Region = default(EntityRef<Region>);
 			OnCreated();
 		}
@@ -890,6 +904,19 @@ namespace Lawspot.Backend
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_DraftAnswer", Storage="_DraftAnswers", ThisKey="UserId", OtherKey="CreatedByUserId")]
+		public EntitySet<DraftAnswer> DraftAnswers
+		{
+			get
+			{
+				return this._DraftAnswers;
+			}
+			set
+			{
+				this._DraftAnswers.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Region_User", Storage="_Region", ThisKey="RegionId", OtherKey="RegionId", IsForeignKey=true)]
 		public Region Region
 		{
@@ -979,6 +1006,18 @@ namespace Lawspot.Backend
 			this.SendPropertyChanging();
 			entity.User = null;
 		}
+		
+		private void attach_DraftAnswers(DraftAnswer entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = this;
+		}
+		
+		private void detach_DraftAnswers(DraftAnswer entity)
+		{
+			this.SendPropertyChanging();
+			entity.User = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Question")]
@@ -1012,6 +1051,8 @@ namespace Lawspot.Backend
 		private string _RejectionReason;
 		
 		private EntitySet<Answer> _Answers;
+		
+		private EntitySet<DraftAnswer> _DraftAnswers;
 		
 		private EntityRef<Category> _Category;
 		
@@ -1050,6 +1091,7 @@ namespace Lawspot.Backend
 		public Question()
 		{
 			this._Answers = new EntitySet<Answer>(new Action<Answer>(this.attach_Answers), new Action<Answer>(this.detach_Answers));
+			this._DraftAnswers = new EntitySet<DraftAnswer>(new Action<DraftAnswer>(this.attach_DraftAnswers), new Action<DraftAnswer>(this.detach_DraftAnswers));
 			this._Category = default(EntityRef<Category>);
 			this._User = default(EntityRef<User>);
 			OnCreated();
@@ -1316,6 +1358,19 @@ namespace Lawspot.Backend
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Question_DraftAnswer", Storage="_DraftAnswers", ThisKey="QuestionId", OtherKey="QuestionId")]
+		public EntitySet<DraftAnswer> DraftAnswers
+		{
+			get
+			{
+				return this._DraftAnswers;
+			}
+			set
+			{
+				this._DraftAnswers.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Question", Storage="_Category", ThisKey="CategoryId", OtherKey="CategoryId", IsForeignKey=true)]
 		public Category Category
 		{
@@ -1411,6 +1466,18 @@ namespace Lawspot.Backend
 		}
 		
 		private void detach_Answers(Answer entity)
+		{
+			this.SendPropertyChanging();
+			entity.Question = null;
+		}
+		
+		private void attach_DraftAnswers(DraftAnswer entity)
+		{
+			this.SendPropertyChanging();
+			entity.Question = this;
+		}
+		
+		private void detach_DraftAnswers(DraftAnswer entity)
 		{
 			this.SendPropertyChanging();
 			entity.Question = null;
@@ -2153,6 +2220,294 @@ namespace Lawspot.Backend
 					if ((value != null))
 					{
 						value.Answers.Add(this);
+						this._QuestionId = value.QuestionId;
+					}
+					else
+					{
+						this._QuestionId = default(int);
+					}
+					this.SendPropertyChanged("Question");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.DraftAnswer")]
+	public partial class DraftAnswer : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _DraftAnswerId;
+		
+		private int _QuestionId;
+		
+		private string _Details;
+		
+		private string _References;
+		
+		private System.DateTimeOffset _CreatedOn;
+		
+		private int _CreatedByUserId;
+		
+		private System.DateTimeOffset _UpdatedOn;
+		
+		private EntityRef<User> _User;
+		
+		private EntityRef<Question> _Question;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnDraftAnswerIdChanging(int value);
+    partial void OnDraftAnswerIdChanged();
+    partial void OnQuestionIdChanging(int value);
+    partial void OnQuestionIdChanged();
+    partial void OnDetailsChanging(string value);
+    partial void OnDetailsChanged();
+    partial void OnReferencesChanging(string value);
+    partial void OnReferencesChanged();
+    partial void OnCreatedOnChanging(System.DateTimeOffset value);
+    partial void OnCreatedOnChanged();
+    partial void OnCreatedByUserIdChanging(int value);
+    partial void OnCreatedByUserIdChanged();
+    partial void OnUpdatedOnChanging(System.DateTimeOffset value);
+    partial void OnUpdatedOnChanged();
+    #endregion
+		
+		public DraftAnswer()
+		{
+			this._User = default(EntityRef<User>);
+			this._Question = default(EntityRef<Question>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DraftAnswerId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int DraftAnswerId
+		{
+			get
+			{
+				return this._DraftAnswerId;
+			}
+			set
+			{
+				if ((this._DraftAnswerId != value))
+				{
+					this.OnDraftAnswerIdChanging(value);
+					this.SendPropertyChanging();
+					this._DraftAnswerId = value;
+					this.SendPropertyChanged("DraftAnswerId");
+					this.OnDraftAnswerIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_QuestionId", DbType="Int NOT NULL")]
+		public int QuestionId
+		{
+			get
+			{
+				return this._QuestionId;
+			}
+			set
+			{
+				if ((this._QuestionId != value))
+				{
+					if (this._Question.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnQuestionIdChanging(value);
+					this.SendPropertyChanging();
+					this._QuestionId = value;
+					this.SendPropertyChanged("QuestionId");
+					this.OnQuestionIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Details", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Details
+		{
+			get
+			{
+				return this._Details;
+			}
+			set
+			{
+				if ((this._Details != value))
+				{
+					this.OnDetailsChanging(value);
+					this.SendPropertyChanging();
+					this._Details = value;
+					this.SendPropertyChanged("Details");
+					this.OnDetailsChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[References]", Storage="_References", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string References
+		{
+			get
+			{
+				return this._References;
+			}
+			set
+			{
+				if ((this._References != value))
+				{
+					this.OnReferencesChanging(value);
+					this.SendPropertyChanging();
+					this._References = value;
+					this.SendPropertyChanged("References");
+					this.OnReferencesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedOn", DbType="DateTimeOffset NOT NULL")]
+		public System.DateTimeOffset CreatedOn
+		{
+			get
+			{
+				return this._CreatedOn;
+			}
+			set
+			{
+				if ((this._CreatedOn != value))
+				{
+					this.OnCreatedOnChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedOn = value;
+					this.SendPropertyChanged("CreatedOn");
+					this.OnCreatedOnChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CreatedByUserId", DbType="Int NOT NULL")]
+		public int CreatedByUserId
+		{
+			get
+			{
+				return this._CreatedByUserId;
+			}
+			set
+			{
+				if ((this._CreatedByUserId != value))
+				{
+					if (this._User.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCreatedByUserIdChanging(value);
+					this.SendPropertyChanging();
+					this._CreatedByUserId = value;
+					this.SendPropertyChanged("CreatedByUserId");
+					this.OnCreatedByUserIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_UpdatedOn", DbType="DateTimeOffset NOT NULL")]
+		public System.DateTimeOffset UpdatedOn
+		{
+			get
+			{
+				return this._UpdatedOn;
+			}
+			set
+			{
+				if ((this._UpdatedOn != value))
+				{
+					this.OnUpdatedOnChanging(value);
+					this.SendPropertyChanging();
+					this._UpdatedOn = value;
+					this.SendPropertyChanged("UpdatedOn");
+					this.OnUpdatedOnChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_DraftAnswer", Storage="_User", ThisKey="CreatedByUserId", OtherKey="UserId", IsForeignKey=true)]
+		public User User
+		{
+			get
+			{
+				return this._User.Entity;
+			}
+			set
+			{
+				User previousValue = this._User.Entity;
+				if (((previousValue != value) 
+							|| (this._User.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._User.Entity = null;
+						previousValue.DraftAnswers.Remove(this);
+					}
+					this._User.Entity = value;
+					if ((value != null))
+					{
+						value.DraftAnswers.Add(this);
+						this._CreatedByUserId = value.UserId;
+					}
+					else
+					{
+						this._CreatedByUserId = default(int);
+					}
+					this.SendPropertyChanged("User");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Question_DraftAnswer", Storage="_Question", ThisKey="QuestionId", OtherKey="QuestionId", IsForeignKey=true)]
+		public Question Question
+		{
+			get
+			{
+				return this._Question.Entity;
+			}
+			set
+			{
+				Question previousValue = this._Question.Entity;
+				if (((previousValue != value) 
+							|| (this._Question.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Question.Entity = null;
+						previousValue.DraftAnswers.Remove(this);
+					}
+					this._Question.Entity = value;
+					if ((value != null))
+					{
+						value.DraftAnswers.Add(this);
 						this._QuestionId = value.QuestionId;
 					}
 					else

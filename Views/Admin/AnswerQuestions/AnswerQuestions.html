@@ -64,6 +64,12 @@
     {{#Questions.Items}}
 	    <article class="question-container">
 	        <img class="left" src="/views/admin/answerquestions/question-icon.png" width="27" height="19" alt="" />
+            {{#Answer}}
+                <img class="star" src="/views/admin/answerquestions/star.png" />
+            {{/Answer}}
+            {{#Notification}}
+                <img class="notification" src="/views/admin/answerquestions/warning.png" />
+            {{/Notification}}
 	        <div class="question-header">
 	            <a href="#">{{Title}}</a><br />
                 <span class="question-time">{{DateAndTime}}</span>
@@ -92,13 +98,13 @@
 	        {{{DetailsHtml}}}
         </p>
 	    <strong>Your Answer</strong><br />
-	    <textarea name="LawyerAnswer"></textarea><br />
+	    <textarea name="LawyerAnswer">{{Answer}}</textarea><br />
         <strong>Notes and References</strong> (only the reviewer will see these)<br />
-	    <textarea name="References"></textarea><br />
+	    <textarea name="References">{{References}}</textarea><br />
         <div class="validation-error"></div>
-        <div class="reservation-warning">
-            <img src="/shared/images/warning.png" alt="Warning" />
-            Another lawyer is answering this question.
+        <div class="warning">
+            <img src="/views/admin/answerquestions/warning.png" alt="Warning" />
+            <span>{{Notification}}</span>
         </div>
 	    <p>
             <small>

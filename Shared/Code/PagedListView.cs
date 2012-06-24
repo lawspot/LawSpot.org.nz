@@ -25,7 +25,7 @@ namespace Lawspot.Shared
             this.PageSize = pageSize;
             this.TotalCount = list.Count();
             this.PageNumber = Math.Max(Math.Min(pageNum, this.PageCount), 1);
-            this.Items = list.Skip((this.PageNumber - 1) * this.PageSize).Take(this.PageSize);
+            this.Items = list.Skip((this.PageNumber - 1) * this.PageSize).Take(this.PageSize).ToList();
             this.HasPrevious = this.PageNumber > 1;
             if (this.HasPrevious)
                 this.PreviousUri = StringUtilities.SetUriParameter(requestUri, "page", this.PageNumber - 1);
@@ -107,7 +107,7 @@ namespace Lawspot.Shared
         /// <summary>
         /// The items in the current page.
         /// </summary>
-        public IEnumerable<T> Items { get; private set; }
+        public IList<T> Items { get; private set; }
 
         /// <summary>
         /// Indicates whether page labels should be shown.
