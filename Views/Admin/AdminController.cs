@@ -1240,5 +1240,18 @@ namespace Lawspot.Controllers
 
             return RedirectToAction("AccountSettings", new { alert = "updated" });
         }
+
+        /// <summary>
+        /// Displays the vetter policy page.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult VetterPolicy()
+        {
+            // Ensure the user is allow to vet questions.
+            if (this.User.CanVetQuestions == false)
+                return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
+            return View();
+        }
     }
 }

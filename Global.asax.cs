@@ -69,6 +69,7 @@ namespace Lawspot
             RouteTable.Routes.MapRoute("AdminPostRejectAnswerRoute", "admin/post-reject-answer", new { controller = "Admin", action = "RejectAnswer" });
             RouteTable.Routes.MapRoute("AdminPostApproveAnswerRoute", "admin/post-approve-answer", new { controller = "Admin", action = "ApproveAnswer" });
             RouteTable.Routes.MapRoute("AdminAccountSettingsRoute", "admin/account-settings", new { controller = "Admin", action = "AccountSettings" });
+            RouteTable.Routes.MapRoute("AdminVetterPolicyRoute", "admin/vetter-policy", new { controller = "Admin", action = "VetterPolicy" });
             RouteTable.Routes.MapRoute("CategoryRoute", "{slug}", new { controller = "Browse", action = "Category" });
             RouteTable.Routes.MapRoute("QuestionRoute", "{category}/{slug}", new { controller = "Browse", action = "Question" });
         }

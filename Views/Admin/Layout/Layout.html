@@ -26,7 +26,12 @@
             <ul class="list-arrows">
     	        <li><a href="/contact">Contact Us</a></li>
     	        <li><a href="/faq">LawSpot FAQ</a></li>
-                <li><a href="/lawyer-policy">Policy for Lawyers</a></li>
+                {{#User.CanAnswerQuestions}}
+                    <li><a href="/lawyer-policy">Policy for Lawyers</a></li>
+                {{/User.CanAnswerQuestions}}
+                {{#User.CanVetQuestions}}
+                    <li><a href="/admin/vetter-policy">Policy for Question Vetters</a></li>
+                {{/User.CanVetQuestions}}
             </ul>
 		</section>
     	

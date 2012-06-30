@@ -310,6 +310,7 @@
     <Content Include="Views\Admin\AnswerQuestions\warning.png" />
     <Content Include="Views\Admin\approved.png" />
     <Content Include="Views\Admin\AccountSettings\AccountSettings.html" />
+    <Content Include="Views\Admin\VetterPolicy.html" />
     <Content Include="Views\Admin\ReviewLawyers\ReviewLawyers.js" />
     <Content Include="Views\Admin\ReviewLawyers\ReviewLawyers.css" />
     <Content Include="Views\Admin\ReviewLawyers\ReviewLawyers.html" />
