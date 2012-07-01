@@ -10,10 +10,10 @@
 	top: 215px;
 	left: 9px;
 	display: block;
-	background-color: #fff;
 	width: 277px;
-	font-size: 0.95em;
-	padding-bottom: 5px;
+	font-size: 14px;
+    padding-bottom: 5px;
+    line-height: 17px;
 }
 #hiw1 {
 	float: left;
