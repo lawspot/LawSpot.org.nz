@@ -165,5 +165,28 @@ namespace Lawspot.Controllers
                     });
             }
         }
+
+        /// <summary>
+        /// Displays the search page.
+        /// </summary>
+        /// <param name="query"> The text to search for. </param>
+        /// <param name="page"> The page number. </param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Search(string query, int page = 1)
+        {
+            var model = new SearchPageViewModel();
+            model.Query = query;
+            var hits = SearchIndexer.Search(query ?? string.Empty);
+            model.Hits = new PagedListView<SearchResultViewModel>(hits.Join(DataContext.Questions, h => h.ID, q => q.QuestionId, (h, q) =>
+                new SearchResultViewModel() {
+                    Uri = q.AbsolutePath,
+                    Title = q.Title,
+                    HighlightsHtml = h.SnippetsHtml,
+                    CreatedOn = q.CreatedOn.ToString("d MMMM"),
+                    AnswerCount = string.Format("{0} answer(s)", q.Answers.Count()),
+                }), page, 10, this.Request.Url);
+            return View(model);
+        }
     }
 }

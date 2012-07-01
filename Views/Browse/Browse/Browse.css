@@ -1,25 +1,36 @@
-﻿.topic {
+﻿/* Search */
+.search-form {
+	margin: 20px 0;
+}
+.search-form input[type=text] {
+	border: 1px solid #918F90;
+	width: 450px;
+	height: 40px;
+	padding: 0 10px;
+	border-right: 0;
+	border-radius: 6px 0 0 6px;
+	margin-right: 0;
+}
+.search-form button {
+	width: 80px;
+	height: 40px;
+	font-size: 10pt;
+	padding: 0;
+	border-radius: 0 6px 6px 0;
+}
+
+/* Categories list */
+.categories {
+    list-style: none;
+    padding: 0;
+    width: 350px;
     float: left;
-    width: 20%;
 }
-.ask {
-    margin-bottom: 45px;
+.categories li {
+    padding: 0 0 10px 0;
 }
-input.ask-textbox {
-    border: 2px solid #918F90;
-    width: 390px;
-    height: 52px;
-    border-radius: 6px;
-    padding: 0 16px;
-    margin-right: 4px;
-    vertical-align: middle
-}
-.ask-button {
-    width: 160px;
-    height: 52px;
-    font-size: 22pt;
-    vertical-align: middle;
-}
+
+/* Recent Questions & Answers */
 .question {
     margin: 22px 0;
 }
@@ -28,38 +39,4 @@ input.ask-textbox {
 }
 .question .asked {
     font-size: smaller;
-}
-
-/* Categories list */
-.categories {
-    list-style: none;
-    padding: 0;
-    width: 290px;
-    float: left;
-}
-.categories li {
-    padding: 0 0 10px 0;
-}
-
-/* Ask a question */
-.ask-sidebar {
-	margin: 40px 0 20px;
-	text-align: center;
-}
-.ask-sidebar .ask-textbox {
-	border: 1px solid #918F90;
-	width: 265px;
-	height: 40px;
-	padding: 0 10px;
-	border-right: 0;
-	border-radius: 6px 0 0 6px;
-	margin-right: 0;
-}
-.ask-sidebar .ask-button {
-	width: 70px;
-	height: 40px;
-	font-size: 14pt;
-	padding: 0;
-	margin-left: 0;
-	border-radius: 0 6px 6px 0;
 }

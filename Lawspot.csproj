@@ -150,6 +150,7 @@
     <Compile Include="Email\Code\EmailTemplate.cs" />
     <Compile Include="Shared\Code\BaseController.cs" />
     <Compile Include="Shared\Code\CacheProvider.cs" />
+    <Compile Include="Shared\Code\SearchIndexer.cs" />
     <Compile Include="Shared\Code\PagedListView.cs" />
     <Compile Include="Shared\Code\StringUtilities.cs" />
     <Compile Include="Shared\Code\MustacheController.cs" />
@@ -184,6 +185,7 @@
     <Compile Include="Views\Browse\BrowseViewModels.cs" />
     <Compile Include="Views\Browse\Home\HomePageViewModel.cs" />
     <Compile Include="Views\Browse\Question\QuestionPageViewModel.cs" />
+    <Compile Include="Views\Browse\Search\SearchPageViewModel.cs" />
     <Compile Include="Views\Static\StaticController.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -353,6 +355,8 @@
     <Content Include="Views\Browse\Question\Question.css" />
     <Content Include="Views\Browse\Question\Question.html" />
     <Content Include="Views\Browse\Question\question.png" />
+    <Content Include="Views\Browse\Search\Search.css" />
+    <Content Include="Views\Browse\Search\Search.html" />
     <Content Include="Views\Static\AboutUs\margaret-wilson.png" />
     <Content Include="Views\Static\ContactUs.html" />
     <Content Include="Views\Static\AboutUs\AboutUs.html" />

@@ -58,8 +58,7 @@ textarea {
     box-sizing: border-box;
     font-size: 100%;
     margin: 0;
-    vertical-align: baseline;
-    *vertical-align: middle;
+    vertical-align: middle;
     -moz-border-radius: 15px;
     border-radius: 5px;
 }

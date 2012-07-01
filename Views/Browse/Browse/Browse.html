@@ -1,28 +1,5 @@
 ﻿{{Model Lawspot.Views.Browse.BrowsePageViewModel}}
 
-<section class="sidebar">
-    <div class="ask-sidebar">
-        <form method="get" action="/ask">
-            <input name="category" type="hidden" value="{{CategoryId}}" />
-            <input name="title" class="ask-textbox" type="text" placeholder="Ask your question here..." maxlength="150" /><button class="ask-button">ASK</button>
-        </form>
-    </div>
-
-    {{^User}}
-        <section>
-            <h2> Are you a lawyer? </h2>
-            <img class="lawyer" src="/views/browse/lawyer.png" />
-            <p>
-                Help the community and grow your practice!
-                <a href="/lawyer-register">Find out how.</a>
-            </p>
-            <p>
-                Already registered?  <a href="/login">Login here</a>.
-            </p>
-        </section>
-    {{/User}}
-</section>
-
 <div id="breadcrumb">
     <a href="/home">Home</a> &gt;
     Browse
@@ -30,12 +7,19 @@
 
 <h1> Browse Questions & Answers </h1>
 
-<ul class="categories" style="width:270px;">
+<div class="search-form">
+    <form method="get" action="/search">
+        <input name="query" type="text" placeholder="Enter your search query..."
+         maxlength="150" autofocus /><button>SEARCH</button>
+    </form>
+</div>
+
+<ul class="categories">
     {{#Categories1}}
         <li> <a href="{{Uri}}">{{Name}}</a> ({{AnswerCount}}) </li>
     {{/Categories1}}
 </ul>
-<ul class="categories" style="width:310px;">
+<ul class="categories">
     {{#Categories2}}
         <li> <a href="{{Uri}}">{{Name}}</a> ({{AnswerCount}}) </li>
     {{/Categories2}}

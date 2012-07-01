@@ -25,7 +25,6 @@ obj/
 [Rr]elease*/
 _ReSharper*/
 [Tt]est[Rr]esult*
-*.mdf
-*.ldf
+App_Data/
 Lawspot.Publish.xml
 Web.WebDrive.config

@@ -829,6 +829,9 @@ namespace Lawspot.Controllers
             question.RejectionReason = null;
             this.DataContext.SubmitChanges();
 
+            // Update the search index.
+            SearchIndexer.UpdateQuestion(question);
+
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(question.Details));
         }
 
@@ -872,6 +875,9 @@ namespace Lawspot.Controllers
                 rejectionMessage.ReasonHtml = StringUtilities.ConvertTextToHtml(reason);
                 rejectionMessage.Send();
             }
+
+            // Update the search index.
+            SearchIndexer.UpdateQuestion(question);
 
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(reason));
         }
@@ -1048,6 +1054,9 @@ namespace Lawspot.Controllers
 
             }
 
+            // Update the search index.
+            SearchIndexer.UpdateQuestion(answer.Question);
+
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(answer.Details));
         }
 
@@ -1092,6 +1101,9 @@ namespace Lawspot.Controllers
                 rejectionMessage.ReasonHtml = StringUtilities.ConvertTextToHtml(reason);
                 rejectionMessage.Send();
             }
+
+            // Update the search index.
+            SearchIndexer.UpdateQuestion(answer.Question);
 
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(reason));
         }

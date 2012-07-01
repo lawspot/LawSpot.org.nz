@@ -1,0 +1,26 @@
+﻿.search-form {
+    margin-bottom: 20px;
+}
+.search-form input[type=text] {
+	border: 1px solid #918F90;
+	width: 450px;
+	height: 40px;
+	padding: 0 10px;
+	border-right: 0;
+	border-radius: 6px 0 0 6px;
+	margin-right: 0;
+}
+.search-form button {
+	width: 80px;
+	height: 40px;
+	font-size: 10pt;
+	padding: 0;
+	border-radius: 0 6px 6px 0;
+}
+.search-result {
+    margin-bottom: 20px;
+}
+.search-highlight {
+    background-color: #FFC;
+    font-weight: bold;
+}
