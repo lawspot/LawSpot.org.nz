@@ -140,6 +140,7 @@
     <Compile Include="Backend\LawspotDataContext.cs" />
     <Compile Include="Email\Code\AnswerApprovedMessage.cs" />
     <Compile Include="Email\Code\AnswerRejectedMessage.cs" />
+    <Compile Include="Email\Code\LawyerReminderMessage.cs" />
     <Compile Include="Email\Code\LawyerRejectedMessage.cs" />
     <Compile Include="Email\Code\LawyerApprovedMessage.cs" />
     <Compile Include="Email\Code\QuestionRejectedMessage.cs" />
@@ -225,6 +226,7 @@
     <Content Include="Backend\Migrations\28.sql" />
     <Content Include="Backend\Migrations\29.sql" />
     <Content Include="Backend\Migrations\30.sql" />
+    <Content Include="Backend\Migrations\31.sql" />
     <Content Include="Default.htm" />
     <Content Include="Email\Assets\facebook.png" />
     <Content Include="Email\Assets\header-original.png" />
@@ -233,6 +235,7 @@
     <Content Include="Email\Assets\twitter.png" />
     <Content Include="Email\Templates\AnswerApproved.xslt" />
     <Content Include="Email\Templates\AnswerRejected.xslt" />
+    <Content Include="Email\Templates\LawyerReminder.xslt" />
     <Content Include="Email\Templates\LawyerRejected.xslt" />
     <Content Include="Email\Templates\LawyerApproved.xslt" />
     <Content Include="Email\Templates\QuestionRejected.xslt" />

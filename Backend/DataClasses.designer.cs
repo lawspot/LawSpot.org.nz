@@ -2093,6 +2093,12 @@ namespace Lawspot.Backend
 		
 		private bool _CanAdminister;
 		
+		private System.Nullable<System.DateTimeOffset> _LastLogInDate;
+		
+		private int _LogInCount;
+		
+		private string _LogInIpAddress;
+		
 		private EntitySet<Question> _Questions;
 		
 		private EntitySet<Lawyer> _Lawyers;
@@ -2133,6 +2139,12 @@ namespace Lawspot.Backend
     partial void OnEmailValidationTokenChanged();
     partial void OnCanAdministerChanging(bool value);
     partial void OnCanAdministerChanged();
+    partial void OnLastLogInDateChanging(System.Nullable<System.DateTimeOffset> value);
+    partial void OnLastLogInDateChanged();
+    partial void OnLogInCountChanging(int value);
+    partial void OnLogInCountChanged();
+    partial void OnLogInIpAddressChanging(string value);
+    partial void OnLogInIpAddressChanged();
     #endregion
 		
 		public User()
@@ -2405,6 +2417,66 @@ namespace Lawspot.Backend
 					this._CanAdminister = value;
 					this.SendPropertyChanged("CanAdminister");
 					this.OnCanAdministerChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LastLogInDate", DbType="DateTimeOffset")]
+		public System.Nullable<System.DateTimeOffset> LastLogInDate
+		{
+			get
+			{
+				return this._LastLogInDate;
+			}
+			set
+			{
+				if ((this._LastLogInDate != value))
+				{
+					this.OnLastLogInDateChanging(value);
+					this.SendPropertyChanging();
+					this._LastLogInDate = value;
+					this.SendPropertyChanged("LastLogInDate");
+					this.OnLastLogInDateChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LogInCount", DbType="Int NOT NULL")]
+		public int LogInCount
+		{
+			get
+			{
+				return this._LogInCount;
+			}
+			set
+			{
+				if ((this._LogInCount != value))
+				{
+					this.OnLogInCountChanging(value);
+					this.SendPropertyChanging();
+					this._LogInCount = value;
+					this.SendPropertyChanged("LogInCount");
+					this.OnLogInCountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LogInIpAddress", DbType="VarChar(45)")]
+		public string LogInIpAddress
+		{
+			get
+			{
+				return this._LogInIpAddress;
+			}
+			set
+			{
+				if ((this._LogInIpAddress != value))
+				{
+					this.OnLogInIpAddressChanging(value);
+					this.SendPropertyChanging();
+					this._LogInIpAddress = value;
+					this.SendPropertyChanged("LogInIpAddress");
+					this.OnLogInIpAddressChanged();
 				}
 			}
 		}

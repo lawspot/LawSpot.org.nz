@@ -175,6 +175,12 @@ namespace Lawspot.Controllers
         /// <param name="rememberMe"> <c>true</c> to make the cookie persistant. </param>
         protected void Login(User user, bool rememberMe)
         {
+            // Update the user login info.
+            user.LastLogInDate = DateTimeOffset.Now;
+            user.LogInCount = user.LogInCount + 1;
+            user.LogInIpAddress = Request.UserHostAddress;
+            this.DataContext.SubmitChanges();
+
             var ticket = Lawspot.Shared.CustomPrincipal.FromUser(user, rememberMe).ToTicket(rememberMe);
             string encryptedTicket = FormsAuthentication.Encrypt(ticket);
             var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
