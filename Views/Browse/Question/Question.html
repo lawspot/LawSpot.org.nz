@@ -58,7 +58,10 @@
 		<div id="qa-account-answer">
             {{#User.CanAnswerQuestions}}
 			    <!-- The user can answer questions -->
-			    <button onclick="window.location.href = '/admin/answer-questions'">Answer this Question</button>
+                <form method="get" action="/admin/answer-questions">
+                    <input type="hidden" name="questionId" value="{{QuestionId}}" />
+			        <button>Answer this Question</button>
+                </form>
             {{/User.CanAnswerQuestions}}
             {{^User}}
 			    <!-- Logged out -->

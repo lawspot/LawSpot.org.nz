@@ -85,6 +85,7 @@ namespace Lawspot.Controllers
             this.DataContext.ExecuteCommand("UPDATE [Question] SET ViewCount = ViewCount + 1 WHERE QuestionId = {0}", question.QuestionId);
 
             var model = new QuestionPageViewModel();
+            model.QuestionId = question.QuestionId;
             model.Title = question.Title;
             model.DetailsHtml = StringUtilities.ConvertTextToHtml(question.Details);
             model.CategoryId = question.CategoryId;

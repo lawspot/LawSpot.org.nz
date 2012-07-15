@@ -194,7 +194,7 @@ namespace Lawspot.Controllers
         /// <param name="page"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult AnswerQuestions(string category, string filter, string sort, int page = 1)
+        public ActionResult AnswerQuestions(string category, string filter, int? questionId, string sort, int page = 1)
         {
             // Ensure the user is allow to answer questions.
             if (this.User.CanAnswerQuestions == false)
@@ -209,7 +209,7 @@ namespace Lawspot.Controllers
                 specialisationCategoryId = user.Lawyer.SpecialisationCategoryId ?? 0;
 
             // Categories.
-            int categoryId = specialisationCategoryId;
+            int categoryId = questionId.HasValue ? 0 : specialisationCategoryId;
             if (category != null)
                 categoryId = int.Parse(category);
             model.CategoryOptions = new SelectListItem[] {
@@ -231,7 +231,7 @@ namespace Lawspot.Controllers
                     }));
 
             // Filter.
-            var filterValue = AnswerQuestionsFilter.Unanswered;
+            var filterValue = questionId.HasValue ? AnswerQuestionsFilter.All : AnswerQuestionsFilter.Unanswered;
             if (filter != null)
                 filterValue = (AnswerQuestionsFilter)Enum.Parse(typeof(AnswerQuestionsFilter), filter, true);
             model.FilterOptions = new SelectListItem[]
@@ -258,6 +258,8 @@ namespace Lawspot.Controllers
                 .Where(q => q.Approved == true);
             if (categoryId != 0)
                 questions = questions.Where(q => q.CategoryId == categoryId);
+            if (questionId.HasValue)
+                questions = questions.Where(q => q.QuestionId == questionId.Value);
             switch (filterValue)
             {
                 case AnswerQuestionsFilter.Unanswered:

@@ -6,6 +6,7 @@ namespace Lawspot.Views.Browse
 {
     public class QuestionPageViewModel : ITopCategories
     {
+        public int QuestionId { get; set; }
         public string Title { get; set; }
         public string DetailsHtml { get; set; }
         public int CategoryId { get; set; }
