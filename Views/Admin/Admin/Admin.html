@@ -1,13 +1,21 @@
-﻿<h1> Admin </h1>
+﻿<h1> Administer Site </h1>
 
-<div style="margin-bottom: 20px">
+<div style="margin-bottom: 40px">
     <form method="post">
+        <p>
+            Sends an email to every lawyer reminding them that there are unanswered questions that
+            they should go and answer!  Do not click unless you really mean it :-)
+        </p>
         <button name="SendReminderEmails">Send Reminder Emails to Lawyers</button>
     </form>
 </div>
 
-<div style="margin-bottom: 20px">
+<div style="margin-bottom: 40px">
     <form method="post">
+        <p>
+            If the search function is not bringing back questions that you know it should be, it
+            may be that the index is out of sync.  Clicking the button below should fix it.
+        </p>
         <button name="RebuildSearchIndex">Rebuild Search Index</button>
     </form>
 </div>
