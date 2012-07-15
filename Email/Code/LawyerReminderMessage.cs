@@ -18,7 +18,9 @@ namespace Lawspot.Email
             this.Subject = "Unanswered questions posted on LawSpot";
             this.Name = lawyer.FirstName;
             this.UnansweredQuestionCount = unansweredQuestions.Count();
-            this.UnansweredQuestions = unansweredQuestions.Select(q => new UnansweredQuestion() {
+            this.UnansweredQuestions = unansweredQuestions.OrderBy(q => q.CategoryId == lawyer.SpecialisationCategoryId ? 0 : 1)
+                .ThenByDescending(q => q.CreatedOn)
+                .Select(q => new UnansweredQuestion() {
                 Title = q.Title,
                 Uri = q.Uri,
             });
