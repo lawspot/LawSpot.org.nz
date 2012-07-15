@@ -231,10 +231,12 @@ namespace Lawspot.Controllers
                     }));
 
             // Filter.
-            var filterValue = questionId.HasValue ? AnswerQuestionsFilter.All : AnswerQuestionsFilter.Unanswered;
+            var filterValue = questionId.HasValue ? AnswerQuestionsFilter.SingleQuestion : AnswerQuestionsFilter.Unanswered;
             if (filter != null)
                 filterValue = (AnswerQuestionsFilter)Enum.Parse(typeof(AnswerQuestionsFilter), filter, true);
-            model.FilterOptions = new SelectListItem[]
+            if (filterValue == AnswerQuestionsFilter.SingleQuestion && questionId.HasValue == false)
+                filterValue = AnswerQuestionsFilter.Unanswered;
+            var filterOptions = new List<SelectListItem>
             {
                 new SelectListItem() { Text = "All", Value = AnswerQuestionsFilter.All.ToString(), Selected = filterValue == AnswerQuestionsFilter.All },
                 new SelectListItem() { Text = "Unanswered", Value = AnswerQuestionsFilter.Unanswered.ToString(), Selected = filterValue == AnswerQuestionsFilter.Unanswered },
@@ -242,6 +244,9 @@ namespace Lawspot.Controllers
                 new SelectListItem() { Text = "Answered", Value = AnswerQuestionsFilter.Answered.ToString(), Selected = filterValue == AnswerQuestionsFilter.Answered },
                 new SelectListItem() { Text = "Answered by Me", Value = AnswerQuestionsFilter.AnsweredByMe.ToString(), Selected = filterValue == AnswerQuestionsFilter.AnsweredByMe },
             };
+            if (filterValue == AnswerQuestionsFilter.SingleQuestion)
+                filterOptions.Add(new SelectListItem() { Text = "Single Question", Value = AnswerQuestionsFilter.SingleQuestion.ToString(), Selected = true });
+            model.FilterOptions = filterOptions;
 
             // Sort order.
             var sortValue = QuestionSortOrder.FirstPosted;
@@ -258,8 +263,6 @@ namespace Lawspot.Controllers
                 .Where(q => q.Approved == true);
             if (categoryId != 0)
                 questions = questions.Where(q => q.CategoryId == categoryId);
-            if (questionId.HasValue)
-                questions = questions.Where(q => q.QuestionId == questionId.Value);
             switch (filterValue)
             {
                 case AnswerQuestionsFilter.Unanswered:
@@ -273,6 +276,9 @@ namespace Lawspot.Controllers
                     break;
                 case AnswerQuestionsFilter.AnsweredByMe:
                     questions = questions.Where(q => q.Answers.Any(a => a.CreatedByUserId == this.User.Id));
+                    break;
+                case AnswerQuestionsFilter.SingleQuestion:
+                    questions = questions.Where(q => q.QuestionId == questionId.Value);
                     break;
             }
             switch (sortValue)

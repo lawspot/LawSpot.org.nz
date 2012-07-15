@@ -23,6 +23,7 @@ namespace Lawspot.Views.Admin
         Pending,
         Answered,
         AnsweredByMe,
+        SingleQuestion,
     }
 
     public enum QuestionSortOrder
