@@ -15,5 +15,13 @@ namespace Lawspot.Backend
         {
             get { return string.Format("/{0}/{1}", this.Category.Slug, this.Slug); }
         }
+
+        /// <summary>
+        /// Gets the full URI to the question page.
+        /// </summary>
+        public string Uri
+        {
+            get { return string.Format("http://{0}{1}", System.Configuration.ConfigurationManager.AppSettings["DomainName"], AbsolutePath); }
+        }
     }
 }

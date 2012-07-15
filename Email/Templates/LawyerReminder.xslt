@@ -8,18 +8,20 @@
     </p>
 
     <p>
-      There are currently [number of questions] unanswered questions on LawSpot.
-      Below are the latest 20 (or however many) questions [show these questions by
-      the lawyer’s specialization first then show by date posted] submitted by users.
+      There are currently <xsl:value-of select="UnansweredQuestionCount"/> unanswered questions on
+      LawSpot.
     </p>
 
-    <p>
-      <xsl:value-of select="Reason"/>
-    </p>
+    <ul>
+      <xsl:for-each select="UnansweredQuestions/UnansweredQuestion">
+        <li><a href="{Uri}"><xsl:value-of select="Title"/></a></li>
+      </xsl:for-each>
+    </ul>
 
     <p>
-      If you have any issues with this, please email us at
-      <a href="mailto:volunteer@lawspot.org.nz">volunteer@lawspot.org.nz</a>.
+      If you have any issues or just want to say hi, please email us at
+      <a href="mailto:volunteer@lawspot.org.nz">volunteer@lawspot.org.nz</a>. Thanks for sharing
+      your skills with the New Zealand community!
     </p>
 
     <p>

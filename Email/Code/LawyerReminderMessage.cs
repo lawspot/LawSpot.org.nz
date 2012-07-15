@@ -1,10 +1,7 @@
 ﻿using System;
-using System.IO;
-using System.Net.Mail;
-using System.Reflection;
-using System.Text;
-using System.Xml;
-using System.Xml.Xsl;
+using System.Collections.Generic;
+using System.Linq;
+using Lawspot.Backend;
 
 namespace Lawspot.Email
 {
@@ -14,19 +11,46 @@ namespace Lawspot.Email
     /// </summary>
     public class LawyerReminderMessage : EmailTemplate
     {
-        public LawyerReminderMessage()
+        public LawyerReminderMessage(Lawyer lawyer, IEnumerable<Question> unansweredQuestions)
         {
+            this.To.Add(lawyer.User.EmailDisplayName);
             this.TemplateFilePath = "LawyerReminder.xslt";
             this.Subject = "Unanswered questions posted on LawSpot";
+            this.Name = lawyer.FirstName;
+            this.UnansweredQuestionCount = unansweredQuestions.Count();
+            this.UnansweredQuestions = unansweredQuestions.Select(q => new UnansweredQuestion() {
+                Title = q.Title,
+                Uri = q.Uri,
+            });
         }
 
         /// <summary>
         /// The name of the lawyer.
         /// </summary>
         [ExposeToXslt]
-        public string Name { get; set; }
+        private string Name { get; set; }
 
+        /// <summary>
+        /// The number of unanswered questions.
+        /// </summary>
+        [ExposeToXslt]
+        private int UnansweredQuestionCount { get; set; }
 
+        // Helper class.
+        private class UnansweredQuestion
+        {
+            [ExposeToXslt]
+            public string Title { get; set; }
+
+            [ExposeToXslt]
+            public string Uri { get; set; }
+        }
+
+        /// <summary>
+        /// The unanswered questions.
+        /// </summary>
+        [ExposeToXslt]
+        private IEnumerable<UnansweredQuestion> UnansweredQuestions { get; set; }
     }
 
 }

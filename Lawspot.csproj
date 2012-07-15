@@ -246,6 +246,7 @@
     <Content Include="Email\Test Data\AnswerApproved.xml" />
     <Content Include="Email\Test Data\LawyerRejected.xml" />
     <Content Include="Email\Test Data\LawyerApproved.xml" />
+    <Content Include="Email\Test Data\LawyerReminder.xml" />
     <Content Include="Email\Test Data\QuestionRejected.xml" />
     <Content Include="Email\Test Data\QuestionAnswered.xml" />
     <Content Include="Email\Test Data\Register2.xml" />
@@ -314,6 +315,7 @@
     <Content Include="Views\Admin\ActivityStream\ActivityStream.html" />
     <Content Include="Views\Admin\Admin\Admin.css" />
     <Content Include="Views\Admin\Admin\Admin.html" />
+    <Content Include="Views\Admin\Admin\Admin.js" />
     <Content Include="Views\Admin\AnswerQuestions\star.png" />
     <Content Include="Views\Admin\AnswerQuestions\warning.png" />
     <Content Include="Views\Admin\approved.png" />

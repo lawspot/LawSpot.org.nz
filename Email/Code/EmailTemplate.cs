@@ -97,7 +97,7 @@ namespace Lawspot.Email
             else
             {
                 // Object.
-                foreach (var property in valueType.GetProperties(BindingFlags.Instance | BindingFlags.Public))
+                foreach (var property in valueType.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
                 {
                     // Make sure the property has a [ExposeToXsltAttribute] attribute.
                     var attribute = (ExposeToXsltAttribute)Attribute.GetCustomAttribute(property, typeof(ExposeToXsltAttribute));

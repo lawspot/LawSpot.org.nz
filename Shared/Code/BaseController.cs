@@ -103,6 +103,11 @@ namespace Lawspot.Controllers
         public bool HowItWorksTabActive { get; set; }
 
         /// <summary>
+        /// The success message to show at the top of the page.
+        /// </summary>
+        public string SuccessMessage { get; set; }
+
+        /// <summary>
         /// Gets a model object of a given type.
         /// </summary>
         /// <param name="viewContext"> The view context. </param>
@@ -119,6 +124,7 @@ namespace Lawspot.Controllers
                 model.User = ((Controller)viewContext.Controller).User as CustomPrincipal;
 
                 // Translate alert types into messages.
+                model.SuccessMessage = this.SuccessMessage;
                 switch (viewContext.HttpContext.Request.QueryString["alert"])
                 {
                     case "loggedin":

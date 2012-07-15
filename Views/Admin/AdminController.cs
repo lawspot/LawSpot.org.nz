@@ -1271,11 +1271,16 @@ namespace Lawspot.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Admin()
+        public ActionResult Admin(int? sent)
         {
             // Ensure the user is allowed to administer the site.
             if (this.User.CanAdminister == false)
                 return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
+            
+            // Show a custom message after sending reminder emails.
+            if (sent.HasValue)
+                this.SuccessMessage = string.Format("Sent reminder email to {0} lawyers.", sent);
+
             return View();
         }
 
@@ -1286,9 +1291,29 @@ namespace Lawspot.Controllers
         [HttpPost, ActionName("Admin"), FormSelector("SendReminderEmails", "")]
         public ActionResult SendReminderEmails()
         {
+            // Ensure the user is allowed to administer the site.
+            if (this.User.CanAdminister == false)
+                return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
 
+            // Get a list of all the questions that have no answers or even draft answers.
+            var questions = this.DataContext.Questions.Where(q => q.Approved && q.Answers.Any() == false && q.DraftAnswers.Any() == false).ToList();
 
-            return RedirectToAction("Admin", new { alert = "updated" });
+            int sentMessageCount = 0;
+            if (questions.Count > 0)
+            {
+                // Compose messages to all the lawyers.
+                var messages = new List<Email.LawyerReminderMessage>();
+                foreach (var lawyer in this.DataContext.Lawyers)
+                    messages.Add(new Email.LawyerReminderMessage(lawyer, questions));
+
+                // Send the messages.
+                foreach (var message in messages)
+                    message.Send();
+
+                sentMessageCount = messages.Count;
+            }
+
+            return RedirectToAction("Admin", new { sent = sentMessageCount.ToString() });
         }
 
         /// <summary>
@@ -1298,6 +1323,9 @@ namespace Lawspot.Controllers
         [HttpPost, ActionName("Admin"), FormSelector("RebuildSearchIndex", "")]
         public ActionResult RebuildSearchIndex()
         {
+            // Ensure the user is allowed to administer the site.
+            if (this.User.CanAdminister == false)
+                return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
             SearchIndexer.RebuildIndex();
             return RedirectToAction("Admin", new { alert = "updated" });
         }
