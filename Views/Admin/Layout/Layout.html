@@ -19,6 +19,9 @@
     			    <li><a href="/admin/review-answers">View Answers</a></li>
                 {{/User.CanVetAnswers}}
     			<li><a href="/admin/account-settings">Account Settings</a></li>
+                {{#User.CanAdminister}}
+    			    <li><a href="/admin/admin">Administer Site</a></li>
+                {{/User.CanAdminister}}
     		</ul>
 
             <hr />

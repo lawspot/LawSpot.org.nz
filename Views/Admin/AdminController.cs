@@ -1260,10 +1260,46 @@ namespace Lawspot.Controllers
         [HttpGet]
         public ActionResult VetterPolicy()
         {
-            // Ensure the user is allow to vet questions.
+            // Ensure the user is allowed to vet questions.
             if (this.User.CanVetQuestions == false)
                 return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
             return View();
+        }
+
+        /// <summary>
+        /// Displays the admin page.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Admin()
+        {
+            // Ensure the user is allowed to administer the site.
+            if (this.User.CanAdminister == false)
+                return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
+            return View();
+        }
+
+        /// <summary>
+        /// Called to send reminder emails to lawyers.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost, ActionName("Admin"), FormSelector("SendReminderEmails", "")]
+        public ActionResult SendReminderEmails()
+        {
+
+
+            return RedirectToAction("Admin", new { alert = "updated" });
+        }
+
+        /// <summary>
+        /// Called to rebuild the search index.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost, ActionName("Admin"), FormSelector("RebuildSearchIndex", "")]
+        public ActionResult RebuildSearchIndex()
+        {
+            SearchIndexer.RebuildIndex();
+            return RedirectToAction("Admin", new { alert = "updated" });
         }
     }
 }

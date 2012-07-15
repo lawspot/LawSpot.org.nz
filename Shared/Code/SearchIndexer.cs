@@ -21,6 +21,9 @@ namespace Lawspot.Shared
         private static StandardAnalyzer analyzer = new StandardAnalyzer(Version.LUCENE_29);
         private static IndexSearcher searcher;
 
+        /// <summary>
+        /// Gets the directory containing the search index.
+        /// </summary>
         private static FSDirectory AppData
         {
             get
@@ -29,13 +32,20 @@ namespace Lawspot.Shared
             }
         }
 
-        private static void RebuildIndex()
+        /// <summary>
+        /// Rebuilds the search index from scratch.
+        /// </summary>
+        public static void RebuildIndex()
         {
             lock (indexLock)
             {
+                // Open the search index for writing.
                 using (var writer = new IndexWriter(AppData, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED))
                 using (var dataContext = new LawspotDataContext())
                 {
+                    // Delete all existing documents.
+                    writer.DeleteAll();
+
                     foreach (var question in dataContext.Questions)
                     {
                         // Create a new document.
@@ -49,6 +59,10 @@ namespace Lawspot.Shared
             }
         }
 
+        /// <summary>
+        /// Updates a question in the search index.
+        /// </summary>
+        /// <param name="q"> The question to update. </param>
         public static void UpdateQuestion(Question q)
         {
             lock (indexLock)
@@ -71,6 +85,11 @@ namespace Lawspot.Shared
             }
         }
 
+        /// <summary>
+        /// Creates a document in the search index.
+        /// </summary>
+        /// <param name="q"> The question to use as the data source for the document. </param>
+        /// <returns> A populated document. </returns>
         private static Document CreateDocument(Question q)
         {
             if (q.Approved == false)
@@ -88,12 +107,20 @@ namespace Lawspot.Shared
             return doc;
         }
 
+        /// <summary>
+        /// A search hit, containing the ID of the question and a snippet of HTML.
+        /// </summary>
         public class SearchHit
         {
             public int ID { get; set; }
             public string SnippetsHtml { get; set; }
         }
 
+        /// <summary>
+        /// Searches for the given text.
+        /// </summary>
+        /// <param name="queryText"> The text to search for. </param>
+        /// <returns> A list of search hits. </returns>
         public static IEnumerable<SearchHit> Search(string queryText)
         {
             if (queryText == null)
@@ -143,6 +170,15 @@ namespace Lawspot.Shared
             return results;
         }
 
+        /// <summary>
+        /// Creates a snippet highlighting the search terms.
+        /// </summary>
+        /// <param name="query"></param>
+        /// <param name="document"></param>
+        /// <param name="maxLength"></param>
+        /// <param name="startHtml"></param>
+        /// <param name="endHtml"></param>
+        /// <returns></returns>
         private static string CreateSnippetHtml(Query query, string document, int maxLength, string startHtml, string endHtml)
         {
             // Extract the list of search terms.

@@ -23,27 +23,6 @@
       <Column Name="RunAt" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
-  <Table Name="dbo.[User]" Member="Users">
-    <Type Name="User">
-      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="EmailAddress" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="Password" Type="System.String" DbType="VarChar(60) NOT NULL" CanBeNull="false" />
-      <Column Name="Avatar" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
-      <Column Name="RegionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="CreatedOn" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
-      <Column Name="CanAnswerQuestions" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="CanVetQuestions" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="CanVetAnswers" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="CanVetLawyers" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="EmailValidated" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="EmailValidationToken" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Association Name="User_Question" Member="Questions" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Question" />
-      <Association Name="User_Lawyer" Member="Lawyers" ThisKey="UserId" OtherKey="UserId" Type="Lawyer" />
-      <Association Name="User_Answer" Member="Answers" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Answer" />
-      <Association Name="User_DraftAnswer" Member="DraftAnswers" ThisKey="UserId" OtherKey="CreatedByUserId" Type="DraftAnswer" />
-      <Association Name="Region_User" Member="Region" ThisKey="RegionId" OtherKey="RegionId" Type="Region" IsForeignKey="true" />
-    </Type>
-  </Table>
   <Table Name="dbo.Question" Member="Questions">
     <Type Name="Question">
       <Column Name="QuestionId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -94,8 +73,8 @@
       <Column Name="ReviewedByUserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="RejectionReason" Type="System.String" DbType="NVarChar(1000)" CanBeNull="true" />
       <Column Name="[References]" Member="References" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
-      <Association Name="User_Answer" Member="User" ThisKey="CreatedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
       <Association Name="Question_Answer" Member="Question" ThisKey="QuestionId" OtherKey="QuestionId" Type="Question" IsForeignKey="true" />
+      <Association Name="User_Answer" Member="User" ThisKey="CreatedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.DraftAnswer" Member="DraftAnswers">
@@ -107,8 +86,30 @@
       <Column Name="CreatedOn" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
       <Column Name="CreatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedOn" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
-      <Association Name="User_DraftAnswer" Member="User" ThisKey="CreatedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
       <Association Name="Question_DraftAnswer" Member="Question" ThisKey="QuestionId" OtherKey="QuestionId" Type="Question" IsForeignKey="true" />
+      <Association Name="User_DraftAnswer" Member="User" ThisKey="CreatedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EmailAddress" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="Avatar" Type="System.Data.Linq.Binary" DbType="Image" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="RegionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedOn" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
+      <Column Name="CanAnswerQuestions" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CanVetQuestions" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CanVetAnswers" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CanVetLawyers" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="EmailValidated" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="EmailValidationToken" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CanAdminister" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="User_Question" Member="Questions" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Question" />
+      <Association Name="User_Lawyer" Member="Lawyers" ThisKey="UserId" OtherKey="UserId" Type="Lawyer" />
+      <Association Name="User_Answer" Member="Answers" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Answer" />
+      <Association Name="User_DraftAnswer" Member="DraftAnswers" ThisKey="UserId" OtherKey="CreatedByUserId" Type="DraftAnswer" />
+      <Association Name="Region_User" Member="Region" ThisKey="RegionId" OtherKey="RegionId" Type="Region" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

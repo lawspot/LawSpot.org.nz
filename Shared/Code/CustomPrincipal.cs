@@ -25,6 +25,7 @@ namespace Lawspot.Shared
             result.CanVetQuestions = user.CanVetQuestions;
             result.CanVetAnswers = user.CanVetAnswers;
             result.CanVetLawyers = user.CanVetLawyers;
+            result.CanAdminister = user.CanAdminister;
             result.RememberMe = rememberMe;
             return result;
         }
@@ -54,6 +55,7 @@ namespace Lawspot.Shared
             result.CanVetQuestions = ticket.UserData.Contains("q");
             result.CanVetAnswers = ticket.UserData.Contains("v");
             result.CanVetLawyers = ticket.UserData.Contains("l");
+            result.CanAdminister = ticket.UserData.Contains("A");
             result.RememberMe = ticket.UserData.Contains("R");
             return result;
         }
@@ -101,6 +103,11 @@ namespace Lawspot.Shared
         public bool CanVetLawyers { get; set; }
 
         /// <summary>
+        /// The user can administer the site.
+        /// </summary>
+        public bool CanAdminister { get; set; }
+
+        /// <summary>
         /// Creates a new forms authentication ticket using the information in this principal.
         /// </summary>
         /// <param name="persistant"> <c>true</c> if the ticket will be stored in a persistant
@@ -118,6 +125,8 @@ namespace Lawspot.Shared
                 userData.Append("v");
             if (this.CanVetLawyers)
                 userData.Append("l");
+            if (this.CanAdminister)
+                userData.Append("A");
             if (this.RememberMe)
                 userData.Append("R");
             return new FormsAuthenticationTicket(1, this.EmailAddress, DateTime.Now,

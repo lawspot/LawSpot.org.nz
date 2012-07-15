@@ -224,6 +224,7 @@
     <Content Include="Backend\Migrations\27.sql" />
     <Content Include="Backend\Migrations\28.sql" />
     <Content Include="Backend\Migrations\29.sql" />
+    <Content Include="Backend\Migrations\30.sql" />
     <Content Include="Default.htm" />
     <Content Include="Email\Assets\facebook.png" />
     <Content Include="Email\Assets\header-original.png" />
@@ -308,6 +309,8 @@
     <Content Include="Views\Admin\AccountSettings\AccountSettings.js" />
     <Content Include="Views\Admin\ActivityStream\ActivityStream.css" />
     <Content Include="Views\Admin\ActivityStream\ActivityStream.html" />
+    <Content Include="Views\Admin\Admin\Admin.css" />
+    <Content Include="Views\Admin\Admin\Admin.html" />
     <Content Include="Views\Admin\AnswerQuestions\star.png" />
     <Content Include="Views\Admin\AnswerQuestions\warning.png" />
     <Content Include="Views\Admin\approved.png" />
