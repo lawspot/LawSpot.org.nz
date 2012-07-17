@@ -206,13 +206,14 @@ section.site-message div
     }
 }
 section.site-body {
-    width: 944px;
-    padding: 20px;
+    width: 924px;
+    padding: 20px 30px;
     margin: auto;
     background-color: #EBEDEC;
     border-radius: 4px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     min-height: 500px;
+    line-height: 1.5;
 }
 
 /* Theme */
@@ -225,7 +226,7 @@ a:hover {
 }
 h1 {
     font-size: 24pt;
-    margin: 0 0 20px;
+    margin: 0 0 15px;
     color: #373737;
     font-weight: normal;
 }
