@@ -1,5 +1,6 @@
 ﻿.left {
     width: 480px;
+    padding-top: 3px;
 }
 .privacy-message img {
     float: left;
