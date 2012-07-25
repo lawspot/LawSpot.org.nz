@@ -56,9 +56,9 @@
 	left: 100%;
 	width: 0;
 	height: 0;
-	border-top: 227px solid transparent;
-	border-bottom: 227px solid transparent;
-	border-left: 50px solid #BDBCB6;
+	border-top: 220px solid transparent;
+	border-bottom: 220px solid transparent;
+	border-left: 40px solid #BDBCB6;
 }
 #qsubmit-divider {
 	width: 61px;
