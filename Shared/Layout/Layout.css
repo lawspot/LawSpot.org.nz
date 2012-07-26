@@ -103,7 +103,7 @@ body {
     height: 100%;
     background: black url(/shared/images/background.jpg) no-repeat center top;
     font-size: 11pt;
-    font-family: 'Segoe UI', Segoe, 'Helvetica Neue', Helvetica, Roboto, Arial, FreeSans, sans-serif;
+    font-family: Arial, FreeSans, sans-serif;
     -moz-background-size: cover;
     background-size: cover;
     color: #373737;
@@ -353,7 +353,7 @@ select {
     padding: 6px;
 }
 textarea {
-    font-family: 'Segoe UI', Segoe, 'Helvetica Neue', Helvetica, Roboto, Arial, FreeSans, sans-serif;
+    font-family: Arial, FreeSans, sans-serif;
 }
 button[disabled], button[disabled]:hover {
 	background: #9D9D9D;
