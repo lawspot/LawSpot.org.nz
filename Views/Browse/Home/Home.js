@@ -451,7 +451,6 @@ function openNextAccordionItem() {
     next.trigger("mouseenter");
     insideAccordion = false;
 }
-openNextAccordionItem();
 window.setInterval(openNextAccordionItem, 5000);
 
 var timerId;
