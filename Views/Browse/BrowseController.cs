@@ -118,7 +118,7 @@ namespace Lawspot.Controllers
                 ((IRecentAnswers)model).RecentAnswers = filteredAnswers
                     .Where(a => a.Approved && a.Question.Approved)
                     .OrderByDescending(a => a.CreatedOn)
-                    .Take(5)
+                    .Take(4)
                     .Select(a => new AnsweredQuestionViewModel()
                     {
                         Uri = a.Question.AbsolutePath,
