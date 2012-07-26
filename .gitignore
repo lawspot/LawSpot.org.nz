@@ -28,3 +28,6 @@ _ReSharper*/
 App_Data/
 Lawspot.Publish.xml
 Web.WebDrive.config
+Shared/.DS_Store
+
+Shared/Images/.DS_Store
