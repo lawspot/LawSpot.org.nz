@@ -28,6 +28,7 @@ namespace Lawspot.Views.Browse
         public string Details { get; set; }
         public string AnsweredBy { get; set; }
         public string AnsweredTime { get; set; }
+        public bool Last { get; set; }
     }
 
     public class QuestionViewModel

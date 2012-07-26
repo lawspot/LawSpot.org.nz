@@ -236,5 +236,47 @@ namespace Lawspot.Controllers
             model.Registered = registered;
             return View(model);
         }
+
+        private class SuggestionsResult
+        {
+            public string QueryText { get; set; }
+            public string MoreUri { get; set; }
+            public IEnumerable<SearchResult> Results { get; set; }
+        }
+
+        private class SearchResult
+        {
+            public string Title { get; set; }
+            public string Uri { get; set; }
+        }
+
+        /// <summary>
+        /// Returns search results for the given text.  Used when asking a question.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult Suggestions(string text)
+        {
+            var result = new SuggestionsResult();
+            result.QueryText = text;
+            
+            // Search.
+            var hits = Lawspot.Shared.SearchIndexer.Search(text);
+            result.Results = hits.Join(this.DataContext.Questions, hit => hit.ID, q => q.QuestionId, (hit, q) => new SearchResult()
+            {
+                Title = q.Title,
+                Uri = q.AbsolutePath,
+            }).ToList();
+
+            // Show a more link if there are more than 5 results.
+            if (result.Results.Count() > 5)
+            {
+                result.Results = result.Results.Take(5);
+                result.MoreUri = string.Format("/search?query={0}", Uri.EscapeDataString(text));
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

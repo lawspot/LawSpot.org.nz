@@ -45,20 +45,18 @@ input.ask-textbox {
     font-size: smaller;
 }
 
-/* Top categories box */
-.top-categories {
+/* Browse by categories */
+.sidebar .categories {
     list-style: none;
     padding: 0;
     width: 50%;
     float: left;
-    font-size: smaller;
+    font-size: 0.95em;
+    line-height: 20px;
+    margin-bottom: 0;
 }
-.top-categories li {
-    padding-bottom: 8px;
-}
-.see-all-categories {
-	font-size: 0.8em;
-	text-align: right;
+.sidebar .categories a {
+	color: #5B5B5B;
 }
 
 /* Q & A specific */

@@ -473,16 +473,14 @@ input[type].validation-error-field,
 }
 .sidebar section {
     border: 1px solid #BBB7B6;
-    border-radius: 3px;
-    background: #DEDDDB;
-    padding: 5px 12px 12px;
-    margin-bottom: 16px;
+    border-radius: 6px;
+    padding: 5px 12px 10px;
+    margin-bottom: 15px;
+    box-shadow: 1px 1px 8px #888;
+    background: white;
 }
 .sidebar .lawyer {
     float: left;
     box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
     margin: 10px 10px 0 0;
-}
-.sidebar section h2 {
-	color: #CF720B;
 }

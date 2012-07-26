@@ -276,6 +276,7 @@
     <Content Include="Lib\System.Web.WebPages.Razor.xml" />
     <Content Include="Lib\System.Web.WebPages.xml" />
     <Content Include="Email\Templates\Layout.xslt" />
+    <Content Include="Views\Browse\Home\jquery-easing-1.3.pack.js" />
     <Content Include="Shared\Layout\Layout.js" />
     <Content Include="Shared\Images\background.jpg" />
     <Content Include="Shared\Images\background.png" />
@@ -357,7 +358,10 @@
     <Content Include="Views\Browse\Browse\Browse.html" />
     <Content Include="Views\Browse\Home\Home.css" />
     <Content Include="Shared\Layout\mustache.js" />
+    <Content Include="Views\Browse\Home\Home.js" />
     <Content Include="Views\Browse\Home\laptop.png" />
+    <Content Include="Views\Browse\Home\question-icon.png" />
+    <Content Include="Views\Browse\Home\recent-questions-icon.png" />
     <Content Include="Views\Browse\lawyer.png" />
     <Content Include="Views\Browse\Question\answer.png" />
     <Content Include="Views\Browse\Question\Question.css" />

@@ -128,7 +128,10 @@ namespace Lawspot.Controllers
                         AnsweredTime = DateTimeOffset.Now.Subtract(a.CreatedOn).TotalHours > 24 ?
                             string.Format("{0:d MMMM yyyy}", a.CreatedOn) :
                             string.Format("{0} hours ago", Math.Round(DateTimeOffset.Now.Subtract(a.CreatedOn).TotalHours)),
-                    });
+                    }).ToList();
+                var lastAnswer = ((IRecentAnswers)model).RecentAnswers.LastOrDefault();
+                if (lastAnswer != null)
+                    lastAnswer.Last = true;
             }
 
             if (model is ITopCategories)

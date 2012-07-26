@@ -7,7 +7,7 @@
 
     {{^User}}
         <section>
-            <h2 id="are-you-lawyer"> Are you a lawyer? </h2>
+            <h2> Are you a lawyer? </h2>
             <img class="lawyer" src="/views/browse/lawyer.png" />
             <p>
                 Help the community and grow your practice!
@@ -20,19 +20,19 @@
     {{/User}}
 
     <section>
-        <h2> Top legal categories </h2>
-        <ul class="top-categories">
+        <h2> Browse by Category </h2>
+        <ul class="categories">
             {{#TopCategories1}}
                 <li> <a href="{{Uri}}">{{Name}}</a> </li>
             {{/TopCategories1}}
         </ul>
-        <ul class="top-categories">
+        <ul class="categories">
             {{#TopCategories2}}
                 <li> <a href="{{Uri}}">{{Name}}</a> </li>
             {{/TopCategories2}}
         </ul>
+        <span class="see-all-categories"><a href="#">See all categories...</a></span>
         <div style="clear: left"></div>
-        <div class="see-all-categories"><a href="/browse">See all categories...</a></div>
     </section>
 </section>
 
@@ -45,23 +45,35 @@
         <input name="title" class="ask-textbox" type="text" placeholder="Ask your question here..." maxlength="150" />
         <button class="ask-button">ASK</button>
     </form>
+
+    <div id="search-results" class="search-results"></div>
 </div>
 
-<h2> New Questions & Answers </h2>
+<h2 class="va-heading">Recent Questions and Answers <a href="/browse">... see all answers</a></h2>
+<div id="va-accordion" class="va-container">
+    {{#RecentAnswers}}
+	    <div data-href="{{Uri}}" class="va-slice {{#Last}}last{{/Last}}" onclick="window.location.href = this.getAttribute('data-href')">
+		    <span class="question-icon"></span>
+		    <h3>{{Title}}</h3>
+		    <p>{{Details}} <strong><a href="{{Uri}}">read more</a></strong></p>
+	    </div>
+    {{/RecentAnswers}}
+</div>
 
-{{#RecentAnswers}}
-    <div class="question">
-        <div class="title">
-            <a href="{{Uri}}">{{Title}}</a>
-        </div>
-        <div class="details">
-            {{Details}}
-        </div>
-        <div class="asked">
-            {{AnsweredBy}} answered {{AnsweredTime}}
-        </div>
-    </div>
-{{/RecentAnswers}}
-{{^RecentAnswers}}
-    <p> None yet. </p>
-{{/RecentAnswers}}
+{{! Change the mustache set delimiter so that tags within the templates are not replaced }}
+{{=** **=}}
+
+<script id="suggestions-template" type="text/template">
+    <h2>
+    	Has it been answered already?<br />
+    	<span>Check it below before you ask.</span>
+    </h2>
+    <ul>
+        {{#Results}}
+    	    <li><a href="{{Uri}}">{{Title}}</a></li>
+        {{/Results}}
+    </ul>
+    {{#MoreUri}}
+   	    <a href="{{MoreUri}}" class="more-link"><strong>MORE &gt;&gt;</strong></a>
+    {{/MoreUri}}
+</script>
