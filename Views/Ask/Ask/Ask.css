@@ -6,7 +6,7 @@
 
 #ask-form {
     padding: 0;
-    width: 520px;
+    width: 480px;
 }
 #ask-form.step2 {
     width: auto;
@@ -17,12 +17,12 @@
 	position: relative;
 }
 #qsubmit1-inner {
-    padding: 20px;
+    padding: 20px 20px 20px 5px;
 }
 
 .qsubmit-field {
 	margin: 0 20px 20px 20px;
-	width: 440px;
+	width: 430px;
 }
 .qsubmit-field input[type="text"],.qsubmit-field textarea {
 	width: 420px;
@@ -56,9 +56,9 @@
 	left: 100%;
 	width: 0;
 	height: 0;
-	border-top: 227px solid transparent;
-	border-bottom: 227px solid transparent;
-	border-left: 50px solid #BDBCB6;
+	border-top: 220px solid transparent;
+	border-bottom: 220px solid transparent;
+	border-left: 40px solid #BDBCB6;
 }
 #qsubmit-divider {
 	width: 61px;

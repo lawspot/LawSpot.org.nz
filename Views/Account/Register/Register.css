@@ -1,5 +1,6 @@
 ﻿.left {
-    width: 500px;
+    width: 480px;
+    padding-top: 3px;
 }
 .privacy-message img {
     float: left;
@@ -8,6 +9,6 @@
     height: 27px;
 }
 #register-sidebar {
-    width: 380px;
+    width: 370px;
     margin-right: 20px;
 }
