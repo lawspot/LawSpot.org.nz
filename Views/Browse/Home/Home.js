@@ -422,49 +422,56 @@
 
 })(jQuery);
 
-$(function () {
-    $('#va-accordion').vaccordion({
-        visibleSlices: 4,
-        accordionW: 570,
-        accordionH: 300,
-        expandedHeight: 130,
-        animOpacity: 1.0,
-        contentAnimSpeed: 100
-    });
-    $('.va-slice-1').trigger('mouseenter');
+$('#va-accordion').vaccordion({
+    visibleSlices: 4,
+    accordionW: 570,
+    accordionH: 300,
+    expandedHeight: 130,
+    animOpacity: 1.0,
+    contentAnimSpeed: 100
+});
+$('.va-slice-1').trigger('mouseenter');
 
-    var insideAccordion = false;
-    $("#va-accordion").mouseover(function () { insideAccordion = true; });
-    $("#va-accordion").mouseout(function () { insideAccordion = true; }); // change to 'false' to resume autoplay after mouseover
+var insideAccordion = false;
+$("#va-accordion").mouseover(function () { insideAccordion = true; });
+//$("#va-accordion").mouseout(function () { insideAccordion = true; });
 
-    setInterval(function () {
-        if (insideAccordion) return;
-        // get the selected div
-        var selected = $("#va-accordion .active");
-        // get the next one.
-        var next = selected.next();
-        if (next.length == 0)
-            next = $("#va-accordion").children().first("div");
-        // now expand the next one
-        next.trigger("mouseenter");
-    }, 5000);
+function openNextAccordionItem() {
+    if (insideAccordion) return;
 
-    var timerId;
-    $(".ask-textbox").on("keyup focus", function () {
-        if (timerId)
-            window.clearTimeout(timerId);
-        timerId = window.setTimeout(displaySearchSuggestions, 1000);
-    });
-    $('.ask-textbox').focusout(function () {
-        $('.search-results').slideUp();
-        return false;
-    });
+    // get the selected div
+    var selected = $("#va-accordion .active");
+
+    // get the next one.
+    var next = selected.next();
+    if (next.length == 0)
+        next = $("#va-accordion").children().first("div");
+
+    // now expand the next one
+    next.trigger("mouseenter");
+    insideAccordion = false;
+}
+openNextAccordionItem();
+window.setInterval(openNextAccordionItem, 5000);
+
+var timerId;
+$(".ask-textbox").on("keyup focus", function () {
+    if (timerId)
+        window.clearTimeout(timerId);
+    timerId = window.setTimeout(displaySearchSuggestions, 1000);
+});
+$('.ask-textbox').focusout(function () {
+    $('.search-results').slideUp();
+    return false;
 });
 
 function displaySearchSuggestions() {
+    insideAccordion = true;
     var questionText = $(".ask-textbox").val();
-    if (questionText === "")
+    if (questionText === "") {
+        $(".search-results").slideUp();
         return;
+    }
     jQuery.ajax({
         type: "GET",
         url: "/suggestions",
