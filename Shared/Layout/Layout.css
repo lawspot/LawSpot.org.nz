@@ -474,8 +474,8 @@ input[type].validation-error-field,
 .sidebar section {
     border: 1px solid #BBB7B6;
     border-radius: 6px;
-    padding: 5px 12px 10px;
-    margin-bottom: 15px;
+    padding: 5px 12px 14px;
+    margin-bottom: 24px;
     box-shadow: 1px 1px 8px #888;
     background: white;
 }
