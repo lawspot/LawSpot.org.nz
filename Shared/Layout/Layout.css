@@ -170,7 +170,7 @@ nav li a:hover, nav li a.active {
 	width: 142px;
 	margin-top:29px;
 	padding: 16px 15px 0 0;
-	background: url(/shared/images/nav-bg.png) repeat-x right;
+	background: url(/shared/images/nav-bg.png);
 	font-size: 0.85em;
 	color: #fff;
 	text-align: right;
