@@ -100,7 +100,7 @@
         </div>
 
 	    <div class="qsubmit-button">
-		    <button>ASK YOUR QUESTION</button>
+		    <button type="submit">ASK YOUR QUESTION</button>
 	    </div>
     </section>
 {{/Registration}}
@@ -165,10 +165,10 @@
 
 	    <div class="qsubmit-button">
             {{^User}}
-		        <button {{#Registration}}disabled{{/Registration}}/>CONTINUE &raquo;</button>
+		        <button type="submit" {{#Registration}}disabled{{/Registration}}/>CONTINUE &raquo;</button>
             {{/User}}
             {{#User}}
-                <button>ASK YOUR QUESTION</button>
+                <button type="submit">ASK YOUR QUESTION</button>
             {{/User}}
 	    </div>
 
