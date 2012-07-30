@@ -28,7 +28,6 @@
 	font-weight: normal;
 	font-size: 18pt;
 	text-shadow: 1px 1px 2px #111;
-	filter: dropshadow(color=#111, offx=1, offy=1);
 }
 #law-register-form {
 	background: #D8E5DF;
