@@ -54,9 +54,6 @@
 #law-register-form input, #law-register-form select {
 	width: 210px;
 }
-#FirstName,#LastName {
-	width: 135px;
-}
 #FirstName {
 	margin-right: 10px;
 }
