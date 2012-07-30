@@ -85,6 +85,12 @@ namespace Lawspot.Controllers
             /// Indicates whether the How It Works tab is active.
             /// </summary>
             public bool HowItWorksTabActive { get; set; }
+
+            /// <summary>
+            /// A message to contributors (lawyers, question vetters, etc) to help us answer questions
+            /// or vet questions or whatever.
+            /// </summary>
+            public string ContributorMessageHtml { get; set; }
         }
 
         /// <summary>
@@ -128,7 +134,7 @@ namespace Lawspot.Controllers
                 switch (viewContext.HttpContext.Request.QueryString["alert"])
                 {
                     case "loggedin":
-                        model.SuccessMessage = GetLoginMessage(model.User);
+                        model.SuccessMessage = "You're logged in.  Welcome back to LawSpot.";
                         break;
                     case "loggedout":
                         model.SuccessMessage = "You have logged out.";
@@ -140,6 +146,10 @@ namespace Lawspot.Controllers
                         model.SuccessMessage = "Your changes were saved.";
                         break;
                 }
+
+                // If a user is logged in and the user is a contributor, show a customized message.
+                if (User != null && (User.CanAnswerQuestions || User.CanVetAnswers || User.CanVetLawyers || User.CanVetQuestions))
+                    model.ContributorMessageHtml = GetContributorMessageHtml(User);
 
                 // Tab activation states.
                 model.AskALawyerTabActive = this.AskALawyerTabActive;
@@ -202,9 +212,10 @@ namespace Lawspot.Controllers
         /// <param name="emailAddress"> The user's email address. </param>
         /// <param name="password"> The user's password. </param>
         /// <param name="regionId"> The ID of the nearest region. </param>
+        /// <param name="communityServicesCardNumber"> The community services card number, if any. </param>
         /// <returns> A reference to the user. </returns>
         /// <remarks> Call DataContext.SubmitChanges() to save. </remarks>
-        protected User Register(string emailAddress, string password, int regionId)
+        protected User Register(string emailAddress, string password, int regionId, int? communityServicesCardNumber = null)
         {
             // Create a random (max 50 char) token.
             var token = new System.Text.StringBuilder();
@@ -221,6 +232,7 @@ namespace Lawspot.Controllers
             user.Password = BCrypt.Net.BCrypt.HashPassword(password, workFactor: 12);
             user.RegionId = regionId;
             user.EmailValidationToken = token.ToString();
+            user.CommunityServicesCardNumber = communityServicesCardNumber;
             this.DataContext.Users.InsertOnSubmit(user);
 
             return user;
@@ -250,64 +262,82 @@ namespace Lawspot.Controllers
             registrationEmail.Send();
         }
 
+        private class ActionCount
+        {
+            public int Count;
+            public string Noun;
+            public string Uri;
+        }
+
         /// <summary>
-        /// Gets the message to display on login.
+        /// Gets the message to display to contributors.
         /// </summary>
         /// <param name="user"> The logged in user. </param>
         /// <returns> A login message. </returns>
-        private static string GetLoginMessage(CustomPrincipal user)
+        private static string GetContributorMessageHtml(CustomPrincipal user)
         {
-            var result = new System.Text.StringBuilder("You're logged in.");
+            var result = new System.Text.StringBuilder();
 
-            var counts = new List<Tuple<int, string>>();
+            var actions = new List<ActionCount>();
             if (user.CanVetQuestions)
             {
-                counts.Add(new Tuple<int, string>(
-                    CacheProvider.CacheDatabaseQuery("UnreviewedQuestionCount", connection =>
+                actions.Add(new ActionCount()
+                {
+                    Count = CacheProvider.CacheDatabaseQuery("UnreviewedQuestionCount", connection =>
                         connection.Questions.Count(q => q.ReviewDate == null), TimeSpan.FromMinutes(2)),
-                    "unreviewed question"));
+                    Noun = "unreviewed question",
+                    Uri = "/admin/review-questions",
+                });
             }
             if (user.CanAnswerQuestions)
             {
-                counts.Add(new Tuple<int, string>(
-                    CacheProvider.CacheDatabaseQuery("UnansweredQuestionCount", connection =>
+                actions.Add(new ActionCount()
+                {
+                    Count = CacheProvider.CacheDatabaseQuery("UnansweredQuestionCount", connection =>
                         connection.Questions.Count(q => q.Approved && q.Answers.Any(a => a.ReviewDate == null || a.Approved) == false), TimeSpan.FromMinutes(2)),
-                    "unanswered question"));
+                    Noun = "unanswered question",
+                    Uri = "/admin/answer-questions",
+                });
             }
             if (user.CanVetAnswers)
             {
-                counts.Add(new Tuple<int, string>(
-                    CacheProvider.CacheDatabaseQuery("UnreviewedAnswerCount", connection =>
+                actions.Add(new ActionCount()
+                {
+                    Count = CacheProvider.CacheDatabaseQuery("UnreviewedAnswerCount", connection =>
                         connection.Answers.Count(a => a.ReviewDate == null), TimeSpan.FromMinutes(2)),
-                    "unreviewed answer"));
+                    Noun = "unreviewed answer",
+                    Uri = "/admin/review-answers",
+                });
             }
             if (user.CanVetLawyers)
             {
-                counts.Add(new Tuple<int, string>(
-                    CacheProvider.CacheDatabaseQuery("UnreviewedLawyerCount", connection =>
-                        connection.Lawyers.Count(l => l.ReviewDate == null), TimeSpan.FromMinutes(2)),
-                    "pending lawyer"));
-            }
-            counts.RemoveAll(c => c.Item1 == 0);
-            if (counts.Count <= 2)
-                result.Append(" Welcome back to LawSpot.");
-            if (counts.Count > 0)
-            {
-                for (int i = 0; i < counts.Count; i ++)
+                actions.Add(new ActionCount()
                 {
-                    var count = counts[i].Item1;
-                    var noun = counts[i].Item2;
+                    Count = CacheProvider.CacheDatabaseQuery("UnreviewedLawyerCount", connection =>
+                        connection.Lawyers.Count(l => l.ReviewDate == null), TimeSpan.FromMinutes(2)),
+                    Noun = "pending lawyer",
+                    Uri = "/admin/review-lawyers",
+                });
+            }
+            actions.RemoveAll(c => c.Count == 0);
+            if (actions.Count > 0)
+            {
+                for (int i = 0; i < actions.Count; i++)
+                {
+                    var action = actions[i];
                     if (i == 0)
-                        result.Append(count != 1 ? " There are " : " There is ");
-                    else if (i == counts.Count - 1)
+                        result.Append(action.Count != 1 ? " There are currently " : " There is currently ");
+                    else if (i == actions.Count - 1)
                         result.Append(" and ");
                     else
                         result.Append(", ");
-                    result.Append(count);
+                    result.AppendFormat(@"<a href=""{0}"">", action.Uri);
+                    result.Append(action.Count);
                     result.Append(" ");
-                    result.Append(noun);
-                    if (count != 1)
+                    result.Append(action.Noun);
+                    if (action.Count != 1)
                         result.Append("s");
+                    result.Append("</a>");
                 }
                 result.Append(".");
             }

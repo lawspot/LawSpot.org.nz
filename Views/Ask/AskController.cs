@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using Lawspot.Backend;
+using Lawspot.Shared;
 using Lawspot.Views.Ask;
 
 namespace Lawspot.Controllers
@@ -200,6 +201,18 @@ namespace Lawspot.Controllers
             {
                 model.FocusInTitle = string.IsNullOrEmpty(model.Title);
                 model.FocusInDetails = !model.FocusInTitle;
+                
+                // Search.
+                if (string.IsNullOrWhiteSpace(model.Title) == false)
+                {
+                    var hits = Lawspot.Shared.SearchIndexer.Search(model.Title);
+                    model.Suggestions = hits.Join(this.DataContext.Questions, hit => hit.ID, q => q.QuestionId, (hit, q) => new SearchSuggestion()
+                    {
+                        Title = q.Title,
+                        Uri = q.AbsolutePath,
+                        Details = StringUtilities.SummarizeText(q.Details, 150),
+                    }).Take(5);
+                }
             }
             else
             {
@@ -241,13 +254,7 @@ namespace Lawspot.Controllers
         {
             public string QueryText { get; set; }
             public string MoreUri { get; set; }
-            public IEnumerable<SearchResult> Results { get; set; }
-        }
-
-        private class SearchResult
-        {
-            public string Title { get; set; }
-            public string Uri { get; set; }
+            public IEnumerable<SearchSuggestion> Suggestions { get; set; }
         }
 
         /// <summary>
@@ -263,16 +270,17 @@ namespace Lawspot.Controllers
             
             // Search.
             var hits = Lawspot.Shared.SearchIndexer.Search(text);
-            result.Results = hits.Join(this.DataContext.Questions, hit => hit.ID, q => q.QuestionId, (hit, q) => new SearchResult()
+            result.Suggestions = hits.Join(this.DataContext.Questions, hit => hit.ID, q => q.QuestionId, (hit, q) => new SearchSuggestion()
             {
                 Title = q.Title,
                 Uri = q.AbsolutePath,
+                Details = StringUtilities.SummarizeText(q.Details, 150),
             }).ToList();
 
             // Show a more link if there are more than 5 results.
-            if (result.Results.Count() > 5)
+            if (result.Suggestions.Count() > 5)
             {
-                result.Results = result.Results.Take(5);
+                result.Suggestions = result.Suggestions.Take(5);
                 result.MoreUri = string.Format("/search?query={0}", Uri.EscapeDataString(text));
             }
 

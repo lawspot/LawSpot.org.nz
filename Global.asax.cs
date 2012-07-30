@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -24,9 +25,6 @@ namespace Lawspot
 
             // Register areas.
             AreaRegistration.RegisterAllAreas();
-
-            // Register filters.
-            GlobalFilters.Filters.Add(new HandleErrorAttribute());
 
             // Files at root.
             RouteTable.Routes.IgnoreRoute("favicon.ico");
@@ -113,8 +111,10 @@ namespace Lawspot
             if (ex is HttpException)
                 statusCode = ((HttpException)ex).GetHttpCode();
 
-            // Log everything except 404s.
-            if (statusCode != 404)
+            // Log everything except 404s originating from third-party sites.
+            bool firstPartyReferrer = HttpContext.Current != null && HttpContext.Current.Request.UrlReferrer != null &&
+                string.Equals(HttpContext.Current.Request.UrlReferrer.Host, ConfigurationManager.AppSettings["DomainName"]);
+            if (statusCode != 404 || firstPartyReferrer)
                 Lawspot.Shared.Logger.LogError(ex);
 
             // Determine the URL to redirect to.

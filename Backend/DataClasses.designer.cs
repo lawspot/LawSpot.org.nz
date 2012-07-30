@@ -33,9 +33,6 @@ namespace Lawspot.Backend
     partial void InsertRegion(Region instance);
     partial void UpdateRegion(Region instance);
     partial void DeleteRegion(Region instance);
-    partial void InsertCategory(Category instance);
-    partial void UpdateCategory(Category instance);
-    partial void DeleteCategory(Category instance);
     partial void InsertMigration(Migration instance);
     partial void UpdateMigration(Migration instance);
     partial void DeleteMigration(Migration instance);
@@ -51,6 +48,9 @@ namespace Lawspot.Backend
     partial void InsertDraftAnswer(DraftAnswer instance);
     partial void UpdateDraftAnswer(DraftAnswer instance);
     partial void DeleteDraftAnswer(DraftAnswer instance);
+    partial void InsertCategory(Category instance);
+    partial void UpdateCategory(Category instance);
+    partial void DeleteCategory(Category instance);
     partial void InsertUser(User instance);
     partial void UpdateUser(User instance);
     partial void DeleteUser(User instance);
@@ -94,14 +94,6 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		public System.Data.Linq.Table<Category> Categories
-		{
-			get
-			{
-				return this.GetTable<Category>();
-			}
-		}
-		
 		public System.Data.Linq.Table<Migration> Migrations
 		{
 			get
@@ -139,6 +131,14 @@ namespace Lawspot.Backend
 			get
 			{
 				return this.GetTable<DraftAnswer>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Category> Categories
+		{
+			get
+			{
+				return this.GetTable<Category>();
 			}
 		}
 		
@@ -262,172 +262,6 @@ namespace Lawspot.Backend
 		{
 			this.SendPropertyChanging();
 			entity.Region = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Category")]
-	public partial class Category : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _CategoryId;
-		
-		private string _Name;
-		
-		private string _Slug;
-		
-		private EntitySet<Question> _Questions;
-		
-		private EntitySet<Lawyer> _Lawyers;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnCategoryIdChanging(int value);
-    partial void OnCategoryIdChanged();
-    partial void OnNameChanging(string value);
-    partial void OnNameChanged();
-    partial void OnSlugChanging(string value);
-    partial void OnSlugChanged();
-    #endregion
-		
-		public Category()
-		{
-			this._Questions = new EntitySet<Question>(new Action<Question>(this.attach_Questions), new Action<Question>(this.detach_Questions));
-			this._Lawyers = new EntitySet<Lawyer>(new Action<Lawyer>(this.attach_Lawyers), new Action<Lawyer>(this.detach_Lawyers));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CategoryId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int CategoryId
-		{
-			get
-			{
-				return this._CategoryId;
-			}
-			set
-			{
-				if ((this._CategoryId != value))
-				{
-					this.OnCategoryIdChanging(value);
-					this.SendPropertyChanging();
-					this._CategoryId = value;
-					this.SendPropertyChanged("CategoryId");
-					this.OnCategoryIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
-		public string Name
-		{
-			get
-			{
-				return this._Name;
-			}
-			set
-			{
-				if ((this._Name != value))
-				{
-					this.OnNameChanging(value);
-					this.SendPropertyChanging();
-					this._Name = value;
-					this.SendPropertyChanged("Name");
-					this.OnNameChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Slug", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
-		public string Slug
-		{
-			get
-			{
-				return this._Slug;
-			}
-			set
-			{
-				if ((this._Slug != value))
-				{
-					this.OnSlugChanging(value);
-					this.SendPropertyChanging();
-					this._Slug = value;
-					this.SendPropertyChanged("Slug");
-					this.OnSlugChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Question", Storage="_Questions", ThisKey="CategoryId", OtherKey="CategoryId")]
-		public EntitySet<Question> Questions
-		{
-			get
-			{
-				return this._Questions;
-			}
-			set
-			{
-				this._Questions.Assign(value);
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Lawyer", Storage="_Lawyers", ThisKey="CategoryId", OtherKey="SpecialisationCategoryId")]
-		public EntitySet<Lawyer> Lawyers
-		{
-			get
-			{
-				return this._Lawyers;
-			}
-			set
-			{
-				this._Lawyers.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_Questions(Question entity)
-		{
-			this.SendPropertyChanging();
-			entity.Category = this;
-		}
-		
-		private void detach_Questions(Question entity)
-		{
-			this.SendPropertyChanging();
-			entity.Category = null;
-		}
-		
-		private void attach_Lawyers(Lawyer entity)
-		{
-			this.SendPropertyChanging();
-			entity.Category = this;
-		}
-		
-		private void detach_Lawyers(Lawyer entity)
-		{
-			this.SendPropertyChanging();
-			entity.Category = null;
 		}
 	}
 	
@@ -2061,6 +1895,196 @@ namespace Lawspot.Backend
 		}
 	}
 	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Category")]
+	public partial class Category : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _CategoryId;
+		
+		private string _Name;
+		
+		private string _Slug;
+		
+		private int _ApprovedQuestionCount;
+		
+		private EntitySet<Question> _Questions;
+		
+		private EntitySet<Lawyer> _Lawyers;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnCategoryIdChanging(int value);
+    partial void OnCategoryIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    partial void OnSlugChanging(string value);
+    partial void OnSlugChanged();
+    partial void OnApprovedQuestionCountChanging(int value);
+    partial void OnApprovedQuestionCountChanged();
+    #endregion
+		
+		public Category()
+		{
+			this._Questions = new EntitySet<Question>(new Action<Question>(this.attach_Questions), new Action<Question>(this.detach_Questions));
+			this._Lawyers = new EntitySet<Lawyer>(new Action<Lawyer>(this.attach_Lawyers), new Action<Lawyer>(this.detach_Lawyers));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CategoryId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int CategoryId
+		{
+			get
+			{
+				return this._CategoryId;
+			}
+			set
+			{
+				if ((this._CategoryId != value))
+				{
+					this.OnCategoryIdChanging(value);
+					this.SendPropertyChanging();
+					this._CategoryId = value;
+					this.SendPropertyChanged("CategoryId");
+					this.OnCategoryIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Slug", DbType="VarChar(30) NOT NULL", CanBeNull=false)]
+		public string Slug
+		{
+			get
+			{
+				return this._Slug;
+			}
+			set
+			{
+				if ((this._Slug != value))
+				{
+					this.OnSlugChanging(value);
+					this.SendPropertyChanging();
+					this._Slug = value;
+					this.SendPropertyChanged("Slug");
+					this.OnSlugChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ApprovedQuestionCount", DbType="Int NOT NULL")]
+		public int ApprovedQuestionCount
+		{
+			get
+			{
+				return this._ApprovedQuestionCount;
+			}
+			set
+			{
+				if ((this._ApprovedQuestionCount != value))
+				{
+					this.OnApprovedQuestionCountChanging(value);
+					this.SendPropertyChanging();
+					this._ApprovedQuestionCount = value;
+					this.SendPropertyChanged("ApprovedQuestionCount");
+					this.OnApprovedQuestionCountChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Question", Storage="_Questions", ThisKey="CategoryId", OtherKey="CategoryId")]
+		public EntitySet<Question> Questions
+		{
+			get
+			{
+				return this._Questions;
+			}
+			set
+			{
+				this._Questions.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_Lawyer", Storage="_Lawyers", ThisKey="CategoryId", OtherKey="SpecialisationCategoryId")]
+		public EntitySet<Lawyer> Lawyers
+		{
+			get
+			{
+				return this._Lawyers;
+			}
+			set
+			{
+				this._Lawyers.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Questions(Question entity)
+		{
+			this.SendPropertyChanging();
+			entity.Category = this;
+		}
+		
+		private void detach_Questions(Question entity)
+		{
+			this.SendPropertyChanging();
+			entity.Category = null;
+		}
+		
+		private void attach_Lawyers(Lawyer entity)
+		{
+			this.SendPropertyChanging();
+			entity.Category = this;
+		}
+		
+		private void detach_Lawyers(Lawyer entity)
+		{
+			this.SendPropertyChanging();
+			entity.Category = null;
+		}
+	}
+	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.[User]")]
 	public partial class User : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -2098,6 +2122,8 @@ namespace Lawspot.Backend
 		private int _LogInCount;
 		
 		private string _LogInIpAddress;
+		
+		private System.Nullable<int> _CommunityServicesCardNumber;
 		
 		private EntitySet<Question> _Questions;
 		
@@ -2145,6 +2171,8 @@ namespace Lawspot.Backend
     partial void OnLogInCountChanged();
     partial void OnLogInIpAddressChanging(string value);
     partial void OnLogInIpAddressChanged();
+    partial void OnCommunityServicesCardNumberChanging(System.Nullable<int> value);
+    partial void OnCommunityServicesCardNumberChanged();
     #endregion
 		
 		public User()
@@ -2477,6 +2505,26 @@ namespace Lawspot.Backend
 					this._LogInIpAddress = value;
 					this.SendPropertyChanged("LogInIpAddress");
 					this.OnLogInIpAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CommunityServicesCardNumber", DbType="Int")]
+		public System.Nullable<int> CommunityServicesCardNumber
+		{
+			get
+			{
+				return this._CommunityServicesCardNumber;
+			}
+			set
+			{
+				if ((this._CommunityServicesCardNumber != value))
+				{
+					this.OnCommunityServicesCardNumberChanging(value);
+					this.SendPropertyChanging();
+					this._CommunityServicesCardNumber = value;
+					this.SendPropertyChanged("CommunityServicesCardNumber");
+					this.OnCommunityServicesCardNumberChanged();
 				}
 			}
 		}

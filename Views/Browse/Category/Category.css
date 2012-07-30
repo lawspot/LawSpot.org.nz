@@ -43,6 +43,15 @@ input.ask-textbox {
 .sidebar .categories a {
 	color: #5B5B5B;
 }
+.sidebar .categories li {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.sidebar .see-all-categories {
+    clear: both;
+    padding-top: 7px;
+}
 
 
 

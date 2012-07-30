@@ -22,7 +22,7 @@ dl,
 menu,
 ol,
 ul {
-    margin: 1em 0;
+    margin: 0.8em 0;
 }
 
 dd {
@@ -194,7 +194,7 @@ section.site-message {
     margin: auto;
     overflow: hidden;
 }
-section.site-message div
+section.site-message .success-message, section.site-message .warning-message, section.site-message .error-message
 {
     -webkit-animation: glow-white 0.5s ease-out 0.8s 2 alternate;
        -moz-animation: glow-white 0.5s ease-out 0.8s 2 alternate;
@@ -237,6 +237,7 @@ h2 {
 }
 h3 {
     font-size: 12pt;
+    margin: 6px 0;
 }
 h2.underline {
 	color: #373737;
@@ -268,7 +269,7 @@ h2.underline {
 	text-align: center;
 }
 ul.list-arrows {
-	margin: 15px 30px;
+	margin: 10px 0px 10px 20px;
 	padding: 0;
 }
 ul.list-arrows li {
@@ -409,6 +410,10 @@ footer .copyright {
     color: #00529B;
     background-color: #BDE5F8;
     background-image: url('/shared/images/info.png');
+    border: none;
+}
+.info-message a {
+    color: #0077E0;
 }
 .success-message {
     color: #4F8A10;
@@ -464,8 +469,8 @@ input[type].validation-error-field,
 
 /* Sidebar elements */
 .sidebar {
-    width: 335px;
-    margin-left: 25px;
+    width: 350px;
+    margin-left: 10px;
     float: right;
 }
 .sidebar .laptop {
@@ -476,7 +481,7 @@ input[type].validation-error-field,
     border: 1px solid #BBB7B6;
     border-radius: 6px;
     padding: 5px 12px 14px;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
     box-shadow: 1px 1px 8px #888;
     background: white;
 }

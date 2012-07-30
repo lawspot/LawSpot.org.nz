@@ -27,15 +27,15 @@
         <h2> Browse by Category </h2>
         <ul class="categories">
             {{#TopCategories1}}
-                <li> <a href="{{Uri}}">{{Name}}</a> </li>
+                <li> <a href="{{Uri}}">{{Name}}</a> ({{QuestionCount}}) </li>
             {{/TopCategories1}}
         </ul>
         <ul class="categories">
             {{#TopCategories2}}
-                <li> <a href="{{Uri}}">{{Name}}</a> </li>
+                <li> <a href="{{Uri}}">{{Name}}</a> ({{QuestionCount}}) </li>
             {{/TopCategories2}}
         </ul>
-        <span class="see-all-categories"><a href="#">See all categories...</a></span>
+        <div class="see-all-categories"><a href="#">See all categories...</a></div>
         <div style="clear: left"></div>
     </section>
 </section>

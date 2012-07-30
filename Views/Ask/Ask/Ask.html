@@ -2,6 +2,10 @@
 
 <h1>Ask A Lawyer</h1>
 
+{{^Registration}}
+    <div id="suggestions" style="display: none"></div>
+{{/Registration}}
+
 <form id="ask-form" method="post" action="/ask" class="container-form {{#Registration}}step2{{/Registration}}">
 
 {{#Registration}}
@@ -175,3 +179,20 @@
         <div style="clear: right"></div>
     </div>
 </section>
+
+
+{{! Change the mustache set delimiter so that tags within the templates are not replaced }}
+{{=** **=}}
+
+<script id="suggestions-template" type="text/template">
+    <h2> Has it been answered already? </h2>
+    <h3> Check it below before you ask. </h3>
+    <ul class="list-arrows">
+        {{#Suggestions}}
+    	    <li>
+                <a href="{{Uri}}">{{Title}}</a> <br />
+                {{Details}}
+            </li>
+        {{/Suggestions}}
+    </dl>
+</script>

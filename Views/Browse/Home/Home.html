@@ -23,15 +23,15 @@
         <h2> Browse by Category </h2>
         <ul class="categories">
             {{#TopCategories1}}
-                <li> <a href="{{Uri}}">{{Name}}</a> </li>
+                <li> <a href="{{Uri}}">{{Name}}</a> ({{QuestionCount}}) </li>
             {{/TopCategories1}}
         </ul>
         <ul class="categories">
             {{#TopCategories2}}
-                <li> <a href="{{Uri}}">{{Name}}</a> </li>
+                <li> <a href="{{Uri}}">{{Name}}</a> ({{QuestionCount}}) </li>
             {{/TopCategories2}}
         </ul>
-        <span class="see-all-categories"><a href="#">See all categories...</a></span>
+        <div class="see-all-categories"><a href="#">See all categories...</a></div>
         <div style="clear: left"></div>
     </section>
 </section>
@@ -45,8 +45,6 @@
         <input name="title" class="ask-textbox" type="text" placeholder="Ask your question here..." maxlength="150" />
         <button class="ask-button" type="submit">ASK</button>
     </form>
-
-    <div id="search-results" class="search-results"></div>
 </div>
 
 <h2 class="va-heading">Recent Questions and Answers <a href="/browse">... see all answers</a></h2>
@@ -59,21 +57,3 @@
 	    </div>
     {{/RecentAnswers}}
 </div>
-
-{{! Change the mustache set delimiter so that tags within the templates are not replaced }}
-{{=** **=}}
-
-<script id="suggestions-template" type="text/template">
-    <h2>
-    	Has it been answered already?<br />
-    	<span>Check it below before you ask.</span>
-    </h2>
-    <ul>
-        {{#Results}}
-    	    <li><a href="{{Uri}}">{{Title}}</a></li>
-        {{/Results}}
-    </ul>
-    {{#MoreUri}}
-   	    <a href="{{MoreUri}}" class="more-link"><strong>MORE &gt;&gt;</strong></a>
-    {{/MoreUri}}
-</script>

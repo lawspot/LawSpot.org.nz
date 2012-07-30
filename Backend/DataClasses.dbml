@@ -7,15 +7,6 @@
       <Association Name="Region_User" Member="Users" ThisKey="RegionId" OtherKey="RegionId" Type="User" />
     </Type>
   </Table>
-  <Table Name="dbo.Category" Member="Categories">
-    <Type Name="Category">
-      <Column Name="CategoryId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="Slug" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
-      <Association Name="Category_Question" Member="Questions" ThisKey="CategoryId" OtherKey="CategoryId" Type="Question" />
-      <Association Name="Category_Lawyer" Member="Lawyers" ThisKey="CategoryId" OtherKey="SpecialisationCategoryId" Type="Lawyer" />
-    </Type>
-  </Table>
   <Table Name="dbo.Migrations" Member="Migrations">
     <Type Name="Migration">
       <Column Name="MigrationId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -90,6 +81,16 @@
       <Association Name="User_DraftAnswer" Member="User" ThisKey="CreatedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.Category" Member="Categories">
+    <Type Name="Category">
+      <Column Name="CategoryId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Slug" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="ApprovedQuestionCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Category_Question" Member="Questions" ThisKey="CategoryId" OtherKey="CategoryId" Type="Question" />
+      <Association Name="Category_Lawyer" Member="Lawyers" ThisKey="CategoryId" OtherKey="SpecialisationCategoryId" Type="Lawyer" />
+    </Type>
+  </Table>
   <Table Name="dbo.[User]" Member="Users">
     <Type Name="User">
       <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -108,6 +109,7 @@
       <Column Name="LastLogInDate" Type="System.DateTimeOffset" DbType="DateTimeOffset" CanBeNull="true" />
       <Column Name="LogInCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="LogInIpAddress" Type="System.String" DbType="VarChar(45)" CanBeNull="true" />
+      <Column Name="CommunityServicesCardNumber" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="User_Question" Member="Questions" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Question" />
       <Association Name="User_Lawyer" Member="Lawyers" ThisKey="UserId" OtherKey="UserId" Type="Lawyer" />
       <Association Name="User_Answer" Member="Answers" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Answer" />

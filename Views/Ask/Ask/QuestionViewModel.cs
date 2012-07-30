@@ -23,6 +23,8 @@ namespace Lawspot.Views.Ask
         [MustBeTrue(ErrorMessage = "You must accept the terms & conditions to proceed.")]
         public bool Agreement { get; set; }
 
+        public IEnumerable<SearchSuggestion> Suggestions { get; set; }
+
         public bool FocusInTitle { get; set; }
         public bool FocusInDetails { get; set; }
 
@@ -33,5 +35,12 @@ namespace Lawspot.Views.Ask
         public bool ShowLogin { get { return !ShowRegistration; } }
         public bool FocusInLoginEmailAddress { get; set; }
         public Lawspot.Views.Account.LoginViewModel Login { get; set; }
+    }
+
+    public class SearchSuggestion
+    {
+        public string Title { get; set; }
+        public string Uri { get; set; }
+        public string Details { get; set; }
     }
 }

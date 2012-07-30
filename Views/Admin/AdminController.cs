@@ -840,6 +840,16 @@ namespace Lawspot.Controllers
             // Update the search index.
             SearchIndexer.UpdateQuestion(question);
 
+            // Recalculate the number of approved questions in the category.
+            this.DataContext.ExecuteCommand(@"
+                UPDATE Category
+                SET ApprovedQuestionCount = (
+                    SELECT COUNT(*)
+                    FROM Question
+                    WHERE Question.CategoryId = Category.CategoryId
+                        AND Approved = 1)
+                WHERE Category.CategoryId = {0}", question.CategoryId);
+
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(question.Details));
         }
 
@@ -887,7 +897,22 @@ namespace Lawspot.Controllers
             // Update the search index.
             SearchIndexer.UpdateQuestion(question);
 
+            // Recalculate the number of approved questions in the category.
+            this.DataContext.ExecuteCommand(@"
+                UPDATE Category
+                SET ApprovedQuestionCount = (
+                    SELECT COUNT(*)
+                    FROM Question
+                    WHERE Question.CategoryId = Category.CategoryId
+                        AND Approved = 1)
+                WHERE Category.CategoryId = {0}", question.CategoryId);
+
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(reason));
+        }
+
+        private void UpdateCategoryQuestionCounts()
+        {
+            
         }
 
         /// <summary>

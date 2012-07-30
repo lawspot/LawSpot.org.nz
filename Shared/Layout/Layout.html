@@ -126,6 +126,13 @@
                     {{SuccessMessage}}
                 </div>
             {{/SuccessMessage}}
+            {{^InAdmin}}
+                {{#ContributorMessageHtml}}
+                    <div class="info-message">
+                        {{{ContributorMessageHtml}}}
+                    </div>
+                {{/ContributorMessageHtml}}
+            {{/InAdmin}}
         </script>
     </section>
     <section class="site-body">

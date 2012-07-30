@@ -425,7 +425,7 @@
 $('#va-accordion').vaccordion({
     visibleSlices: 4,
     accordionW: 570,
-    accordionH: 300,
+    accordionH: 340,
     expandedHeight: 130,
     animOpacity: 1.0,
     contentAnimSpeed: 100
@@ -452,36 +452,3 @@ function openNextAccordionItem() {
     insideAccordion = false;
 }
 window.setInterval(openNextAccordionItem, 5000);
-
-var timerId;
-$(".ask-textbox").on("keyup focus", function () {
-    if (timerId)
-        window.clearTimeout(timerId);
-    timerId = window.setTimeout(displaySearchSuggestions, 1000);
-});
-$('.ask-textbox').focusout(function () {
-    $('.search-results').slideUp();
-    return false;
-});
-
-function displaySearchSuggestions() {
-    insideAccordion = true;
-    var questionText = $(".ask-textbox").val();
-    if (questionText === "") {
-        $(".search-results").slideUp();
-        return;
-    }
-    jQuery.ajax({
-        type: "GET",
-        url: "/suggestions",
-        data: { text: questionText },
-        success: function (data) {
-            if (data.Results.length === 0)
-                $(".search-results").slideUp();
-            else {
-                $(".search-results").html(Mustache.render(document.getElementById("suggestions-template").text, data));
-                $(".search-results").slideDown();
-            }
-        }
-    });
-}

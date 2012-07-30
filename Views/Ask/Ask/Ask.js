@@ -1,4 +1,6 @@
-﻿// Display and limit the number of characters allowed in the question textboxes.
+﻿/* {{Include //ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js}} */
+
+// Display and limit the number of characters allowed in the question textboxes.
 function countCharacters(textElement, charCountElement, limit) {
     var count = function () {
         if (textElement.value.length > limit)
@@ -40,4 +42,33 @@ if (document.getElementById("qsubmit-overlay2")) {
         return false;
     };
 
+}
+
+// Update the search suggestions now.
+updateSuggestions(Model);
+
+// Update the search suggestions when the user tabs out of the question textbox.
+$("#Title").blur(function () {
+    var questionText = $("#Title").val();
+    if (questionText === "") {
+        updateSuggestions({ Suggestions: [] });
+        return;
+    }
+    jQuery.ajax({
+        type: "GET",
+        url: "/suggestions",
+        data: { text: questionText },
+        success: function (data) {
+            updateSuggestions(data);
+        }
+    });
+});
+
+function updateSuggestions(data) {
+    if (data.Suggestions === null || data.Suggestions.length === 0)
+        $("#suggestions").fadeOut("fast");
+    else {
+        $("#suggestions").html(Mustache.render(document.getElementById("suggestions-template").text, data));
+        $("#suggestions").fadeIn("fast");
+    }
 }

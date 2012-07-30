@@ -58,6 +58,15 @@ input.ask-textbox {
 .sidebar .categories a {
 	color: #5B5B5B;
 }
+.sidebar .categories li {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.sidebar .see-all-categories {
+    clear: both;
+    padding-top: 7px;
+}
 
 /* Q & A specific */
 .ask-sidebar {
@@ -88,7 +97,7 @@ input.ask-textbox {
 	border: solid 1px #E9C299;
 	border-radius: 4px;
 	padding: 0 10px;
-	width: 460px;
+	width: 445px;
 	margin-left: 85px;
 	position: relative;
 }

@@ -24,6 +24,9 @@ namespace Lawspot.Views.Account
         public int RegionId { get; set; }
         public IEnumerable<SelectListItem> Regions { get; set; }
 
+        [RegularExpression(@"^(?:\s*[0-9]\s*){9}$", ErrorMessage = "The community services card number should be nine digits; you can find it on the lower left corner of your card.")]
+        public string CommunityServicesCardNumber { get; set; }
+
         [MustBeTrue(ErrorMessage = "You must agree to the terms and conditions.")]
         public bool Agreement { get; set; }
 

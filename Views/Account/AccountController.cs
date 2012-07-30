@@ -25,8 +25,6 @@ namespace Lawspot.Controllers
 
             var model = new LoginViewModel();
             model.RememberMe = true;
-            if (this.Request.UrlReferrer != null)
-                model.RedirectUrl = this.Request.UrlReferrer.ToString();
             if (this.Request.QueryString["ReturnUrl"] != null)
                 model.RedirectUrl = this.Request.QueryString["ReturnUrl"];
             return View(model);
@@ -58,9 +56,27 @@ namespace Lawspot.Controllers
             // Create login cookie.
             Login(user, rememberMe: model.RememberMe);
 
-            // Redirect to the original referrer, or to the home page.
+            // Redirect to the original referrer, or to the user's home page.
             if (string.IsNullOrEmpty(model.RedirectUrl) == false)
                 return Redirect(StringUtilities.SetUriParameter(new Uri(this.Request.Url, model.RedirectUrl), "alert", "loggedin").ToString());
+
+            // If the user can answer questions, redirect them to the answer questions page.
+            if (user.CanVetQuestions == false && user.CanVetAnswers == false && user.CanVetLawyers == false && user.CanAnswerQuestions == true)
+                return RedirectToAction("AnswerQuestions", "Admin", new { alert = "loggedin" });
+
+            // Otherwise, if the user can vet questions (only), redirect them to the review questions page.
+            if (user.CanVetQuestions == true && user.CanVetAnswers == false && user.CanVetLawyers == false && user.CanAnswerQuestions == false)
+                return RedirectToAction("ReviewQuestions", "Admin", new { alert = "loggedin" });
+
+            // Otherwise, if the user can vet answers (only), redirect them to the review questions page.
+            if (user.CanVetQuestions == false && user.CanVetAnswers == true && user.CanVetLawyers == false && user.CanAnswerQuestions == false)
+                return RedirectToAction("ReviewAnswers", "Admin", new { alert = "loggedin" });
+
+            // Otherwise, if they can do any of those things, redirect them to the stats page.
+            if (user.CanVetQuestions || user.CanVetAnswers || user.CanVetLawyers || user.CanAnswerQuestions)
+                return RedirectToAction("ActivityStream", "Admin", new { alert = "loggedin" });
+
+            // Otherwise, redirect them to the home page.
             return RedirectToAction("Home", "Browse", new { alert = "loggedin" });
         }
 
@@ -97,6 +113,11 @@ namespace Lawspot.Controllers
             // Trim the text fields.
             model.EmailAddress = model.EmailAddress.Trim();
 
+            // The community services card number is an optional 9 digit number.
+            int? communityServicesCardNumber = null;
+            if (string.IsNullOrWhiteSpace(model.CommunityServicesCardNumber) == false)
+                communityServicesCardNumber = int.Parse(model.CommunityServicesCardNumber.Replace(" ", ""));
+
             // Check an account with the email doesn't already exist.
             string alert;
             bool registered = false;
@@ -114,6 +135,7 @@ namespace Lawspot.Controllers
                 // The user tried to register, but they got the email address and password
                 // right, so we'll just log them in.
                 user.RegionId = model.RegionId;
+                user.CommunityServicesCardNumber = communityServicesCardNumber;
 
                 // Alert the user that they were logged in, rather than registering.
                 alert = "loggedin";
@@ -121,7 +143,7 @@ namespace Lawspot.Controllers
             else
             {
                 // Register a new user.
-                user = Register(model.EmailAddress, model.Password, model.RegionId);
+                user = Register(model.EmailAddress, model.Password, model.RegionId, communityServicesCardNumber);
                 registered = true;
 
                 // Alert the user that they have registered successfully.
