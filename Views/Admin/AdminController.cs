@@ -490,7 +490,7 @@ namespace Lawspot.Controllers
             // Populate the list of precanned rejection responses.
             model.CannedRejectionReasons = new SelectListItem[] {
                 new SelectListItem() { Text = "Select a canned response", Value = "" },
-                new SelectListItem() { Text = "Not Based In Wellington", Value = "You are not based in Wellington: LawSpot is currently being piloted in the Wellington region. This means that for the moment only lawyers based in Wellington will be able to submit answers to questions, and only under the supervision of the Wellington Community Law Centre. We'll be sure to let you know over the next few weeks when lawyers from other regions can start submitting answers. You may still be able to help with the pilot even if you're not based in Wellington - to find out more, please email us at volunteer@lawspot.org.nz." },
+                new SelectListItem() { Text = "Not Based In Wellington", Value = "You are not based in Wellington: LawSpot is currently being piloted in the Wellington region. This means that for the moment only lawyers based in Wellington will be able to submit answers to questions, and only under the supervision of Community Law Wellington & Hutt Valley. We'll be sure to let you know over the next few weeks when lawyers from other regions can start submitting answers. You may still be able to help with the pilot even if you're not based in Wellington - to find out more, please email us at volunteer@lawspot.org.nz." },
                 new SelectListItem() { Text = "No Certificate", Value = "You do not appear to hold a current practising certificate." },
             };
 
