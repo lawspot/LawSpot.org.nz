@@ -18,15 +18,16 @@ namespace Lawspot.Controllers
         public ActionResult Home()
         {
             var model = new HomePageViewModel();
-            PopulateModel(model);
+            PopulateModel(model, answersPageSize: 4);
             return View(model);
         }
 
         /// <summary>
         /// Displays the browse page.
         /// </summary>
+        /// <param name="page"> The page number. </param>
         /// <returns></returns>
-        public ActionResult Browse()
+        public ActionResult Browse(int page = 1)
         {
             // Activate header tab.
             this.BrowseAnswersTabActive = true;
@@ -43,7 +44,7 @@ namespace Lawspot.Controllers
                 });
             model.Categories1 = categories.Take((categories.Count() + 1) / 2);
             model.Categories2 = categories.Skip((categories.Count() + 1) / 2);
-            PopulateModel(model);
+            PopulateModel(model, null, page);
             return View(model);
         }
 
@@ -51,8 +52,9 @@ namespace Lawspot.Controllers
         /// Displays the category page.
         /// </summary>
         /// <param name="slug"> The slug identifying the category. </param>
+        /// <param name="page"> The page number. </param>
         /// <returns></returns>
-        public ActionResult Category(string slug)
+        public ActionResult Category(string slug, int page = 1)
         {
             var category = this.DataContext.Categories.Where(c => c.Slug == slug).SingleOrDefault();
             if (category == null)
@@ -61,7 +63,7 @@ namespace Lawspot.Controllers
             var model = new CategoryPageViewModel();
             model.CategoryId = category.CategoryId;
             model.Name = category.Name;
-            PopulateModel(model, category.CategoryId);
+            PopulateModel(model, category.CategoryId, page);
             return View(model);
         }
 
@@ -108,17 +110,17 @@ namespace Lawspot.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <param name="categoryId"></param>
-        private void PopulateModel(object model, int? categoryId = null)
+        /// <param name="page"></param>
+        private void PopulateModel(object model, int? categoryId = null, int answersPage = 1, int answersPageSize = 8)
         {
             if (model is IRecentAnswers)
             {
                 IEnumerable<Answer> filteredAnswers = this.DataContext.Answers;
                 if (categoryId != null)
                     filteredAnswers = filteredAnswers.Where(a => a.Question.CategoryId == categoryId.Value);
-                ((IRecentAnswers)model).RecentAnswers = filteredAnswers
+                ((IRecentAnswers)model).RecentAnswers = new PagedListView<AnsweredQuestionViewModel>(filteredAnswers
                     .Where(a => a.Approved && a.Question.Approved)
                     .OrderByDescending(a => a.CreatedOn)
-                    .Take(4)
                     .Select(a => new AnsweredQuestionViewModel()
                     {
                         Uri = a.Question.AbsolutePath,
@@ -128,8 +130,8 @@ namespace Lawspot.Controllers
                         AnsweredTime = DateTimeOffset.Now.Subtract(a.CreatedOn).TotalHours > 24 ?
                             string.Format("{0:d MMMM yyyy}", a.CreatedOn) :
                             string.Format("{0} hours ago", Math.Round(DateTimeOffset.Now.Subtract(a.CreatedOn).TotalHours)),
-                    }).ToList();
-                var lastAnswer = ((IRecentAnswers)model).RecentAnswers.LastOrDefault();
+                    }), answersPage, answersPageSize, this.Request.Url);
+                var lastAnswer = ((IRecentAnswers)model).RecentAnswers.Items.LastOrDefault();
                 if (lastAnswer != null)
                     lastAnswer.Last = true;
             }

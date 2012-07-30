@@ -49,11 +49,11 @@
 
 <h2 class="va-heading">Recent Questions and Answers <a href="/browse">... see all answers</a></h2>
 <div id="va-accordion" class="va-container">
-    {{#RecentAnswers}}
+    {{#RecentAnswers.Items}}
 	    <div data-href="{{Uri}}" class="va-slice {{#Last}}last{{/Last}}" onclick="window.location.href = this.getAttribute('data-href')">
 		    <span class="question-icon"></span>
 		    <h3>{{Title}}</h3>
 		    <p>{{Details}} <strong><a href="{{Uri}}">read more</a></strong></p>
 	    </div>
-    {{/RecentAnswers}}
+    {{/RecentAnswers.Items}}
 </div>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Lawspot.Backend;
+using Lawspot.Shared;
 
 namespace Lawspot.Views.Browse
 {
@@ -9,6 +10,6 @@ namespace Lawspot.Views.Browse
     {
         public IEnumerable<CategoryViewModel> TopCategories1 { get; set; }
         public IEnumerable<CategoryViewModel> TopCategories2 { get; set; }
-        public IEnumerable<AnsweredQuestionViewModel> RecentAnswers { get; set; }
+        public PagedListView<AnsweredQuestionViewModel> RecentAnswers { get; set; }
     }
 }

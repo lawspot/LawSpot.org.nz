@@ -28,7 +28,7 @@
 
 <h2> Recent Questions and Answers</h2>
 
-{{#RecentAnswers}}
+{{#RecentAnswers.Items}}
     <div class="question">
         <div class="title">
             <a href="{{Uri}}">{{Title}}</a>
@@ -40,9 +40,40 @@
             {{AnsweredBy}} answered {{AnsweredTime}}
         </div>
     </div>
-{{/RecentAnswers}}
-{{^RecentAnswers}}
+{{/RecentAnswers.Items}}
+{{^RecentAnswers.Items}}
     <p> None yet. </p>
+{{/RecentAnswers.Items}}
+
+{{! Page numbers }}
+{{#RecentAnswers}}
+    {{#ShowPageLabels}}
+        <div class="page-numbers">
+            {{#HasPrevious}}
+                <a class="button" href="{{PreviousUri}}">Previous</a>
+            {{/HasPrevious}}
+            {{^HasPrevious}}
+                <span class="button disabled">Previous</span>
+            {{/HasPrevious}}
+            {{#PageLabels}}
+                {{#NavigateUri}}
+                    <a class="button" href="{{NavigateUri}}">{{Text}}</a>
+                {{/NavigateUri}}
+                {{#IsCurrentPage}}
+                    <span class="button current-page">{{Text}}</span>
+                {{/IsCurrentPage}}
+                {{#IsEllipsis}}
+                    <span class="ellipsis">{{Text}}</span>
+                {{/IsEllipsis}}
+            {{/PageLabels}}
+            {{#HasNext}}
+                <a class="button" href="{{NextUri}}">Next</a>
+            {{/HasNext}}
+            {{^HasNext}}
+                <span class="button disabled">Next</span>
+            {{/HasNext}}
+        </div>
+    {{/ShowPageLabels}}
 {{/RecentAnswers}}
 
 <h2> Most Viewed {{Name}} Questions and Answers </h2>

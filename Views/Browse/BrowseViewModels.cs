@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Lawspot.Backend;
+using Lawspot.Shared;
 
 namespace Lawspot.Views.Browse
 {
@@ -13,7 +14,7 @@ namespace Lawspot.Views.Browse
 
     public interface IRecentAnswers
     {
-        IEnumerable<AnsweredQuestionViewModel> RecentAnswers { get; set; }
+        PagedListView<AnsweredQuestionViewModel> RecentAnswers { get; set; }
     }
 
     public interface IMostViewedQuestions
