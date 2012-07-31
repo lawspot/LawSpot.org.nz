@@ -168,4 +168,5 @@ input.ask-textbox {
     clear: left;
 	margin-top: 30px;
 	font-size: 10pt;
+	width: 550px;
 }
