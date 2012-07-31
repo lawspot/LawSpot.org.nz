@@ -101,7 +101,7 @@ namespace Lawspot.Controllers
             {
                 DetailsHtml = StringUtilities.ConvertTextToHtml(a.Details),
             });
-            PopulateModel(model);
+            PopulateModel(model, question.CategoryId);
             return View(model);
         }
 
