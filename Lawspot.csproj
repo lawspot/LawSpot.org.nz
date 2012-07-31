@@ -378,7 +378,9 @@
     <Content Include="Views\Static\AboutUs\Bowen.jpg" />
     <Content Include="Views\Static\AboutUs\Bradley.jpg" />
     <Content Include="Views\Static\AboutUs\Cheryl.jpg" />
+    <Content Include="Views\Static\AboutUs\clc-logo.png" />
     <Content Include="Views\Static\AboutUs\David.jpg" />
+    <Content Include="Views\Static\AboutUs\Geoff.jpg" />
     <Content Include="Views\Static\AboutUs\James.jpg" />
     <Content Include="Views\Static\AboutUs\Lizzie.jpg" />
     <Content Include="Views\Static\AboutUs\margaret-wilson.png" />
