@@ -98,3 +98,6 @@ input.ask-textbox {
 .va-slice.last {
 	border-radius: 0 0 5px 5px;
 }
+#va-accordion .va-slice:nth-child(1n+1) p {
+	display: none;
+}
