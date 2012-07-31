@@ -262,9 +262,12 @@ namespace Lawspot.Controllers
             registrationEmail.To.Add(user.EmailAddress);
             registrationEmail.EmailAddress = user.EmailAddress;
             registrationEmail.Password = password;
-            registrationEmail.ValidateEmailUri = string.Format("{0}/validate-email?userId={1}&token={2}",
-                registrationEmail.BaseUrl, Uri.EscapeDataString(user.UserId.ToString()),
-                Uri.EscapeDataString(user.EmailValidationToken));
+            if (user.EmailValidationToken != null)
+            {
+                registrationEmail.ValidateEmailUri = string.Format("{0}/validate-email?userId={1}&token={2}",
+                    registrationEmail.BaseUrl, Uri.EscapeDataString(user.UserId.ToString()),
+                    Uri.EscapeDataString(user.EmailValidationToken));
+            }
             registrationEmail.AskedQuestion = askedQuestion;
             registrationEmail.Send();
         }
