@@ -126,6 +126,7 @@ namespace Lawspot.Shared
             if (queryText == null)
                 throw new ArgumentNullException("queryText");
             queryText = queryText.Replace("*", "");
+            queryText = queryText.Replace("?", "");
             queryText = queryText.Trim();
             if (queryText == string.Empty)
                 return new SearchHit[0];
