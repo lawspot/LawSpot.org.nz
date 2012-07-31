@@ -31,12 +31,12 @@
         the other party to your legal issue;
       </li>
       <li>
-        the LawSpot lawyer who answers your question may already act for the other party to your
+        The LawSpot lawyer who answers your question may already act for the other party to your
         legal issue in the course of his or her regular employment, or in the course of volunteering
         at a community law centre; and
       </li>
       <li>
-        each LawSpot lawyer is only obliged to tell you information about the relevant area of
+        Each LawSpot lawyer is only obliged to tell you information about the relevant area of
         law as at the time they answer your question, and to tell you if they are aware of other
         questions received or answers published by LawSpot that are relevant to your question.
       </li>
