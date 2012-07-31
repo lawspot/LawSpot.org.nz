@@ -53,7 +53,7 @@
           <tr>
             <th align="right" width="120"> URL: </th>
             <td colspan="3">
-              <xsl:value-of select="RequestURL"/>
+              <xsl:value-of select="RequestUrl"/>
             </td>
           </tr>
           <tr>
