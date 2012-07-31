@@ -73,6 +73,10 @@ input.ask-textbox {
 	width: 535px;
 	line-height: 1.5;
 	cursor: pointer;
+	height: 70px;
+}
+.va-slice:first-child {
+	height: 130px;
 }
 .va-slice .question-icon {
 	display: block;
