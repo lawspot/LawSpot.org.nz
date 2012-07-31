@@ -364,6 +364,7 @@
     <Content Include="Views\Browse\Home\jquery.dotdotdot-1.5.1.js" />
     <Content Include="Views\Browse\Home\laptop.png" />
     <Content Include="Views\Browse\Home\question-icon.png" />
+    <Content Include="Views\Browse\Home\question-whiteman.png" />
     <Content Include="Views\Browse\Home\recent-questions-icon.png" />
     <Content Include="Views\Browse\lawyer.png" />
     <Content Include="Views\Browse\Question\answer.png" />
