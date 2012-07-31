@@ -19,6 +19,9 @@ ul.contents li {
     margin-left: 10px;
     color: #373737;
 }
+#aboutus h3 {
+	clear: right;
+}
 
 /* Images */
 #aboutus img {
