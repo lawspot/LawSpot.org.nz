@@ -1,5 +1,6 @@
 ﻿/* {{Include //ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js}} */
 /* {{Include /views/browse/home/jquery-easing-1.3.pack.js}} */
+/* {{Include /views/browse/home/jquery.dotdotdot-1.5.1.js}} */
 
 (function ($) {
 
@@ -422,6 +423,8 @@
 
 })(jQuery);
 
+$(".va-slice h3").dotdotdot();
+
 $('#va-accordion').vaccordion({
     visibleSlices: 4,
     accordionW: 570,
@@ -430,7 +433,6 @@ $('#va-accordion').vaccordion({
     animOpacity: 1.0,
     contentAnimSpeed: 100
 });
-$('.va-slice-1').trigger('mouseenter');
 
 var insideAccordion = false;
 $("#va-accordion").mouseover(function () { insideAccordion = true; });
@@ -451,4 +453,5 @@ function openNextAccordionItem() {
     next.trigger("mouseenter");
     insideAccordion = false;
 }
+openNextAccordionItem();
 window.setInterval(openNextAccordionItem, 5000);
