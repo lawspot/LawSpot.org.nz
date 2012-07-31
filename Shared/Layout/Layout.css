@@ -215,6 +215,9 @@ section.site-body {
     min-height: 500px;
     line-height: 1.5;
 }
+section.left-content {
+	width: 570px;
+}
 
 /* Theme */
 a {
