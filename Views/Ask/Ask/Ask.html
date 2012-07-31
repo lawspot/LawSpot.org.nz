@@ -152,19 +152,18 @@
 		    </div>
 	    </div>
 
-	    <div class="qsubmit-field">
-		    <div class="offset-field" id="qsubmit-agreement">
-			    <label>
-				    <input id="Agreement" name="Agreement" type="checkbox" {{#Agreement}}checked{{/Agreement}} value="true"
-					        {{#ModelState.Agreement}}class="validation-error-field"{{/ModelState.Agreement}} />
-				    <small>
-                        I agree to the <a href="/terms" target="_blank">Terms of Use</a> and
-                        understand that my question and answer will be made public (but not my
-                        name). See our <a href="/privacy-policy" target="_blank">Privacy Policy</a>.
-                    </small>
-			    </label>
-			    <div class="validation-error">{{ModelState.Agreement}}</div>
-		    </div>
+	    <div id="qsubmit-agreement" class="qsubmit-field">
+			<label>
+				<input id="Agreement" name="Agreement" type="checkbox" {{#Agreement}}checked{{/Agreement}} value="true"
+					    {{#ModelState.Agreement}}class="validation-error-field"{{/ModelState.Agreement}} />
+				<small>
+                    I agree to the <a href="/terms" target="_blank">Terms of Use</a>,
+                    understand that my question and answer will be made public (but not my
+                    name) and consent to LawSpot answering questions from other people involved
+                    in my legal issue. See our <a href="/privacy-policy" target="_blank">Privacy Policy</a>.
+                </small>
+			</label>
+			<div class="validation-error">{{ModelState.Agreement}}</div>
 	    </div>
 
 	    <div class="qsubmit-button">

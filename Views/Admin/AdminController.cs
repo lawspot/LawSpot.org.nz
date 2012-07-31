@@ -538,7 +538,8 @@ namespace Lawspot.Controllers
             };
 
             // Filter and sort.
-            IEnumerable<Lawyer> lawyers = this.DataContext.Lawyers;
+            IEnumerable<Lawyer> lawyers = this.DataContext.Lawyers
+                .Where(l => l.User.EmailValidated == true);
             if (categoryId != 0)
                 lawyers = lawyers.Where(l => l.SpecialisationCategoryId == categoryId);
             switch (filterValue)
@@ -751,7 +752,7 @@ namespace Lawspot.Controllers
             switch (filterValue)
             {
                 case ReviewQuestionsFilter.Unreviewed:
-                    questions = questions.Where(q => q.ReviewDate == null && q.User.EmailValidated);
+                    questions = questions.Where(q => q.ReviewDate == null);
                     break;
                 case ReviewQuestionsFilter.Approved:
                     questions = questions.Where(q => q.ReviewDate != null && q.Approved == true);

@@ -69,6 +69,16 @@
 	border: 0;
 }
 
+#qsubmit-agreement input {
+    float: left;
+    margin-top: 3px;
+}
+
+#qsubmit-agreement small {
+    display: block;
+    margin-left: 20px;
+}
+
 #suggestions {
     float: right;
 	width: 400px;

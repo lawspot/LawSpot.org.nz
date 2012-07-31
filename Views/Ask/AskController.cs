@@ -100,7 +100,7 @@ namespace Lawspot.Controllers
                     else
                     {
                         // Register a new user.
-                        user = Register(model.Registration.EmailAddress, model.Registration.Password, model.Registration.RegionId);
+                        user = Register(model.Registration.EmailAddress, model.Registration.Password, model.Registration.RegionId, lawyer: false);
                         registered = true;
                     }
                 }

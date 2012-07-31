@@ -2097,8 +2097,6 @@ namespace Lawspot.Backend
 		
 		private string _Password;
 		
-		private System.Data.Linq.Binary _Avatar;
-		
 		private int _RegionId;
 		
 		private System.DateTimeOffset _CreatedOn;
@@ -2111,10 +2109,6 @@ namespace Lawspot.Backend
 		
 		private bool _CanVetLawyers;
 		
-		private bool _EmailValidated;
-		
-		private string _EmailValidationToken;
-		
 		private bool _CanAdminister;
 		
 		private System.Nullable<System.DateTimeOffset> _LastLogInDate;
@@ -2124,6 +2118,10 @@ namespace Lawspot.Backend
 		private string _LogInIpAddress;
 		
 		private System.Nullable<int> _CommunityServicesCardNumber;
+		
+		private System.Nullable<bool> _EmailValidated;
+		
+		private string _EmailValidationToken;
 		
 		private EntitySet<Question> _Questions;
 		
@@ -2145,8 +2143,6 @@ namespace Lawspot.Backend
     partial void OnEmailAddressChanged();
     partial void OnPasswordChanging(string value);
     partial void OnPasswordChanged();
-    partial void OnAvatarChanging(System.Data.Linq.Binary value);
-    partial void OnAvatarChanged();
     partial void OnRegionIdChanging(int value);
     partial void OnRegionIdChanged();
     partial void OnCreatedOnChanging(System.DateTimeOffset value);
@@ -2159,10 +2155,6 @@ namespace Lawspot.Backend
     partial void OnCanVetAnswersChanged();
     partial void OnCanVetLawyersChanging(bool value);
     partial void OnCanVetLawyersChanged();
-    partial void OnEmailValidatedChanging(bool value);
-    partial void OnEmailValidatedChanged();
-    partial void OnEmailValidationTokenChanging(string value);
-    partial void OnEmailValidationTokenChanged();
     partial void OnCanAdministerChanging(bool value);
     partial void OnCanAdministerChanged();
     partial void OnLastLogInDateChanging(System.Nullable<System.DateTimeOffset> value);
@@ -2173,6 +2165,10 @@ namespace Lawspot.Backend
     partial void OnLogInIpAddressChanged();
     partial void OnCommunityServicesCardNumberChanging(System.Nullable<int> value);
     partial void OnCommunityServicesCardNumberChanged();
+    partial void OnEmailValidatedChanging(System.Nullable<bool> value);
+    partial void OnEmailValidatedChanged();
+    partial void OnEmailValidationTokenChanging(string value);
+    partial void OnEmailValidationTokenChanged();
     #endregion
 		
 		public User()
@@ -2241,26 +2237,6 @@ namespace Lawspot.Backend
 					this._Password = value;
 					this.SendPropertyChanged("Password");
 					this.OnPasswordChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Avatar", DbType="Image", UpdateCheck=UpdateCheck.Never)]
-		public System.Data.Linq.Binary Avatar
-		{
-			get
-			{
-				return this._Avatar;
-			}
-			set
-			{
-				if ((this._Avatar != value))
-				{
-					this.OnAvatarChanging(value);
-					this.SendPropertyChanging();
-					this._Avatar = value;
-					this.SendPropertyChanged("Avatar");
-					this.OnAvatarChanged();
 				}
 			}
 		}
@@ -2389,46 +2365,6 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmailValidated", DbType="Bit NOT NULL")]
-		public bool EmailValidated
-		{
-			get
-			{
-				return this._EmailValidated;
-			}
-			set
-			{
-				if ((this._EmailValidated != value))
-				{
-					this.OnEmailValidatedChanging(value);
-					this.SendPropertyChanging();
-					this._EmailValidated = value;
-					this.SendPropertyChanged("EmailValidated");
-					this.OnEmailValidatedChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmailValidationToken", DbType="VarChar(50)")]
-		public string EmailValidationToken
-		{
-			get
-			{
-				return this._EmailValidationToken;
-			}
-			set
-			{
-				if ((this._EmailValidationToken != value))
-				{
-					this.OnEmailValidationTokenChanging(value);
-					this.SendPropertyChanging();
-					this._EmailValidationToken = value;
-					this.SendPropertyChanged("EmailValidationToken");
-					this.OnEmailValidationTokenChanged();
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CanAdminister", DbType="Bit NOT NULL")]
 		public bool CanAdminister
 		{
@@ -2525,6 +2461,46 @@ namespace Lawspot.Backend
 					this._CommunityServicesCardNumber = value;
 					this.SendPropertyChanged("CommunityServicesCardNumber");
 					this.OnCommunityServicesCardNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmailValidated", DbType="Bit")]
+		public System.Nullable<bool> EmailValidated
+		{
+			get
+			{
+				return this._EmailValidated;
+			}
+			set
+			{
+				if ((this._EmailValidated != value))
+				{
+					this.OnEmailValidatedChanging(value);
+					this.SendPropertyChanging();
+					this._EmailValidated = value;
+					this.SendPropertyChanged("EmailValidated");
+					this.OnEmailValidatedChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmailValidationToken", DbType="VarChar(50)")]
+		public string EmailValidationToken
+		{
+			get
+			{
+				return this._EmailValidationToken;
+			}
+			set
+			{
+				if ((this._EmailValidationToken != value))
+				{
+					this.OnEmailValidationTokenChanging(value);
+					this.SendPropertyChanging();
+					this._EmailValidationToken = value;
+					this.SendPropertyChanged("EmailValidationToken");
+					this.OnEmailValidationTokenChanged();
 				}
 			}
 		}

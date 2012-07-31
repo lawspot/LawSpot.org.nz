@@ -229,6 +229,8 @@
     <Content Include="Backend\Migrations\31.sql" />
     <Content Include="Backend\Migrations\32.sql" />
     <Content Include="Backend\Migrations\33.sql" />
+    <Content Include="Backend\Migrations\34.sql" />
+    <Content Include="Backend\Migrations\35.sql" />
     <Content Include="Default.htm" />
     <Content Include="Email\Assets\facebook.png" />
     <Content Include="Email\Assets\header-original.png" />
@@ -298,8 +300,6 @@
     <Content Include="Shared\Images\success.png" />
     <Content Include="Shared\Images\warning.png" />
     <Content Include="Shared\Layout\Layout.css" />
-    <Content Include="Views\Account\ValidateEmailAddressFailure.html" />
-    <Content Include="Views\Account\ValidateEmailAddressSuccess.html" />
     <Content Include="Views\Account\LawyerThankYou\LawyerThankYou.html" />
     <Content Include="Views\Account\LawyerRegister\handsup-top.png" />
     <Content Include="Views\Account\LawyerRegister\handsup.jpg" />

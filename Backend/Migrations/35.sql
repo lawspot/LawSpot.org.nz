@@ -1,0 +1,2 @@
+﻿ALTER TABLE [User]
+ALTER COLUMN EmailValidated BIT NULL

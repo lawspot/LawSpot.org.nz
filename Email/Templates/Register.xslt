@@ -12,6 +12,15 @@
     </p>
 
     <p>
+      Here are your login details. Please keep this email in a safe place.
+    </p>
+
+    <p>
+      Email: <xsl:value-of select="EmailAddress"/><br />
+      Password: <xsl:value-of select="Password"/>
+    </p>
+
+    <p>
       Before you can use this service, you must confirm that you understand and accept the
       website’s <a href="{BaseUrl}/terms">Terms of Use</a> and in particular you accept that:
     </p>
@@ -42,19 +51,11 @@
       </li>
     </ul>
 
-    <p>
-      If you understand and consent to the above, please follow this link:
-    </p>
-
-    <p style="font-size: larger; text-align: center">
-      <a href="{ValidateEmailUri}">I have read and understood the Terms of Use</a>
-    </p>
-
     <xsl:if test="AskedQuestion = 'True'">
       <p>
-        Once you have followed the link, your question will be screened and categorised by one of our
-        LawSpot administrators. LawSpot reserves the right to refuse to answer a question if the
-        LawSpot administrator considers that the question:
+        Your question will now will be screened and categorised by one of our LawSpot administrators.
+        LawSpot reserves the right to refuse to answer a question if the LawSpot administrator
+        considers that the question:
       </p>
 
       <ul>
@@ -71,15 +72,6 @@
         for lawyers to answer.
       </p>
     </xsl:if>
-
-    <p>
-      For your own records, here are your login details. Please keep this email in a safe place.
-    </p>
-
-    <p>
-      Email: <xsl:value-of select="EmailAddress"/><br />
-      Password: <xsl:value-of select="Password"/>
-    </p>
 
     <p>
       We hope you find the LawSpot website useful. If you have any issues with the website or just
