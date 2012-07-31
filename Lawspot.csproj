@@ -361,6 +361,7 @@
     <Content Include="Views\Browse\Home\Home.css" />
     <Content Include="Shared\Layout\mustache.js" />
     <Content Include="Views\Browse\Home\Home.js" />
+    <Content Include="Views\Browse\Home\jquery.dotdotdot-1.5.1.js" />
     <Content Include="Views\Browse\Home\laptop.png" />
     <Content Include="Views\Browse\Home\question-icon.png" />
     <Content Include="Views\Browse\Home\recent-questions-icon.png" />
