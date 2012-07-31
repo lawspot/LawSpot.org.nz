@@ -88,7 +88,7 @@ namespace Lawspot.Controllers
         public ActionResult Register()
         {
             var model = new RegisterViewModel();
-            model.RegionId = 2;
+            model.RegionId = 9; // Default to Wellington
             if (this.Request.UrlReferrer != null)
                 model.RedirectUrl = this.Request.UrlReferrer.ToString();
             PopulateRegisterViewModel(model);
