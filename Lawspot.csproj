@@ -369,7 +369,7 @@
     <Content Include="Views\Browse\Home\recent-questions-icon.png" />
     <Content Include="Views\Browse\lawyer.png" />
     <Content Include="Views\Browse\question-whiteman.jpg" />
-    <Content Include="Views\Browse\Question\answer.png" />
+    <Content Include="Views\Browse\Question\answer.jpg" />
     <Content Include="Views\Browse\Question\Question.css" />
     <Content Include="Views\Browse\Question\Question.html" />
     <Content Include="Views\Browse\Question\question.png" />
