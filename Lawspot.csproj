@@ -374,7 +374,16 @@
     <Content Include="Views\Browse\Search\Search.html" />
     <Content Include="Views\Static\404\broken.png" />
     <Content Include="Views\Static\500\broken.png" />
+    <Content Include="Views\Static\AboutUs\Adam.jpg" />
+    <Content Include="Views\Static\AboutUs\Bowen.jpg" />
+    <Content Include="Views\Static\AboutUs\Bradley.jpg" />
+    <Content Include="Views\Static\AboutUs\Cheryl.jpg" />
+    <Content Include="Views\Static\AboutUs\David.jpg" />
+    <Content Include="Views\Static\AboutUs\James.jpg" />
+    <Content Include="Views\Static\AboutUs\Lizzie.jpg" />
     <Content Include="Views\Static\AboutUs\margaret-wilson.png" />
+    <Content Include="Views\Static\AboutUs\Maya.jpg" />
+    <Content Include="Views\Static\AboutUs\Paul.jpg" />
     <Content Include="Views\Static\ContactUs.html" />
     <Content Include="Views\Static\AboutUs\AboutUs.html" />
     <Content Include="Views\Static\AboutUs\AboutUs.css" />
