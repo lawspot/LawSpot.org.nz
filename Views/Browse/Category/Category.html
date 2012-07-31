@@ -73,7 +73,7 @@
     </form>
 </div>
 
-<h2> New {{Name}} Questions and Answers</h2>
+<h2> {{Name}} Questions and Answers</h2>
 
 {{#RecentAnswers.Items}}
     <div class="question">
@@ -122,16 +122,3 @@
         </div>
     {{/ShowPageLabels}}
 {{/RecentAnswers}}
-
-<h2> Most Viewed {{Name}} Questions and Answers </h2>
-
-<ul class="list-arrows">
-    {{#MostViewedQuestions}}
-	    <li><a href="{{Url}}">{{Title}}</a><br />
-		    <span class="mv-poststats">{{AnswerCount}} | {{ViewCount}}</span></li>
-    {{/MostViewedQuestions}}
-</ul>
-
-{{^MostViewedQuestions}}
-    <p> None yet. </p>
-{{/MostViewedQuestions}}
