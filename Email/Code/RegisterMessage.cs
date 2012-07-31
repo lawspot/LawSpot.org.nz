@@ -17,7 +17,7 @@ namespace Lawspot.Email
         public RegisterMessage()
         {
             this.TemplateFilePath = "Register.xslt";
-            this.Subject = "Please confirm your email address with LawSpot";
+            this.Subject = "Thank you for registering with LawSpot";
         }
 
         /// <summary>
@@ -26,6 +26,7 @@ namespace Lawspot.Email
         public void UseLawyerRegistrationTemplate()
         {
             this.TemplateFilePath = "LawyerRegister.xslt";
+            this.Subject = "Please confirm your email address with LawSpot";
         }
 
         /// <summary>
