@@ -99,8 +99,15 @@ namespace Lawspot.Controllers
                     }
                     else
                     {
+                        
+                        // The community services card number is an optional 9 digit number.
+                        int? communityServicesCardNumber = null;
+                        if (string.IsNullOrWhiteSpace(model.Registration.CommunityServicesCardNumber) == false)
+                            communityServicesCardNumber = int.Parse(model.Registration.CommunityServicesCardNumber.Replace(" ", ""));
+
                         // Register a new user.
-                        user = Register(model.Registration.EmailAddress, model.Registration.Password, model.Registration.RegionId, lawyer: false);
+                        user = Register(model.Registration.EmailAddress, model.Registration.Password,
+                            model.Registration.RegionId, communityServicesCardNumber, lawyer: false);
                         registered = true;
                     }
                 }

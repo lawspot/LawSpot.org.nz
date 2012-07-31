@@ -109,6 +109,12 @@
 	margin: 0 0 10px 145px;
 }
 
+.community-services-text {
+    display: block;
+    color: #777;
+    line-height: 1.4;
+}
+
 .form-message {
 	font-size: 13px;
 	margin: 20px 0;
