@@ -48,6 +48,15 @@
         <div class="see-all-categories"><a href="/browse">See all categories...</a></div>
         <div style="clear: left"></div>
     </section>
+    
+    <section>
+        <h2>Most viewed Q&A</h2>
+        <ul class="list-arrows">
+            {{#MostViewedQuestions}}
+        	    <li><a href="{{Url}}">{{Title}}</a></li>
+            {{/MostViewedQuestions}}
+        </ul>
+    </section>
 </section>
 
 <div id="breadcrumb">
