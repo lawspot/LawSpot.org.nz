@@ -46,12 +46,15 @@
     </section>
     
     <section>
-        <h2>Most viewed Q&A in {{CategoryName}}</h2>
+        <h2>Most viewed Q&A in {{Name}}</h2>
         <ul class="list-arrows">
             {{#MostViewedQuestions}}
         	    <li><a href="{{Url}}">{{Title}}</a></li>
             {{/MostViewedQuestions}}
         </ul>
+        {{^MostViewedQuestions}}
+            <p> None yet. </p>
+        {{/MostViewedQuestions}}
     </section>
 </section>
 
