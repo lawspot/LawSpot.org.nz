@@ -5,7 +5,7 @@
         <form method="get" action="/ask">
             <input name="category" type="hidden" value="{{CategoryId}}" />
             <input name="title" class="ask-textbox" type="text" placeholder="Ask your question here..." maxlength="150" />
-            <button class="ask-button">ASK</button>
+            <button type="submit" class="ask-button">ASK</button>
         </form>
     </div>
 
@@ -60,7 +60,7 @@
 			    <!-- The user can answer questions -->
                 <form method="get" action="/admin/answer-questions">
                     <input type="hidden" name="questionId" value="{{QuestionId}}" />
-			        <button>Answer this Question</button>
+			        <button type="submit">Answer this Question</button>
                 </form>
             {{/User.CanAnswerQuestions}}
             {{^User}}

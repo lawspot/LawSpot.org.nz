@@ -100,8 +100,8 @@
         {{/ReferencesHtml}}
 	            		
 	    <div class="buttons centre">
-	        <button data-action="approve">APPROVE</button>
-	        <button class="red" data-action="go-to-reject">REJECT</button>
+	        <button data-action="approve" type="submit">APPROVE</button>
+	        <button class="red" data-action="go-to-reject" type="submit">REJECT</button>
             <img class="progress-indicator" src="/shared/images/progress-indicator.gif" />
 	    </div>      		
 	</form>
@@ -118,8 +118,8 @@
 	    <textarea rows="5" class="reason" placeholder="Enter your reason for rejecting the question here."></textarea>
 
 	    <div class="centre">
-	        <button class="red" data-action="reject">REJECT</button>
-            <button data-action="go-to-initial">CANCEL</button>
+	        <button class="red" data-action="reject" type="submit">REJECT</button>
+            <button data-action="go-to-initial" type="submit">CANCEL</button>
             <img class="progress-indicator" src="/shared/images/progress-indicator.gif" />
 	    </div>
     </form>
@@ -134,7 +134,7 @@
 	        {{{ResponseHtml}}}
         </p>
 	    <div class="centre">
-	        <button>NEXT ANSWER</button>
+	        <button type="submit">NEXT ANSWER</button>
 	    </div>
 	</article>
 </script>
@@ -152,7 +152,7 @@
 	        {{{ResponseHtml}}}
         </p>
 	    <div class="centre">
-	        <button>NEXT ANSWER</button>
+	        <button type="submit">NEXT ANSWER</button>
 	    </div>
 	</article>
 </script>
