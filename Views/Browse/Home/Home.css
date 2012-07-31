@@ -42,7 +42,10 @@ input.ask-textbox {
     clear: both;
     padding-top: 7px;
 }
-
+.sidebar .fixed-widget {
+	min-height: 165px;
+	overflow: hidden;
+}
 
 /* Accordion */
 .va-heading {
