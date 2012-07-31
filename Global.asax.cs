@@ -31,7 +31,7 @@ namespace Lawspot
             RouteTable.Routes.IgnoreRoute("robots.txt");
 
             // Register routes.
-            RouteTable.Routes.MapRoute("HomeRoute", "", new { controller = "Browse", action = "Home" });
+            RouteTable.Routes.MapRoute("HomeRoute2", "home", new { controller = "Browse", action = "Home" });
             RouteTable.Routes.MapRoute("BrowseRoute", "browse", new { controller = "Browse", action = "Browse" });
             RouteTable.Routes.MapRoute("SearchRoute", "search", new { controller = "Browse", action = "Search" });
             RouteTable.Routes.MapRoute("LoginRoute", "login", new { controller = "Account", action = "Login" });
@@ -73,6 +73,7 @@ namespace Lawspot
             RouteTable.Routes.MapRoute("AdminAdminRoute", "admin/admin", new { controller = "Admin", action = "Admin" });
             RouteTable.Routes.MapRoute("CategoryRoute", "{slug}", new { controller = "Browse", action = "Category" });
             RouteTable.Routes.MapRoute("QuestionRoute", "{category}/{slug}", new { controller = "Browse", action = "Question" });
+            RouteTable.Routes.MapRoute("HomeRoute", "", new { controller = "Browse", action = "Home" });
         }
 
         protected void Application_AuthorizeRequest()

@@ -1,4 +1,6 @@
-﻿delete Category where Name = 'Tax Law'
+﻿update Lawyer set SpecialisationCategoryId = NULL where SpecialisationCategoryId = (select CategoryId from Category where Name = 'Tax Law')
+update Lawyer set SpecialisationCategoryId = NULL where SpecialisationCategoryId = (select CategoryId from Category where Name = 'Building Law')
+delete Category where Name = 'Tax Law'
 delete Category where Name = 'Building Law'
 insert Category (Name, Slug, ApprovedQuestionCount) values ('Maori Legal Issues', 'maori-legal', 0)
 insert Category (Name, Slug, ApprovedQuestionCount) values ('Youth Law', 'youth-law', 0)
