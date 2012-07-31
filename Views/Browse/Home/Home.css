@@ -43,7 +43,7 @@ input.ask-textbox {
     padding-top: 7px;
 }
 .sidebar .fixed-widget {
-	min-height: 146px;
+	max-height: 146px;
 	overflow: hidden;
 }
 
