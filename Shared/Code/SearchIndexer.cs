@@ -56,6 +56,9 @@ namespace Lawspot.Shared
                             writer.AddDocument(document);
                     }
                 }
+
+                // Invalidate the searcher.
+                searcher = null;
             }
         }
 
@@ -67,7 +70,7 @@ namespace Lawspot.Shared
         {
             lock (indexLock)
             {
-                using (var writer = new IndexWriter(AppData, analyzer, true, IndexWriter.MaxFieldLength.UNLIMITED))
+                using (var writer = new IndexWriter(AppData, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
                 {
                     // Remove older documents.
                     writer.DeleteDocuments(new Term[] { new Term("ID", q.QuestionId.ToString()) });
