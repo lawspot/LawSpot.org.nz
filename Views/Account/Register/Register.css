@@ -2,6 +2,10 @@
     width: 480px;
     padding-top: 3px;
 }
+.privacy-message {
+	font-size: 10pt;
+	margin-right: 10px;
+}
 .privacy-message img {
     float: left;
     margin-right: 10px;

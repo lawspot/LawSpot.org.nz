@@ -59,7 +59,12 @@
 	        </div>
 
             <div class="field-label">
-                <label for="CommunityServicesCardNumber"> Community Services Card No: </label>
+                <label for="CommunityServicesCardNumber" title="Community Services Card Number"> C.S.C. Number: </label>
+
+                <div class="privacy-message">
+		            <img src="/shared/images/lock.png" width="22" height="27" alt="" class="privacy" />
+                    Your information is safe with us.
+	            </div>
             </div>
             <div class="offset-field">
                 <input id="CommunityServicesCardNumber" name="Registration.CommunityServicesCardNumber" type="text" value="{{Registration.CommunityServicesCardNumber}}" maxlength="20"
@@ -67,15 +72,12 @@
                 <div class="validation-error">{{ModelState.Registration.CommunityServicesCardNumber}}</div>
                 {{^ModelState.Registration.CommunityServicesCardNumber}}
                     <small class="community-services-text">
-                        If you have a community services card, enter the client number here and you will receive priority service.
+                        If you have a Community Services Card, enter the client number here and you will receive priority service.
                     </small>
                 {{/ModelState.Registration.CommunityServicesCardNumber}}
             </div>
 			    
-	        <div class="offset-field privacy-message">
-		        <img src="/shared/images/lock.png" width="22" height="27" alt="" class="privacy" />
-                Your information is safe with us.
-	        </div>
+	        
 
 	        <p class="form-message">
                 <strong>Why do I have to register to ask a question?</strong><br />

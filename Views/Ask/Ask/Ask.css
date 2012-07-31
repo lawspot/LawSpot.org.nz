@@ -109,6 +109,16 @@
 	margin: 0 0 10px 145px;
 }
 
+.privacy-message {
+	font-size: 10pt;
+	margin: 18px 10px 0 0;
+}
+.privacy-message img {
+    float: left;
+    margin: 5px 10px 0 0;
+    width: 22px;
+    height: 27px;
+}
 .community-services-text {
     display: block;
     color: #777;
