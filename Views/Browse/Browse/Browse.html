@@ -28,23 +28,7 @@
             </p>
         </section>
     {{/User.CanAnswerQuestions}}
-
-    <section>
-        <h2> Browse by Category </h2>
-        <ul class="categories">
-            {{#TopCategories1}}
-                <li> <a href="{{Uri}}">{{Name}}</a> ({{QuestionCount}}) </li>
-            {{/TopCategories1}}
-        </ul>
-        <ul class="categories">
-            {{#TopCategories2}}
-                <li> <a href="{{Uri}}">{{Name}}</a> ({{QuestionCount}}) </li>
-            {{/TopCategories2}}
-        </ul>
-        <div class="see-all-categories"><a href="/browse">See all categories...</a></div>
-        <div style="clear: left"></div>
-    </section>
-    
+   
     <section>
         <h2>Most viewed Q&A</h2>
         <ul class="list-arrows">
