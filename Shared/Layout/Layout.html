@@ -92,21 +92,10 @@
     	#law-register-left p, #law-register-left h3 {
     		width: 420px;
     	}
-    	.va-container {
-    		top: -35px;
-    	}
     </style>
     <![endif]-->
     <link rel="shortcut icon" href="/shared/images/favicon.ico" />
-    <!--[if lte IE 8]>
-    <script>
-      var e = ("abbr,article,aside,audio,canvas,datalist,details," +
-        "figure,footer,header,hgroup,mark,menu,meter,nav,output," +
-        "progress,section,time,video").split(',');
-      for (var i = 0; i < e.length; i++) {
-        document.createElement(e[i]);
-      }
-    </script>
+    <!--[if IE 8]>
     <style type="text/css">
     	.va-heading, .va-slice {
     		border: solid 1px #BBB7B6;
@@ -122,7 +111,20 @@
     		padding: 15px 16px;
     		height: 52px;
     	}
+    	.va-container {
+    		top: -35px;
+    	}
     </style>
+    <![endif]-->
+    <!--[if lte IE 8]>
+    <script>
+      var e = ("abbr,article,aside,audio,canvas,datalist,details," +
+        "figure,footer,header,hgroup,mark,menu,meter,nav,output," +
+        "progress,section,time,video").split(',');
+      for (var i = 0; i < e.length; i++) {
+        document.createElement(e[i]);
+      }
+    </script>
     <![endif]-->
 
     <!-- Google analytics -->
