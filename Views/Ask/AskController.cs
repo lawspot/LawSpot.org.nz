@@ -273,22 +273,28 @@ namespace Lawspot.Controllers
         public JsonResult Suggestions(string text)
         {
             var result = new SuggestionsResult();
-            result.QueryText = text;
-            
-            // Search.
-            var hits = Lawspot.Shared.SearchIndexer.Search(text);
-            result.Suggestions = hits.Join(this.DataContext.Questions, hit => hit.ID, q => q.QuestionId, (hit, q) => new SearchSuggestion()
-            {
-                Title = q.Title,
-                Uri = q.AbsolutePath,
-                Details = StringUtilities.SummarizeText(q.Details, 150),
-            }).ToList();
+            result.QueryText = text ?? string.Empty;
+            result.Suggestions = new SearchSuggestion[0];
 
-            // Show a more link if there are more than 5 results.
-            if (result.Suggestions.Count() > 5)
+            if (!string.IsNullOrEmpty(text))
             {
-                result.Suggestions = result.Suggestions.Take(5);
-                result.MoreUri = string.Format("/search?query={0}", Uri.EscapeDataString(text));
+
+                // Search.
+                var hits = Lawspot.Shared.SearchIndexer.Search(text);
+                result.Suggestions = hits.Join(this.DataContext.Questions, hit => hit.ID, q => q.QuestionId, (hit, q) => new SearchSuggestion()
+                {
+                    Title = q.Title,
+                    Uri = q.AbsolutePath,
+                    Details = StringUtilities.SummarizeText(q.Details, 150),
+                }).ToList();
+
+                // Show a more link if there are more than 5 results.
+                if (result.Suggestions.Count() > 5)
+                {
+                    result.Suggestions = result.Suggestions.Take(5);
+                    result.MoreUri = string.Format("/search?query={0}", Uri.EscapeDataString(text));
+                }
+
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
