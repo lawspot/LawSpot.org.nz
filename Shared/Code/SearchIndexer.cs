@@ -200,7 +200,11 @@ namespace Lawspot.Shared
                     var termIndex = document.IndexOf(term, start, StringComparison.InvariantCultureIgnoreCase);
                     if (termIndex == -1)
                         break;
-                    termCount++;
+                    if ((termIndex == 0 || document[termIndex - 1] == ' ') &&
+                        (termIndex + term.Length >= document.Length || document[termIndex + term.Length] == ' '))
+                    {
+                        termCount++;
+                    }
                     start = termIndex + term.Length;
                 }
             }
@@ -222,8 +226,12 @@ namespace Lawspot.Shared
                     var termIndex = document.IndexOf(term, start, StringComparison.InvariantCultureIgnoreCase);
                     if (termIndex >= 0 && termIndex < foundIndex)
                     {
-                        foundIndex = termIndex;
-                        foundTerm = term;
+                        if ((termIndex == 0 || document[termIndex - 1] == ' ') &&
+                            (termIndex + term.Length >= document.Length || document[termIndex + term.Length] == ' '))
+                        {
+                            foundIndex = termIndex;
+                            foundTerm = term;
+                        }
                     }
                 }
 
@@ -231,7 +239,7 @@ namespace Lawspot.Shared
                 {
                     string text = document.Substring(start);
                     if (text.Length > snippetLength)
-                        text = text.Substring(0, snippetLength - 4) + " ...";
+                        text = text.Substring(0, snippetLength) + " ...";
                     result.Append(WebUtility.HtmlEncode(text));
                     break;
                 }
@@ -239,15 +247,15 @@ namespace Lawspot.Shared
                 {
                     string text = document.Substring(0, foundIndex);
                     if (text.Length > snippetLength)
-                        text = "... " + text.Substring(text.Length - snippetLength + 4, snippetLength - 4);
+                        text = "... " + text.Substring(text.Length - snippetLength, snippetLength);
                     result.Append(WebUtility.HtmlEncode(text));
                 }
                 else
                 {
                     string inBetween = document.Substring(start, foundIndex - start);
                     if (inBetween.Length > snippetLength * 2)
-                        inBetween = inBetween.Substring(0, snippetLength - 3) + " ... " +
-                            inBetween.Substring(inBetween.Length - snippetLength + 3);
+                        inBetween = inBetween.Substring(0, snippetLength) + " ... " +
+                            inBetween.Substring(inBetween.Length - snippetLength);
                     result.Append(WebUtility.HtmlEncode(inBetween));
                 }
 
