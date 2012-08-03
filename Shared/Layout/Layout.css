@@ -492,7 +492,7 @@ input[type].validation-error-field,
 
 /* Page numbers */
 .page-numbers {
-    text-align: right;
+    text-align: center;
     cursor: default;
     -webkit-user-select: none;
     -moz-user-select: none;
