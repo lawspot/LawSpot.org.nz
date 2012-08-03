@@ -38,9 +38,9 @@
     margin: 6px 0;
 }
 .question .asked {
-    font-size: smaller;
+    font-size: 0.9em;
 }
-.details, .asked {
+.question .details, .question .asked {
 	color: #5B5B5B;
-	font-size: 0.95em;
+	font-size: 0.9em;
 }
