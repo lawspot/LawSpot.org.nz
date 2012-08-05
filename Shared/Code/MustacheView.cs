@@ -213,10 +213,42 @@ namespace Lawspot.Shared
             return result;
         }
 
+        private class BaseDataModel : IMustacheDataModel
+        {
+            private Dictionary<string, object> dictionary;
+
+            public BaseDataModel(Dictionary<string, object> dictionary)
+            {
+                this.dictionary = dictionary;
+            }
+
+            /// <summary>
+            /// Gets the value of the property, if that property exists.
+            /// </summary>
+            /// <param name="name"> The name of the property. </param>
+            /// <param name="value"> Set to the value of the property once the method returns. </param>
+            /// <returns> <c>true</c> if the property exists; <c>false</c> otherwise. </returns>
+            public bool TryGetValue(string name, out object value)
+            {
+                return this.dictionary.TryGetValue(name, out value);
+            }
+        }
+
         private string ReplaceModel(ViewContext viewContext, string html, List<object> models)
         {
-            var htmlBuilder = new StringBuilder(html);
+            // Create a mustache model.
+            var modelDictionary = new Dictionary<string, object>();
+            foreach (var model in models)
+            {
+                foreach (var property in model.GetType().GetProperties())
+                {
+                    if (modelDictionary.ContainsKey(property.Name))
+                        throw new InvalidOperationException(string.Format("The property '{0}' exists multiple times in the data model.", property.Name));
+                    modelDictionary.Add(property.Name, property.GetValue(model, null));
+                }
+            }
 
+            // Create a JSON version of the model.
             var modelHtml = new StringBuilder();
             modelHtml.AppendLine(@"<script type=""text/javascript"">");
             modelHtml.Append("var Model = ");
@@ -228,7 +260,13 @@ namespace Lawspot.Shared
             jsonSerializer.Serialize(new StringWriter(modelHtml), models.Last());
             modelHtml.AppendLine(";");
             modelHtml.AppendLine("</script>");
-            htmlBuilder.Replace("{{Model}}", modelHtml.ToString());
+            if (modelDictionary.ContainsKey("Model"))
+                throw new InvalidOperationException("The property 'Model' exists multiple times in the data model.");
+            modelDictionary.Add("Model", modelHtml.ToString());
+
+            // Transform the mustache template.
+            var htmlBuilder = new StringBuilder(html.Length + 1024);
+            MustacheTemplateResolver.Resolve(html, new BaseDataModel(modelDictionary), htmlBuilder);
 
             // Tack on timing information.
             htmlBuilder.AppendFormat("<!-- Took {0} ms -->", ((System.Diagnostics.Stopwatch)viewContext.HttpContext.Items["Stopwatch"]).Elapsed.TotalMilliseconds);

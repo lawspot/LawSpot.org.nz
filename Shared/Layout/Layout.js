@@ -14,5 +14,5 @@ if (Model.User !== null) {
     document.getElementById("_loggedIn").style.display = "block";
 }
 
-document.getElementById("_content").innerHTML = Mustache.render(document.getElementById("_contentTemplate").text, Model);
-document.getElementById("_message").innerHTML = Mustache.render(document.getElementById("_messageTemplate").text, Model);
+//document.getElementById("_content").innerHTML = Mustache.render(document.getElementById("_contentTemplate").text, Model);
+//document.getElementById("_message").innerHTML = Mustache.render(document.getElementById("_messageTemplate").text, Model);

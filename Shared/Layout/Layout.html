@@ -170,23 +170,21 @@
         </nav>
     </header>
     <section id="_message" class="site-message">
-        <script id="_messageTemplate" type="text/template">
-            {{#SuccessMessage}}
-                <div class="success-message">
-                    {{SuccessMessage}}
+        {{#SuccessMessage}}
+            <div class="success-message">
+                {{SuccessMessage}}
+            </div>
+        {{/SuccessMessage}}
+        {{^InAdmin}}
+            {{#ContributorMessageHtml}}
+                <div class="info-message">
+                    {{{ContributorMessageHtml}}}
                 </div>
-            {{/SuccessMessage}}
-            {{^InAdmin}}
-                {{#ContributorMessageHtml}}
-                    <div class="info-message">
-                        {{{ContributorMessageHtml}}}
-                    </div>
-                {{/ContributorMessageHtml}}
-            {{/InAdmin}}
-        </script>
+            {{/ContributorMessageHtml}}
+        {{/InAdmin}}
     </section>
     <section class="site-body">
-        <div id="_content"></div>
+        <div id="_content">{{Content}}</div>
         <div style="clear: both"></div>
     </section>
     <footer>
@@ -203,11 +201,7 @@
             In Partnership with Community Law Wellington & Hutt Valley
         </div>
     </footer>
-    
-    <script id="_contentTemplate" type="text/template">
-        {{Content}}
-    </script>
-    {{Model}}
+    {{{Model}}}
     {{Scripts}}
 </body>
 </html>

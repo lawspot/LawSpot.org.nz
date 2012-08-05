@@ -151,6 +151,7 @@
     <Compile Include="Email\Code\EmailTemplate.cs" />
     <Compile Include="Shared\Code\BaseController.cs" />
     <Compile Include="Shared\Code\CacheProvider.cs" />
+    <Compile Include="Shared\Code\MustacheTemplateResolver.cs" />
     <Compile Include="Shared\Code\SearchIndexer.cs" />
     <Compile Include="Shared\Code\PagedListView.cs" />
     <Compile Include="Shared\Code\StringUtilities.cs" />
@@ -168,7 +169,6 @@
     <Compile Include="Views\Admin\ReviewLawyers\ReviewLawyersViewModel.cs" />
     <Compile Include="Views\Admin\ReviewAnswers\ReviewAnswersViewModel.cs" />
     <Compile Include="Views\Admin\ReviewQuestions\ReviewQuestionsViewModel.cs" />
-    <Compile Include="Views\Admin\Layout\LayoutViewModel.cs" />
     <Compile Include="Views\Admin\AnswerQuestions\AnswerQuestionsViewModel.cs" />
     <Compile Include="Views\Ask\AskController.cs" />
     <Compile Include="Views\Ask\ThankYou\QuestionThankYouModel.cs" />

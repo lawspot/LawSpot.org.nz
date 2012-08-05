@@ -91,6 +91,11 @@ namespace Lawspot.Controllers
             /// or vet questions or whatever.
             /// </summary>
             public string ContributorMessageHtml { get; set; }
+
+            /// <summary>
+            /// Indicates whether or not we are in the admin section.
+            /// </summary>
+            public bool InAdmin { get; set; }
         }
 
         /// <summary>
@@ -112,6 +117,31 @@ namespace Lawspot.Controllers
         /// The success message to show at the top of the page.
         /// </summary>
         public string SuccessMessage { get; set; }
+
+        /// <summary>
+        /// Indicates whether or not we are in the admin section.
+        /// </summary>
+        public bool InAdmin { get; set; }
+
+        /// <summary>
+        /// Accessing the properties within the model state dictionary would normally give errors
+        /// when those properties don't exist, but we can ovveride that behaviour by implementing
+        /// IMustacheDataModel.
+        /// </summary>
+        private class ModelStateDictionary : Dictionary<string, object>, IMustacheDataModel
+        {
+            /// <summary>
+            /// Gets the value of the property, if that property exists.
+            /// </summary>
+            /// <param name="name"> The name of the property. </param>
+            /// <param name="value"> Set to the value of the property once the method returns. </param>
+            /// <returns> <c>true</c> if the property exists; <c>false</c> otherwise. </returns>
+            public bool TryGetValue(string name, out object value)
+            {
+                base.TryGetValue(name, out value);
+                return true;
+            }
+        }
 
         /// <summary>
         /// Gets a model object of a given type.
@@ -156,8 +186,11 @@ namespace Lawspot.Controllers
                 model.BrowseAnswersTabActive = this.BrowseAnswersTabActive;
                 model.HowItWorksTabActive = this.HowItWorksTabActive;
 
+                // Admin section.
+                model.InAdmin = this.InAdmin;
+
                 // ModelState.
-                var result = new Dictionary<string, object>();
+                var result = new ModelStateDictionary();
                 var modelState = ((Controller)viewContext.Controller).ModelState;
                 foreach (var key in modelState.Keys)
                 {
@@ -171,8 +204,8 @@ namespace Lawspot.Controllers
                         {
                             object subDictionary;
                             if (dictionary.TryGetValue(keys[i], out subDictionary) == false)
-                                dictionary[keys[i]] = new Dictionary<string, object>();
-                            dictionary = (Dictionary<string, object>)dictionary[keys[i]];
+                                dictionary[keys[i]] = new ModelStateDictionary();
+                            dictionary = (ModelStateDictionary)dictionary[keys[i]];
                         }
                         dictionary.Add(keys[keys.Length - 1], errorMessage);
                     }

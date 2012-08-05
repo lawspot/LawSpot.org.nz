@@ -40,14 +40,14 @@
                 <label for="password">Password:</label>
             </div>
             <div class="offset-field">
-                <input id="password" name="Password" type="password" value="{{Password}}" {{#ExpandPasswordSection}}autofocus{{/ExpandPasswordSection}} />
+                <input id="password" name="Password" type="password" value="" {{#ExpandPasswordSection}}autofocus{{/ExpandPasswordSection}} />
                 <div class="validation-error">{{ModelState.Password}}</div>
             </div>
             <div class="field-label">
                 <label for="confirm-password">Confirm Password:</label>
             </div>
             <div class="offset-field">
-                <input id="confirm-password" name="ConfirmPassword" type="password" value="{{ConfirmPassword}}" />
+                <input id="confirm-password" name="ConfirmPassword" type="password" value="" />
                 <div class="validation-error">{{ModelState.ConfirmPassword}}</div>
             </div>
             <div class="offset-field">
