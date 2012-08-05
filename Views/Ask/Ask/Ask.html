@@ -8,7 +8,7 @@
 
 <form id="ask-form" method="post" action="/ask" class="container-form {{#Registration}}step2{{/Registration}}">
 
-{{#Registration}}
+{{#ShowRegistrationOrLogin}}
     <section id="qsubmit2">
         <input id="ShowRegistration" name="ShowRegistration" type="hidden" value="{{ShowRegistration}}" />
 
@@ -121,7 +121,7 @@
 		    <button type="submit">ASK YOUR QUESTION</button>
 	    </div>
     </section>
-{{/Registration}}
+{{/ShowRegistrationOrLogin}}
 
 <section id="qsubmit1">
     {{#Registration}}
