@@ -7,6 +7,13 @@
     		<ul class="list-arrows">
                 <li><a href="/admin/activity-stream">Profile</a></li>
                 {{#User.CanAnswerQuestions}}
+                <li><a href="/admin/account-settings">Account Settings</a></li>
+                {{#User.CanAdminister}}
+            </ul>
+            
+            <hr />
+            
+            <ul class="list-arrows">
                     <li><a href="/admin/answer-questions">Answer Questions</a></li>
                 {{/User.CanAnswerQuestions}}
                 {{#User.CanVetLawyers}}
@@ -18,8 +25,11 @@
                 {{#User.CanVetAnswers}}
     			    <li><a href="/admin/review-answers">View Answers</a></li>
                 {{/User.CanVetAnswers}}
-    			<li><a href="/admin/account-settings">Account Settings</a></li>
-                {{#User.CanAdminister}}
+            </ul>
+            
+            <hr />
+            
+            <ul class="list-arrows">
     			    <li><a href="/admin/admin">Administer Site</a></li>
                 {{/User.CanAdminister}}
     		</ul>
