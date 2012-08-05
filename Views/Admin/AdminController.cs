@@ -31,6 +31,8 @@ namespace Lawspot.Controllers
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
+
+            // Don't show the volunteer action message.
             this.InAdmin = true;
         }
 

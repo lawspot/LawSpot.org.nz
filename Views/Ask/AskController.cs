@@ -12,12 +12,21 @@ namespace Lawspot.Controllers
 {
     public class AskController : BaseController
     {
+        /// <summary>
+        /// Called before an action method executes.
+        /// </summary>
+        /// <param name="filterContext"></param>
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            base.OnActionExecuting(filterContext);
+
+            // Activate header tab.
+            this.AskALawyerTabActive = true;
+        }
+
         [HttpGet]
         public ActionResult Ask(string title, int? category)
         {
-            // Activate header tab.
-            this.AskALawyerTabActive = true;
-
             var model = new QuestionViewModel();
             model.Title = title;
             if (category.HasValue)
