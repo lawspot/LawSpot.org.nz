@@ -191,6 +191,14 @@ namespace Lawspot.Shared
         public bool IsCurrentPage { get; private set; }
 
         /// <summary>
+        /// Indicates whether the label can be clicked.
+        /// </summary>
+        public bool IsClickable
+        {
+            get { return this.NavigateUri != null; }
+        }
+
+        /// <summary>
         /// The URI to navigate to if the label is clicked.  Will be <c>null</c> for labels that
         /// should not be clickable.
         /// </summary>

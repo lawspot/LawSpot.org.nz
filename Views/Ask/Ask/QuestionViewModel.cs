@@ -28,6 +28,11 @@ namespace Lawspot.Views.Ask
         public bool FocusInTitle { get; set; }
         public bool FocusInDetails { get; set; }
 
+        public bool ShowRegistrationOrLogin
+        {
+            get { return this.Registration != null; }
+        }
+
         public bool ShowRegistration { get; set; }
         public bool FocusInRegistrationEmailAddress { get; set; }
         public Lawspot.Views.Account.RegisterViewModel Registration { get; set; }

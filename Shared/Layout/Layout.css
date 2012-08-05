@@ -152,7 +152,7 @@ nav li a {
 	line-height: 38px;
 	padding: 3px 0 0;
 	width: 170px;
-	background: url(/shared/images/nav-bg.png);
+	background: #1A2626 url(/shared/images/nav-bg.png);
 	text-transform: uppercase;
 	font-weight: bold;
 	color: #fff;
@@ -160,7 +160,7 @@ nav li a {
 	filter: dropshadow(color=#000000, offx=2, offy=2);
 }
 nav li a:hover, nav li a.active {
-	background: url(/shared/images/nav-active.png);
+	background: #37372A url(/shared/images/nav-active.png);
 	text-decoration: none;
 }
 #_login {

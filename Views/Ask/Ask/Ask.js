@@ -1,4 +1,5 @@
 ﻿/* {{Include //ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js}} */
+/* {{Include /shared/scripts/mustache.js}} */
 
 // Display and limit the number of characters allowed in the question textboxes.
 function countCharacters(textElement, charCountElement, limit) {

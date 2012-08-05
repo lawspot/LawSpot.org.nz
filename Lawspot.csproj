@@ -151,6 +151,7 @@
     <Compile Include="Email\Code\EmailTemplate.cs" />
     <Compile Include="Shared\Code\BaseController.cs" />
     <Compile Include="Shared\Code\CacheProvider.cs" />
+    <Compile Include="Shared\Code\MustacheTemplateResolver.cs" />
     <Compile Include="Shared\Code\SearchIndexer.cs" />
     <Compile Include="Shared\Code\PagedListView.cs" />
     <Compile Include="Shared\Code\StringUtilities.cs" />
@@ -168,7 +169,6 @@
     <Compile Include="Views\Admin\ReviewLawyers\ReviewLawyersViewModel.cs" />
     <Compile Include="Views\Admin\ReviewAnswers\ReviewAnswersViewModel.cs" />
     <Compile Include="Views\Admin\ReviewQuestions\ReviewQuestionsViewModel.cs" />
-    <Compile Include="Views\Admin\Layout\LayoutViewModel.cs" />
     <Compile Include="Views\Admin\AnswerQuestions\AnswerQuestionsViewModel.cs" />
     <Compile Include="Views\Ask\AskController.cs" />
     <Compile Include="Views\Ask\ThankYou\QuestionThankYouModel.cs" />
@@ -361,7 +361,7 @@
     <Content Include="Views\Browse\Browse\Browse.css" />
     <Content Include="Views\Browse\Browse\Browse.html" />
     <Content Include="Views\Browse\Home\Home.css" />
-    <Content Include="Shared\Layout\mustache.js" />
+    <Content Include="Shared\Scripts\mustache.js" />
     <Content Include="Views\Browse\Home\Home.js" />
     <Content Include="Views\Browse\Home\jquery.dotdotdot-1.5.1.js" />
     <Content Include="Views\Browse\Home\laptop.png" />

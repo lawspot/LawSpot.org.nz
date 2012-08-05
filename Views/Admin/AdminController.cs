@@ -25,21 +25,15 @@ namespace Lawspot.Controllers
         }
 
         /// <summary>
-        /// Gets a model object of a given type.
+        /// Called before an action method executes.
         /// </summary>
-        /// <param name="viewContext"> The view context. </param>
-        /// <param name="modelType"> The type of model to return. </param>
-        /// <returns> A model of the given type. </returns>
-        protected internal override object GetModel(ViewContext viewContext, Type modelType)
+        /// <param name="filterContext"></param>
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (modelType == typeof(LayoutViewModel))
-            {
-                return new LayoutViewModel()
-                {
-                    InAdmin = true,
-                };
-            }
-            return base.GetModel(viewContext, modelType);
+            base.OnActionExecuting(filterContext);
+
+            // Don't show the volunteer action message.
+            this.InAdmin = true;
         }
 
         /// <summary>

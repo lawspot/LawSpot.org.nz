@@ -111,7 +111,7 @@ namespace Lawspot.Controllers
         /// <param name="model"></param>
         /// <param name="categoryId"></param>
         /// <param name="page"></param>
-        private void PopulateModel(object model, int? categoryId = null, int answersPage = 1, int answersPageSize = 8)
+        private void PopulateModel(object model, int? categoryId = null, int answersPage = 1, int answersPageSize = 5)
         {
             if (model is IRecentAnswers)
             {

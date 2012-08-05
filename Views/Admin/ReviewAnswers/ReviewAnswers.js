@@ -1,4 +1,5 @@
 ﻿/* {{Include //ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js}} */
+/* {{Include /shared/scripts/mustache.js}} */
 
 $(".question-container a").click(function (e) {
     var container = $(this).closest(".question-container");
