@@ -215,11 +215,22 @@ namespace Lawspot.Shared
 
         private class BaseDataModel : IMustacheDataModel
         {
+            private IEnumerable<Type> types;
             private Dictionary<string, object> dictionary;
 
-            public BaseDataModel(Dictionary<string, object> dictionary)
+            public BaseDataModel(Dictionary<string, object> dictionary, IEnumerable<Type> types)
             {
                 this.dictionary = dictionary;
+                this.types = types;
+            }
+
+            /// <summary>
+            /// Gets the full name of the type that the properties belong to.
+            /// </summary>
+            /// <returns> The full name of the type that the properties belong to. </returns>
+            public string GetTypeName()
+            {
+                return string.Join(", ", this.types.Select(t => t.FullName));
             }
 
             /// <summary>
@@ -266,7 +277,7 @@ namespace Lawspot.Shared
 
             // Transform the mustache template.
             var htmlBuilder = new StringBuilder(html.Length + 1024);
-            MustacheTemplateResolver.Resolve(html, new BaseDataModel(modelDictionary), htmlBuilder);
+            MustacheTemplateResolver.Resolve(html, new BaseDataModel(modelDictionary, models.Select(m => m.GetType())), htmlBuilder);
 
             // Tack on timing information.
             htmlBuilder.AppendFormat("<!-- Took {0} ms -->", ((System.Diagnostics.Stopwatch)viewContext.HttpContext.Items["Stopwatch"]).Elapsed.TotalMilliseconds);

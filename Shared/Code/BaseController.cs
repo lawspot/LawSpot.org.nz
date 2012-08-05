@@ -131,12 +131,21 @@ namespace Lawspot.Controllers
         private class ModelStateDictionary : Dictionary<string, object>, IMustacheDataModel
         {
             /// <summary>
+            /// Gets the full name of the type that the properties belong to.
+            /// </summary>
+            /// <returns> The full name of the type that the properties belong to. </returns>
+            public string GetTypeName()
+            {
+                return typeof(ModelStateDictionary).FullName;
+            }
+
+            /// <summary>
             /// Gets the value of the property, if that property exists.
             /// </summary>
             /// <param name="name"> The name of the property. </param>
             /// <param name="value"> Set to the value of the property once the method returns. </param>
             /// <returns> <c>true</c> if the property exists; <c>false</c> otherwise. </returns>
-            public bool TryGetValue(string name, out object value)
+            bool IMustacheDataModel.TryGetValue(string name, out object value)
             {
                 base.TryGetValue(name, out value);
                 return true;

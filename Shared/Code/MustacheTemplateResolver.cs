@@ -8,6 +8,12 @@ namespace Lawspot.Shared
     public interface IMustacheDataModel
     {
         /// <summary>
+        /// Gets the full name of the type that the properties belong to.
+        /// </summary>
+        /// <returns> The full name of the type that the properties belong to. </returns>
+        string GetTypeName();
+
+        /// <summary>
         /// Gets the value of the property, if that property exists.
         /// </summary>
         /// <param name="name"> The name of the property. </param>
@@ -196,6 +202,15 @@ namespace Lawspot.Shared
             }
 
             /// <summary>
+            /// Gets the full name of the type that the properties belong to.
+            /// </summary>
+            /// <returns> The full name of the type that the properties belong to. </returns>
+            public string GetTypeName()
+            {
+                return this.type.FullName;
+            }
+
+            /// <summary>
             /// Gets the value of the property, if that property exists.
             /// </summary>
             /// <param name="name"> The name of the property. </param>
@@ -236,7 +251,7 @@ namespace Lawspot.Shared
                     bool exists = dataModel.TryGetValue(identifier, out result);
                     if (exists == false)
                         throw new FormatException(string.Format("Could not evaluate '{0}' because '{1}' does not exist in {2}.",
-                            expression, identifier, dataModel.GetType().FullName));
+                            expression, identifier, dataModel.GetTypeName()));
                 }
                 if (parentIdentifiers.Length > 0)
                     parentIdentifiers.Append('.');

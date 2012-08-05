@@ -95,9 +95,9 @@
                 <span class="button disabled">Previous</span>
             {{/HasPrevious}}
             {{#PageLabels}}
-                {{#NavigateUri}}
+                {{#IsClickable}}
                     <a class="button" href="{{NavigateUri}}">{{Text}}</a>
-                {{/NavigateUri}}
+                {{/IsClickable}}
                 {{#IsCurrentPage}}
                     <span class="button current-page">{{Text}}</span>
                 {{/IsCurrentPage}}
