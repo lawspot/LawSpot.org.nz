@@ -28,13 +28,13 @@
     		
     		<hr />
     		
+    		{{#User.CanAdminister}}
     		<ul class="list-arrows">
-                {{#User.CanAdminister}}
     			    <li><a href="/admin/admin">Administer Site</a></li>
-                {{/User.CanAdminister}}
     		</ul>
 
             <hr />
+            {{/User.CanAdminister}}
 
             <ul class="list-arrows">
     	        <li><a href="/contact">Contact Us</a></li>
