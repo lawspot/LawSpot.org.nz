@@ -361,7 +361,7 @@
     <Content Include="Views\Browse\Browse\Browse.css" />
     <Content Include="Views\Browse\Browse\Browse.html" />
     <Content Include="Views\Browse\Home\Home.css" />
-    <Content Include="Shared\Layout\mustache.js" />
+    <Content Include="Shared\Scripts\mustache.js" />
     <Content Include="Views\Browse\Home\Home.js" />
     <Content Include="Views\Browse\Home\jquery.dotdotdot-1.5.1.js" />
     <Content Include="Views\Browse\Home\laptop.png" />
