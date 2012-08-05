@@ -56,6 +56,7 @@
 </ul>
 <div style="clear: left"></div>
 
+<a name="recent-questions"></a>
 <h2> Recent Questions and Answers</h2>
 
 {{#RecentAnswers.Items}}
@@ -80,14 +81,14 @@
     {{#ShowPageLabels}}
         <div class="page-numbers">
             {{#HasPrevious}}
-                <a class="button" href="{{PreviousUri}}">Previous</a>
+                <a class="button" href="{{PreviousUri}}#recent-questions">Previous</a>
             {{/HasPrevious}}
             {{^HasPrevious}}
                 <span class="button disabled">Previous</span>
             {{/HasPrevious}}
             {{#PageLabels}}
                 {{#NavigateUri}}
-                    <a class="button" href="{{NavigateUri}}">{{Text}}</a>
+                    <a class="button" href="{{NavigateUri}}#recent-questions">{{Text}}</a>
                 {{/NavigateUri}}
                 {{#IsCurrentPage}}
                     <span class="button current-page">{{Text}}</span>
@@ -97,7 +98,7 @@
                 {{/IsEllipsis}}
             {{/PageLabels}}
             {{#HasNext}}
-                <a class="button" href="{{NextUri}}">Next</a>
+                <a class="button" href="{{NextUri}}#recent-questions">Next</a>
             {{/HasNext}}
             {{^HasNext}}
                 <span class="button disabled">Next</span>
