@@ -121,6 +121,18 @@ namespace Lawspot.Controllers
             // Trim the text fields.
             model.EmailAddress = model.EmailAddress.Trim();
 
+            // Verify the last part of the email is okay by doing a DNS lookup.
+            try
+            {
+                System.Net.Dns.GetHostAddresses(model.EmailAddress.Substring(model.EmailAddress.IndexOf('@') + 1));
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                ModelState.AddModelError("EmailAddress", "Your email address is not valid.");
+                PopulateRegisterViewModel(model);
+                return View(model);
+            }
+
             // The community services card number is an optional 9 digit number.
             int? communityServicesCardNumber = null;
             if (string.IsNullOrWhiteSpace(model.CommunityServicesCardNumber) == false)
@@ -220,6 +232,18 @@ namespace Lawspot.Controllers
             model.LastName = model.LastName.Trim();
             if (model.EmployerName != null)
                 model.EmployerName = model.EmployerName.Trim();
+
+            // Verify the last part of the email is okay by doing a DNS lookup.
+            try
+            {
+                System.Net.Dns.GetHostAddresses(model.EmailAddress.Substring(model.EmailAddress.IndexOf('@') + 1));
+            }
+            catch (System.Net.Sockets.SocketException)
+            {
+                ModelState.AddModelError("EmailAddress", "Your email address is not valid.");
+                PopulateRegisterViewModel(model);
+                return View(model);
+            }
 
             var user = this.DataContext.Users.FirstOrDefault(u => u.EmailAddress == model.EmailAddress);
             bool registered = false;
