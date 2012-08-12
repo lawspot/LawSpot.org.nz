@@ -243,7 +243,7 @@ namespace Lawspot.Controllers
             model.FilterOptions = filterOptions;
 
             // Sort order.
-            var sortValue = QuestionSortOrder.FirstPosted;
+            var sortValue = QuestionSortOrder.MostRecent;
             if (sort != null)
                 sortValue = (QuestionSortOrder)Enum.Parse(typeof(QuestionSortOrder), sort, true);
             model.SortOptions = new SelectListItem[]
@@ -730,7 +730,7 @@ namespace Lawspot.Controllers
             };
 
             // Sort order.
-            var sortValue = QuestionSortOrder.FirstPosted;
+            var sortValue = QuestionSortOrder.MostRecent;
             if (sort != null)
                 sortValue = (QuestionSortOrder)Enum.Parse(typeof(QuestionSortOrder), sort, true);
             model.SortOptions = new SelectListItem[]
@@ -903,11 +903,6 @@ namespace Lawspot.Controllers
                 WHERE Category.CategoryId = {0}", question.CategoryId);
 
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(reason));
-        }
-
-        private void UpdateCategoryQuestionCounts()
-        {
-            
         }
 
         /// <summary>
