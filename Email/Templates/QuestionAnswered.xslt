@@ -9,7 +9,7 @@
 
     <p>
       Hooray! An answer to your question "<xsl:value-of select="Question"/>" has been posted on
-      LawSpot. You’ll see the answer below or view it on our website.
+      LawSpot. You’ll see the answer below or <a href="{QuestionUri}">view it on our website</a>.
     </p>
 
     <p style="padding-left: 20px">
