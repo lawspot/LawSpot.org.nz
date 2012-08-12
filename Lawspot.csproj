@@ -390,8 +390,8 @@
     <Content Include="Views\Browse\Question\question.png" />
     <Content Include="Views\Browse\Search\Search.css" />
     <Content Include="Views\Browse\Search\Search.html" />
-    <Content Include="Views\Static\404\broken.png" />
-    <Content Include="Views\Static\500\broken.png" />
+    <Content Include="Views\Static\Error404\broken.png" />
+    <Content Include="Views\Static\Error500\broken.png" />
     <Content Include="Views\Static\AboutUs\Adam.jpg" />
     <Content Include="Views\Static\AboutUs\Bowen.jpg" />
     <Content Include="Views\Static\AboutUs\Bradley.jpg" />
@@ -407,8 +407,8 @@
     <Content Include="Views\Static\ContactUs.html" />
     <Content Include="Views\Static\AboutUs\AboutUs.html" />
     <Content Include="Views\Static\AboutUs\AboutUs.css" />
-    <Content Include="Views\Static\404\404.html" />
-    <Content Include="Views\Static\500\500.html" />
+    <Content Include="Views\Static\Error404\404.html" />
+    <Content Include="Views\Static\Error500\500.html" />
     <Content Include="Views\Static\ImportantNotice.html" />
     <Content Include="Views\Static\LawyerPolicy.html" />
     <Content Include="Views\Static\TermsOfUse.html" />
