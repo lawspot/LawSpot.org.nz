@@ -21,7 +21,7 @@ namespace Lawspot.Backend
         /// </summary>
         public string Uri
         {
-            get { return string.Format("http://{0}{1}", System.Configuration.ConfigurationManager.AppSettings["DomainName"], AbsolutePath); }
+            get { return string.Format("http://{0}{1}", ConfigurationManager.AppSettings["DomainName"], AbsolutePath); }
         }
     }
 }

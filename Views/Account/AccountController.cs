@@ -36,12 +36,16 @@ namespace Lawspot.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost, FormSelector("action", "login")]
         public ActionResult Login(LoginViewModel model)
         {
             // Check the model is valid.
             if (ModelState.IsValid == false)
+            {
+                if (ModelState["EmailAddress"].Errors.Count == 0)
+                    model.ShowForgottenPasswordLink = true;
                 return View(model);
+            }
 
             // Trim the text fields.
             model.EmailAddress = model.EmailAddress.Trim();
@@ -51,6 +55,7 @@ namespace Lawspot.Controllers
             if (user == null || BCrypt.Net.BCrypt.Verify(model.Password, user.Password) == false)
             {
                 ModelState.AddModelError("Password", "The email or password you entered is incorrect.");
+                model.ShowForgottenPasswordLink = true;
                 return View(model);
             }
 
@@ -84,12 +89,14 @@ namespace Lawspot.Controllers
         /// <summary>
         /// Displays the user registration page.
         /// </summary>
+        /// <param name="email"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Register()
+        public ActionResult Register(string email)
         {
             var model = new RegisterViewModel();
             model.RegionId = 9; // Default to Wellington
+            model.EmailAddress = email;
             if (this.Request.UrlReferrer != null)
                 model.RedirectUrl = this.Request.UrlReferrer.ToString();
             PopulateRegisterViewModel(model);
@@ -341,6 +348,95 @@ namespace Lawspot.Controllers
 
             // Success!
             return View("ValidateEmailAddressSuccess");
+        }
+
+        /// <summary>
+        /// The user has forgotten their password.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        [HttpPost, ActionName("Login"), FormSelector("action", "forgotpassword")]
+        public ActionResult ForgotPassword(string emailAddress)
+        {
+            var model = new ForgotPasswordViewModel();
+            model.EmailAddress = emailAddress;
+
+            // Get the users details.
+            var user = this.DataContext.Users.SingleOrDefault(u => u.EmailAddress == emailAddress);
+            if (user == null)
+                return View("ForgotPasswordFailure", model);
+
+            // Set up the reset password details in the user profile.
+            user.ResetPasswordToken = StringUtilities.CreateRandomToken(50);
+            user.ResetPasswordTokenExpiry = DateTimeOffset.Now.AddHours(1);
+            this.DataContext.SubmitChanges();
+
+            // Send a forgotten password email.
+            var message = new Email.ForgotPasswordMessage();
+            message.To.Add(user.EmailDisplayName);
+            message.ResetPasswordUri = string.Format("http://{0}/resetpassword?token={1}",
+                System.Configuration.ConfigurationManager.AppSettings["DomainName"],
+                Uri.EscapeDataString(user.ResetPasswordToken));
+            message.Send();
+
+            // Show a message explaining what we've done.
+            return View("ForgotPasswordSuccess", model);
+        }
+
+        /// <summary>
+        /// The user wants to reset their password.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ResetPassword(string token)
+        {
+            // Get the users details.
+            var user = this.DataContext.Users.SingleOrDefault(u => u.ResetPasswordToken == token);
+            if (user == null)
+                return View("ResetPasswordInvalid");
+
+            // Check the link hasn't expired.
+            if (user.ResetPasswordTokenExpiry < DateTimeOffset.Now)
+                return View("ResetPasswordExpired");
+
+            // Show the reset password page.
+            return View();
+        }
+
+        /// <summary>
+        /// The user wants to reset their password.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ResetPassword(string token, ResetPasswordViewModel model)
+        {
+            // Get the users details.
+            var user = this.DataContext.Users.SingleOrDefault(u => u.ResetPasswordToken == token);
+            if (user == null)
+                return View("ResetPasswordFailure");
+
+            // Check the link hasn't expired.
+            if (user.ResetPasswordTokenExpiry < DateTimeOffset.Now)
+                return View("ResetPasswordExpired");
+
+            // Password must be at least 6 characters, etc.
+            if (ModelState.IsValid == false)
+                return View();
+
+            // Change the user's password.
+            user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
+            user.ResetPasswordToken = null;
+            user.ResetPasswordTokenExpiry = DateTimeOffset.Now;
+            this.DataContext.SubmitChanges();
+
+            // Log the user in.
+            Login(user, true);
+
+            // Redirect the user to the home page.
+            return RedirectToAction("Home", "Browse", new { alert = "passwordreset" });
         }
     }
 }

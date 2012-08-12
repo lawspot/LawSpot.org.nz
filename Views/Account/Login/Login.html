@@ -35,10 +35,19 @@
     </div>
 
     <div class="offset-field">
-        <button type="submit">LOGIN</button>
+        <button type="submit" name="action" value="login">LOGIN</button>
+        {{#ShowForgottenPasswordLink}}
+            <button type="submit" name="action" value="forgotpassword">FORGOT YOUR PASSWORD?</button>
+        {{/ShowForgottenPasswordLink}}
     </div>
 
     <div class="offset-field no-account">
-        No Account?  <a href="/register">Register Here</a>.
+        No Account?
+        {{^EmailAddress}}
+            <a href="/register">Register Here</a>.
+        {{/EmailAddress}}
+        {{#EmailAddress}}
+            <a href="/register?email={{EmailAddress}}">Register Here</a>.
+        {{/EmailAddress}}
     </div>
 </form>

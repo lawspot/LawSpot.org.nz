@@ -117,5 +117,23 @@ namespace Lawspot.Shared
                 return string.Format("1 day ago", Math.Round(timeSpan.TotalHours));
             return string.Format("{0} days ago", Math.Round(timeSpan.TotalDays));
         }
+
+        /// <summary>
+        /// Creates a random string of the given length.
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static string CreateRandomToken(int length)
+        {
+            var token = new System.Text.StringBuilder();
+            var random = new System.Security.Cryptography.RNGCryptoServiceProvider();
+            var randomBytes = new byte[length];
+            random.GetBytes(randomBytes);
+            // Note: this does not produce an even distribution, but it should be good enough
+            // for our purposes.
+            for (int i = 0; i < length; i++)
+                token.Append((char)((int)'A' + (randomBytes[i] % 26)));
+            return token.ToString();
+        }
     }
 }

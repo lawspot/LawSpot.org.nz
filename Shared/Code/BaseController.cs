@@ -189,6 +189,9 @@ namespace Lawspot.Controllers
                     case "updated":
                         model.SuccessMessage = "Your changes were saved.";
                         break;
+                    case "passwordreset":
+                        model.SuccessMessage = "Your password was successfully changed.";
+                        break;
                 }
 
                 // If a user is logged in and the user is a contributor, show a customized message.
@@ -277,13 +280,7 @@ namespace Lawspot.Controllers
             {
                 // Create a random (max 50 char) token.
                 user.EmailValidated = false;
-                var token = new System.Text.StringBuilder();
-                var random = new System.Security.Cryptography.RNGCryptoServiceProvider();
-                var randomBytes = new byte[50];
-                random.GetBytes(randomBytes);
-                for (int i = 0; i < 50; i++)
-                    token.Append((char)((int)'A' + (randomBytes[i] % 26)));
-                user.EmailValidationToken = token.ToString();
+                user.EmailValidationToken = StringUtilities.CreateRandomToken(50);
             }
 
             // Save changes.

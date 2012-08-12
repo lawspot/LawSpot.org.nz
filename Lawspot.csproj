@@ -140,6 +140,7 @@
     <Compile Include="Backend\LawspotDataContext.cs" />
     <Compile Include="Email\Code\AnswerApprovedMessage.cs" />
     <Compile Include="Email\Code\AnswerRejectedMessage.cs" />
+    <Compile Include="Email\Code\ForgotPasswordMessage.cs" />
     <Compile Include="Email\Code\LawyerReminderMessage.cs" />
     <Compile Include="Email\Code\LawyerRejectedMessage.cs" />
     <Compile Include="Email\Code\LawyerApprovedMessage.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Email\Code\EmailTemplate.cs" />
     <Compile Include="Shared\Code\BaseController.cs" />
     <Compile Include="Shared\Code\CacheProvider.cs" />
+    <Compile Include="Shared\Code\FormSelectorAttribute.cs" />
     <Compile Include="Shared\Code\MustacheTemplateResolver.cs" />
     <Compile Include="Shared\Code\SearchIndexer.cs" />
     <Compile Include="Shared\Code\PagedListView.cs" />
@@ -160,9 +162,11 @@
     <Compile Include="Shared\Code\CustomPrincipal.cs" />
     <Compile Include="Shared\Code\MustBeTrueAttribute.cs" />
     <Compile Include="Views\Account\AccountController.cs" />
+    <Compile Include="Views\Account\Login\ForgotPasswordViewModel.cs" />
     <Compile Include="Views\Account\LawyerRegister\LawyerRegisterViewModel.cs" />
     <Compile Include="Views\Account\LawyerThankYou\LawyerThankYouViewModel.cs" />
     <Compile Include="Views\Account\Register\RegisterViewModel.cs" />
+    <Compile Include="Views\Account\ResetPassword\ResetPasswordViewModel.cs" />
     <Compile Include="Views\Admin\AccountSettings\AccountSettingsViewModel.cs" />
     <Compile Include="Views\Admin\ActivityStream\ActivityStreamViewModel.cs" />
     <Compile Include="Views\Admin\AdminController.cs" />
@@ -234,6 +238,7 @@
     <Content Include="Backend\Migrations\36.sql" />
     <Content Include="Backend\Migrations\37.sql" />
     <Content Include="Backend\Migrations\38.sql" />
+    <Content Include="Backend\Migrations\39.sql" />
     <Content Include="Email\Assets\facebook.png" />
     <Content Include="Email\Assets\header-original.png" />
     <Content Include="Email\Assets\header.jpg" />
@@ -241,6 +246,7 @@
     <Content Include="Email\Assets\twitter.png" />
     <Content Include="Email\Templates\AnswerApproved.xslt" />
     <Content Include="Email\Templates\AnswerRejected.xslt" />
+    <Content Include="Email\Templates\ForgotPassword.xslt" />
     <Content Include="Email\Templates\LawyerReminder.xslt" />
     <Content Include="Email\Templates\LawyerRejected.xslt" />
     <Content Include="Email\Templates\LawyerApproved.xslt" />
@@ -250,6 +256,7 @@
     <Content Include="Email\Templates\Error.xslt" />
     <Content Include="Email\Templates\Register.xslt" />
     <Content Include="Email\Test Data\AnswerApproved.xml" />
+    <Content Include="Email\Test Data\ForgotPassword.xml" />
     <Content Include="Email\Test Data\LawyerRejected.xml" />
     <Content Include="Email\Test Data\LawyerApproved.xml" />
     <Content Include="Email\Test Data\LawyerReminder.xml" />
@@ -283,8 +290,13 @@
     <Content Include="Lib\System.Web.WebPages.xml" />
     <Content Include="Email\Templates\Layout.xslt" />
     <Content Include="Shared\Images\info-small.png" />
-    <Content Include="Views\Account\ValidateEmailAddressFailure.html" />
-    <Content Include="Views\Account\ValidateEmailAddressSuccess.html" />
+    <Content Include="Views\Account\ResetPassword\ResetPasswordExpired.html" />
+    <Content Include="Views\Account\ResetPassword\ResetPasswordInvalid.html" />
+    <Content Include="Views\Account\ResetPassword\ResetPassword.html" />
+    <Content Include="Views\Account\Login\ForgotPasswordFailure.html" />
+    <Content Include="Views\Account\Login\ForgotPasswordSuccess.html" />
+    <Content Include="Views\Account\ValidateEmailAddress\ValidateEmailAddressFailure.html" />
+    <Content Include="Views\Account\ValidateEmailAddress\ValidateEmailAddressSuccess.html" />
     <Content Include="Views\Browse\Home\jquery-easing-1.3.pack.js" />
     <Content Include="Shared\Layout\Layout.js" />
     <Content Include="Shared\Images\background.jpg" />

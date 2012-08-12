@@ -13,40 +13,42 @@ namespace Lawspot.Shared
 {
     public class MustacheView : IView
     {
-        public MustacheView(ControllerBase controller, string viewPath)
+        public MustacheView(ControllerBase controller, string controllerName, string actionName, string viewName)
         {
             this.Controller = controller;
-            this.ViewPath = viewPath;
+            this.ControllerName = controllerName;
+            this.ActionName = actionName;
+            this.ViewName = viewName;
         }
 
         public ControllerBase Controller { get; private set; }
-        public string ViewPath { get; private set; }
+        public string ControllerName { get; private set; }
+        public string ActionName { get; private set; }
+        public string ViewName { get; private set; }
+        public IList<string> RequiredLocations { get; set; }
 
         public void Render(ViewContext viewContext, TextWriter writer)
         {
-            // Count the number of slashes in the virtual path.
-            int slashCount = 0;
-            int countStartIndex = 0;
-            while (true)
-            {
-                int index = this.ViewPath.IndexOf('/', countStartIndex);
-                if (index == -1)
-                    break;
-                slashCount++;
-                countStartIndex = index + 1;
-            }
-
             // Construct a list of valid HTML file paths.
-            var viewPath = HostingEnvironment.MapPath(this.ViewPath);
             var htmlPaths = new List<string>();
-            htmlPaths.Add(HostingEnvironment.MapPath("~/Shared/Layout/Layout.html"));
-            string baseDirectory = Path.GetDirectoryName(viewPath);
-            if (slashCount >= 4)
-                baseDirectory = Path.GetDirectoryName(baseDirectory);
-            htmlPaths.Add(Path.Combine(baseDirectory, "Layout.html"));
-            htmlPaths.Add(Path.Combine(baseDirectory, @"Layout\Layout.html"));
-            htmlPaths.Add(viewPath);
 
+            // Add the site master page.
+            htmlPaths.Add(HostingEnvironment.MapPath("~/Shared/Layout/Layout.html"));
+
+            // Add the section master page (two possibilities).
+            string baseDirectory = Path.GetDirectoryName(HostingEnvironment.MapPath("~/"));
+            htmlPaths.Add(HostingEnvironment.MapPath(string.Format("~/Views/{0}/Layout.html", this.ControllerName)));
+            htmlPaths.Add(HostingEnvironment.MapPath(string.Format("~/Views/{0}/Layout/Layout.html", this.ControllerName)));
+
+            // Construct the paths for the view page (it must exist).
+            this.RequiredLocations = new List<string>();
+            this.RequiredLocations.Add(string.Format("~/Views/{0}/{1}.html", this.ControllerName, this.ViewName));
+            this.RequiredLocations.Add(string.Format("~/Views/{0}/{1}/{2}.html", this.ControllerName, this.ActionName, this.ViewName));
+
+            // Add the view page (two possibilities).
+            htmlPaths.Add(HostingEnvironment.MapPath(this.RequiredLocations[0]));
+            htmlPaths.Add(HostingEnvironment.MapPath(this.RequiredLocations[1]));
+            
             // Render the view.
             writer.Write(RenderFromCache(viewContext, htmlPaths));
         }
@@ -94,13 +96,27 @@ namespace Lawspot.Shared
 
             // Attempt to read the page from the cache.
             RenderResult result;
-            if (pageCache.TryGetValue(htmlPaths.Last(), out result) == false)
+            string cacheKey = string.Format("{0}/{1}/{2}", this.ControllerName, this.ActionName, this.ViewName);
+            if (pageCache.TryGetValue(cacheKey, out result) == false)
             {
                 // The page isn't cached.
+
+                // Check the required files are present.
+                bool requiredFilesPresent = false;
+                foreach (var requiredFile in this.RequiredLocations)
+                    if (File.Exists(HostingEnvironment.MapPath(requiredFile)))
+                    {
+                        requiredFilesPresent = true;
+                        break;
+                    }
+                if (requiredFilesPresent == false)
+                    throw new InvalidOperationException("The view does not exist.  The following locations were searched: " + string.Join(" and ", this.RequiredLocations));
+
+                // Combine the view page with the master page(s).
                 result = Render(viewContext, htmlPaths.First(), htmlPaths.Skip(1));
                 
                 // Cache it.
-                pageCache[htmlPaths.Last()] = result.Clone();
+                pageCache[cacheKey] = result.Clone();
 
                 // Replace the {{Model}} tag with the JSON model.
                 return ReplaceModel(viewContext, result.Html, result.Models);

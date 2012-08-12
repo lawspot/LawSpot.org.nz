@@ -20,6 +20,8 @@ namespace Lawspot.Views.Account
 
         public bool RememberMe { get; set; }
 
+        public bool ShowForgottenPasswordLink { get; set; }
+
         /// <summary>
         /// The URL to redirect to once login is successful.
         /// </summary>
