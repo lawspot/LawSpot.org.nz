@@ -76,8 +76,11 @@ namespace Lawspot
             RouteTable.Routes.MapRoute("HomeRoute", "", new { controller = "Browse", action = "Home" });
         }
 
-        protected void Application_AuthorizeRequest()
+        protected void Application_AuthenticateRequest()
         {
+            // By default, no user.
+            this.Context.User = null;
+
             // Check there is an authentication cookie.
             if (Request.Cookies.AllKeys.Contains(FormsAuthentication.FormsCookieName))
             {
@@ -85,21 +88,50 @@ namespace Lawspot
                 var cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
                 var ticket = FormsAuthentication.Decrypt(cookie.Value);
 
-                // Extract the user information.
-                this.Context.User = Lawspot.Shared.CustomPrincipal.FromTicket(ticket);
+                // Ensure the ticket hasn't expired.
+                if (ticket.Expiration > DateTime.Now)
+                {
+                    // Extract the user information.
+                    var principal = Lawspot.Shared.CustomPrincipal.FromTicket(ticket);
+                    this.Context.User = principal;
+
+                    // If the ticket has less than half the time remaining, issue a new one
+                    // (sliding expiration).
+                    if (ticket.Expiration.Subtract(DateTime.Now) <
+                        TimeSpan.FromMinutes(ticket.Expiration.Subtract(ticket.IssueDate).TotalMinutes / 2))
+                    {
+                        // Re-issue.
+                        this.Response.Cookies.Add(principal.ToCookie(ticket.IsPersistent));
+                    }
+                }
+                else
+                {
+                    // The ticket has expired.
+                    FormsAuthentication.SignOut();
+                    this.Context.Items.Add("SessionExpired", true);
+                }
             }
         }
 
         protected void Application_BeginRequest()
         {
             // Stash a stopwatch in the request items so we can record the page generation time.
-            HttpContext.Current.Items["Stopwatch"] = System.Diagnostics.Stopwatch.StartNew();
+            this.Context.Items.Add("Stopwatch", System.Diagnostics.Stopwatch.StartNew());
         }
 
         protected void Application_EndRequest()
         {
             // Dispose of the data context.
             Lawspot.Controllers.BaseController.DisposeDataContext();
+
+            // If the response is 401, then redirect to the login page.
+            if (this.Response.StatusCode == 401)
+            {
+                var redirectUrl = "~/login?returnUrl=" + Uri.EscapeDataString(this.Request.RawUrl);
+                if (this.Context.Items.Contains("SessionExpired"))
+                    redirectUrl += "&sessionExpired=true";
+                Response.Redirect(redirectUrl);
+            }
         }
 
         protected void Application_Error(object sender, EventArgs e)

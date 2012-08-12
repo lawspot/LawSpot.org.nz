@@ -282,6 +282,7 @@
     <Content Include="Lib\System.Web.WebPages.Razor.xml" />
     <Content Include="Lib\System.Web.WebPages.xml" />
     <Content Include="Email\Templates\Layout.xslt" />
+    <Content Include="Shared\Images\info-small.png" />
     <Content Include="Views\Account\ValidateEmailAddressFailure.html" />
     <Content Include="Views\Account\ValidateEmailAddressSuccess.html" />
     <Content Include="Views\Browse\Home\jquery-easing-1.3.pack.js" />

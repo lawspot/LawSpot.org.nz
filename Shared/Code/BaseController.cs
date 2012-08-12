@@ -96,6 +96,11 @@ namespace Lawspot.Controllers
             /// Indicates whether or not we are in the admin section.
             /// </summary>
             public bool InAdmin { get; set; }
+
+            /// <summary>
+            /// Indicates whether the login session expired.
+            /// </summary>
+            public bool SessionExpired { get; set; }
         }
 
         /// <summary>
@@ -198,6 +203,10 @@ namespace Lawspot.Controllers
                 // Admin section.
                 model.InAdmin = this.InAdmin;
 
+                // Show session expired message.
+                model.SessionExpired = viewContext.HttpContext.Items.Contains("SessionExpired") ||
+                    viewContext.HttpContext.Request.QueryString["sessionExpired"] != null;
+
                 // ModelState.
                 var result = new ModelStateDictionary();
                 var modelState = ((Controller)viewContext.Controller).ModelState;
@@ -239,13 +248,9 @@ namespace Lawspot.Controllers
             user.LogInIpAddress = Request.UserHostAddress;
             this.DataContext.SubmitChanges();
 
-            var ticket = Lawspot.Shared.CustomPrincipal.FromUser(user, rememberMe).ToTicket(rememberMe);
-            string encryptedTicket = FormsAuthentication.Encrypt(ticket);
-            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
-            cookie.Path = FormsAuthentication.FormsCookiePath;
-            if (rememberMe)
-                cookie.Expires = DateTime.Now.AddYears(1);  // Remember Me = good for one year.
-            this.Response.Cookies.Add(cookie);
+            // Send the user an authentication cookie.
+            var principal = Lawspot.Shared.CustomPrincipal.FromUser(user, rememberMe);
+            this.Response.Cookies.Add(principal.ToCookie(rememberMe));
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security;
 using System.Security.Principal;
+using System.Web;
 using System.Web.Security;
 using Lawspot.Backend;
 
@@ -113,7 +114,7 @@ namespace Lawspot.Shared
         /// <param name="persistant"> <c>true</c> if the ticket will be stored in a persistant
         /// cookie, <c>false</c> otherwise. </param>
         /// <returns></returns>
-        public FormsAuthenticationTicket ToTicket(bool persistant)
+        private FormsAuthenticationTicket ToTicket(bool persistant)
         {
             var userData = new System.Text.StringBuilder();
             userData.Append(this.Id.ToString());
@@ -129,9 +130,32 @@ namespace Lawspot.Shared
                 userData.Append("A");
             if (this.RememberMe)
                 userData.Append("R");
+            // Persistant cookies last 60 days, session cookies last 30 minutes.
             return new FormsAuthenticationTicket(1, this.EmailAddress, DateTime.Now,
-                DateTime.Now.Add(FormsAuthentication.Timeout), persistant,
-                userData.ToString(), FormsAuthentication.FormsCookiePath);
+                persistant ? DateTime.Now.AddDays(60) : DateTime.Now.AddMinutes(30),
+                persistant, userData.ToString(), FormsAuthentication.FormsCookiePath);
+        }
+
+        /// <summary>
+        /// Creates a new forms authentication cookie using the information in this principal.
+        /// </summary>
+        /// <param name="persistant"> <c>true</c> if the ticket will be stored in a persistant
+        /// cookie, <c>false</c> otherwise. </param>
+        /// <returns></returns>
+        public HttpCookie ToCookie(bool persistant)
+        {
+            var ticket = this.ToTicket(persistant);
+            string encryptedTicket = FormsAuthentication.Encrypt(ticket);
+            var cookie = new HttpCookie(FormsAuthentication.FormsCookieName, encryptedTicket);
+            cookie.Path = FormsAuthentication.FormsCookiePath;
+            if (persistant)
+            {
+                // Make the cookie last twice as long as the ticket so we can detect when the
+                // session expires.
+                cookie.Expires = DateTime.Now.AddMinutes(ticket.Expiration.Subtract(DateTime.Now).TotalMinutes * 2);
+            }
+            cookie.HttpOnly = true;
+            return cookie;
         }
 
         #region IPrincipal implementation

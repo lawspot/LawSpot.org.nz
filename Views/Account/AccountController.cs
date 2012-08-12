@@ -15,9 +15,10 @@ namespace Lawspot.Controllers
         /// <summary>
         /// Displays the login page.
         /// </summary>
+        /// <param name="returnUrl"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
             // If the user is logged in already, redirect to the home page.
             if (this.User != null)
@@ -25,8 +26,8 @@ namespace Lawspot.Controllers
 
             var model = new LoginViewModel();
             model.RememberMe = true;
-            if (this.Request.QueryString["ReturnUrl"] != null)
-                model.RedirectUrl = this.Request.QueryString["ReturnUrl"];
+            if (this.Request.QueryString["returnUrl"] != null)
+                model.RedirectUrl = this.Request.QueryString["returnUrl"];
             return View(model);
         }
 
