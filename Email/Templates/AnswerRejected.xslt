@@ -13,7 +13,7 @@
       has been rejected by LawSpot's supervisors, for the following reason:
     </p>
 
-    <p>
+    <p style="padding-left: 20px">
       <xsl:value-of select="ReasonHtml" disable-output-escaping="yes"/>
     </p>
 

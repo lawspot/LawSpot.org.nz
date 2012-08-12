@@ -12,7 +12,7 @@
       decided to put your LawSpot lawyer account on hold for the following reason:
     </p>
 
-    <p>
+    <p style="padding-left: 20px">
       <xsl:value-of select="Reason"/>
     </p>
 
