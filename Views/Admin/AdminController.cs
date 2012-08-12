@@ -648,7 +648,7 @@ namespace Lawspot.Controllers
             // Validate the input.
             if (string.IsNullOrWhiteSpace(reason))
                 return new StatusPlusTextResult(400, "Please enter a reason why the lawyer account is being rejected.");
-            if (reason.Length > 1000)
+            if (reason.Length > 20000)
                 return new StatusPlusTextResult(400, "Your rejection reason is too long.");
 
             var lawyer = this.DataContext.Lawyers.Where(l => l.LawyerId == lawyerId).SingleOrDefault();
@@ -870,7 +870,7 @@ namespace Lawspot.Controllers
             // Validate the input.
             if (string.IsNullOrWhiteSpace(reason))
                 return new StatusPlusTextResult(400, "Please enter a reason why the question is being rejected.");
-            if (reason.Length > 1000)
+            if (reason.Length > 20000)
                 return new StatusPlusTextResult(400, "Your rejection reason is too long.");
 
             var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).SingleOrDefault();
@@ -1106,7 +1106,7 @@ namespace Lawspot.Controllers
             // Validate the input.
             if (string.IsNullOrWhiteSpace(reason))
                 return new StatusPlusTextResult(400, "Please enter a reason why the answer is being rejected.");
-            if (reason.Length > 1000)
+            if (reason.Length > 20000)
                 return new StatusPlusTextResult(400, "Your rejection reason is too long.");
 
             var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).SingleOrDefault();
