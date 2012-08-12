@@ -241,7 +241,7 @@ namespace Lawspot.Controllers
             catch (System.Net.Sockets.SocketException)
             {
                 ModelState.AddModelError("EmailAddress", "Your email address is not valid.");
-                PopulateRegisterViewModel(model);
+                PopulateLawyerRegisterViewModel(model);
                 return View(model);
             }
 
