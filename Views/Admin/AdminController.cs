@@ -323,7 +323,7 @@ namespace Lawspot.Controllers
 
             // If this is the landing page for a lawyer AND there are no questions in the lawyer's category,
             // then show all questions instead.
-            if (model.Questions.TotalCount == 0 && Request.Params.Count == 0 && overrideCategory == false)
+            if (model.Questions.TotalCount == 0 && Request.QueryString.Count == 0 && overrideCategory == false)
                 return AnswerQuestions(category, filter, questionId, sort, page, overrideCategory: true);
 
             return View(model);
