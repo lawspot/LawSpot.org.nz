@@ -12,11 +12,11 @@
       LawSpot. You’ll see the answer below or view it on our website.
     </p>
 
-    <p>
-      <xsl:value-of select="Answer"/>
+    <p style="padding-left: 20px">
+      <xsl:value-of select="AnswerHtml" disable-output-escaping="yes"/>
     </p>
 
-    <p>
+    <p style="font-size: smaller">
       IMPORTANT NOTICE:<br/>
       The answer provided above is intended for general informational purposes only and cannot be
       considered a substitute for face-to-face legal advice. It should not be relied upon as the
@@ -26,11 +26,7 @@
       publishers of the answer, for loss, damage or inconvenience arising in any way from the use
       of this site. Although LawSpot has verified that each lawyer volunteer holds a current
       practising certificate, he or she may not necessarily have experience in the particular area
-      of law involved.
-    </p>
-
-    <p>
-      For more information about this website, please review our <a href="{BaseUrl}/terms">Terms of Use</a>.
+      of law involved.  For more information, please see our <a href="{BaseUrl}/terms">Terms of Use</a>.
     </p>
 
     <p>

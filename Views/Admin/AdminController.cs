@@ -1062,8 +1062,8 @@ namespace Lawspot.Controllers
                 answerPublishedMessage.To.Add(answer.User.EmailDisplayName);
                 answerPublishedMessage.Name = answer.User.EmailGreeting;
                 answerPublishedMessage.Question = answer.Question.Title;
-                answerPublishedMessage.QuestionUrl = answerPublishedMessage.BaseUrl + answer.Question.AbsolutePath;
-                answerPublishedMessage.Answer = answer.Details;
+                answerPublishedMessage.QuestionUri = answer.Question.Uri;
+                answerPublishedMessage.AnswerHtml = StringUtilities.ConvertTextToHtml(answer.Details);
                 answerPublishedMessage.UnansweredQuestionCount = this.DataContext.Questions.
                     Count(q => q.Approved == true && q.Answers.Count(a => a.Approved == true) == 0);
                 answerPublishedMessage.Send();
@@ -1072,7 +1072,8 @@ namespace Lawspot.Controllers
                 var questionAnsweredMessage = new Email.QuestionAnsweredMessage();
                 questionAnsweredMessage.To.Add(answer.Question.User.EmailAddress);
                 questionAnsweredMessage.Question = answer.Question.Title;
-                questionAnsweredMessage.Answer = answer.Details;
+                questionAnsweredMessage.QuestionUri = answer.Question.Uri;
+                questionAnsweredMessage.AnswerHtml = StringUtilities.ConvertTextToHtml(answer.Details);
                 questionAnsweredMessage.Send();
 
             }

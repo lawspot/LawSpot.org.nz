@@ -4,5 +4,18 @@
   <BaseUrl>http://localhost:59766</BaseUrl>
   <CurrentDate>Friday, 6 April 2012</CurrentDate>
   <Question>What can I do with a drunken sailor?</Question>
-  <Answer>Kick him in the nuts.</Answer>
+  <QuestionUri>http://www.lawspot.org.nz/charities/do-i-need-a-lawyer-to-start-a-charitable-organisation</QuestionUri>
+  <AnswerHtml>
+    You will need to do a lot of reading and possibly get some legal advice.<br/>
+    <br/>
+    To be a charity, you need to register with the Charities Commission. There are charitable
+    requirements you will need to meet. You will also need to consider the options for what sort of
+    structure you want to establish. There is a lot for you to consider, but there is also a lot of
+    helpful informatin on the Charities Commission website:
+    <a href="http://www.charities.govt.nz">www.charities.govt.nz</a> <br/>
+    <br/>
+    Click that link and have a really good read, and then consider whether it might be worth getting a
+    bit of legal help. It is not compulsory to use a lawyer but it can be very helpful. You might ask
+    your community law centre for local advice options: <a href="http://www.communitylaw.org.nz">www.communitylaw.org.nz</a>
+  </AnswerHtml>
 </Root>

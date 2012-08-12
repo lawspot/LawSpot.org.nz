@@ -10,11 +10,11 @@
     <p>
       We’ve just reviewed the answer you posted for the question "<xsl:value-of select="Question"/>"
       and the answer below have been published to the LawSpot website (you can view it online
-      <a href="{QuestionUrl}">here</a>).
+      <a href="{QuestionUri}">here</a>).
     </p>
 
-    <p>
-      <xsl:value-of select="Answer"/>
+    <p style="padding-left: 20px">
+      <xsl:value-of select="AnswerHtml" disable-output-escaping="yes"/>
     </p>
 
     <p>

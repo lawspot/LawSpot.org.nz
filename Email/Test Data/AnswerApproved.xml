@@ -5,7 +5,7 @@
   <CurrentDate>Friday, 6 April 2012</CurrentDate>
   <Name>Don Quixote</Name>
   <Question>What can I do with a drunken sailor?</Question>
-  <QuestionUrl>http://localhost:59766/test/test</QuestionUrl>
-  <Answer>Kick him in the nuts.</Answer>
+  <QuestionUri>http://localhost:59766/test/test</QuestionUri>
+  <AnswerHtml>Kick him in the nuts.</AnswerHtml>
   <UnansweredQuestionCount>123</UnansweredQuestionCount>
 </Root>

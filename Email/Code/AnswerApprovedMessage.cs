@@ -36,13 +36,13 @@ namespace Lawspot.Email
         /// The URL of the published answer.
         /// </summary>
         [ExposeToXslt]
-        public string QuestionUrl { get; set; }
+        public string QuestionUri { get; set; }
 
         /// <summary>
         /// The answer to the question.
         /// </summary>
         [ExposeToXslt]
-        public string Answer { get; set; }
+        public string AnswerHtml { get; set; }
 
         /// <summary>
         /// The number of unanswered questions on the site.
