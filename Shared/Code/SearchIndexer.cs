@@ -68,23 +68,31 @@ namespace Lawspot.Shared
         /// <param name="q"> The question to update. </param>
         public static void UpdateQuestion(Question q)
         {
-            lock (indexLock)
+            try
             {
-                using (var writer = new IndexWriter(AppData, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
+                lock (indexLock)
                 {
-                    // Remove older documents.
-                    writer.DeleteDocuments(new Term[] { new Term("ID", q.QuestionId.ToString()) });
+                    using (var writer = new IndexWriter(AppData, analyzer, false, IndexWriter.MaxFieldLength.UNLIMITED))
+                    {
+                        // Remove older documents.
+                        writer.DeleteDocuments(new Term[] { new Term("ID", q.QuestionId.ToString()) });
 
-                    // Create a new document.
-                    var document = CreateDocument(q);
+                        // Create a new document.
+                        var document = CreateDocument(q);
 
-                    // Add the new document.
-                    if (document != null)
-                        writer.AddDocument(document);
+                        // Add the new document.
+                        if (document != null)
+                            writer.AddDocument(document);
+                    }
+
+                    // Invalidate the searcher.
+                    searcher = null;
                 }
-
-                // Invalidate the searcher.
-                searcher = null;
+            }
+            catch (FileNotFoundException)
+            {
+                // The index file doesn't exist.
+                RebuildIndex();
             }
         }
 
@@ -100,10 +108,17 @@ namespace Lawspot.Shared
             var doc = new Document();
             doc.Add(new Field("Title", new StringReader(q.Title)));
             var details = new StringBuilder();
-            details.AppendLine(q.Details);
+            details.Append(q.Details);
+            int approvedAnswerCount = 0;
             foreach (var answer in q.Answers)
                 if (answer.Approved)
-                    details.AppendLine(answer.Details);
+                {
+                    approvedAnswerCount++;
+                    details.Append(" ... ");
+                    details.Append(answer.Details);
+                }
+            if (approvedAnswerCount == 0)
+                return null;        // Do not index questions until they have at least one answer.
             doc.Add(new Field("Details", new StringReader(details.ToString())));
             doc.Add(new Field("ID", q.QuestionId.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
             doc.Add(new Field("RawDetails", details.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));

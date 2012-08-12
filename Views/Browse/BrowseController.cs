@@ -159,7 +159,7 @@ namespace Lawspot.Controllers
                 if (categoryId.HasValue)
                     filteredQuestions = filteredQuestions.Where(q => q.CategoryId == categoryId);
                 ((IMostViewedQuestions)model).MostViewedQuestions = filteredQuestions
-                    .Where(q => q.Approved)
+                    .Where(q => q.Approved && q.Answers.Any(a => a.Approved == true))
                     .OrderByDescending(q => q.ViewCount)
                     .Take(5)
                     .Select(q => new QuestionViewModel()
