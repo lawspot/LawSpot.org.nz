@@ -186,9 +186,10 @@ namespace Lawspot.Controllers
         /// <param name="filter"></param>
         /// <param name="sort"></param>
         /// <param name="page"></param>
+        /// <param name="overrideCategory"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult AnswerQuestions(string category, string filter, int? questionId, string sort, int page = 1)
+        public ActionResult AnswerQuestions(string category, string filter, int? questionId, string sort, int page = 1, bool overrideCategory = false)
         {
             // Ensure the user is allow to answer questions.
             if (this.User.CanAnswerQuestions == false)
@@ -203,7 +204,7 @@ namespace Lawspot.Controllers
                 specialisationCategoryId = user.Lawyer.SpecialisationCategoryId ?? 0;
 
             // Categories.
-            int categoryId = questionId.HasValue ? 0 : specialisationCategoryId;
+            int categoryId = questionId.HasValue || overrideCategory ? 0 : specialisationCategoryId;
             if (category != null)
                 categoryId = int.Parse(category);
             model.CategoryOptions = new SelectListItem[] {
@@ -319,6 +320,11 @@ namespace Lawspot.Controllers
                     question.Notification = otherAnswer.Notification;
                 }
             }
+
+            // If this is the landing page for a lawyer AND there are no questions in the lawyer's category,
+            // then show all questions instead.
+            if (model.Questions.TotalCount == 0 && Request.Params.Count == 0 && overrideCategory == false)
+                return AnswerQuestions(category, filter, questionId, sort, page, overrideCategory: true);
 
             return View(model);
         }
