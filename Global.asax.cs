@@ -87,29 +87,40 @@ namespace Lawspot
             {
                 // Decrypt the cookie.
                 var cookie = Request.Cookies[FormsAuthentication.FormsCookieName];
-                var ticket = FormsAuthentication.Decrypt(cookie.Value);
 
-                // Ensure the ticket hasn't expired.
-                if (ticket.Expiration > DateTime.Now)
+                try
                 {
-                    // Extract the user information.
-                    var principal = Lawspot.Shared.CustomPrincipal.FromTicket(ticket);
-                    this.Context.User = principal;
+                    var ticket = FormsAuthentication.Decrypt(cookie.Value);
 
-                    // If the ticket has less than half the time remaining, issue a new one
-                    // (sliding expiration).
-                    if (ticket.Expiration.Subtract(DateTime.Now) <
-                        TimeSpan.FromMinutes(ticket.Expiration.Subtract(ticket.IssueDate).TotalMinutes / 2))
+                    // Ensure the ticket hasn't expired.
+                    if (ticket.Expiration > DateTime.Now)
                     {
-                        // Re-issue.
-                        this.Response.Cookies.Add(principal.ToCookie(ticket.IsPersistent));
+                        // Extract the user information.
+                        var principal = Lawspot.Shared.CustomPrincipal.FromTicket(ticket);
+                        this.Context.User = principal;
+
+                        // If the ticket has less than half the time remaining, issue a new one
+                        // (sliding expiration).
+                        if (ticket.Expiration.Subtract(DateTime.Now) <
+                            TimeSpan.FromMinutes(ticket.Expiration.Subtract(ticket.IssueDate).TotalMinutes / 2))
+                        {
+                            // Re-issue.
+                            this.Response.Cookies.Add(principal.ToCookie(ticket.IsPersistent));
+                        }
+                    }
+                    else
+                    {
+                        // The ticket has expired.
+                        FormsAuthentication.SignOut();
+                        this.Context.Items.Add("SessionExpired", true);
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    // The ticket has expired.
+                    // FormsAuthentication.Decrypt can fail if the cookie is bad or the machine key
+                    // has changed.
+                    Lawspot.Shared.Logger.LogError(ex);
                     FormsAuthentication.SignOut();
-                    this.Context.Items.Add("SessionExpired", true);
                 }
             }
         }
