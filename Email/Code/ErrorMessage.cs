@@ -24,7 +24,6 @@ namespace Lawspot.Email
             this.UserRawIP = "N/A";
             this.UserIP = "N/A";
             this.UserAgent = "N/A";
-            this.ClientApplication = "N/A";
             this.TrueIdentity = "N/A";
             this.RequestData = "N/A";
             this.RequestLength = "N/A";
@@ -166,12 +165,6 @@ namespace Lawspot.Email
         /// </summary>
         [ExposeToXslt]
         public string TrueIdentity { get; set; }
-
-        /// <summary>
-        /// The name of the application the client is using to access the API.
-        /// </summary>
-        [ExposeToXslt]
-        public string ClientApplication { get; set; }
 
         /// <summary>
         /// The user's browser.

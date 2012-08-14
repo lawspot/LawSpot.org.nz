@@ -115,19 +115,10 @@
               <xsl:value-of select="TrueIdentity"/>
             </td>
           </tr>
-          <tr>
+          <tr style="padding-bottom: 16px">
             <th align="right" width="120"> Browser: </th>
             <td colspan="3">
               <xsl:value-of select="UserAgent"/>
-            </td>
-          </tr>
-          <tr style="padding-bottom: 16px">
-            <th align="right" width="120"> Client App: </th>
-            <td>
-              <xsl:value-of select="ClientApplication"/>
-            </td>
-            <th align="right" width="120"> </th>
-            <td>
             </td>
           </tr>
 
