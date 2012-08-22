@@ -36,7 +36,7 @@ namespace Lawspot.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        [HttpPost, FormSelector("action", "login")]
+        [HttpPost, FormSelector("action", "LOGIN")]
         public ActionResult Login(LoginViewModel model)
         {
             // Check the model is valid.
@@ -379,7 +379,7 @@ namespace Lawspot.Controllers
         /// </summary>
         /// <param name="email"></param>
         /// <returns></returns>
-        [HttpPost, ActionName("Login"), FormSelector("action", "forgotpassword")]
+        [HttpPost, ActionName("Login"), FormSelector("action", "FORGOT YOUR PASSWORD?")]
         public ActionResult ForgotPassword(string emailAddress)
         {
             var model = new ForgotPasswordViewModel();

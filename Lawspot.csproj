@@ -435,6 +435,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Web.WebDrive.config">
       <DependentUpon>Web.config</DependentUpon>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>
