@@ -62,11 +62,11 @@
 
 <div>
     {{#Questions.Items}}
-	    <article class="question-container">
-	        <img class="left" src="/views/admin/answerquestions/question-icon.png" width="27" height="19" alt="" />
-            {{#Answer}}
+	    <div class="question-container">
+	        {{#Answer}}
                 <img class="star" src="/views/admin/answerquestions/star.png" />
             {{/Answer}}
+            <img class="left" src="/views/admin/answerquestions/question-icon.png" width="27" height="19" alt="" />
             {{#Notification}}
                 <img class="notification" src="/views/admin/answerquestions/warning.png" />
             {{/Notification}}
@@ -76,7 +76,7 @@
                 <span class="question-category">{{CategoryName}}</span>
 	        </div>
             <div class="inner-content"></div>
-	    </article>
+	    </div>
     {{/Questions.Items}}
 </div>
 
@@ -139,7 +139,7 @@
 </script>
 
 <script id="success-template" type="text/template">
-    <article class="answered">
+    <div class="answered">
 	    <img class="left" src="/views/admin/answerquestions/answered.png" width="26" height="26" alt="" />
 	    <h3>Thanks! You've just answered a question.</h3>
 	    <p>
@@ -153,7 +153,7 @@
 	    <div class="centre">
 	        <button type="submit">NEXT QUESTION</button>
 	    </div>
-	</article>
+	</div>
 </script>
 
 **! Change the mustache set delimiter back to normal **

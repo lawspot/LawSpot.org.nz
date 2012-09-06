@@ -40,7 +40,7 @@ namespace Lawspot.Controllers
                 {
                     Uri = c.AbsolutePath,
                     Name = c.Name,
-                    QuestionCount = c.ApprovedQuestionCount,
+                    QuestionCount = c.AnsweredQuestionCount,
                 });
             model.Categories1 = categories.Take((categories.Count() + 1) / 2);
             model.Categories2 = categories.Skip((categories.Count() + 1) / 2);
@@ -147,7 +147,7 @@ namespace Lawspot.Controllers
                     {
                         Uri = c.AbsolutePath,
                         Name = c.Name,
-                        QuestionCount = c.ApprovedQuestionCount,
+                        QuestionCount = c.AnsweredQuestionCount,
                     });
                 ((ITopCategories)model).TopCategories1 = topCategories.Take(5);
                 ((ITopCategories)model).TopCategories2 = topCategories.Skip(5);

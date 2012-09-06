@@ -62,7 +62,7 @@
 
 <div>
     {{#Questions.Items}}
-	    <article class="question-container">
+	    <div class="question-container">
 	        <img class="left" src="/views/admin/reviewquestions/question-icon.png" width="27" height="19" alt="" />
 	        <div class="question-header">
 	            <a href="#">{{Title}}</a><br />
@@ -70,7 +70,7 @@
                 <span class="question-category">{{CategoryName}}</span>
 	        </div>
             <div class="inner-content"></div>
-	    </article>
+	    </div>
     {{/Questions.Items}}
 </div>
 
@@ -128,7 +128,7 @@
 </script>
 
 <script id="approval-template" type="text/template">
-    <article class="action-complete approved">
+    <div class="action-complete approved">
 	    <img class="left" src="/views/admin/approved.png" width="26" height="26" alt="" />
 	    <h3>Thanks! You've just approved a question.</h3>
 	    <p>
@@ -142,11 +142,11 @@
 	    <div class="centre">
 	        <button type="submit">NEXT QUESTION</button>
 	    </div>
-	</article>
+	</div>
 </script>
 
 <script id="rejection-template" type="text/template">
-    <article class="action-complete rejected">
+    <div class="action-complete rejected">
 	    <img class="left" src="/views/admin/rejected.png" width="26" height="26" alt="" />
 	    <h3>Thanks! You've just rejected a question.</h3>
 	    <p>
@@ -160,7 +160,7 @@
 	    <div class="centre">
 	        <button type="submit">NEXT QUESTION</button>
 	    </div>
-	</article>
+	</div>
 </script>
 
 **! Change the mustache set delimiter back to normal **

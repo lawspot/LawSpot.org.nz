@@ -18,6 +18,8 @@ Thumbs.db
 *.cache
 *.ilk
 *.log
+*.Publish
+*.pubxml
 [Bb]in
 [Dd]ebug*/
 *.lib
@@ -30,7 +32,5 @@ App_Data/
 Lawspot.Publish.xml
 Web.WebDrive.config
 Shared/.DS_Store
-
 Shared/Images/.DS_Store
-
 Shared/Layout/.DS_Store

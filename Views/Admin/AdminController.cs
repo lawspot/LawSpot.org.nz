@@ -840,14 +840,7 @@ namespace Lawspot.Controllers
             SearchIndexer.UpdateQuestion(question);
 
             // Recalculate the number of approved questions in the category.
-            this.DataContext.ExecuteCommand(@"
-                UPDATE Category
-                SET ApprovedQuestionCount = (
-                    SELECT COUNT(*)
-                    FROM Question
-                    WHERE Question.CategoryId = Category.CategoryId
-                        AND Approved = 1)
-                WHERE Category.CategoryId = {0}", question.CategoryId);
+            UpdateCategory(question.CategoryId);
 
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(question.Details));
         }
@@ -897,14 +890,7 @@ namespace Lawspot.Controllers
             SearchIndexer.UpdateQuestion(question);
 
             // Recalculate the number of approved questions in the category.
-            this.DataContext.ExecuteCommand(@"
-                UPDATE Category
-                SET ApprovedQuestionCount = (
-                    SELECT COUNT(*)
-                    FROM Question
-                    WHERE Question.CategoryId = Category.CategoryId
-                        AND Approved = 1)
-                WHERE Category.CategoryId = {0}", question.CategoryId);
+            UpdateCategory(question.CategoryId);
 
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(reason));
         }
@@ -1085,6 +1071,9 @@ namespace Lawspot.Controllers
             // Update the search index.
             SearchIndexer.UpdateQuestion(answer.Question);
 
+            // Recalculate the number of answered questions in the category.
+            UpdateCategory(answer.Question.CategoryId);
+
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(answer.Details));
         }
 
@@ -1132,6 +1121,9 @@ namespace Lawspot.Controllers
 
             // Update the search index.
             SearchIndexer.UpdateQuestion(answer.Question);
+
+            // Recalculate the number of answered questions in the category.
+            UpdateCategory(answer.Question.CategoryId);
 
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(reason));
         }
@@ -1314,6 +1306,29 @@ namespace Lawspot.Controllers
                 return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
             SearchIndexer.RebuildIndex();
             return RedirectToAction("Admin", new { alert = "updated" });
+        }
+
+        /// <summary>
+        /// Updates the category stats.
+        /// </summary>
+        /// <param name="categoryId"> The ID of the category that should be updated. </param>
+        private void UpdateCategory(int categoryId)
+        {
+            // Recalculate the number of approved and answered questions in the category.
+            this.DataContext.ExecuteCommand(@"
+                UPDATE Category
+                SET ApprovedQuestionCount = (
+                    SELECT COUNT(*)
+                    FROM Question
+                    WHERE Question.CategoryId = Category.CategoryId
+                        AND Approved = 1),
+                AnsweredQuestionCount = (
+	                SELECT COUNT(*) FROM Question
+	                WHERE Question.CategoryId = Category.CategoryId
+	                AND Question.Approved = 1
+	                AND EXISTS (SELECT * FROM Answer WHERE Question.QuestionId = Answer.QuestionId AND Answer.Approved = 1)
+                )
+                WHERE Category.CategoryId = {0}", categoryId);
         }
     }
 }
