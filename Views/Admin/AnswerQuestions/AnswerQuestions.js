@@ -101,6 +101,13 @@ $(".question-container a").click(function (e) {
                 success: function (answerHtml) {
                     data.AnswerHtml = answerHtml;
 
+                    // Stop saving drafts.
+                    if (saveDraftTimerId) {
+                        window.clearInterval(saveDraftTimerId);
+                        saveDraftTimerId = null;
+                        saveDraftContainer = null;
+                    }
+
                     // Render the success box.
                     var successBox = $(Mustache.render(document.getElementById("success-template").text, data));
 
