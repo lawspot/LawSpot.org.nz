@@ -919,6 +919,8 @@ namespace Lawspot.Controllers
                 new SelectListItem() { Text = "Too Complex", Value = "Your answer is too long/poorly drafted/too complex for users - try again." },
                 new SelectListItem() { Text = "Bzzz Wrong", Value = "You’ve got the law wrong on this – try again." },
                 new SelectListItem() { Text = "Law Change", Value = "The law in this area has recently changed – try again." },
+                new SelectListItem() { Text = "Duplicate Answer", Value = "It appears that you have (or someone else has) submitted another answer that is identical or better addresses the question." },
+                new SelectListItem() { Text = "Off Topic", Value = "Substantial portions of your answer are unrelated to the question - try again." },
             };
 
             // Categories.
