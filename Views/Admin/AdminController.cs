@@ -289,6 +289,7 @@ namespace Lawspot.Controllers
                     QuestionId = q.QuestionId,
                     Title = q.Title,
                     DetailsHtml = StringUtilities.ConvertTextToHtml(q.Details),
+                    ReviewedBy = this.User.CanAdminister ? q.ReviewedByUser.EmailDisplayName : null,
                     DateAndTime = q.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     CategoryName = q.Category.Name,
                     Answer = string.Empty,
@@ -1008,7 +1009,7 @@ namespace Lawspot.Controllers
                     DateAndTime = a.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     Answer = a.Details,
                     AnsweredBy = a.CreatedByUser.EmailDisplayName,
-                    ReviewedBy = a.Question.ReviewedByUser.EmailDisplayName,
+                    ReviewedBy = this.User.CanAdminister ? a.Question.ReviewedByUser.EmailDisplayName : null,
                     ReferencesHtml = StringUtilities.ConvertTextToHtml(a.References),
                 }), page, 10, Request.Url);
 

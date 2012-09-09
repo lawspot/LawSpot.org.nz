@@ -92,7 +92,9 @@
 	    <p>{{Title}}</p>
 	    <p><strong>Description</strong></p>
 	    <p>{{Details}}</p>
-	    <label><strong>Reviewed</strong> by {{ReviewedBy}}</label><br />
+        {{#ReviewedBy}}
+	        <label><strong>Reviewed</strong> by {{ReviewedBy}}</label><br />
+        {{/ReviewedBy}}
         <label><strong>Answer</strong> by {{AnsweredBy}}</label><br />
 	    <textarea class="answer">{{Answer}}</textarea>
         {{#ReferencesHtml}}

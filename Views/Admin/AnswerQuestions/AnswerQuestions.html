@@ -97,6 +97,9 @@
             <strong>Question description:</strong><br />
 	        {{{DetailsHtml}}}
         </p>
+        {{#ReviewedBy}}
+            <label><strong>Reviewed</strong> by {{ReviewedBy}}</label><br />
+        {{/ReviewedBy}}
 	    <strong>Your Answer</strong><br />
 	    <textarea name="LawyerAnswer">{{Answer}}</textarea><br />
         <strong>Notes and References</strong> (only the reviewer will see these)<br />
