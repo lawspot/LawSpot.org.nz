@@ -214,6 +214,7 @@
     <Content Include="Backend\Migrations\2.sql" />
     <Content Include="Backend\Migrations\3.sql" />
     <Content Include="Backend\Migrations\4.sql" />
+    <Content Include="Backend\Migrations\41.sql" />
     <Content Include="Backend\Migrations\5.sql" />
     <Content Include="Backend\Migrations\6.sql" />
     <Content Include="Backend\Migrations\7.sql" />
@@ -250,6 +251,7 @@
     <Content Include="Backend\Migrations\38.sql" />
     <Content Include="Backend\Migrations\39.sql" />
     <Content Include="Backend\Migrations\40.sql" />
+    <Content Include="Backend\Migrations\42.sql" />
     <Content Include="Email\Assets\facebook.png" />
     <Content Include="Email\Assets\header-original.png" />
     <Content Include="Email\Assets\header.jpg" />

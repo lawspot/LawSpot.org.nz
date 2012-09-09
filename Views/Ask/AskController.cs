@@ -185,7 +185,7 @@ namespace Lawspot.Controllers
             question.Details = model.Details;
             question.CategoryId = model.CategoryId;
             question.CreatedOn = DateTimeOffset.Now;
-            question.User = user;
+            question.CreatedByUserId = user.UserId;
             question.Slug = slug.ToString();
             this.DataContext.Questions.InsertOnSubmit(question);
 
@@ -261,7 +261,7 @@ namespace Lawspot.Controllers
             var model = new QuestionThankYouModel();
             model.Title = question.Title;
             model.Category = question.Category.Name;
-            model.EmailAddress = question.User.EmailAddress;
+            model.EmailAddress = question.CreatedByUser.EmailAddress;
             model.Registered = registered;
             return View(model);
         }

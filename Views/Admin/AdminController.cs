@@ -411,7 +411,7 @@ namespace Lawspot.Controllers
                     Details = a.Details,
                     References = a.References,
                     UpdatedOn = a.CreatedOn,
-                    User = a.User,
+                    User = a.CreatedByUser,
                     Status = a.ReviewDate != null && a.Approved ? AnswerOrDraftStatus.Approved :
                         (a.ReviewDate != null && a.Approved == false ? AnswerOrDraftStatus.Rejected : AnswerOrDraftStatus.Pending),
                 }));
@@ -879,7 +879,7 @@ namespace Lawspot.Controllers
             if (statusChange)
             {
                 var rejectionMessage = new Email.QuestionRejectedMessage();
-                rejectionMessage.To.Add(question.User.EmailDisplayName);
+                rejectionMessage.To.Add(question.CreatedByUser.EmailDisplayName);
                 rejectionMessage.Question = question.Title;
                 rejectionMessage.QuestionDate = question.CreatedOn.ToString("d MMM");
                 rejectionMessage.ReasonHtml = StringUtilities.ConvertTextToHtml(reason);
@@ -1005,7 +1005,8 @@ namespace Lawspot.Controllers
                     CategoryName = a.Question.Category.Name,
                     DateAndTime = a.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     Answer = a.Details,
-                    AnsweredBy = a.User.EmailDisplayName,
+                    AnsweredBy = a.CreatedByUser.EmailDisplayName,
+                    ReviewedBy = a.Question.ReviewedByUser.EmailDisplayName,
                     ReferencesHtml = StringUtilities.ConvertTextToHtml(a.References),
                 }), page, 10, Request.Url);
 
@@ -1049,8 +1050,8 @@ namespace Lawspot.Controllers
 
                 // Send a message to the lawyer that answered the question.
                 var answerPublishedMessage = new Email.AnswerApprovedMessage();
-                answerPublishedMessage.To.Add(answer.User.EmailDisplayName);
-                answerPublishedMessage.Name = answer.User.EmailGreeting;
+                answerPublishedMessage.To.Add(answer.CreatedByUser.EmailDisplayName);
+                answerPublishedMessage.Name = answer.CreatedByUser.EmailGreeting;
                 answerPublishedMessage.Question = answer.Question.Title;
                 answerPublishedMessage.QuestionUri = answer.Question.Uri;
                 answerPublishedMessage.AnswerHtml = StringUtilities.ConvertTextToHtml(answer.Details);
@@ -1060,7 +1061,7 @@ namespace Lawspot.Controllers
 
                 // Send a message to the user who asked the question.
                 var questionAnsweredMessage = new Email.QuestionAnsweredMessage();
-                questionAnsweredMessage.To.Add(answer.Question.User.EmailAddress);
+                questionAnsweredMessage.To.Add(answer.Question.CreatedByUser.EmailAddress);
                 questionAnsweredMessage.Question = answer.Question.Title;
                 questionAnsweredMessage.QuestionUri = answer.Question.Uri;
                 questionAnsweredMessage.AnswerHtml = StringUtilities.ConvertTextToHtml(answer.Details);
@@ -1111,8 +1112,8 @@ namespace Lawspot.Controllers
             {
                 // Send a message to the lawyer saying their answer has been rejected.
                 var rejectionMessage = new Email.AnswerRejectedMessage();
-                rejectionMessage.To.Add(answer.User.EmailDisplayName);
-                rejectionMessage.Name = answer.User.EmailGreeting;
+                rejectionMessage.To.Add(answer.CreatedByUser.EmailDisplayName);
+                rejectionMessage.Name = answer.CreatedByUser.EmailGreeting;
                 rejectionMessage.Question = answer.Question.Title;
                 rejectionMessage.AnswerDate = answer.CreatedOn.ToString("d MMM");
                 rejectionMessage.ReasonHtml = StringUtilities.ConvertTextToHtml(reason);

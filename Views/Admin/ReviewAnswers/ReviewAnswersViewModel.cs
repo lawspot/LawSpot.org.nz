@@ -39,6 +39,7 @@ namespace Lawspot.Views.Admin
         public string Details { get; set; }
         public string CategoryName { get; set; }
         public string Answer { get; set; }
+        public string ReviewedBy { get; set; }
         public string AnsweredBy { get; set; }
         public string ReferencesHtml { get; set; }
     }
