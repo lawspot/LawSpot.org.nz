@@ -8,8 +8,8 @@
     </p>
 
     <p>
-      Thanks expressing your interests to be a lawyer volunteer on LawSpot. Unfortunately, we have
-      decided to put your LawSpot lawyer account on hold for the following reason:
+      Thanks for expressing your interest in being a lawyer volunteer on LawSpot. Unfortunately,
+      we have decided to put your LawSpot lawyer account on hold for the following reason:
     </p>
 
     <p style="padding-left: 20px">
