@@ -152,16 +152,16 @@ input.ask-textbox {
 	border: solid 1px #00485B;
 	border-radius: 2px;
 }
-.answer {
+.speech {
 	background-color: #BED1D6;
 	border-color: #859FA2;
 }
-.answer:before {
+.speech:before {
 	background-color: #BED1D6;
 	border-left: solid 1px #859FA2;
 	border-bottom: solid 1px #859FA2;
 }
-.answer .notice {
+.speech .notice {
 	font-size: 0.9em;
 }
 #qa-notice {
