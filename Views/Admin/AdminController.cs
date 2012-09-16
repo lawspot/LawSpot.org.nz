@@ -785,6 +785,7 @@ namespace Lawspot.Controllers
                     DateAndTime = q.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     CategoryId = q.CategoryId,
                     CategoryName = q.Category.Name,
+                    ReviewedBy = this.User.CanAdminister && q.ReviewedByUser != null ? q.ReviewedByUser.EmailDisplayName : null,
                 }), page, 10, Request.Url);
 
             // Categories only (used inside form).

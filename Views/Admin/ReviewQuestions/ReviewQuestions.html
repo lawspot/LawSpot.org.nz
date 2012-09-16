@@ -87,6 +87,10 @@
 
 <script id="answer-template" type="text/template">
 	<form class="initial-form">
+        {{#ReviewedBy}}
+	        <label><strong>Reviewed</strong> by {{ReviewedBy}}</label><br />
+        {{/ReviewedBy}}
+
 	    <div class="admin-labels">
 		    <span class="question-label"><strong>Question</strong></span>
 		    <strong>Category</strong>
