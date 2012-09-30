@@ -180,6 +180,7 @@
     <Compile Include="Views\Admin\AccountSettings\AccountSettingsViewModel.cs" />
     <Compile Include="Views\Admin\ActivityStream\ActivityStreamViewModel.cs" />
     <Compile Include="Views\Admin\AdminController.cs" />
+    <Compile Include="Views\Admin\ReviewAnswer\ReviewAnswerViewModel.cs" />
     <Compile Include="Views\Admin\ReviewLawyers\ReviewLawyersViewModel.cs" />
     <Compile Include="Views\Admin\ReviewAnswers\ReviewAnswersViewModel.cs" />
     <Compile Include="Views\Admin\ReviewQuestions\ReviewQuestionsViewModel.cs" />
@@ -302,7 +303,9 @@
     <Content Include="Lib\System.Web.WebPages.Razor.xml" />
     <Content Include="Lib\System.Web.WebPages.xml" />
     <Content Include="Email\Templates\Layout.xslt" />
+    <Content Include="Shared\Images\error-small.png" />
     <Content Include="Shared\Images\info-small.png" />
+    <Content Include="Shared\Images\success-small.png" />
     <Content Include="Views\Account\ResetPassword\ResetPasswordExpired.html" />
     <Content Include="Views\Account\ResetPassword\ResetPasswordInvalid.html" />
     <Content Include="Views\Account\ResetPassword\ResetPassword.html" />
@@ -310,6 +313,10 @@
     <Content Include="Views\Account\Login\ForgotPasswordSuccess.html" />
     <Content Include="Views\Account\ValidateEmailAddress\ValidateEmailAddressFailure.html" />
     <Content Include="Views\Account\ValidateEmailAddress\ValidateEmailAddressSuccess.html" />
+    <Content Include="Views\Admin\ReviewAnswer\answer-icon.png" />
+    <Content Include="Views\Admin\ReviewAnswer\ReviewAnswer.css" />
+    <Content Include="Views\Admin\ReviewAnswer\ReviewAnswer.html" />
+    <Content Include="Views\Admin\ReviewAnswer\ReviewAnswer.js" />
     <Content Include="Views\Browse\Home\jquery-easing-1.3.pack.js" />
     <Content Include="Shared\Layout\Layout.js" />
     <Content Include="Shared\Images\background.jpg" />
@@ -362,7 +369,6 @@
     <Content Include="Views\Admin\ReviewAnswers\answer-icon.png" />
     <Content Include="Views\Admin\ReviewAnswers\ReviewAnswers.css" />
     <Content Include="Views\Admin\ReviewAnswers\ReviewAnswers.html" />
-    <Content Include="Views\Admin\ReviewAnswers\ReviewAnswers.js" />
     <Content Include="Views\Admin\rejected.png" />
     <Content Include="Views\Admin\ReviewQuestions\ReviewQuestions.css" />
     <Content Include="Views\Admin\ReviewQuestions\ReviewQuestions.html" />

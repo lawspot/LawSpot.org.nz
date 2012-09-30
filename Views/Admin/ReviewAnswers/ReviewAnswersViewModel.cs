@@ -12,8 +12,7 @@ namespace Lawspot.Views.Admin
         public IEnumerable<SelectListItem> CategoryOptions { get; set; }
         public IEnumerable<SelectListItem> SortOptions { get; set; }
         public IEnumerable<SelectListItem> FilterOptions { get; set; }
-        public IEnumerable<SelectListItem> CannedRejectionReasons { get; set; }
-        public PagedListView<AnswerViewModel> Answers { get; set; }
+        public PagedListView<QuestionAndAnswerViewModel> Answers { get; set; }
     }
 
     public enum ReviewAnswersFilter
@@ -31,16 +30,12 @@ namespace Lawspot.Views.Admin
         FirstPosted,
     }
 
-    public class AnswerViewModel
+    public class QuestionAndAnswerViewModel
     {
+        public int QuestionId { get; set; }
         public int AnswerId { get; set; }
         public string DateAndTime { get; set; }
         public string Title { get; set; }
-        public string Details { get; set; }
         public string CategoryName { get; set; }
-        public string Answer { get; set; }
-        public string ReviewedBy { get; set; }
-        public string AnsweredBy { get; set; }
-        public string ReferencesHtml { get; set; }
     }
 }

@@ -16,6 +16,9 @@ namespace Lawspot.Shared
         /// <returns> An HTML representation of the text. </returns>
         public static string ConvertTextToHtml(string text)
         {
+            if (text == null)
+                return string.Empty;
+
             // Newlines should be converted to <br> tags.
             var result = new StringBuilder();
             int start = 0;

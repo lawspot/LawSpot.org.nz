@@ -1,0 +1,162 @@
+﻿{{Model Lawspot.Views.Admin.ReviewAnswerViewModel}}
+
+<h1>Review Answer</h1>
+
+<div class="question">
+    <img src="/views/browse/question/question.png" class="left" width="68" height="98" alt="" />
+    <div class="speech">
+	    <h1>{{Title}}</h1>
+
+	    <p>
+            <strong>Question Details:</strong>
+            {{{DetailsHtml}}}
+	    </p>
+
+        <div class="meta">
+            <img src="/shared/images/info-small.png" />
+            Asked {{DateAndTime}} under {{CategoryName}}
+        </div>
+
+        <hr />
+
+        <div class="meta">
+            <img src="/shared/images/success-small.png" />
+            <strong>Question approved</strong> by {{ReviewedBy}}
+        </div>
+    </div>
+</div>
+
+{{#Answers}}
+    <div class="answer {{#Approved}}approved-answer{{/Approved}} {{#Rejected}}rejected-answer{{/Rejected}}">
+        <img src="/views/browse/question/answer.png" class="left" width="76" height="119" alt="" />
+        <div class="speech">
+
+            <div class="meta">
+                <img src="/shared/images/info-small.png" />
+                Answer by {{AnsweredBy}} at {{DateAndTime}}
+            </div>
+
+            <div class="view-content">
+
+                <p>
+                    <strong>Answer:</strong>
+                    {{{AnswerHtml}}}
+	            </p>
+
+                {{#ReferencesHtml}}
+                    <p>
+                        <strong>Notes and References:</strong>
+                        {{{ReferencesHtml}}}
+                    </p>
+                {{/ReferencesHtml}}
+
+                {{#ReviewedBy}}
+                    <hr />
+
+                    <div class="meta">
+                        {{#Approved}}
+                            <img src="/shared/images/success-small.png" />
+                            <strong>Approved</strong> by {{ReviewedBy}} at {{ReviewDate}}
+                        {{/Approved}}
+
+                        {{#Rejected}}
+                            <img src="/shared/images/error-small.png" />
+                            <strong>Rejected</strong> by {{ReviewedBy}} at {{ReviewDate}}
+                        {{/Rejected}}
+                    </div>
+                    <p>{{{RejectionReasonHtml}}}</p>
+
+                    <div class="meta" style="text-align: right; margin: 5px 0">
+                        {{^Approved}}
+                            <img src="/shared/images/success-small.png" />
+                            <a href="#" data-action="go-to-approve">Approve</a>
+                        {{/Approved}}
+                        {{^Rejected}}
+                            <img src="/shared/images/error-small.png" />
+                            <a href="#" data-action="go-to-reject">Reject</a>
+                        {{/Rejected}}
+                    </div>
+                {{/ReviewedBy}}
+
+                {{^ReviewedBy}}
+                    <div style="text-align: center; margin: 10px 0">
+                        <button data-action="go-to-approve" type="submit">APPROVE</button>
+	                    <button class="red" data-action="go-to-reject" type="submit">REJECT</button>
+                    </div>
+                {{/ReviewedBy}}
+
+            </div>
+
+            {{^Approved}}
+                <div class="approve-content">
+                    <h1> Approve this answer </h1>
+                    <p>
+                        Approving the answer will make the Q&A public and will notify both the
+                        user who asked the question and the lawyer who answered it.
+                    </p>
+                    <form method="post" action="/admin/post-approve-answer">
+                        <input name="answerId" type="hidden" value="{{AnswerId}}" />
+                        
+                        <div> Answer: </div>
+                        <textarea style="width: 100%; height: 400px" name="answerDetails">{{Answer}}</textarea>
+
+                        {{#ReferencesHtml}}
+                            <p>
+                                <strong>Notes and References:</strong>
+                                {{{ReferencesHtml}}}
+                            </p>
+                        {{/ReferencesHtml}}
+
+                        <div style="text-align: center; margin: 10px 0">
+                            <button data-action="approve" type="submit" style="margin-right: 10px">APPROVE</button>
+                            <a href="#" data-action="cancel">Cancel</a>
+                            <img class="progress-indicator" src="/shared/images/progress-indicator.gif" />
+                        </div>
+                    </form>
+                </div>
+            {{/Approved}}
+
+            {{^Rejected}}
+                <div class="reject-content">
+                    <p>
+                        <strong>Answer:</strong>
+                        {{{AnswerHtml}}}
+	                </p>
+
+                    {{#ReferencesHtml}}
+                        <p>
+                            <strong>Notes and References:</strong>
+                            {{{ReferencesHtml}}}
+                        </p>
+                    {{/ReferencesHtml}}
+
+                    <h1> Reject this answer </h1>
+                    <p>
+                        Rejecting the answer will notify the lawyer who wrote the answer.  If the
+                        answer is currently public, it will be hidden.
+                    </p>
+                    <form method="post" action="/admin/post-reject-answer">
+                        <input name="answerId" type="hidden" value="{{AnswerId}}" />
+                        <div style="margin-bottom: 5px">
+                            Reason for rejection:
+                            <select class="canned-rejection-reasons">
+                                {{#CannedRejectionReasons}}
+                                    <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
+                                {{/CannedRejectionReasons}}
+		                    </select>
+                        </div>
+                        <textarea style="width: 100%; height: 200px" class="reason" name="reason"
+                            placeholder="Enter your reason for rejecting the question here."></textarea>
+                        <div style="text-align: center; margin: 10px 0">
+                            <button class="red" data-action="reject" type="submit" style="margin-right: 10px">REJECT</button>
+                            <a href="#" data-action="cancel">Cancel</a>
+                            <img class="progress-indicator" src="/shared/images/progress-indicator.gif" />
+                        </div>
+                    </form>
+                </div>
+            {{/Rejected}}
+        </div>
+
+        
+    </div>
+{{/Answers}}

@@ -914,17 +914,6 @@ namespace Lawspot.Controllers
 
             var model = new ReviewAnswersViewModel();
 
-            // Populate the list of precanned rejection responses.
-            model.CannedRejectionReasons = new SelectListItem[] {
-                new SelectListItem() { Text = "Select a canned response", Value = "" },
-                new SelectListItem() { Text = "Didn't Answer Question", Value = "You haven’t answered the question - try again." },
-                new SelectListItem() { Text = "Too Complex", Value = "Your answer is too long/poorly drafted/too complex for users - try again." },
-                new SelectListItem() { Text = "Bzzz Wrong", Value = "You’ve got the law wrong on this – try again." },
-                new SelectListItem() { Text = "Law Change", Value = "The law in this area has recently changed – try again." },
-                new SelectListItem() { Text = "Duplicate Answer", Value = "It appears that you have (or someone else has) submitted another answer that is identical or better addresses the question." },
-                new SelectListItem() { Text = "Off Topic", Value = "Substantial portions of your answer are unrelated to the question - try again." },
-            };
-
             // Categories.
             int categoryId = 0;
             if (category != null)
@@ -999,20 +988,67 @@ namespace Lawspot.Controllers
                     answers = answers.OrderByDescending(q => q.CreatedOn);
                     break;
             }
-            model.Answers = new PagedListView<AnswerViewModel>(answers
+            model.Answers = new PagedListView<QuestionAndAnswerViewModel>(answers
                 .ToList()
+                .Select(a => new QuestionAndAnswerViewModel()
+                {
+                    QuestionId = a.QuestionId,
+                    AnswerId = a.AnswerId,
+                    Title = a.Question.Title,
+                    CategoryName = a.Question.Category.Name,
+                    DateAndTime = a.CreatedOn.ToString("d MMM yyyy h:mmtt"),
+                }), page, 10, Request.Url);
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Displays the review answer page.
+        /// </summary>
+        /// <param name="questionId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ReviewAnswer(int questionId)
+        {
+            // Ensure the user is allow to vet answers.
+            if (this.User.CanVetAnswers == false)
+                throw new HttpException(403, "Access denied");
+
+            var question = DataContext.Questions.Single(q => q.QuestionId == questionId);
+            var model = new ReviewAnswerViewModel()
+            {
+                Title = question.Title,
+                DetailsHtml = StringUtilities.ConvertTextToHtml(question.Details),
+                DateAndTime = question.CreatedOn.ToString("d MMM yyyy h:mmtt"),
+                CategoryName = question.Category.Name,
+                ReviewedBy = this.User.CanAdminister && question.ReviewedByUser != null ? question.ReviewedByUser.EmailDisplayName : null,
+                ReviewDate = question.ReviewDate.HasValue ? question.ReviewDate.Value.ToString("d MMM yyyy h:mmtt") : string.Empty,
+            };
+            model.Answers = question.Answers
                 .Select(a => new AnswerViewModel()
                 {
                     AnswerId = a.AnswerId,
-                    Title = a.Question.Title,
-                    Details = a.Question.Details,
-                    CategoryName = a.Question.Category.Name,
                     DateAndTime = a.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     Answer = a.Details,
+                    AnswerHtml = StringUtilities.ConvertTextToHtml(a.Details),
                     AnsweredBy = a.CreatedByUser.EmailDisplayName,
-                    ReviewedBy = this.User.CanAdminister ? a.Question.ReviewedByUser.EmailDisplayName : null,
                     ReferencesHtml = StringUtilities.ConvertTextToHtml(a.References),
-                }), page, 10, Request.Url);
+                    ReviewedBy = this.User.CanAdminister && a.ReviewedByUser != null ? a.ReviewedByUser.EmailDisplayName : null,
+                    ReviewDate = a.ReviewDate.HasValue ? a.ReviewDate.Value.ToString("d MMM yyyy h:mmtt") : string.Empty,
+                    Approved = a.Approved,
+                    Rejected = a.Approved == false && a.ReviewedByUserId != null,
+                    RejectionReasonHtml = StringUtilities.ConvertTextToHtml(a.RejectionReason),
+                    CannedRejectionReasons = new SelectListItem[] {
+                        new SelectListItem() { Text = "Select a canned response", Value = "" },
+                        new SelectListItem() { Text = "Didn't Answer Question", Value = "You haven’t answered the question - try again." },
+                        new SelectListItem() { Text = "Too Complex", Value = "Your answer is too long/poorly drafted/too complex for users - try again." },
+                        new SelectListItem() { Text = "Bzzz Wrong", Value = "You’ve got the law wrong on this – try again." },
+                        new SelectListItem() { Text = "Law Change", Value = "The law in this area has recently changed – try again." },
+                        new SelectListItem() { Text = "Duplicate Answer", Value = "It appears that you have (or someone else has) submitted another answer that is identical or better addresses the question." },
+                        new SelectListItem() { Text = "Off Topic", Value = "Substantial portions of your answer are unrelated to the question - try again." },
+                    },
+                })
+                .ToList();
 
             return View(model);
         }
