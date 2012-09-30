@@ -5,6 +5,19 @@
     <title>LawSpot - Legal Answers. Free Answers.</title>
     <meta charset="utf-8" />
     <meta name="Description" content="LawSpot is a site where you can ask your legal questions and a qualified lawyer will answer it for free" />
+    
+    <!-- Google Chrome Frame -->
+    <meta http-equiv="X-UA-Compatible" content="chrome=IE8">
+    {{#InAdmin}}
+        <!-- Prompt to install in admin pages only. -->
+        <!--[if lte IE 8]>
+            <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+            <script>
+                window.attachEvent("onload", function() { CFInstall.check({ mode: "overlay" }); });
+            </script>
+        <![endif]-->
+    {{/InAdmin}}
+
     {{Stylesheets}}
     <!--[if lte IE 7]>
     <style type="text/css">
