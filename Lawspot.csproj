@@ -203,6 +203,7 @@
     <Compile Include="Views\Browse\Question\QuestionPageViewModel.cs" />
     <Compile Include="Views\Browse\Search\SearchPageViewModel.cs" />
     <Compile Include="Views\Static\StaticController.cs" />
+    <Compile Include="Views\Tasks\TasksController.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />

@@ -1314,25 +1314,10 @@ namespace Lawspot.Controllers
             if (this.User.CanAdminister == false)
                 return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
 
-            // Get a list of all the questions that have no answers or even draft answers.
-            var questions = this.DataContext.Questions.Where(q => q.Approved && q.Answers.Any() == false && q.DraftAnswers.Any() == false).ToList();
+            // Send the reminder email.
+            new TasksController().SendReminderEmails();
 
-            int sentMessageCount = 0;
-            if (questions.Count > 0)
-            {
-                // Compose messages to all the lawyers.
-                var messages = new List<Email.LawyerReminderMessage>();
-                foreach (var lawyer in this.DataContext.Lawyers)
-                    messages.Add(new Email.LawyerReminderMessage(lawyer, questions));
-
-                // Send the messages.
-                foreach (var message in messages)
-                    message.Send();
-
-                sentMessageCount = messages.Count;
-            }
-
-            return RedirectToAction("Admin", new { sent = sentMessageCount.ToString() });
+            return RedirectToAction("Admin", new { sent = "?" });
         }
 
         /// <summary>

@@ -67,8 +67,10 @@ namespace Lawspot.Email
             this.Body = output.ToString();
 
             // Send the email.
-            var client = new SmtpClient();
-            client.Send(this);
+            using (var client = new SmtpClient())
+            {
+                client.Send(this);
+            }
         }
 
         private void SerializeToXml(object value, XmlElement parent)
