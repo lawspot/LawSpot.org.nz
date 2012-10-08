@@ -1021,7 +1021,7 @@ namespace Lawspot.Controllers
                 DetailsHtml = StringUtilities.ConvertTextToHtml(question.Details),
                 DateAndTime = question.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                 CategoryName = question.Category.Name,
-                ReviewedBy = this.User.CanAdminister && question.ReviewedByUser != null ? question.ReviewedByUser.EmailDisplayName : null,
+                ReviewedBy = question.ReviewedByUser != null ? question.ReviewedByUser.EmailDisplayName : null,
                 ReviewDate = question.ReviewDate.HasValue ? question.ReviewDate.Value.ToString("d MMM yyyy h:mmtt") : string.Empty,
             };
             model.Answers = question.Answers
@@ -1033,7 +1033,7 @@ namespace Lawspot.Controllers
                     AnswerHtml = StringUtilities.ConvertTextToHtml(a.Details),
                     AnsweredBy = a.CreatedByUser.EmailDisplayName,
                     ReferencesHtml = StringUtilities.ConvertTextToHtml(a.References),
-                    ReviewedBy = this.User.CanAdminister && a.ReviewedByUser != null ? a.ReviewedByUser.EmailDisplayName : null,
+                    ReviewedBy = a.ReviewedByUser != null ? a.ReviewedByUser.EmailDisplayName : null,
                     ReviewDate = a.ReviewDate.HasValue ? a.ReviewDate.Value.ToString("d MMM yyyy h:mmtt") : string.Empty,
                     Approved = a.Approved,
                     Rejected = a.Approved == false && a.ReviewedByUserId != null,
