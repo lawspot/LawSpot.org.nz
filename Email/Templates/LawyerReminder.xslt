@@ -8,8 +8,12 @@
     </p>
 
     <p>
-      There are currently <xsl:value-of select="UnansweredQuestionCount"/> unanswered questions on
-      LawSpot.
+      <xsl:if test="UnansweredQuestionCount = 1">
+        There is currently one unanswered question on LawSpot.
+      </xsl:if>
+      <xsl:if test="UnansweredQuestionCount != 1">
+        There are currently <xsl:value-of select="UnansweredQuestionCount"/> unanswered questions on LawSpot.
+      </xsl:if>
     </p>
 
     <ul>

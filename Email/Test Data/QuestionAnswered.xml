@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <?xml-stylesheet type="text/xsl" href="../Templates/QuestionAnswered.xslt"?>
 <Root>
-  <BaseUrl>http://localhost:59766</BaseUrl>
+  <BaseUrl>http://localhost:60000</BaseUrl>
   <CurrentDate>Friday, 6 April 2012</CurrentDate>
   <Question>What can I do with a drunken sailor?</Question>
   <QuestionUri>http://www.lawspot.org.nz/charities/do-i-need-a-lawyer-to-start-a-charitable-organisation</QuestionUri>
