@@ -1091,6 +1091,7 @@ namespace Lawspot.Controllers
                 // Send a message to the lawyer that answered the question.
                 var answerPublishedMessage = new Email.AnswerApprovedMessage();
                 answerPublishedMessage.To.Add(answer.CreatedByUser.EmailDisplayName);
+                answerPublishedMessage.ReplyToList.Add(this.User.EmailAddress);
                 answerPublishedMessage.Name = answer.CreatedByUser.EmailGreeting;
                 answerPublishedMessage.Question = answer.Question.Title;
                 answerPublishedMessage.QuestionUri = answer.Question.Uri;
@@ -1153,6 +1154,7 @@ namespace Lawspot.Controllers
                 // Send a message to the lawyer saying their answer has been rejected.
                 var rejectionMessage = new Email.AnswerRejectedMessage();
                 rejectionMessage.To.Add(answer.CreatedByUser.EmailDisplayName);
+                rejectionMessage.ReplyToList.Add(this.User.EmailAddress);
                 rejectionMessage.Name = answer.CreatedByUser.EmailGreeting;
                 rejectionMessage.Question = answer.Question.Title;
                 rejectionMessage.AnswerDate = answer.CreatedOn.ToString("d MMM");
