@@ -368,7 +368,7 @@ namespace Lawspot.Controllers
                 actions.Add(new ActionCount()
                 {
                     Count = CacheProvider.CacheDatabaseQuery("UnreviewedLawyerCount", connection =>
-                        connection.Lawyers.Count(l => l.ReviewDate == null), TimeSpan.FromMinutes(2)),
+                        connection.Lawyers.Count(l => l.ReviewDate == null && l.User.EmailValidated == true), TimeSpan.FromMinutes(2)),
                     Noun = "pending lawyer",
                     Uri = "/admin/review-lawyers",
                 });
