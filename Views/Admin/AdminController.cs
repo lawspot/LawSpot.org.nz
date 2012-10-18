@@ -1304,23 +1304,6 @@ namespace Lawspot.Controllers
         }
 
         /// <summary>
-        /// Called to send reminder emails to lawyers.
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost, ActionName("Admin"), FormSelector("SendReminderEmails", "")]
-        public ActionResult SendReminderEmails()
-        {
-            // Ensure the user is allowed to administer the site.
-            if (this.User.CanAdminister == false)
-                return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
-
-            // Send the reminder email.
-            new TasksController().SendReminderEmails();
-
-            return RedirectToAction("Admin", new { sent = "?" });
-        }
-
-        /// <summary>
         /// Called to rebuild the search index.
         /// </summary>
         /// <returns></returns>
