@@ -17,8 +17,10 @@ namespace Lawspot.Views.Admin
         public string ReviewedBy { get; set; }
         public string ReviewDate { get; set; }
 
+        public bool HideReviewedAnswers { get; set; }
+        public int ReviewedAnswerCount { get; set; }
+
         public IEnumerable<AnswerViewModel> Answers { get; set; }
-        public int UnreviewedAnswerCount { get; set; }
     }
 
     public class AnswerViewModel

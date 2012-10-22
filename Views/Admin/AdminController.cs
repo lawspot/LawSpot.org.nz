@@ -1052,7 +1052,10 @@ namespace Lawspot.Controllers
                         new SelectListItem() { Text = "Off Topic", Value = "Substantial portions of your answer are unrelated to the question - try again." },
                     },
                 }).ToList();
-            model.UnreviewedAnswerCount = model.Answers.Count(a => a.ReviewedBy == null);
+            model.ReviewedAnswerCount = model.Answers.Count(a => a.ReviewedBy != null);
+
+            // Hide previous approved or rejected answers if there is at least one unreviewed answer.
+            model.HideReviewedAnswers = model.ReviewedAnswerCount > 0 && model.Answers.Count(a => a.ReviewedBy == null) > 0;
 
             return View(model);
         }

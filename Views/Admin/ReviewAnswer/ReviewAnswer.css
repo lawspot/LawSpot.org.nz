@@ -93,6 +93,6 @@
     margin-left: 10px;
 }
 
-.approved-answer, .rejected-answer, #hideReviewedLink {
+.hidden-parent .approved-answer, .hidden-parent .rejected-answer, #hideReviewedLink {
     display: none;
 }
