@@ -13,6 +13,13 @@
     </p>
 
     <p style="padding-left: 20px">
+      <b>Your question</b><br/>
+      <xsl:value-of select="Question"/><br/>
+      Details: <xsl:value-of select="DetailsHtml" disable-output-escaping="yes"/>
+    </p>
+
+    <p style="padding-left: 20px">
+      <b>Our answer</b><br/>
       <xsl:value-of select="AnswerHtml" disable-output-escaping="yes"/>
     </p>
 

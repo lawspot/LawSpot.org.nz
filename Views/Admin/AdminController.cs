@@ -1104,6 +1104,7 @@ namespace Lawspot.Controllers
                 var questionAnsweredMessage = new Email.QuestionAnsweredMessage();
                 questionAnsweredMessage.To.Add(answer.Question.CreatedByUser.EmailAddress);
                 questionAnsweredMessage.Question = answer.Question.Title;
+                questionAnsweredMessage.DetailsHtml = StringUtilities.ConvertTextToHtml(answer.Question.Details);
                 questionAnsweredMessage.QuestionUri = answer.Question.Uri;
                 questionAnsweredMessage.AnswerHtml = StringUtilities.ConvertTextToHtml(answer.Details);
                 questionAnsweredMessage.Send();

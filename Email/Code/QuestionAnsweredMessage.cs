@@ -27,6 +27,12 @@ namespace Lawspot.Email
         public string Question { get; set; }
 
         /// <summary>
+        /// The question details.
+        /// </summary>
+        [ExposeToXslt]
+        public string DetailsHtml { get; set; }
+
+        /// <summary>
         /// The URL of the dedicated question & answer page.
         /// </summary>
         [ExposeToXslt]
