@@ -1047,8 +1047,8 @@ namespace Lawspot.Controllers
                         new SelectListItem() { Text = "Duplicate Answer", Value = "It appears that you have (or someone else has) submitted another answer that is identical or better addresses the question." },
                         new SelectListItem() { Text = "Off Topic", Value = "Substantial portions of your answer are unrelated to the question - try again." },
                     },
-                })
-                .ToList();
+                }).ToList();
+            model.UnreviewedAnswerCount = model.Answers.Count(a => a.ReviewedBy == null);
 
             return View(model);
         }

@@ -26,6 +26,13 @@
     </div>
 </div>
 
+{{#UnreviewedAnswerCount}}
+    <p>
+        <a id="showReviewedLink" href="javascript:toggleReviewedAnswers()">Show reviewed answers ({{UnreviewedAnswerCount}}) &gt;&gt;</a>
+        <a id="hideReviewedLink" href="javascript:toggleReviewedAnswers()">&lt;&lt; Hide reviewed answers ({{UnreviewedAnswerCount}})</a>
+    </p>
+{{/UnreviewedAnswerCount}}
+
 {{#Answers}}
     <div class="answer {{#Approved}}approved-answer{{/Approved}} {{#Rejected}}rejected-answer{{/Rejected}}">
         <img src="/views/browse/question/answer.png" class="left" width="76" height="119" alt="" />

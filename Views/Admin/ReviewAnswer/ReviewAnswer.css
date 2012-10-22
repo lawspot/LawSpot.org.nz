@@ -92,3 +92,7 @@
     visibility: hidden;
     margin-left: 10px;
 }
+
+.approved-answer, .rejected-answer, #hideReviewedLink {
+    display: none;
+}

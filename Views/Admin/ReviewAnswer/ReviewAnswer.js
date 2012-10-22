@@ -62,3 +62,9 @@ $("button[data-action=approve], button[data-action=reject]").click(function (e) 
     });
     e.preventDefault();
 });
+
+function toggleReviewedAnswers() {
+    $(".approved-answer, .rejected-answer").slideToggle("fast");
+    $("#showReviewedLink").toggle();
+    $("#hideReviewedLink").toggle();
+}
