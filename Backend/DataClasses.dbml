@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Lawspot" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDB)\v11.0;AttachDbFilename=|DataDirectory|\Data.mdf;Initial Catalog=Lawspot;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="DataConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDB)\v11.0;Initial Catalog=Lawspot;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="LawspotConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Region" Member="Regions">
     <Type Name="Region">
       <Column Name="RegionId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -99,6 +99,8 @@
       <Column Name="ReviewDate" Type="System.DateTimeOffset" DbType="DateTimeOffset" CanBeNull="true" />
       <Column Name="ReviewedByUserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="RejectionReason" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="OriginalTitle" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
+      <Column Name="OriginalDetails" Type="System.String" DbType="NVarChar(600)" CanBeNull="true" />
       <Association Name="Question_DraftAnswer" Member="DraftAnswers" ThisKey="QuestionId" OtherKey="QuestionId" Type="DraftAnswer" />
       <Association Name="Question_Answer" Member="Answers" ThisKey="QuestionId" OtherKey="QuestionId" Type="Answer" />
       <Association Name="Category_Question" Member="Category" ThisKey="CategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
@@ -118,6 +120,7 @@
       <Column Name="ReviewedByUserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="RejectionReason" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="[References]" Member="References" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="OriginalDetails" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Association Name="User_Answer" Member="CreatedByUser" ThisKey="CreatedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
       <Association Name="Question_Answer" Member="Question" ThisKey="QuestionId" OtherKey="QuestionId" Type="Question" IsForeignKey="true" />
       <Association Name="User_Answer1" Member="ReviewedByUser" ThisKey="ReviewedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />

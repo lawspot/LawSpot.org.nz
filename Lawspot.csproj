@@ -254,6 +254,7 @@
     <Content Include="Backend\Migrations\39.sql" />
     <Content Include="Backend\Migrations\40.sql" />
     <Content Include="Backend\Migrations\42.sql" />
+    <Content Include="Backend\Migrations\43.sql" />
     <Content Include="Email\Assets\facebook.png" />
     <Content Include="Email\Assets\header-original.png" />
     <Content Include="Email\Assets\header.jpg" />

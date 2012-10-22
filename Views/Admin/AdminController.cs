@@ -829,7 +829,11 @@ namespace Lawspot.Controllers
             var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).SingleOrDefault();
             if (question == null)
                 return new StatusPlusTextResult(400, "The question doesn't exist.");
+            if (question.Title != title && question.OriginalTitle == null)
+                question.OriginalTitle = question.Title;
             question.Title = title;
+            if (question.Details != details && question.OriginalDetails == null)
+                question.OriginalDetails = question.Details;
             question.Details = details;
             question.CategoryId = categoryId;
             question.Approved = true;
@@ -1077,6 +1081,8 @@ namespace Lawspot.Controllers
             if (answer == null)
                 return new StatusPlusTextResult(400, "The answer doesn't exist.");
             bool statusChange = answer.Approved != true || answer.ReviewDate == null;
+            if (answer.Details != answerDetails && answer.OriginalDetails == null)
+                answer.OriginalDetails = answer.Details;
             answer.Details = answerDetails;
             answer.Approved = true;
             answer.ReviewDate = DateTimeOffset.Now;

@@ -57,7 +57,7 @@ namespace Lawspot.Backend
     #endregion
 		
 		public DataClassesDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["DataConnectionString"].ConnectionString, mappingSource)
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["LawspotConnectionString"].ConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -1994,6 +1994,10 @@ namespace Lawspot.Backend
 		
 		private string _RejectionReason;
 		
+		private string _OriginalTitle;
+		
+		private string _OriginalDetails;
+		
 		private EntitySet<DraftAnswer> _DraftAnswers;
 		
 		private EntitySet<Answer> _Answers;
@@ -2032,6 +2036,10 @@ namespace Lawspot.Backend
     partial void OnReviewedByUserIdChanged();
     partial void OnRejectionReasonChanging(string value);
     partial void OnRejectionReasonChanged();
+    partial void OnOriginalTitleChanging(string value);
+    partial void OnOriginalTitleChanged();
+    partial void OnOriginalDetailsChanging(string value);
+    partial void OnOriginalDetailsChanged();
     #endregion
 		
 		public Question()
@@ -2296,6 +2304,46 @@ namespace Lawspot.Backend
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OriginalTitle", DbType="NVarChar(150)")]
+		public string OriginalTitle
+		{
+			get
+			{
+				return this._OriginalTitle;
+			}
+			set
+			{
+				if ((this._OriginalTitle != value))
+				{
+					this.OnOriginalTitleChanging(value);
+					this.SendPropertyChanging();
+					this._OriginalTitle = value;
+					this.SendPropertyChanged("OriginalTitle");
+					this.OnOriginalTitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OriginalDetails", DbType="NVarChar(600)")]
+		public string OriginalDetails
+		{
+			get
+			{
+				return this._OriginalDetails;
+			}
+			set
+			{
+				if ((this._OriginalDetails != value))
+				{
+					this.OnOriginalDetailsChanging(value);
+					this.SendPropertyChanging();
+					this._OriginalDetails = value;
+					this.SendPropertyChanged("OriginalDetails");
+					this.OnOriginalDetailsChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Question_DraftAnswer", Storage="_DraftAnswers", ThisKey="QuestionId", OtherKey="QuestionId")]
 		public EntitySet<DraftAnswer> DraftAnswers
 		{
@@ -2495,6 +2543,8 @@ namespace Lawspot.Backend
 		
 		private string _References;
 		
+		private string _OriginalDetails;
+		
 		private EntityRef<User> _CreatedByUser;
 		
 		private EntityRef<Question> _Question;
@@ -2525,6 +2575,8 @@ namespace Lawspot.Backend
     partial void OnRejectionReasonChanged();
     partial void OnReferencesChanging(string value);
     partial void OnReferencesChanged();
+    partial void OnOriginalDetailsChanging(string value);
+    partial void OnOriginalDetailsChanged();
     #endregion
 		
 		public Answer()
@@ -2743,6 +2795,26 @@ namespace Lawspot.Backend
 					this._References = value;
 					this.SendPropertyChanged("References");
 					this.OnReferencesChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OriginalDetails", DbType="NVarChar(MAX)")]
+		public string OriginalDetails
+		{
+			get
+			{
+				return this._OriginalDetails;
+			}
+			set
+			{
+				if ((this._OriginalDetails != value))
+				{
+					this.OnOriginalDetailsChanging(value);
+					this.SendPropertyChanging();
+					this._OriginalDetails = value;
+					this.SendPropertyChanged("OriginalDetails");
+					this.OnOriginalDetailsChanged();
 				}
 			}
 		}
