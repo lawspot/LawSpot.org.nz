@@ -96,7 +96,7 @@ namespace Lawspot.Controllers
             model.CreationDate = question.CreatedOn.ToString("d MMM yyyy");
             model.Views = question.ViewCount;
             model.Answers = question.Answers
-                .Where(a => a.Approved)
+                .Where(a => a.Status == AnswerStatus.Approved)
                 .Select(a => new AnswerViewModel()
             {
                 DetailsHtml = StringUtilities.ConvertTextToHtml(a.Details),
@@ -119,7 +119,7 @@ namespace Lawspot.Controllers
                 if (categoryId != null)
                     filteredAnswers = filteredAnswers.Where(a => a.Question.CategoryId == categoryId.Value);
                 ((IRecentAnswers)model).RecentAnswers = new PagedListView<AnsweredQuestionViewModel>(filteredAnswers
-                    .Where(a => a.Approved && a.Question.Approved)
+                    .Where(a => a.Status == AnswerStatus.Approved && a.Question.Approved)
                     .OrderByDescending(a => a.CreatedOn)
                     .Select(a => new AnsweredQuestionViewModel()
                     {
@@ -159,14 +159,14 @@ namespace Lawspot.Controllers
                 if (categoryId.HasValue)
                     filteredQuestions = filteredQuestions.Where(q => q.CategoryId == categoryId);
                 ((IMostViewedQuestions)model).MostViewedQuestions = filteredQuestions
-                    .Where(q => q.Approved && q.Answers.Any(a => a.Approved == true))
+                    .Where(q => q.Approved && q.Answers.Any(a => a.Status == AnswerStatus.Approved))
                     .OrderByDescending(q => q.ViewCount)
                     .Take(5)
                     .Select(q => new QuestionViewModel()
                     {
                         Url = q.AbsolutePath,
                         Title = q.Title,
-                        AnswerCount = string.Format("{0} answers", q.Answers.Count(a => a.Approved)),
+                        AnswerCount = string.Format("{0} answers", q.Answers.Count(a => a.Status == AnswerStatus.Approved)),
                         ViewCount = string.Format("{0} views", q.ViewCount),
                     });
             }

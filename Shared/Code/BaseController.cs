@@ -364,7 +364,7 @@ namespace Lawspot.Controllers
                 actions.Add(new ActionCount()
                 {
                     Count = CacheProvider.CacheDatabaseQuery("UnansweredQuestionCount", connection =>
-                        connection.Questions.Count(q => q.Approved && q.Answers.Any(a => a.ReviewDate == null || a.Approved) == false), TimeSpan.FromMinutes(2)),
+                        connection.Questions.Count(q => q.Approved && q.Answers.Any(a => a.ReviewDate == null || a.Status == AnswerStatus.Approved) == false), TimeSpan.FromMinutes(2)),
                     Noun = "unanswered question",
                     Uri = "/admin/answer-questions",
                 });

@@ -111,7 +111,7 @@ namespace Lawspot.Controllers
                 model.AnswersSubmitted = this.DataContext.Answers
                     .Count(a => a.CreatedByUserId == this.User.Id);
                 model.AnswersPublished = this.DataContext.Answers
-                    .Count(a => a.CreatedByUserId == this.User.Id && a.Approved);
+                    .Count(a => a.CreatedByUserId == this.User.Id && a.Status == AnswerStatus.Approved);
                 var lastAnswerSubmitted = this.DataContext.Answers
                     .Where(a => a.CreatedByUserId == this.User.Id)
                     .OrderByDescending(a => a.CreatedOn)
@@ -259,13 +259,13 @@ namespace Lawspot.Controllers
             switch (filterValue)
             {
                 case AnswerQuestionsFilter.Unanswered:
-                    questions = questions.Where(q => q.Answers.Any(a => a.Approved == true || a.ReviewDate == null) == false);
+                    questions = questions.Where(q => q.Answers.Any(a => a.Status == AnswerStatus.Approved || a.ReviewDate == null) == false);
                     break;
                 case AnswerQuestionsFilter.Pending:
-                    questions = questions.Where(q => q.Answers.Where(a => a.Approved == false).Any(a => a.ReviewDate == null) == true);
+                    questions = questions.Where(q => q.Answers.Where(a => a.Status != AnswerStatus.Approved).Any(a => a.ReviewDate == null) == true);
                     break;
                 case AnswerQuestionsFilter.Answered:
-                    questions = questions.Where(q => q.Answers.Any(a => a.Approved == true) == true);
+                    questions = questions.Where(q => q.Answers.Any(a => a.Status == AnswerStatus.Approved) == true);
                     break;
                 case AnswerQuestionsFilter.AnsweredByMe:
                     questions = questions.Where(q => q.Answers.Any(a => a.CreatedByUserId == this.User.Id));
@@ -413,8 +413,8 @@ namespace Lawspot.Controllers
                     References = a.References,
                     UpdatedOn = a.CreatedOn,
                     User = a.CreatedByUser,
-                    Status = a.ReviewDate != null && a.Approved ? AnswerOrDraftStatus.Approved :
-                        (a.ReviewDate != null && a.Approved == false ? AnswerOrDraftStatus.Rejected : AnswerOrDraftStatus.Pending),
+                    Status = a.ReviewDate != null && a.Status == AnswerStatus.Approved ? AnswerOrDraftStatus.Approved :
+                        (a.Status == AnswerStatus.Rejected ? AnswerOrDraftStatus.Rejected : AnswerOrDraftStatus.Pending),
                 }));
             return answers.ToList();
         }
@@ -971,16 +971,16 @@ namespace Lawspot.Controllers
                     answers = answers.Where(a => a.ReviewDate == null);
                     break;
                 case ReviewAnswersFilter.Approved:
-                    answers = answers.Where(a => a.Approved == true && a.ReviewDate != null);
+                    answers = answers.Where(a => a.Status == AnswerStatus.Approved == true && a.ReviewDate != null);
                     break;
                 case ReviewAnswersFilter.ApprovedByMe:
-                    answers = answers.Where(a => a.Approved == true && a.ReviewDate != null && a.ReviewedByUserId == this.User.Id);
+                    answers = answers.Where(a => (a.Status == AnswerStatus.Approved || a.Status == AnswerStatus.RecommendedForApproval) && a.ReviewedByUserId == this.User.Id);
                     break;
                 case ReviewAnswersFilter.Rejected:
-                    answers = answers.Where(a => a.Approved == false && a.ReviewDate != null);
+                    answers = answers.Where(a => a.Status == AnswerStatus.Rejected);
                     break;
                 case ReviewAnswersFilter.RejectedByMe:
-                    answers = answers.Where(a => a.Approved == false && a.ReviewDate != null && a.ReviewedByUserId == this.User.Id);
+                    answers = answers.Where(a => a.Status == AnswerStatus.Rejected && a.ReviewedByUserId == this.User.Id);
                     break;
             }
             switch (sortValue)
@@ -1039,9 +1039,9 @@ namespace Lawspot.Controllers
                     ReferencesHtml = StringUtilities.ConvertTextToHtml(a.References),
                     ReviewedBy = a.ReviewedByUser != null ? a.ReviewedByUser.EmailDisplayName : null,
                     ReviewDate = a.ReviewDate.HasValue ? a.ReviewDate.Value.ToString("d MMM yyyy h:mmtt") : string.Empty,
-                    Approved = a.Approved,
-                    Rejected = a.Approved == false && a.ReviewedByUserId != null && a.RecommendApproval == false,
-                    RecommendedForApproval = a.Approved == false && a.ReviewedByUserId != null && a.RecommendApproval == true,
+                    Approved = a.Status == AnswerStatus.Approved,
+                    Rejected = a.Status == AnswerStatus.Rejected,
+                    RecommendedForApproval = a.Status == AnswerStatus.RecommendedForApproval,
                     RejectionReasonHtml = StringUtilities.ConvertTextToHtml(a.RejectionReason),
                     CannedRejectionReasons = new SelectListItem[] {
                         new SelectListItem() { Text = "Select a canned response", Value = "" },
@@ -1086,7 +1086,7 @@ namespace Lawspot.Controllers
             var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).SingleOrDefault();
             if (answer == null)
                 return new StatusPlusTextResult(400, "The answer doesn't exist.");
-            bool statusChange = answer.Approved != true || answer.ReviewDate == null;
+            AnswerStatus previousStatus = answer.Status;
             if (answer.Details != answerDetails && answer.OriginalDetails == null)
                 answer.OriginalDetails = answer.Details;
             answer.Details = answerDetails;
@@ -1095,16 +1095,16 @@ namespace Lawspot.Controllers
             answer.RejectionReason = null;
             answer.PublisherId = this.UserDetails.PublisherId;
             if (answer.PublisherId == null)
-                answer.RecommendApproval = true;    // No publisher means that the user can only recommend approval.
+                answer.Status = AnswerStatus.RecommendedForApproval;    // No publisher means that the user can only recommend approval.
             else
-                answer.Approved = true;
+                answer.Status = AnswerStatus.Approved;
             this.DataContext.SubmitChanges();
 
-            if (answer.Approved)
+            if (answer.Status == AnswerStatus.Approved)
             {
 
                 // Only send emails if the answer's status has changed.
-                if (statusChange)
+                if (previousStatus != answer.Status)
                 {
 
                     // Send a message to the lawyer that answered the question.
@@ -1116,7 +1116,7 @@ namespace Lawspot.Controllers
                     answerPublishedMessage.QuestionUri = answer.Question.Uri;
                     answerPublishedMessage.AnswerHtml = StringUtilities.ConvertTextToHtml(answer.Details);
                     answerPublishedMessage.UnansweredQuestionCount = this.DataContext.Questions.
-                        Count(q => q.Approved == true && q.Answers.Count(a => a.Approved == true) == 0);
+                        Count(q => q.Approved == true && q.Answers.Count(a => a.Status == AnswerStatus.Approved) == 0);
                     answerPublishedMessage.Send();
 
                     // Send a message to the user who asked the question.
@@ -1163,16 +1163,15 @@ namespace Lawspot.Controllers
             var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).SingleOrDefault();
             if (answer == null)
                 return new StatusPlusTextResult(400, "The answer doesn't exist.");
-            bool statusChange = answer.Approved != false || answer.ReviewDate == null;
-            answer.Approved = false;
+            AnswerStatus previousStatus = answer.Status;
+            answer.Status = AnswerStatus.Rejected;
             answer.ReviewDate = DateTimeOffset.Now;
             answer.ReviewedByUserId = this.User.Id;
             answer.RejectionReason = reason;
-            answer.RecommendApproval = false;
             this.DataContext.SubmitChanges();
 
             // Only send an email if the answer's status has changed.
-            if (statusChange)
+            if (previousStatus != answer.Status)
             {
                 // Send a message to the lawyer saying their answer has been rejected.
                 var rejectionMessage = new Email.AnswerRejectedMessage();

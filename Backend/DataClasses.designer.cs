@@ -2607,8 +2607,6 @@ namespace Lawspot.Backend
 		
 		private System.DateTimeOffset _CreatedOn;
 		
-		private bool _Approved;
-		
 		private int _CreatedByUserId;
 		
 		private System.Nullable<System.DateTimeOffset> _ReviewDate;
@@ -2623,7 +2621,7 @@ namespace Lawspot.Backend
 		
 		private System.Nullable<int> _PublisherId;
 		
-		private bool _RecommendApproval;
+		private Lawspot.Backend.AnswerStatus _Status;
 		
 		private EntityRef<User> _CreatedByUser;
 		
@@ -2645,8 +2643,6 @@ namespace Lawspot.Backend
     partial void OnDetailsChanged();
     partial void OnCreatedOnChanging(System.DateTimeOffset value);
     partial void OnCreatedOnChanged();
-    partial void OnApprovedChanging(bool value);
-    partial void OnApprovedChanged();
     partial void OnCreatedByUserIdChanging(int value);
     partial void OnCreatedByUserIdChanged();
     partial void OnReviewDateChanging(System.Nullable<System.DateTimeOffset> value);
@@ -2661,8 +2657,8 @@ namespace Lawspot.Backend
     partial void OnOriginalDetailsChanged();
     partial void OnPublisherIdChanging(System.Nullable<int> value);
     partial void OnPublisherIdChanged();
-    partial void OnRecommendApprovalChanging(bool value);
-    partial void OnRecommendApprovalChanged();
+    partial void OnStatusChanging(Lawspot.Backend.AnswerStatus value);
+    partial void OnStatusChanged();
     #endregion
 		
 		public Answer()
@@ -2754,26 +2750,6 @@ namespace Lawspot.Backend
 					this._CreatedOn = value;
 					this.SendPropertyChanged("CreatedOn");
 					this.OnCreatedOnChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Approved", DbType="Bit NOT NULL")]
-		public bool Approved
-		{
-			get
-			{
-				return this._Approved;
-			}
-			set
-			{
-				if ((this._Approved != value))
-				{
-					this.OnApprovedChanging(value);
-					this.SendPropertyChanging();
-					this._Approved = value;
-					this.SendPropertyChanged("Approved");
-					this.OnApprovedChanged();
 				}
 			}
 		}
@@ -2930,22 +2906,22 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecommendApproval")]
-		public bool RecommendApproval
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", CanBeNull=false)]
+		public Lawspot.Backend.AnswerStatus Status
 		{
 			get
 			{
-				return this._RecommendApproval;
+				return this._Status;
 			}
 			set
 			{
-				if ((this._RecommendApproval != value))
+				if ((this._Status != value))
 				{
-					this.OnRecommendApprovalChanging(value);
+					this.OnStatusChanging(value);
 					this.SendPropertyChanging();
-					this._RecommendApproval = value;
-					this.SendPropertyChanged("RecommendApproval");
-					this.OnRecommendApprovalChanged();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
 				}
 			}
 		}

@@ -111,7 +111,7 @@ namespace Lawspot.Shared
             details.Append(q.Details);
             int approvedAnswerCount = 0;
             foreach (var answer in q.Answers)
-                if (answer.Approved)
+                if (answer.Status == AnswerStatus.Approved)
                 {
                     approvedAnswerCount++;
                     details.Append(" ... ");

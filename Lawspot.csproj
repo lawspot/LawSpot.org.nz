@@ -136,6 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Backend\Category.cs" />
+    <Compile Include="Backend\Answer.cs" />
     <Compile Include="Backend\Question.cs" />
     <Compile Include="Backend\DataClasses.cs">
       <DependentUpon>DataClasses.dbml</DependentUpon>
@@ -258,6 +259,8 @@
     <Content Include="Backend\Migrations\44.sql" />
     <Content Include="Backend\Migrations\45.sql" />
     <Content Include="Backend\Migrations\46.sql" />
+    <Content Include="Backend\Migrations\47.sql" />
+    <Content Include="Backend\Migrations\48.sql" />
     <Content Include="Email\Assets\facebook.png" />
     <Content Include="Email\Assets\header-original.png" />
     <Content Include="Email\Assets\header.jpg" />
