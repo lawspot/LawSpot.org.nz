@@ -977,7 +977,7 @@ namespace Lawspot.Controllers
                     if (this.UserDetails.PublisherId.HasValue)
                         answers = answers.Where(a => a.Status == AnswerStatus.Approved);
                     else
-                        answers = answers.Where(a => a.Status == AnswerStatus.Unreviewed || a.Status == AnswerStatus.RecommendedForApproval);
+                        answers = answers.Where(a => a.Status == AnswerStatus.Approved || a.Status == AnswerStatus.RecommendedForApproval);
                     break;
                 case ReviewAnswersFilter.ApprovedByMe:
                     answers = answers.Where(a => (a.Status == AnswerStatus.Approved || a.Status == AnswerStatus.RecommendedForApproval) && a.ReviewedByUserId == this.User.Id);
