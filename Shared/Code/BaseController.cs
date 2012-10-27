@@ -52,6 +52,22 @@ namespace Lawspot.Controllers
         }
 
         /// <summary>
+        /// Complete information about the logged in user.
+        /// </summary>
+        public User UserDetails
+        {
+            get
+            {
+                var user = (User)HttpContext.Items["User"];
+                if (user != null)
+                    return user;
+                user = this.DataContext.Users.Single(u => u.UserId == this.User.Id);
+                HttpContext.Items["User"] = user;
+                return user;
+            }
+        }
+
+        /// <summary>
         /// The extra properties to add onto the JSON view model object.
         /// </summary>
         private class LayoutViewModel

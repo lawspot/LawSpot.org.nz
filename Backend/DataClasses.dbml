@@ -76,6 +76,7 @@
       <Column Name="EmailValidationToken" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="ResetPasswordToken" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="ResetPasswordTokenExpiry" Type="System.DateTimeOffset" DbType="DateTimeOffset" CanBeNull="true" />
+      <Column Member="PublisherId" Type="System.Int32" CanBeNull="true" />
       <Association Name="User_DraftAnswer" Member="DraftAnswers" ThisKey="UserId" OtherKey="CreatedByUserId" Type="DraftAnswer" />
       <Association Name="User_Lawyer" Member="Lawyers" ThisKey="UserId" OtherKey="UserId" Type="Lawyer" />
       <Association Name="User_Question" Member="CreatedQuestions" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Question" />
@@ -83,6 +84,7 @@
       <Association Name="User_Answer" Member="CreatedAnswers" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Answer" />
       <Association Name="User_Answer1" Member="ReviewedAnswers" ThisKey="UserId" OtherKey="ReviewedByUserId" Type="Answer" />
       <Association Name="Region_User" Member="Region" ThisKey="RegionId" OtherKey="RegionId" Type="Region" IsForeignKey="true" />
+      <Association Name="Publisher_User" Member="Publisher" ThisKey="PublisherId" OtherKey="PublisherId" Type="Publisher" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Question" Member="Questions">
@@ -121,9 +123,20 @@
       <Column Name="RejectionReason" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="[References]" Member="References" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="OriginalDetails" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Member="PublisherId" Type="System.Int32" CanBeNull="true" />
+      <Column Member="RecommendApproval" Type="System.Boolean" CanBeNull="false" />
       <Association Name="User_Answer" Member="CreatedByUser" ThisKey="CreatedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
       <Association Name="Question_Answer" Member="Question" ThisKey="QuestionId" OtherKey="QuestionId" Type="Question" IsForeignKey="true" />
       <Association Name="User_Answer1" Member="ReviewedByUser" ThisKey="ReviewedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+      <Association Name="Publisher_Answer" Member="Publisher" ThisKey="PublisherId" OtherKey="PublisherId" Type="Publisher" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Publisher" Member="Publishers">
+    <Type Name="Publisher">
+      <Column Name="PublisherId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Association Name="Publisher_User" Member="Users" ThisKey="PublisherId" OtherKey="PublisherId" Type="User" />
+      <Association Name="Publisher_Answer" Member="Answers" ThisKey="PublisherId" OtherKey="PublisherId" Type="Answer" />
     </Type>
   </Table>
 </Database>

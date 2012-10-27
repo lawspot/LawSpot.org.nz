@@ -54,6 +54,9 @@ namespace Lawspot.Backend
     partial void InsertAnswer(Answer instance);
     partial void UpdateAnswer(Answer instance);
     partial void DeleteAnswer(Answer instance);
+    partial void InsertPublisher(Publisher instance);
+    partial void UpdatePublisher(Publisher instance);
+    partial void DeletePublisher(Publisher instance);
     #endregion
 		
 		public DataClassesDataContext() : 
@@ -147,6 +150,14 @@ namespace Lawspot.Backend
 			get
 			{
 				return this.GetTable<Answer>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Publisher> Publishers
+		{
+			get
+			{
+				return this.GetTable<Publisher>();
 			}
 		}
 	}
@@ -1327,6 +1338,8 @@ namespace Lawspot.Backend
 		
 		private System.Nullable<System.DateTimeOffset> _ResetPasswordTokenExpiry;
 		
+		private System.Nullable<int> _PublisherId;
+		
 		private EntitySet<DraftAnswer> _DraftAnswers;
 		
 		private EntitySet<Lawyer> _Lawyers;
@@ -1340,6 +1353,8 @@ namespace Lawspot.Backend
 		private EntitySet<Answer> _ReviewedAnswers;
 		
 		private EntityRef<Region> _Region;
+		
+		private EntityRef<Publisher> _Publisher;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -1381,6 +1396,8 @@ namespace Lawspot.Backend
     partial void OnResetPasswordTokenChanged();
     partial void OnResetPasswordTokenExpiryChanging(System.Nullable<System.DateTimeOffset> value);
     partial void OnResetPasswordTokenExpiryChanged();
+    partial void OnPublisherIdChanging(System.Nullable<int> value);
+    partial void OnPublisherIdChanged();
     #endregion
 		
 		public User()
@@ -1392,6 +1409,7 @@ namespace Lawspot.Backend
 			this._CreatedAnswers = new EntitySet<Answer>(new Action<Answer>(this.attach_CreatedAnswers), new Action<Answer>(this.detach_CreatedAnswers));
 			this._ReviewedAnswers = new EntitySet<Answer>(new Action<Answer>(this.attach_ReviewedAnswers), new Action<Answer>(this.detach_ReviewedAnswers));
 			this._Region = default(EntityRef<Region>);
+			this._Publisher = default(EntityRef<Publisher>);
 			OnCreated();
 		}
 		
@@ -1759,6 +1777,30 @@ namespace Lawspot.Backend
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PublisherId")]
+		public System.Nullable<int> PublisherId
+		{
+			get
+			{
+				return this._PublisherId;
+			}
+			set
+			{
+				if ((this._PublisherId != value))
+				{
+					if (this._Publisher.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPublisherIdChanging(value);
+					this.SendPropertyChanging();
+					this._PublisherId = value;
+					this.SendPropertyChanged("PublisherId");
+					this.OnPublisherIdChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_DraftAnswer", Storage="_DraftAnswers", ThisKey="UserId", OtherKey="CreatedByUserId")]
 		public EntitySet<DraftAnswer> DraftAnswers
 		{
@@ -1867,6 +1909,40 @@ namespace Lawspot.Backend
 						this._RegionId = default(int);
 					}
 					this.SendPropertyChanged("Region");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Publisher_User", Storage="_Publisher", ThisKey="PublisherId", OtherKey="PublisherId", IsForeignKey=true)]
+		public Publisher Publisher
+		{
+			get
+			{
+				return this._Publisher.Entity;
+			}
+			set
+			{
+				Publisher previousValue = this._Publisher.Entity;
+				if (((previousValue != value) 
+							|| (this._Publisher.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Publisher.Entity = null;
+						previousValue.Users.Remove(this);
+					}
+					this._Publisher.Entity = value;
+					if ((value != null))
+					{
+						value.Users.Add(this);
+						this._PublisherId = value.PublisherId;
+					}
+					else
+					{
+						this._PublisherId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Publisher");
 				}
 			}
 		}
@@ -2545,11 +2621,17 @@ namespace Lawspot.Backend
 		
 		private string _OriginalDetails;
 		
+		private System.Nullable<int> _PublisherId;
+		
+		private bool _RecommendApproval;
+		
 		private EntityRef<User> _CreatedByUser;
 		
 		private EntityRef<Question> _Question;
 		
 		private EntityRef<User> _ReviewedByUser;
+		
+		private EntityRef<Publisher> _Publisher;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -2577,6 +2659,10 @@ namespace Lawspot.Backend
     partial void OnReferencesChanged();
     partial void OnOriginalDetailsChanging(string value);
     partial void OnOriginalDetailsChanged();
+    partial void OnPublisherIdChanging(System.Nullable<int> value);
+    partial void OnPublisherIdChanged();
+    partial void OnRecommendApprovalChanging(bool value);
+    partial void OnRecommendApprovalChanged();
     #endregion
 		
 		public Answer()
@@ -2584,6 +2670,7 @@ namespace Lawspot.Backend
 			this._CreatedByUser = default(EntityRef<User>);
 			this._Question = default(EntityRef<Question>);
 			this._ReviewedByUser = default(EntityRef<User>);
+			this._Publisher = default(EntityRef<Publisher>);
 			OnCreated();
 		}
 		
@@ -2819,6 +2906,50 @@ namespace Lawspot.Backend
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PublisherId")]
+		public System.Nullable<int> PublisherId
+		{
+			get
+			{
+				return this._PublisherId;
+			}
+			set
+			{
+				if ((this._PublisherId != value))
+				{
+					if (this._Publisher.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPublisherIdChanging(value);
+					this.SendPropertyChanging();
+					this._PublisherId = value;
+					this.SendPropertyChanged("PublisherId");
+					this.OnPublisherIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_RecommendApproval")]
+		public bool RecommendApproval
+		{
+			get
+			{
+				return this._RecommendApproval;
+			}
+			set
+			{
+				if ((this._RecommendApproval != value))
+				{
+					this.OnRecommendApprovalChanging(value);
+					this.SendPropertyChanging();
+					this._RecommendApproval = value;
+					this.SendPropertyChanged("RecommendApproval");
+					this.OnRecommendApprovalChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="User_Answer", Storage="_CreatedByUser", ThisKey="CreatedByUserId", OtherKey="UserId", IsForeignKey=true)]
 		public User CreatedByUser
 		{
@@ -2921,6 +3052,40 @@ namespace Lawspot.Backend
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Publisher_Answer", Storage="_Publisher", ThisKey="PublisherId", OtherKey="PublisherId", IsForeignKey=true)]
+		public Publisher Publisher
+		{
+			get
+			{
+				return this._Publisher.Entity;
+			}
+			set
+			{
+				Publisher previousValue = this._Publisher.Entity;
+				if (((previousValue != value) 
+							|| (this._Publisher.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Publisher.Entity = null;
+						previousValue.Answers.Remove(this);
+					}
+					this._Publisher.Entity = value;
+					if ((value != null))
+					{
+						value.Answers.Add(this);
+						this._PublisherId = value.PublisherId;
+					}
+					else
+					{
+						this._PublisherId = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("Publisher");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -2939,6 +3104,148 @@ namespace Lawspot.Backend
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Publisher")]
+	public partial class Publisher : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _PublisherId;
+		
+		private string _Name;
+		
+		private EntitySet<User> _Users;
+		
+		private EntitySet<Answer> _Answers;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnPublisherIdChanging(int value);
+    partial void OnPublisherIdChanged();
+    partial void OnNameChanging(string value);
+    partial void OnNameChanged();
+    #endregion
+		
+		public Publisher()
+		{
+			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
+			this._Answers = new EntitySet<Answer>(new Action<Answer>(this.attach_Answers), new Action<Answer>(this.detach_Answers));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PublisherId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int PublisherId
+		{
+			get
+			{
+				return this._PublisherId;
+			}
+			set
+			{
+				if ((this._PublisherId != value))
+				{
+					this.OnPublisherIdChanging(value);
+					this.SendPropertyChanging();
+					this._PublisherId = value;
+					this.SendPropertyChanged("PublisherId");
+					this.OnPublisherIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Name", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+			set
+			{
+				if ((this._Name != value))
+				{
+					this.OnNameChanging(value);
+					this.SendPropertyChanging();
+					this._Name = value;
+					this.SendPropertyChanged("Name");
+					this.OnNameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Publisher_User", Storage="_Users", ThisKey="PublisherId", OtherKey="PublisherId")]
+		public EntitySet<User> Users
+		{
+			get
+			{
+				return this._Users;
+			}
+			set
+			{
+				this._Users.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Publisher_Answer", Storage="_Answers", ThisKey="PublisherId", OtherKey="PublisherId")]
+		public EntitySet<Answer> Answers
+		{
+			get
+			{
+				return this._Answers;
+			}
+			set
+			{
+				this._Answers.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.Publisher = this;
+		}
+		
+		private void detach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.Publisher = null;
+		}
+		
+		private void attach_Answers(Answer entity)
+		{
+			this.SendPropertyChanging();
+			entity.Publisher = this;
+		}
+		
+		private void detach_Answers(Answer entity)
+		{
+			this.SendPropertyChanging();
+			entity.Publisher = null;
 		}
 	}
 }

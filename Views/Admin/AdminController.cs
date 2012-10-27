@@ -1087,44 +1087,53 @@ namespace Lawspot.Controllers
             if (answer.Details != answerDetails && answer.OriginalDetails == null)
                 answer.OriginalDetails = answer.Details;
             answer.Details = answerDetails;
-            answer.Approved = true;
             answer.ReviewDate = DateTimeOffset.Now;
             answer.ReviewedByUserId = this.User.Id;
             answer.RejectionReason = null;
+            answer.PublisherId = this.UserDetails.PublisherId;
+            if (answer.PublisherId == null)
+                answer.RecommendApproval = true;    // No publisher means that the user can only recommend approval.
+            else
+                answer.Approved = true;
             this.DataContext.SubmitChanges();
 
-            // Only send emails if the answer's status has changed.
-            if (statusChange)
+            if (answer.Approved)
             {
 
-                // Send a message to the lawyer that answered the question.
-                var answerPublishedMessage = new Email.AnswerApprovedMessage();
-                answerPublishedMessage.To.Add(answer.CreatedByUser.EmailDisplayName);
-                answerPublishedMessage.ReplyToList.Add(this.User.EmailAddress);
-                answerPublishedMessage.Name = answer.CreatedByUser.EmailGreeting;
-                answerPublishedMessage.Question = answer.Question.Title;
-                answerPublishedMessage.QuestionUri = answer.Question.Uri;
-                answerPublishedMessage.AnswerHtml = StringUtilities.ConvertTextToHtml(answer.Details);
-                answerPublishedMessage.UnansweredQuestionCount = this.DataContext.Questions.
-                    Count(q => q.Approved == true && q.Answers.Count(a => a.Approved == true) == 0);
-                answerPublishedMessage.Send();
+                // Only send emails if the answer's status has changed.
+                if (statusChange)
+                {
 
-                // Send a message to the user who asked the question.
-                var questionAnsweredMessage = new Email.QuestionAnsweredMessage();
-                questionAnsweredMessage.To.Add(answer.Question.CreatedByUser.EmailAddress);
-                questionAnsweredMessage.Question = answer.Question.Title;
-                questionAnsweredMessage.DetailsHtml = StringUtilities.ConvertTextToHtml(answer.Question.Details);
-                questionAnsweredMessage.QuestionUri = answer.Question.Uri;
-                questionAnsweredMessage.AnswerHtml = StringUtilities.ConvertTextToHtml(answer.Details);
-                questionAnsweredMessage.Send();
+                    // Send a message to the lawyer that answered the question.
+                    var answerPublishedMessage = new Email.AnswerApprovedMessage();
+                    answerPublishedMessage.To.Add(answer.CreatedByUser.EmailDisplayName);
+                    answerPublishedMessage.ReplyToList.Add(this.User.EmailAddress);
+                    answerPublishedMessage.Name = answer.CreatedByUser.EmailGreeting;
+                    answerPublishedMessage.Question = answer.Question.Title;
+                    answerPublishedMessage.QuestionUri = answer.Question.Uri;
+                    answerPublishedMessage.AnswerHtml = StringUtilities.ConvertTextToHtml(answer.Details);
+                    answerPublishedMessage.UnansweredQuestionCount = this.DataContext.Questions.
+                        Count(q => q.Approved == true && q.Answers.Count(a => a.Approved == true) == 0);
+                    answerPublishedMessage.Send();
+
+                    // Send a message to the user who asked the question.
+                    var questionAnsweredMessage = new Email.QuestionAnsweredMessage();
+                    questionAnsweredMessage.To.Add(answer.Question.CreatedByUser.EmailAddress);
+                    questionAnsweredMessage.Question = answer.Question.Title;
+                    questionAnsweredMessage.DetailsHtml = StringUtilities.ConvertTextToHtml(answer.Question.Details);
+                    questionAnsweredMessage.QuestionUri = answer.Question.Uri;
+                    questionAnsweredMessage.AnswerHtml = StringUtilities.ConvertTextToHtml(answer.Details);
+                    questionAnsweredMessage.Send();
+
+                }
+
+                // Update the search index.
+                SearchIndexer.UpdateQuestion(answer.Question);
+
+                // Recalculate the number of answered questions in the category.
+                UpdateCategory(answer.Question.CategoryId);
 
             }
-
-            // Update the search index.
-            SearchIndexer.UpdateQuestion(answer.Question);
-
-            // Recalculate the number of answered questions in the category.
-            UpdateCategory(answer.Question.CategoryId);
 
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(answer.Details));
         }
