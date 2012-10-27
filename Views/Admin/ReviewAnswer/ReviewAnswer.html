@@ -71,25 +71,33 @@
                                 <img src="/shared/images/error-small.png" />
                                 <strong>Rejected</strong> by {{ReviewedBy}} at {{ReviewDate}}
                             {{/Rejected}}
+
+                            {{#RecommendedForApproval}}
+                                <img src="/shared/images/success-small.png" />
+                                <strong>Recommended for approval</strong> by {{ReviewedBy}} at {{ReviewDate}}
+                            {{/RecommendedForApproval}}
                         </div>
                         <p>{{{RejectionReasonHtml}}}</p>
 
-                        <div class="meta" style="text-align: right; margin: 5px 0">
-                            {{^Approved}}
-                                <img src="/shared/images/success-small.png" />
-                                <a href="#" data-action="go-to-approve">Approve</a>
-                            {{/Approved}}
-                            {{^Rejected}}
-                                <img src="/shared/images/error-small.png" />
-                                <a href="#" data-action="go-to-reject">Reject</a>
-                            {{/Rejected}}
-                        </div>
+                        {{^CanOnlyRecommendApproval}}
+                            <div class="meta" style="text-align: right; margin: 5px 0">
+                                {{^Approved}}
+                                    <img src="/shared/images/success-small.png" />
+                                    <a href="#" data-action="go-to-approve">Approve</a>
+                                {{/Approved}}
+
+                                {{^Rejected}}
+                                    <img src="/shared/images/error-small.png" />
+                                    <a href="#" data-action="go-to-reject">Reject</a>
+                                {{/Rejected}}
+                            </div>
+                        {{/CanOnlyRecommendApproval}}
                     {{/ReviewedBy}}
 
                     {{^ReviewedBy}}
                         <div style="text-align: center; margin: 10px 0">
-                            <button data-action="go-to-approve" type="submit">APPROVE</button>
-	                        <button class="red" data-action="go-to-reject" type="submit">REJECT</button>
+                            <button data-action="go-to-approve" type="submit">{{ApproveText}}</button>
+	                        <button class="red" data-action="go-to-reject" type="submit">Reject</button>
                         </div>
                     {{/ReviewedBy}}
 
@@ -97,11 +105,20 @@
 
                 {{^Approved}}
                     <div class="approve-content">
-                        <h1> Approve this answer </h1>
-                        <p>
-                            Approving the answer will make the Q&A public and will notify both the
-                            user who asked the question and the lawyer who answered it.
-                        </p>
+                        {{#CanOnlyRecommendApproval}}
+                            <h1> Recommend this answer be approved </h1>
+                            <p>
+                                This will recommend the answer be approved - however an authorized
+                                supervisor must still approve the answer for it to be published.
+                            </p>
+                        {{/CanOnlyRecommendApproval}}
+                        {{^CanOnlyRecommendApproval}}
+                            <h1> Approve this answer </h1>
+                            <p>
+                                Approving the answer will make the Q&A public and will notify both the
+                                user who asked the question and the lawyer who answered it.
+                            </p>
+                        {{/CanOnlyRecommendApproval}}
                         <form method="post" action="/admin/post-approve-answer">
                             <input name="answerId" type="hidden" value="{{AnswerId}}" />
                         
@@ -116,7 +133,7 @@
                             {{/ReferencesHtml}}
 
                             <div style="text-align: center; margin: 10px 0">
-                                <button data-action="approve" type="submit" style="margin-right: 10px">APPROVE</button>
+                                <button data-action="approve" type="submit" style="margin-right: 10px">{{ApproveText}}</button>
                                 <a href="#" data-action="cancel">Cancel</a>
                                 <img class="progress-indicator" src="/shared/images/progress-indicator.gif" />
                             </div>
@@ -156,7 +173,7 @@
                             <textarea style="width: 100%; height: 200px" class="reason" name="reason"
                                 placeholder="Enter your reason for rejecting the question here."></textarea>
                             <div style="text-align: center; margin: 10px 0">
-                                <button class="red" data-action="reject" type="submit" style="margin-right: 10px">REJECT</button>
+                                <button class="red" data-action="reject" type="submit" style="margin-right: 10px">Reject</button>
                                 <a href="#" data-action="cancel">Cancel</a>
                                 <img class="progress-indicator" src="/shared/images/progress-indicator.gif" />
                             </div>

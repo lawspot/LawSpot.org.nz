@@ -1040,7 +1040,8 @@ namespace Lawspot.Controllers
                     ReviewedBy = a.ReviewedByUser != null ? a.ReviewedByUser.EmailDisplayName : null,
                     ReviewDate = a.ReviewDate.HasValue ? a.ReviewDate.Value.ToString("d MMM yyyy h:mmtt") : string.Empty,
                     Approved = a.Approved,
-                    Rejected = a.Approved == false && a.ReviewedByUserId != null,
+                    Rejected = a.Approved == false && a.ReviewedByUserId != null && a.RecommendApproval == false,
+                    RecommendedForApproval = a.Approved == false && a.ReviewedByUserId != null && a.RecommendApproval == true,
                     RejectionReasonHtml = StringUtilities.ConvertTextToHtml(a.RejectionReason),
                     CannedRejectionReasons = new SelectListItem[] {
                         new SelectListItem() { Text = "Select a canned response", Value = "" },
@@ -1051,6 +1052,8 @@ namespace Lawspot.Controllers
                         new SelectListItem() { Text = "Duplicate Answer", Value = "It appears that you have (or someone else has) submitted another answer that is identical or better addresses the question." },
                         new SelectListItem() { Text = "Off Topic", Value = "Substantial portions of your answer are unrelated to the question - try again." },
                     },
+                    ApproveText = this.UserDetails.PublisherId.HasValue ? "Approve" : "Recommend Approval",
+                    CanOnlyRecommendApproval = this.UserDetails.PublisherId.HasValue == false,
                 }).ToList();
             model.ReviewedAnswerCount = model.Answers.Count(a => a.ReviewedBy != null);
 
@@ -1165,6 +1168,7 @@ namespace Lawspot.Controllers
             answer.ReviewDate = DateTimeOffset.Now;
             answer.ReviewedByUserId = this.User.Id;
             answer.RejectionReason = reason;
+            answer.RecommendApproval = false;
             this.DataContext.SubmitChanges();
 
             // Only send an email if the answer's status has changed.
