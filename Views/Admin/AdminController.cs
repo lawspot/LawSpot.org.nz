@@ -968,10 +968,16 @@ namespace Lawspot.Controllers
             switch (filterValue)
             {
                 case ReviewAnswersFilter.Unreviewed:
-                    answers = answers.Where(a => a.ReviewDate == null);
+                    if (this.UserDetails.PublisherId.HasValue)
+                        answers = answers.Where(a => a.Status == AnswerStatus.Unreviewed || a.Status == AnswerStatus.RecommendedForApproval);
+                    else
+                        answers = answers.Where(a => a.Status == AnswerStatus.Unreviewed);
                     break;
                 case ReviewAnswersFilter.Approved:
-                    answers = answers.Where(a => a.Status == AnswerStatus.Approved == true && a.ReviewDate != null);
+                    if (this.UserDetails.PublisherId.HasValue)
+                        answers = answers.Where(a => a.Status == AnswerStatus.Approved);
+                    else
+                        answers = answers.Where(a => a.Status == AnswerStatus.Unreviewed || a.Status == AnswerStatus.RecommendedForApproval);
                     break;
                 case ReviewAnswersFilter.ApprovedByMe:
                     answers = answers.Where(a => (a.Status == AnswerStatus.Approved || a.Status == AnswerStatus.RecommendedForApproval) && a.ReviewedByUserId == this.User.Id);
@@ -1001,6 +1007,7 @@ namespace Lawspot.Controllers
                     Title = a.Question.Title,
                     CategoryName = a.Question.Category.Name,
                     DateAndTime = a.CreatedOn.ToString("d MMM yyyy h:mmtt"),
+                    IconFileName = a.Status == AnswerStatus.RecommendedForApproval ? "answer-icon-flagged.png" : "answer-icon.png",
                 }), page, 10, Request.Url);
 
             return View(model);

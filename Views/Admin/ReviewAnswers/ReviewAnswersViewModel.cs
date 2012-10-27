@@ -37,5 +37,6 @@ namespace Lawspot.Views.Admin
         public string DateAndTime { get; set; }
         public string Title { get; set; }
         public string CategoryName { get; set; }
+        public string IconFileName { get; set; }
     }
 }
