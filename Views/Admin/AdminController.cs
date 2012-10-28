@@ -289,7 +289,7 @@ namespace Lawspot.Controllers
                     QuestionId = q.QuestionId,
                     Title = q.Title,
                     DetailsHtml = StringUtilities.ConvertTextToHtml(q.Details),
-                    ReviewedBy = this.User.CanAdminister ? q.ReviewedByUser.EmailDisplayName : null,
+                    ReviewedBy = this.User.CanAdminister || this.User.CanVetAnswers ? q.ReviewedByUser.EmailDisplayName : null,
                     DateAndTime = q.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     CategoryName = q.Category.Name,
                     Answer = string.Empty,
