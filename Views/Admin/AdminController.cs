@@ -1366,7 +1366,7 @@ namespace Lawspot.Controllers
 	                SELECT COUNT(*) FROM Question
 	                WHERE Question.CategoryId = Category.CategoryId
 	                AND Question.Approved = 1
-	                AND EXISTS (SELECT * FROM Answer WHERE Question.QuestionId = Answer.QuestionId AND Answer.Approved = 1)
+	                AND EXISTS (SELECT * FROM Answer WHERE Question.QuestionId = Answer.QuestionId AND Answer.Status = 1)
                 )
                 WHERE Category.CategoryId = {0}", categoryId);
         }
