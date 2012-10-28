@@ -321,6 +321,7 @@
     <Content Include="Views\Account\Login\ForgotPasswordSuccess.html" />
     <Content Include="Views\Account\ValidateEmailAddress\ValidateEmailAddressFailure.html" />
     <Content Include="Views\Account\ValidateEmailAddress\ValidateEmailAddressSuccess.html" />
+    <Content Include="Views\Admin\ReviewAnswers\answer-icon-flagged.png" />
     <Content Include="Views\Admin\ReviewAnswer\answer-icon.png" />
     <Content Include="Views\Admin\ReviewAnswer\ReviewAnswer.css" />
     <Content Include="Views\Admin\ReviewAnswer\ReviewAnswer.html" />
