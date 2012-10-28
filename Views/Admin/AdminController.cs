@@ -1049,6 +1049,7 @@ namespace Lawspot.Controllers
                     Approved = a.Status == AnswerStatus.Approved,
                     Rejected = a.Status == AnswerStatus.Rejected,
                     RecommendedForApproval = a.Status == AnswerStatus.RecommendedForApproval,
+                    CanApproveOrReject = a.Status == AnswerStatus.Unreviewed || a.Status == AnswerStatus.RecommendedForApproval,
                     RejectionReasonHtml = StringUtilities.ConvertTextToHtml(a.RejectionReason),
                     CannedRejectionReasons = new SelectListItem[] {
                         new SelectListItem() { Text = "Select a canned response", Value = "" },

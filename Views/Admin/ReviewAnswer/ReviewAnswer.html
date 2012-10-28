@@ -79,27 +79,29 @@
                         </div>
                         <p>{{{RejectionReasonHtml}}}</p>
 
-                        {{^CanOnlyRecommendApproval}}
-                            <div class="meta" style="text-align: right; margin: 5px 0">
-                                {{^Approved}}
-                                    <img src="/shared/images/success-small.png" />
-                                    <a href="#" data-action="go-to-approve">Approve</a>
-                                {{/Approved}}
+                        {{^CanApproveOrReject}}
+                            {{^CanOnlyRecommendApproval}}
+                                <div class="meta" style="text-align: right; margin: 5px 0">
+                                    {{^Approved}}
+                                        <img src="/shared/images/success-small.png" />
+                                        <a href="#" data-action="go-to-approve">Approve</a>
+                                    {{/Approved}}
 
-                                {{^Rejected}}
-                                    <img src="/shared/images/error-small.png" />
-                                    <a href="#" data-action="go-to-reject">Reject</a>
-                                {{/Rejected}}
-                            </div>
-                        {{/CanOnlyRecommendApproval}}
+                                    {{^Rejected}}
+                                        <img src="/shared/images/error-small.png" />
+                                        <a href="#" data-action="go-to-reject">Reject</a>
+                                    {{/Rejected}}
+                                </div>
+                            {{/CanOnlyRecommendApproval}}
+                        {{/CanApproveOrReject}}
                     {{/ReviewedBy}}
 
-                    {{^ReviewedBy}}
+                    {{#CanApproveOrReject}}
                         <div style="text-align: center; margin: 10px 0">
                             <button data-action="go-to-approve" type="submit">{{ApproveText}}</button>
 	                        <button class="red" data-action="go-to-reject" type="submit">Reject</button>
                         </div>
-                    {{/ReviewedBy}}
+                    {{/CanApproveOrReject}}
 
                 </div>
 

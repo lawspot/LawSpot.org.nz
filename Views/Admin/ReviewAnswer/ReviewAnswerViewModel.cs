@@ -35,10 +35,11 @@ namespace Lawspot.Views.Admin
         public string ReviewedBy { get; set; }
         public bool Approved { get; set; }
         public bool Rejected { get; set; }
+        public bool CanApproveOrReject { get; set; }
         public bool RecommendedForApproval { get; set; }
         public string RejectionReasonHtml { get; set; }
         public string ReviewDate { get; set; }
-
+        
         public IEnumerable<SelectListItem> CannedRejectionReasons { get; set; }
         public bool CanOnlyRecommendApproval { get; set; }
         public string ApproveText { get; set; }
