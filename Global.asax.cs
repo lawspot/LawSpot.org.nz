@@ -159,10 +159,10 @@ namespace Lawspot
             if (ex is HttpException)
                 statusCode = ((HttpException)ex).GetHttpCode();
 
-            // Log everything except 404s originating from third-party sites.
-            bool firstPartyReferrer = HttpContext.Current != null && HttpContext.Current.Request.UrlReferrer != null &&
-                string.Equals(HttpContext.Current.Request.UrlReferrer.Host, ConfigurationManager.AppSettings["DomainName"]);
-            if (statusCode != 404 || firstPartyReferrer)
+            // Log everything except 404s originating from third-party sites and stupid bots.
+            bool firstPartyReferrer = this.Request.UrlReferrer != null && string.Equals(this.Request.UrlReferrer.Host, ConfigurationManager.AppSettings["DomainName"]);
+            bool stupidBot = this.Request.UserAgent == "Java/1.6.0_37" || this.Request.UserAgent == "Mozilla/5.0 (compatible; AhrefsBot/4.0; +http://ahrefs.com/robot/)";
+            if (!(statusCode == 404 && firstPartyReferrer == false) && !stupidBot)
                 Lawspot.Shared.Logger.LogError(ex);
 
             // Determine the URL to redirect to.
@@ -179,8 +179,8 @@ namespace Lawspot
                 }
 
                 // Send the response to the client.
-                this.Context.Response.StatusCode = statusCode;
-                this.Context.Response.TrySkipIisCustomErrors = true;
+                this.Response.StatusCode = statusCode;
+                this.Response.TrySkipIisCustomErrors = true;
                 this.Context.ClearError();
 
                 // Render a view.
