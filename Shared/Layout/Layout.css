@@ -488,7 +488,7 @@ input[type].validation-error-field,
     border: 1px solid #BBB7B6;
     border-radius: 6px;
     padding: 5px 12px 14px;
-    margin-bottom: 16px;
+    margin-bottom: 18px;
     box-shadow: 1px 1px 8px #888;
     background: white;
 }
