@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Lawspot.Backend;
 using Lawspot.Shared;
 using Lawspot.Views.Admin;
+using AQ1 = Lawspot.Views.Admin.AnswerQuestions;
+using AQ2 = Lawspot.Views.Admin.AnswerQuestion;
 
 namespace Lawspot.Controllers
 {
@@ -136,47 +138,6 @@ namespace Lawspot.Controllers
             return View(model);
         }
 
-        private enum AnswerOrDraftStatus
-        {
-            Draft,
-            Pending,
-            Approved,
-            Rejected,
-        }
-
-        private class AnswerOrDraft
-        {
-            public int QuestionId { get; set; }
-            public string Details { get; set; }
-            public string References { get; set; }
-            public DateTimeOffset UpdatedOn { get; set; }
-            public User User { get; set; }
-            public AnswerOrDraftStatus Status { get; set; }
-
-            public string Notification
-            {
-                get
-                {
-                    switch (this.Status)
-                    {
-                        case AnswerOrDraftStatus.Draft:
-                            return string.Format("{0} has started drafting an answer for this question (last updated: {1:g})",
-                                this.User.DisplayName, this.UpdatedOn);
-                        case AnswerOrDraftStatus.Pending:
-                            return string.Format("{0} posted an answer for this question on {1:g}",
-                                this.User.DisplayName, this.UpdatedOn);
-                        case AnswerOrDraftStatus.Approved:
-                            return string.Format("{0} posted an answer for this question and it was approved.",
-                                this.User.DisplayName, this.UpdatedOn);
-                        case AnswerOrDraftStatus.Rejected:
-                            return string.Format("{0} posted an answer for this question but it was rejected on {1:g}",
-                                this.User.DisplayName, this.UpdatedOn);
-                    }
-                    throw new NotImplementedException();
-                }
-            }
-        }
-
         /// <summary>
         /// Displays the answer questions page.
         /// </summary>
@@ -193,7 +154,7 @@ namespace Lawspot.Controllers
             if (this.User.CanAnswerQuestions == false)
                 throw new HttpException(403, "Access denied");
 
-            var model = new AnswerQuestionsViewModel();
+            var model = new AQ1.AnswerQuestionsViewModel();
 
             // Get the specialisation category of the current user.
             int specialisationCategoryId = 0;
@@ -224,31 +185,31 @@ namespace Lawspot.Controllers
                     }));
 
             // Filter.
-            var filterValue = questionId.HasValue ? AnswerQuestionsFilter.SingleQuestion : AnswerQuestionsFilter.Unanswered;
+            var filterValue = questionId.HasValue ? AQ1.AnswerQuestionsFilter.SingleQuestion : AQ1.AnswerQuestionsFilter.Unanswered;
             if (filter != null)
-                filterValue = (AnswerQuestionsFilter)Enum.Parse(typeof(AnswerQuestionsFilter), filter, true);
-            if (filterValue == AnswerQuestionsFilter.SingleQuestion && questionId.HasValue == false)
-                filterValue = AnswerQuestionsFilter.Unanswered;
+                filterValue = (AQ1.AnswerQuestionsFilter)Enum.Parse(typeof(AQ1.AnswerQuestionsFilter), filter, true);
+            if (filterValue == AQ1.AnswerQuestionsFilter.SingleQuestion && questionId.HasValue == false)
+                filterValue = AQ1.AnswerQuestionsFilter.Unanswered;
             var filterOptions = new List<SelectListItem>
             {
-                new SelectListItem() { Text = "All", Value = AnswerQuestionsFilter.All.ToString(), Selected = filterValue == AnswerQuestionsFilter.All },
-                new SelectListItem() { Text = "Unanswered", Value = AnswerQuestionsFilter.Unanswered.ToString(), Selected = filterValue == AnswerQuestionsFilter.Unanswered },
-                new SelectListItem() { Text = "Pending Approval", Value = AnswerQuestionsFilter.Pending.ToString(), Selected = filterValue == AnswerQuestionsFilter.Pending },
-                new SelectListItem() { Text = "Answered", Value = AnswerQuestionsFilter.Answered.ToString(), Selected = filterValue == AnswerQuestionsFilter.Answered },
-                new SelectListItem() { Text = "Answered by Me", Value = AnswerQuestionsFilter.AnsweredByMe.ToString(), Selected = filterValue == AnswerQuestionsFilter.AnsweredByMe },
+                new SelectListItem() { Text = "All", Value = AQ1.AnswerQuestionsFilter.All.ToString(), Selected = filterValue == AQ1.AnswerQuestionsFilter.All },
+                new SelectListItem() { Text = "Unanswered", Value = AQ1.AnswerQuestionsFilter.Unanswered.ToString(), Selected = filterValue == AQ1.AnswerQuestionsFilter.Unanswered },
+                new SelectListItem() { Text = "Pending Approval", Value = AQ1.AnswerQuestionsFilter.Pending.ToString(), Selected = filterValue == AQ1.AnswerQuestionsFilter.Pending },
+                new SelectListItem() { Text = "Answered", Value = AQ1.AnswerQuestionsFilter.Answered.ToString(), Selected = filterValue == AQ1.AnswerQuestionsFilter.Answered },
+                new SelectListItem() { Text = "Answered by Me", Value = AQ1.AnswerQuestionsFilter.AnsweredByMe.ToString(), Selected = filterValue == AQ1.AnswerQuestionsFilter.AnsweredByMe },
             };
-            if (filterValue == AnswerQuestionsFilter.SingleQuestion)
-                filterOptions.Add(new SelectListItem() { Text = "Single Question", Value = AnswerQuestionsFilter.SingleQuestion.ToString(), Selected = true });
+            if (filterValue == AQ1.AnswerQuestionsFilter.SingleQuestion)
+                filterOptions.Add(new SelectListItem() { Text = "Single Question", Value = AQ1.AnswerQuestionsFilter.SingleQuestion.ToString(), Selected = true });
             model.FilterOptions = filterOptions;
 
             // Sort order.
-            var sortValue = QuestionSortOrder.MostRecent;
+            var sortValue = AQ1.QuestionSortOrder.MostRecent;
             if (sort != null)
-                sortValue = (QuestionSortOrder)Enum.Parse(typeof(QuestionSortOrder), sort, true);
+                sortValue = (AQ1.QuestionSortOrder)Enum.Parse(typeof(AQ1.QuestionSortOrder), sort, true);
             model.SortOptions = new SelectListItem[]
             {
-                new SelectListItem() { Text = "First Posted", Value = QuestionSortOrder.FirstPosted.ToString(), Selected = sortValue == QuestionSortOrder.FirstPosted },
-                new SelectListItem() { Text = "Most Recent", Value = QuestionSortOrder.MostRecent.ToString(), Selected = sortValue == QuestionSortOrder.MostRecent },
+                new SelectListItem() { Text = "First Posted", Value = AQ1.QuestionSortOrder.FirstPosted.ToString(), Selected = sortValue == AQ1.QuestionSortOrder.FirstPosted },
+                new SelectListItem() { Text = "Most Recent", Value = AQ1.QuestionSortOrder.MostRecent.ToString(), Selected = sortValue == AQ1.QuestionSortOrder.MostRecent },
             };
 
             // Filter and sort the questions.
@@ -258,33 +219,34 @@ namespace Lawspot.Controllers
                 questions = questions.Where(q => q.CategoryId == categoryId);
             switch (filterValue)
             {
-                case AnswerQuestionsFilter.Unanswered:
-                    questions = questions.Where(q => q.Answers.Any(a => a.Status == AnswerStatus.Approved || a.ReviewDate == null) == false);
+                case AQ1.AnswerQuestionsFilter.Unanswered:
+                    questions = questions.Where(q => q.Answers.All(a => a.Status == AnswerStatus.Rejected));
                     break;
-                case AnswerQuestionsFilter.Pending:
-                    questions = questions.Where(q => q.Answers.Where(a => a.Status != AnswerStatus.Approved).Any(a => a.ReviewDate == null) == true);
+                case AQ1.AnswerQuestionsFilter.Pending:
+                    questions = questions.Where(q => q.Answers.Any(a => a.ReviewDate == null || a.Status == AnswerStatus.RecommendedForApproval) == true &&
+                        q.Answers.Any(a => a.Status == AnswerStatus.Approved) == false);
                     break;
-                case AnswerQuestionsFilter.Answered:
+                case AQ1.AnswerQuestionsFilter.Answered:
                     questions = questions.Where(q => q.Answers.Any(a => a.Status == AnswerStatus.Approved) == true);
                     break;
-                case AnswerQuestionsFilter.AnsweredByMe:
+                case AQ1.AnswerQuestionsFilter.AnsweredByMe:
                     questions = questions.Where(q => q.Answers.Any(a => a.CreatedByUserId == this.User.Id));
                     break;
-                case AnswerQuestionsFilter.SingleQuestion:
+                case AQ1.AnswerQuestionsFilter.SingleQuestion:
                     questions = questions.Where(q => q.QuestionId == questionId.Value);
                     break;
             }
             switch (sortValue)
             {
-                case QuestionSortOrder.FirstPosted:
+                case AQ1.QuestionSortOrder.FirstPosted:
                     questions = questions.OrderBy(q => q.CreatedOn);
                     break;
-                case QuestionSortOrder.MostRecent:
+                case AQ1.QuestionSortOrder.MostRecent:
                     questions = questions.OrderByDescending(q => q.CreatedOn);
                     break;
             }
-            model.Questions = new PagedListView<AnswerQuestionViewModel>(questions
-                .Select(q => new AnswerQuestionViewModel()
+            model.Questions = new PagedListView<AQ1.AnswerQuestionViewModel>(questions
+                .Select(q => new AQ1.AnswerQuestionViewModel()
                 {
                     QuestionId = q.QuestionId,
                     Title = q.Title,
@@ -292,67 +254,156 @@ namespace Lawspot.Controllers
                     ReviewedBy = this.User.CanAdminister || this.User.CanVetAnswers ? q.ReviewedByUser.EmailDisplayName : null,
                     DateAndTime = q.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     CategoryName = q.Category.Name,
-                    Answer = string.Empty,
-                    References = string.Empty,
                 }), page, 10, Request.Url);
-
-            // Get all the draft answers and answers relating to the questions.
-            var answers = GetAnswers(model.Questions.Items.Select(q => q.QuestionId));
-
-            // Populate the questions with draft answer details.
-            foreach (var question in model.Questions.Items)
-            {
-                var ownAnswer = answers.Where(a => a.QuestionId == question.QuestionId &&
-                    a.User.UserId == this.User.Id).OrderByDescending(a => a.UpdatedOn).FirstOrDefault();
-                if (ownAnswer != null)
-                {
-                    // The user has a answer for this question.
-                    question.Answer = ownAnswer.Details;
-                    question.References = ownAnswer.References;
-                }
-
-                var otherAnswer = answers.Where(a => a.QuestionId == question.QuestionId &&
-                    a.User.UserId != this.User.Id).OrderByDescending(a => a.UpdatedOn).FirstOrDefault();
-                if (otherAnswer != null)
-                {
-                    // Another user has a draft for this question.
-                    question.Notification = otherAnswer.Notification;
-                }
-            }
 
             // If this is the landing page for a lawyer AND there are no questions in the lawyer's category,
             // then show all questions instead.
             if (model.Questions.TotalCount == 0 && Request.QueryString.Count == 0 && overrideCategory == false)
                 return AnswerQuestions(category, filter, questionId, sort, page, overrideCategory: true);
 
+            // Get answers and draft answers for all the questions.
+            var questionIds = model.Questions.Items.Select(q => q.QuestionId).ToArray();
+            var answers = this.DataContext.Answers
+                .Where(a => questionIds.Contains(a.QuestionId))
+                .Select(a => new
+                {
+                    QuestionId = a.QuestionId,
+                    DraftOrRejected = a.Status == AnswerStatus.Rejected,
+                    UserId = a.CreatedByUserId,
+                    Date = a.ReviewDate.HasValue ? a.ReviewDate.Value : a.CreatedOn
+                }).Union(this.DataContext.DraftAnswers
+                .Where(a => questionIds.Contains(a.QuestionId))
+                .Select(da => new
+                {
+                    QuestionId = da.QuestionId,
+                    DraftOrRejected = true,
+                    UserId = da.CreatedByUserId,
+                    Date = da.UpdatedOn
+                })).ToList();
+            foreach (var question in model.Questions.Items)
+            {
+                // There is:
+                // a) A draft by another member that was updated within the last two days.
+                // b) A rejected answer by another member that was reviewed within the last two days.
+                // c) An answer that is not rejected that was created by another member.
+                question.AnsweredByAnother = answers.Any(a => a.QuestionId == question.QuestionId &&
+                    a.UserId != this.User.Id &&
+                    ((a.DraftOrRejected && DateTimeOffset.Now.Subtract(a.Date).TotalDays < 2.0) || !a.DraftOrRejected));
+
+                // The current user has posted an answer to the question.
+                question.AnsweredByMe = answers.Any(a => a.QuestionId == question.QuestionId &&
+                    a.UserId == this.User.Id);
+            }
+
             return View(model);
         }
 
         /// <summary>
-        /// Submits an answer to a question.
+        /// Displays the answer question page.
         /// </summary>
         /// <param name="questionId"></param>
-        /// <param name="answerText"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult AnswerQuestion(int questionId)
+        {
+            // Ensure the user is allow to answer questions.
+            if (this.User.CanAnswerQuestions == false)
+                throw new HttpException(403, "Access denied");
+
+            var question = DataContext.Questions.Single(q => q.QuestionId == questionId);
+            var model = new AQ2.AnswerQuestionViewModel()
+            {
+                QuestionId = questionId,
+                Title = question.Title,
+                DetailsHtml = StringUtilities.ConvertTextToHtml(question.Details),
+                DateAndTime = question.CreatedOn.ToString("d MMM yyyy h:mmtt"),
+                CategoryName = question.Category.Name,
+                ReviewedBy = question.ReviewedByUser != null ? question.ReviewedByUser.EmailDisplayName : null,
+                ReviewDate = question.ReviewDate.HasValue ? question.ReviewDate.Value.ToString("d MMM yyyy h:mmtt") : string.Empty,
+            };
+            model.Answers = question.Answers
+                .Select(a => new AQ2.AnswerViewModel()
+                {
+                    DateAndTime = a.CreatedOn.ToString("d MMM yyyy h:mmtt"),
+                    AnswerHtml = StringUtilities.ConvertTextToHtml(a.Details),
+                    AnsweredBy = a.CreatedByUser.EmailDisplayName,
+                    ReferencesHtml = StringUtilities.ConvertTextToHtml(a.References),
+                    ReviewedBy = a.ReviewedByUser != null ? a.ReviewedByUser.EmailDisplayName : null,
+                    ReviewDate = a.ReviewDate.HasValue ? a.ReviewDate.Value.ToString("d MMM yyyy h:mmtt") : string.Empty,
+                    Approved = a.Status == AnswerStatus.Approved,
+                    Rejected = a.Status == AnswerStatus.Rejected,
+                    Pending = a.ReviewedByUser == null,
+                    RecommendedForApproval = a.Status == AnswerStatus.RecommendedForApproval,
+                    RejectionReasonHtml = StringUtilities.ConvertTextToHtml(a.RejectionReason),
+                    Draft = false,
+                    SortKey = a.ReviewDate.HasValue ? a.ReviewDate.Value : a.CreatedOn,
+                }).ToList();
+
+            // Insert other people's drafts.
+            model.Answers = model.Answers.Union(this.DataContext.DraftAnswers
+                .Where(da => da.QuestionId == questionId)
+                .Where(da => da.CreatedByUserId != this.User.Id)
+                .ToList()
+                .Select(da => new AQ2.AnswerViewModel()
+                {
+                    DateAndTime = da.UpdatedOn.ToString("d MMM yyyy h:mmtt"),
+                    AnswerHtml = StringUtilities.ConvertTextToHtml(da.Details),
+                    AnsweredBy = da.CreatedByUser.EmailDisplayName,
+                    ReferencesHtml = StringUtilities.ConvertTextToHtml(da.References),
+                    Draft = true,
+                    SortKey = da.UpdatedOn,
+                })).OrderBy(a => a.SortKey).ToList();
+
+            // If we have our own draft answer, show that.
+            // Note: there should only be one, but just in case...
+            var myDraft = this.DataContext.DraftAnswers
+                .Where(da => da.CreatedByUserId == this.User.Id)
+                .OrderByDescending(da => da.UpdatedOn)
+                .FirstOrDefault();
+            if (myDraft != null)
+            {
+                model.Answer = myDraft.Details;
+                model.References = myDraft.References;
+            }
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Called when an answer is submitted.
+        /// </summary>
+        /// <param name="questionId"></param>
+        /// <param name="details"></param>
+        /// <param name="references"></param>
         /// <returns></returns>
         [HttpPost]
-        public StatusPlusTextResult PostAnswer(int questionId, string answerText, string references)
+        public ActionResult AnswerQuestion(int questionId, string details, string references)
         {
             // Ensure the user is allow to answer questions.
             if (this.User.CanAnswerQuestions == false)
                 return new StatusPlusTextResult(403, "Your account is not authorized to answer questions.");
 
             // Validate the input.
-            if (string.IsNullOrWhiteSpace(answerText))
-                return new StatusPlusTextResult(400, "The answer details cannot be blank.");
-            if (answerText.Length > 20000)
-                return new StatusPlusTextResult(400, "The answer is too long.");
+            if (string.IsNullOrWhiteSpace(details))
+                ModelState.AddModelError("Answer", "The answer details cannot be blank.");
+            if (details.Length > 20000)
+                ModelState.AddModelError("Answer", "The answer is too long.");
             if (references.Length > 20000)
-                return new StatusPlusTextResult(400, "The references are too long.");
+                ModelState.AddModelError("References", "The references are too long.");
+
+            // Check the model is valid.
+            if (ModelState.IsValid == false)
+            {
+                var model = (AQ2.AnswerQuestionViewModel)((ViewResult)AnswerQuestion(questionId)).Model;
+                model.Answer = details;
+                model.References = references;
+                return View(model);
+            }
 
             // Create a new answer for the question.
             var answer = new Answer();
             answer.CreatedOn = DateTimeOffset.Now;
-            answer.Details = answerText;
+            answer.Details = details;
             answer.CreatedByUserId = this.User.Id;
             answer.QuestionId = questionId;
             answer.References = references;
@@ -365,58 +416,7 @@ namespace Lawspot.Controllers
             // Save changes.
             this.DataContext.SubmitChanges();
 
-            return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(answer.Details));
-        }
-
-        /// <summary>
-        /// Checks the status of a question.
-        /// </summary>
-        /// <param name="questionId"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public StatusPlusTextResult CheckQuestionStatus(int questionId)
-        {
-            var answers = GetAnswers(new int[] { questionId });
-            var existingAnswer = answers.Where(a => a.User.UserId != this.User.Id)
-                .OrderByDescending(a => a.UpdatedOn).FirstOrDefault();
-            if (existingAnswer != null)
-                return new StatusPlusTextResult(200, existingAnswer.Notification);
-            return new StatusPlusTextResult(200, string.Empty);
-        }
-
-        /// <summary>
-        /// Gets a list of answers for the given question IDs, either draft or posted.
-        /// </summary>
-        /// <param name="questionIds"></param>
-        /// <returns></returns>
-        private List<AnswerOrDraft> GetAnswers(IEnumerable<int> questionIds)
-        {
-            var answers = questionIds.Join(this.DataContext.DraftAnswers,
-                qId => qId,
-                da => da.QuestionId,
-                (q, da) => new AnswerOrDraft()
-                {
-                    QuestionId = da.QuestionId,
-                    Details = da.Details,
-                    References = da.References,
-                    UpdatedOn = da.UpdatedOn,
-                    User = da.User,
-                    Status = AnswerOrDraftStatus.Draft,
-                });
-            answers = answers.Union(questionIds.Join(this.DataContext.Answers,
-                qId => qId,
-                da => da.QuestionId,
-                (q, a) => new AnswerOrDraft()
-                {
-                    QuestionId = a.QuestionId,
-                    Details = a.Details,
-                    References = a.References,
-                    UpdatedOn = a.CreatedOn,
-                    User = a.CreatedByUser,
-                    Status = a.ReviewDate != null && a.Status == AnswerStatus.Approved ? AnswerOrDraftStatus.Approved :
-                        (a.Status == AnswerStatus.Rejected ? AnswerOrDraftStatus.Rejected : AnswerOrDraftStatus.Pending),
-                }));
-            return answers.ToList();
+            return RedirectToAction("AnswerQuestion", new { questionId = questionId, alert = "updated" });
         }
 
         /// <summary>
@@ -467,7 +467,7 @@ namespace Lawspot.Controllers
 
             }
 
-            return CheckQuestionStatus(questionId);
+            return new StatusPlusTextResult(200, "Draft was saved.");
         }
 
         /// <summary>
@@ -735,13 +735,13 @@ namespace Lawspot.Controllers
             };
 
             // Sort order.
-            var sortValue = QuestionSortOrder.MostRecent;
+            var sortValue = AQ1.QuestionSortOrder.MostRecent;
             if (sort != null)
-                sortValue = (QuestionSortOrder)Enum.Parse(typeof(QuestionSortOrder), sort, true);
+                sortValue = (AQ1.QuestionSortOrder)Enum.Parse(typeof(AQ1.QuestionSortOrder), sort, true);
             model.SortOptions = new SelectListItem[]
             {
-                new SelectListItem() { Text = "First Posted", Value = QuestionSortOrder.FirstPosted.ToString(), Selected = sortValue == QuestionSortOrder.FirstPosted },
-                new SelectListItem() { Text = "Most Recent", Value = QuestionSortOrder.MostRecent.ToString(), Selected = sortValue == QuestionSortOrder.MostRecent },
+                new SelectListItem() { Text = "First Posted", Value = AQ1.QuestionSortOrder.FirstPosted.ToString(), Selected = sortValue == AQ1.QuestionSortOrder.FirstPosted },
+                new SelectListItem() { Text = "Most Recent", Value = AQ1.QuestionSortOrder.MostRecent.ToString(), Selected = sortValue == AQ1.QuestionSortOrder.MostRecent },
             };
 
             // Filter and sort the questions.
@@ -768,10 +768,10 @@ namespace Lawspot.Controllers
             }
             switch (sortValue)
             {
-                case QuestionSortOrder.FirstPosted:
+                case AQ1.QuestionSortOrder.FirstPosted:
                     questions = questions.OrderBy(q => q.CreatedOn);
                     break;
-                case QuestionSortOrder.MostRecent:
+                case AQ1.QuestionSortOrder.MostRecent:
                     questions = questions.OrderByDescending(q => q.CreatedOn);
                     break;
             }
@@ -946,9 +946,10 @@ namespace Lawspot.Controllers
             {
                 new SelectListItem() { Text = "Unreviewed", Value = ReviewAnswersFilter.Unreviewed.ToString(), Selected = filterValue == ReviewAnswersFilter.Unreviewed },
                 new SelectListItem() { Text = "Approved", Value = ReviewAnswersFilter.Approved.ToString(), Selected = filterValue == ReviewAnswersFilter.Approved },
-                new SelectListItem() { Text = "Approved By Me", Value = ReviewAnswersFilter.ApprovedByMe.ToString(), Selected = filterValue == ReviewAnswersFilter.ApprovedByMe },
+                new SelectListItem() { Text = "Approved by Me", Value = ReviewAnswersFilter.ApprovedByMe.ToString(), Selected = filterValue == ReviewAnswersFilter.ApprovedByMe },
                 new SelectListItem() { Text = "Rejected", Value = ReviewAnswersFilter.Rejected.ToString(), Selected = filterValue == ReviewAnswersFilter.Rejected },
-                new SelectListItem() { Text = "Rejected By Me", Value = ReviewAnswersFilter.RejectedByMe.ToString(), Selected = filterValue == ReviewAnswersFilter.RejectedByMe },
+                new SelectListItem() { Text = "Rejected by Me", Value = ReviewAnswersFilter.RejectedByMe.ToString(), Selected = filterValue == ReviewAnswersFilter.RejectedByMe },
+                new SelectListItem() { Text = "Recommended for Approval", Value = ReviewAnswersFilter.RecommendedForApproval.ToString(), Selected = filterValue == ReviewAnswersFilter.RecommendedForApproval },
             };
 
             // Sort order.
@@ -987,6 +988,9 @@ namespace Lawspot.Controllers
                     break;
                 case ReviewAnswersFilter.RejectedByMe:
                     answers = answers.Where(a => a.Status == AnswerStatus.Rejected && a.ReviewedByUserId == this.User.Id);
+                    break;
+                case ReviewAnswersFilter.RecommendedForApproval:
+                    answers = answers.Where(a => a.Status == AnswerStatus.RecommendedForApproval);
                     break;
             }
             switch (sortValue)

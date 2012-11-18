@@ -23,7 +23,7 @@
       <Column Name="CreatedOn" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
       <Column Name="CreatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedOn" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
-      <Association Name="User_DraftAnswer" Member="User" ThisKey="CreatedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+      <Association Name="User_DraftAnswer" Member="CreatedByUser" Storage="_User" ThisKey="CreatedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
       <Association Name="Question_DraftAnswer" Member="Question" ThisKey="QuestionId" OtherKey="QuestionId" Type="Question" IsForeignKey="true" />
     </Type>
   </Table>
@@ -76,7 +76,7 @@
       <Column Name="EmailValidationToken" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="ResetPasswordToken" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="ResetPasswordTokenExpiry" Type="System.DateTimeOffset" DbType="DateTimeOffset" CanBeNull="true" />
-      <Column Member="PublisherId" Type="System.Int32" CanBeNull="true" />
+      <Column Name="PublisherId" Type="System.Int32" CanBeNull="true" />
       <Association Name="User_DraftAnswer" Member="DraftAnswers" ThisKey="UserId" OtherKey="CreatedByUserId" Type="DraftAnswer" />
       <Association Name="User_Lawyer" Member="Lawyers" ThisKey="UserId" OtherKey="UserId" Type="Lawyer" />
       <Association Name="User_Question" Member="CreatedQuestions" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Question" />
@@ -122,8 +122,8 @@
       <Column Name="RejectionReason" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="[References]" Member="References" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
       <Column Name="OriginalDetails" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Column Member="PublisherId" Type="System.Int32" CanBeNull="true" />
-      <Column Member="Status" Type="Lawspot.Backend.AnswerStatus" CanBeNull="false" />
+      <Column Name="PublisherId" Type="System.Int32" CanBeNull="true" />
+      <Column Name="Status" Type="Lawspot.Backend.AnswerStatus" CanBeNull="false" />
       <Association Name="User_Answer" Member="CreatedByUser" ThisKey="CreatedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
       <Association Name="Question_Answer" Member="Question" ThisKey="QuestionId" OtherKey="QuestionId" Type="Question" IsForeignKey="true" />
       <Association Name="User_Answer1" Member="ReviewedByUser" ThisKey="ReviewedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Lawspot.Shared;
 
-namespace Lawspot.Views.Admin
+namespace Lawspot.Views.Admin.AnswerQuestions
 {
     public class AnswerQuestionsViewModel
     {
@@ -39,10 +39,15 @@ namespace Lawspot.Views.Admin
         public string DetailsHtml { get; set; }
         public string ReviewedBy { get; set; }
         public string DateAndTime { get; set; }
-        public int CategoryId { get; set; }
         public string CategoryName { get; set; }
-        public string Answer { get; set; }
-        public string References { get; set; }
-        public string Notification { get; set; }
+
+        // There is:
+        // a) A draft by another member that was updated within the last two days.
+        // b) A rejected answer by another member that was reviewed within the last two days.
+        // c) An answer that is not rejected that was created by another member.
+        public bool AnsweredByAnother { get; set; }
+
+        // The current user has posted an answer to the question.
+        public bool AnsweredByMe { get; set; }
     }
 }

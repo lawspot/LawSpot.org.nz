@@ -181,6 +181,7 @@
     <Compile Include="Views\Admin\AccountSettings\AccountSettingsViewModel.cs" />
     <Compile Include="Views\Admin\ActivityStream\ActivityStreamViewModel.cs" />
     <Compile Include="Views\Admin\AdminController.cs" />
+    <Compile Include="Views\Admin\AnswerQuestion\AnswerQuestionViewModel.cs" />
     <Compile Include="Views\Admin\ReviewAnswer\ReviewAnswerViewModel.cs" />
     <Compile Include="Views\Admin\ReviewLawyers\ReviewLawyersViewModel.cs" />
     <Compile Include="Views\Admin\ReviewAnswers\ReviewAnswersViewModel.cs" />
@@ -314,6 +315,7 @@
     <Content Include="Shared\Images\error-small.png" />
     <Content Include="Shared\Images\info-small.png" />
     <Content Include="Shared\Images\success-small.png" />
+    <Content Include="Shared\Images\warning-small.png" />
     <Content Include="Views\Account\ResetPassword\ResetPasswordExpired.html" />
     <Content Include="Views\Account\ResetPassword\ResetPasswordInvalid.html" />
     <Content Include="Views\Account\ResetPassword\ResetPassword.html" />
@@ -321,6 +323,10 @@
     <Content Include="Views\Account\Login\ForgotPasswordSuccess.html" />
     <Content Include="Views\Account\ValidateEmailAddress\ValidateEmailAddressFailure.html" />
     <Content Include="Views\Account\ValidateEmailAddress\ValidateEmailAddressSuccess.html" />
+    <Content Include="Views\Admin\AnswerQuestion\answer-icon.png" />
+    <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.css" />
+    <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.html" />
+    <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.js" />
     <Content Include="Views\Admin\ReviewAnswers\answer-icon-flagged.png" />
     <Content Include="Views\Admin\ReviewAnswer\answer-icon.png" />
     <Content Include="Views\Admin\ReviewAnswer\ReviewAnswer.css" />
@@ -366,7 +372,6 @@
     <Content Include="Views\Admin\Admin\Admin.html" />
     <Content Include="Views\Admin\Admin\Admin.js" />
     <Content Include="Views\Admin\AnswerQuestions\star.png" />
-    <Content Include="Views\Admin\AnswerQuestions\warning.png" />
     <Content Include="Views\Admin\approved.png" />
     <Content Include="Views\Admin\AccountSettings\AccountSettings.html" />
     <Content Include="Views\Admin\VetterPolicy.html" />
@@ -390,7 +395,6 @@
     <Content Include="Views\Admin\AnswerQuestions\answered.png" />
     <Content Include="Views\Admin\AnswerQuestions\AnswerQuestions.css" />
     <Content Include="Views\Admin\AnswerQuestions\AnswerQuestions.html" />
-    <Content Include="Views\Admin\AnswerQuestions\AnswerQuestions.js" />
     <Content Include="Views\Admin\AnswerQuestions\question-icon.png" />
     <Content Include="Views\Ask\Ask\Ask.html" />
     <Content Include="Views\Ask\Ask\Ask.css" />

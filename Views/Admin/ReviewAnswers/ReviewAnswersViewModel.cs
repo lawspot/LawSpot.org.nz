@@ -22,6 +22,7 @@ namespace Lawspot.Views.Admin
         ApprovedByMe,
         Rejected,
         RejectedByMe,
+        RecommendedForApproval,
     }
 
     public enum AnswerSortOrder

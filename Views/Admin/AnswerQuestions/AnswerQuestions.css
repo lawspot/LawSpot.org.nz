@@ -53,35 +53,7 @@ span.question-time {
 	margin-top: 2px;
 	text-align: right;
 }
-.question-container form {
-	margin-left: 40px;
-	color: #4A4632;
-	*display: none;
-}
-.question-container textarea[name=LawyerAnswer] {
-	width: 635px;
-	height: 250px;
-	margin: 10px 0;
-}
-.question-container textarea[name=References] {
-	width: 635px;
-	height: 100px;
-	margin: 10px 0 0 0;
-}
-.question-container form small {
-	font-size: 0.8em;
-}
-.question-container .important-notice {
-    display: none;
-    border: 1px solid black;
-    padding: 8px;
-    background-color: White;
-}
-.question-container .progress-indicator {
-    display: none;
-    position: absolute;
-    margin: 12px 0 0 20px;
-}
+
 
 .expanded {
 	background-color: #D8D1BC;
