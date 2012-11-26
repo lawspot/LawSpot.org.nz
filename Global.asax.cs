@@ -161,7 +161,7 @@ namespace Lawspot
 
             // Log everything except 404s originating from third-party sites and stupid bots.
             bool firstPartyReferrer = this.Request.UrlReferrer != null && string.Equals(this.Request.UrlReferrer.Host, ConfigurationManager.AppSettings["DomainName"]);
-            bool stupidBot = this.Request.UserAgent == "Java/1.6.0_37" || this.Request.UserAgent == "Mozilla/5.0 (compatible; AhrefsBot/4.0; +http://ahrefs.com/robot/)";
+            bool stupidBot = this.Request.UserAgent.StartsWith("Java/") || this.Request.UserAgent == "Mozilla/5.0 (compatible; AhrefsBot/4.0; +http://ahrefs.com/robot/)";
             if (!(statusCode == 404 && firstPartyReferrer == false) && !stupidBot)
                 Lawspot.Shared.Logger.LogError(ex);
 
