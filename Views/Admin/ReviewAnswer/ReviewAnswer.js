@@ -68,3 +68,23 @@ function toggleReviewedAnswers() {
     $("#showReviewedLink").toggle();
     $("#hideReviewedLink").toggle();
 }
+
+$("#show-original-question-link").click(function (e) {
+    $("#show-edited-question-link").show();
+    $("#show-original-question-link").hide();
+    $("#edited-title").hide();
+    $("#original-title").show();
+    $("#edited-details").hide();
+    $("#original-details").show();
+    e.preventDefault();
+});
+
+$("#show-edited-question-link").click(function (e) {
+    $("#show-edited-question-link").hide();
+    $("#show-original-question-link").show();
+    $("#edited-title").show();
+    $("#original-title").hide();
+    $("#edited-details").show();
+    $("#original-details").hide();
+    e.preventDefault();
+});
