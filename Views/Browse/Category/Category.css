@@ -26,9 +26,14 @@ input.ask-textbox {
 .question .title, .question .details, .question .asked {
     margin: 6px 0;
 }
-.question .asked {
-    font-size: smaller;
+.question .details {
+	font-size: 10pt;
 }
+.question .asked {
+    color: #666;
+    font-size: 9pt;
+}
+
 
 /* Browse by categories */
 .sidebar .categories {

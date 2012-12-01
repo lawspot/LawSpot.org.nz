@@ -37,10 +37,10 @@
 .question .title, .question .details, .question .asked {
     margin: 6px 0;
 }
-.question .asked {
-    font-size: 0.9em;
+.question .details {
+	font-size: 10pt;
 }
-.question .details, .question .asked {
-	color: #5B5B5B;
-	font-size: 0.9em;
+.question .asked {
+    color: #666;
+    font-size: 9pt;
 }
