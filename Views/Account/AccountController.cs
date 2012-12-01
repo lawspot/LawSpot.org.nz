@@ -336,6 +336,10 @@ namespace Lawspot.Controllers
             // Remove the authentication cookie.
             FormsAuthentication.SignOut();
 
+            // IE prior to IE 9 has a bug which prevents cookie removal from working when combined with a redirect.
+            if (this.Request.Browser.IsBrowser("IE") && this.Request.Browser.MajorVersion < 9)
+                return View();
+
             // Redirect to the home page.
             return RedirectToAction("Home", "Browse", new { alert = "loggedout" });
         }

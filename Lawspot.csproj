@@ -316,6 +316,7 @@
     <Content Include="Shared\Images\info-small.png" />
     <Content Include="Shared\Images\success-small.png" />
     <Content Include="Shared\Images\warning-small.png" />
+    <Content Include="Views\Account\Logout\Logout.html" />
     <Content Include="Views\Account\ResetPassword\ResetPasswordExpired.html" />
     <Content Include="Views\Account\ResetPassword\ResetPasswordInvalid.html" />
     <Content Include="Views\Account\ResetPassword\ResetPassword.html" />
