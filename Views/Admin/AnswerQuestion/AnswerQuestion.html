@@ -5,11 +5,17 @@
 <div class="question">
     <img src="/views/browse/question/question.png" class="left" width="68" height="98" alt="" />
     <div class="speech">
-	    <h1>{{Title}}</h1>
+	    <h1 id="edited-title">{{Title}}</h1>
+        <h1 id="original-title" style="display: none">{{OriginalTitle}}</h1>
 
 	    <p>
             <strong>Question Details:</strong>
-            {{{DetailsHtml}}}
+            <div id="edited-details">
+                {{{DetailsHtml}}}
+            </div>
+            <div id="original-details" style="display: none">
+                {{{OriginalDetailsHtml}}}
+            </div>
 	    </p>
 
         <div class="meta">
@@ -22,6 +28,12 @@
         <div class="meta">
             <img src="/shared/images/success-small.png" />
             <strong>Question approved</strong> by {{ReviewedBy}}
+            {{#OriginalTitle}}
+                <div style="float: right">
+                    <a id="show-original-question-link" href="#">Show original question</a>
+                    <a id="show-edited-question-link" href="#" style="display: none">Show edited question</a>
+                </div>
+            {{/OriginalTitle}}
         </div>
     </div>
 </div>

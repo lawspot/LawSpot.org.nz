@@ -16,6 +16,9 @@ namespace Lawspot.Views.Admin.AnswerQuestion
         public string DetailsHtml { get; set; }
         public string CategoryName { get; set; }
 
+        public string OriginalTitle { get; set; }
+        public string OriginalDetailsHtml { get; set; }
+
         public string ReviewedBy { get; set; }
         public string ReviewDate { get; set; }
 
