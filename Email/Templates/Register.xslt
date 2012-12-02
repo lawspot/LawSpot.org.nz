@@ -59,6 +59,7 @@
       </p>
 
       <ul>
+        <li> is about an area of law that LawSpot doesn't answer (<a href="{BaseUrl}/terms">find out more</a>); </li>
         <li> has already been asked and answered on the Website; </li>
         <li> contains objectionable or offensive material; </li>
         <li> is too complex or specific in nature; or </li>
