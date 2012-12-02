@@ -19,8 +19,6 @@ $(document).ready(function () {
 function saveDraft(async) {
     var answerText = $("#AnswerTextArea").val();
     var references = $("#ReferencesTextArea").val();
-    if (answerText === "" && references === "")
-        return;
     if (Model.DraftAnswer === answerText && Model.DraftReferences === references)
         return;
 

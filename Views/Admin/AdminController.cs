@@ -359,7 +359,7 @@ namespace Lawspot.Controllers
             // If we have our own draft answer, show that.
             // Note: there should only be one, but just in case...
             var myDraft = this.DataContext.DraftAnswers
-                .Where(da => da.CreatedByUserId == this.User.Id)
+                .Where(da => da.CreatedByUserId == this.User.Id && da.QuestionId == questionId)
                 .OrderByDescending(da => da.UpdatedOn)
                 .FirstOrDefault();
             if (myDraft != null)
@@ -447,6 +447,8 @@ namespace Lawspot.Controllers
                     this.DataContext.DraftAnswers.DeleteOnSubmit(draftAnswer);
                     this.DataContext.SubmitChanges();
                 }
+
+                return new StatusPlusTextResult(200, "Draft was deleted.");
             }
             else
             {
@@ -467,9 +469,8 @@ namespace Lawspot.Controllers
                 draftAnswer.UpdatedOn = DateTimeOffset.Now;
                 this.DataContext.SubmitChanges();
 
+                return new StatusPlusTextResult(200, "Draft was saved.");
             }
-
-            return new StatusPlusTextResult(200, "Draft was saved.");
         }
 
         /// <summary>
