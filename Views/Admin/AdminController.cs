@@ -318,8 +318,8 @@ namespace Lawspot.Controllers
                 DetailsHtml = StringUtilities.ConvertTextToHtml(question.Details),
                 DateAndTime = question.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                 CategoryName = question.Category.Name,
-                OriginalTitle = question.OriginalTitle,
-                OriginalDetailsHtml = StringUtilities.ConvertTextToHtml(question.OriginalDetails),
+                //OriginalTitle = question.OriginalTitle,
+                //OriginalDetailsHtml = StringUtilities.ConvertTextToHtml(question.OriginalDetails),
                 ReviewedBy = question.ReviewedByUser != null ? question.ReviewedByUser.EmailDisplayName : null,
                 ReviewDate = question.ReviewDate.HasValue ? question.ReviewDate.Value.ToString("d MMM yyyy h:mmtt") : string.Empty,
             };
@@ -1039,8 +1039,8 @@ namespace Lawspot.Controllers
                 DetailsHtml = StringUtilities.ConvertTextToHtml(question.Details),
                 DateAndTime = question.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                 CategoryName = question.Category.Name,
-                OriginalTitle = question.OriginalTitle,
-                OriginalDetailsHtml = StringUtilities.ConvertTextToHtml(question.OriginalDetails),
+                //OriginalTitle = question.OriginalTitle,
+                //OriginalDetailsHtml = StringUtilities.ConvertTextToHtml(question.OriginalDetails),
                 ReviewedBy = question.ReviewedByUser != null ? question.ReviewedByUser.EmailDisplayName : null,
                 ReviewDate = question.ReviewDate.HasValue ? question.ReviewDate.Value.ToString("d MMM yyyy h:mmtt") : string.Empty,
             };
