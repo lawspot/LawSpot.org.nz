@@ -120,7 +120,7 @@ namespace Lawspot.Controllers
                     filteredAnswers = filteredAnswers.Where(a => a.Question.CategoryId == categoryId.Value);
                 ((IRecentAnswers)model).RecentAnswers = new PagedListView<AnsweredQuestionViewModel>(filteredAnswers
                     .Where(a => a.Status == AnswerStatus.Approved && a.Question.Approved)
-                    .OrderByDescending(a => a.CreatedOn)
+                    .OrderByDescending(a => a.ReviewDate)
                     .Select(a => new AnsweredQuestionViewModel()
                     {
                         Uri = a.Question.AbsolutePath,
