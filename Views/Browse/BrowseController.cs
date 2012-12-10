@@ -127,7 +127,7 @@ namespace Lawspot.Controllers
                         Title = a.Question.Title,
                         Details = StringUtilities.SummarizeText(a.Details, 150),
                         AnsweredBy = a.Publisher.Name,
-                        AnsweredTime = DateTimeOffset.Now.Subtract(a.CreatedOn).TotalHours > 24 ?
+                        AnsweredTime = DateTimeOffset.Now.Subtract(a.ReviewDate ?? a.CreatedOn).TotalHours > 24 ?
                             string.Format("{0:d MMMM yyyy}", a.ReviewDate ?? a.CreatedOn) :
                             string.Format("{0} hours ago", Math.Round(DateTimeOffset.Now.Subtract(a.ReviewDate ?? a.CreatedOn).TotalHours)),
                     }), answersPage, answersPageSize, this.Request.Url);
