@@ -49,6 +49,14 @@ input.ask-textbox {
 .sidebar .laptop {
 	margin: 30px 0 36px;
 }
+#holidaymsg {
+	position: absolute;
+	transform: rotate(45deg);
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+}
 
 /* Accordion */
 .va-heading {
