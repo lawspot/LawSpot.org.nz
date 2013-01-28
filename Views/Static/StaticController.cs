@@ -53,6 +53,11 @@ namespace Lawspot.Controllers
         {
             return View();
         }
+        
+        public ActionResult AwardsMedia()
+        {
+            return View();
+        }
 
         public ActionResult ContactUs()
         {
