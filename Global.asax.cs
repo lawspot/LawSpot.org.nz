@@ -51,6 +51,7 @@ namespace Lawspot
             RouteTable.Routes.MapRoute("LawyerPolicyRoute", "lawyer-policy", new { controller = "Static", action = "LawyerPolicy" });
             RouteTable.Routes.MapRoute("ImportantNoticeRoute", "important-notice", new { controller = "Static", action = "ImportantNotice" });
             RouteTable.Routes.MapRoute("PartnerRoute", "partner", new { controller = "Static", action = "PartnerWithUs" });
+            RouteTable.Routes.MapRoute("AwardsMediaRoute", "awards-media", new { controller = "Static", action = "AwardsMedia" });
             RouteTable.Routes.MapRoute("ContactUsRoute", "contact", new { controller = "Static", action = "ContactUs" });
             RouteTable.Routes.MapRoute("404Route", "404", new { controller = "Static", action = "Error404" });
             RouteTable.Routes.MapRoute("500Route", "500", new { controller = "Static", action = "Error500" });
