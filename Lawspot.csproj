@@ -438,6 +438,9 @@
     <Content Include="Views\Static\AboutUs\margaret-wilson.png" />
     <Content Include="Views\Static\AboutUs\Maya.jpg" />
     <Content Include="Views\Static\AboutUs\Paul.jpg" />
+    <Content Include="Views\Static\AboutUs\Nick.jpg" />
+    <Content Include="Views\Static\AboutUs\Janet.jpg" />
+    <Content Include="Views\Static\AboutUs\Rosie.png" />
     <Content Include="Views\Static\ContactUs.html" />
     <Content Include="Views\Static\AboutUs\AboutUs.html" />
     <Content Include="Views\Static\AboutUs\AboutUs.css" />
