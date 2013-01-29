@@ -31,4 +31,5 @@ ul.contents li {
 }
 #clclogo img {
 	float: none;
+	box-shadow: none;
 }
