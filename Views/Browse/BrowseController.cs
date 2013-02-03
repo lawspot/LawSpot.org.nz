@@ -189,7 +189,7 @@ namespace Lawspot.Controllers
                     HighlightsHtml = SearchIndexer.CreateSnippetHtml(h.Query, q.Details, 400, @"<span class=""search-highlight"">", "</span>"),
                     AnsweredOn = q.Answers.OrderBy(a => a.ReviewDate).First().PublishedText,
                     AnswerCount = string.Format("{0} answer(s)", q.Answers.Count()),
-                }), page, 10, this.Request.Url);
+                }), page, 5, this.Request.Url);
             return View(model);
         }
     }

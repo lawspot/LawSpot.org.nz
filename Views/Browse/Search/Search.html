@@ -29,3 +29,34 @@
     <p> No results were found.  Try a more general query. </p>
 
 {{/Hits.Items}}
+
+{{! Page numbers }}
+{{#Hits}}
+    {{#ShowPageLabels}}
+        <div class="page-numbers">
+            {{#HasPrevious}}
+                <a class="button" href="{{PreviousUri}}">Previous</a>
+            {{/HasPrevious}}
+            {{^HasPrevious}}
+                <span class="button disabled">Previous</span>
+            {{/HasPrevious}}
+            {{#PageLabels}}
+                {{#IsClickable}}
+                    <a class="button" href="{{NavigateUri}}">{{Text}}</a>
+                {{/IsClickable}}
+                {{#IsCurrentPage}}
+                    <span class="button current-page">{{Text}}</span>
+                {{/IsCurrentPage}}
+                {{#IsEllipsis}}
+                    <span class="ellipsis">{{Text}}</span>
+                {{/IsEllipsis}}
+            {{/PageLabels}}
+            {{#HasNext}}
+                <a class="button" href="{{NextUri}}">Next</a>
+            {{/HasNext}}
+            {{^HasNext}}
+                <span class="button disabled">Next</span>
+            {{/HasNext}}
+        </div>
+    {{/ShowPageLabels}}
+{{/Hits}}
