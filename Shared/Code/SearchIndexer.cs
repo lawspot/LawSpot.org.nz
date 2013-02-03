@@ -222,7 +222,7 @@ namespace Lawspot.Shared
                     if (termIndex == -1)
                         break;
                     if ((termIndex == 0 || document[termIndex - 1] == ' ') &&
-                        (termIndex + term.Length >= document.Length || char.IsPunctuation(document[termIndex + term.Length])))
+                        (termIndex + term.Length >= document.Length || char.IsWhiteSpace(document[termIndex + term.Length]) || char.IsPunctuation(document[termIndex + term.Length])))
                     {
                         termCount++;
                     }
@@ -248,7 +248,7 @@ namespace Lawspot.Shared
                     if (termIndex >= 0 && termIndex < foundIndex)
                     {
                         if ((termIndex == 0 || document[termIndex - 1] == ' ') &&
-                            (termIndex + term.Length >= document.Length || char.IsPunctuation(document[termIndex + term.Length])))
+                            (termIndex + term.Length >= document.Length || char.IsWhiteSpace(document[termIndex + term.Length]) || char.IsPunctuation(document[termIndex + term.Length])))
                         {
                             foundIndex = termIndex;
                             foundTerm = term;
