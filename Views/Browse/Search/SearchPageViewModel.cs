@@ -14,9 +14,9 @@ namespace Lawspot.Views.Browse
     public class SearchResultViewModel
     {
         public string Uri { get; set; }
-        public string Title { get; set; }
+        public string TitleHtml { get; set; }
         public string HighlightsHtml { get; set; }
-        public string CreatedOn { get; set; }
+        public string AnsweredOn { get; set; }
         public string AnswerCount { get; set; }
     }
 }

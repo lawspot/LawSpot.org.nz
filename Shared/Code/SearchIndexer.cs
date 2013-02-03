@@ -121,7 +121,6 @@ namespace Lawspot.Shared
                 return null;        // Do not index questions until they have at least one answer.
             doc.Add(new Field("Details", new StringReader(details.ToString())));
             doc.Add(new Field("ID", q.QuestionId.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-            doc.Add(new Field("RawDetails", details.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
             return doc;
         }
 
@@ -130,8 +129,15 @@ namespace Lawspot.Shared
         /// </summary>
         public class SearchHit
         {
+            /// <summary>
+            /// The query that resulted in this hit.
+            /// </summary>
+            public Query Query { get; set; }
+
+            /// <summary>
+            /// The ID of the question.
+            /// </summary>
             public int ID { get; set; }
-            public string SnippetsHtml { get; set; }
         }
 
         /// <summary>
@@ -181,8 +187,8 @@ namespace Lawspot.Shared
                 {
                     var document = searcher.Doc(hit.Doc);
                     results.Add(new SearchHit {
+                        Query = query,
                         ID = int.Parse(document.Get("ID")),
-                        SnippetsHtml = CreateSnippetHtml(query, document.Get("RawDetails"), 400, @"<span class=""search-highlight"">", "</span>")
                     });
                 }
             }
@@ -198,7 +204,7 @@ namespace Lawspot.Shared
         /// <param name="startHtml"></param>
         /// <param name="endHtml"></param>
         /// <returns></returns>
-        private static string CreateSnippetHtml(Query query, string document, int maxLength, string startHtml, string endHtml)
+        public static string CreateSnippetHtml(Query query, string document, int maxLength, string startHtml, string endHtml)
         {
             // Extract the list of search terms.
             var searchTerms = new List<Term>();
@@ -216,7 +222,7 @@ namespace Lawspot.Shared
                     if (termIndex == -1)
                         break;
                     if ((termIndex == 0 || document[termIndex - 1] == ' ') &&
-                        (termIndex + term.Length >= document.Length || document[termIndex + term.Length] == ' '))
+                        (termIndex + term.Length >= document.Length || char.IsPunctuation(document[termIndex + term.Length])))
                     {
                         termCount++;
                     }
@@ -242,7 +248,7 @@ namespace Lawspot.Shared
                     if (termIndex >= 0 && termIndex < foundIndex)
                     {
                         if ((termIndex == 0 || document[termIndex - 1] == ' ') &&
-                            (termIndex + term.Length >= document.Length || document[termIndex + term.Length] == ' '))
+                            (termIndex + term.Length >= document.Length || char.IsPunctuation(document[termIndex + term.Length])))
                         {
                             foundIndex = termIndex;
                             foundTerm = term;

@@ -185,9 +185,9 @@ namespace Lawspot.Controllers
             model.Hits = new PagedListView<SearchResultViewModel>(hits.Join(DataContext.Questions, h => h.ID, q => q.QuestionId, (h, q) =>
                 new SearchResultViewModel() {
                     Uri = q.AbsolutePath,
-                    Title = q.Title,
-                    HighlightsHtml = h.SnippetsHtml,
-                    CreatedOn = q.CreatedOn.ToString("d MMMM"),
+                    TitleHtml = SearchIndexer.CreateSnippetHtml(h.Query, q.Title, int.MaxValue, @"<span class=""search-highlight"">", "</span>"),
+                    HighlightsHtml = SearchIndexer.CreateSnippetHtml(h.Query, q.Details, 400, @"<span class=""search-highlight"">", "</span>"),
+                    AnsweredOn = q.Answers.OrderBy(a => a.ReviewDate).First().PublishedText,
                     AnswerCount = string.Format("{0} answer(s)", q.Answers.Count()),
                 }), page, 10, this.Request.Url);
             return View(model);
