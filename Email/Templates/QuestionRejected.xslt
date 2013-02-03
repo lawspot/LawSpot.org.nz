@@ -24,6 +24,15 @@
     </p>
 
     <p>
+      Here are some other legal resources you may want to try:
+    </p>
+    <ul>
+      <li> <a href="http://www.communitylaw.org.nz/community-law-manual/">the Community Law Manual</a> </li>
+      <li> <a href="http://www.communitylaw.org.nz/your-local-centre/find-a-community-law-centre/">your local community law centre</a>, or </li>
+      <li> <a href="http://www.nzls.org.nz/RegistrationDB/faces/presentation/general/FindLawyerOrOrganisation.jsp">the Law Society register</a> (for finding a lawyer). </li>
+    </ul>
+
+    <p>
       If you have any issues with the website or just want to say hi, email us at
       <a href="mailto:support@lawspot.org.nz">support@lawspot.org.nz</a>.
     </p>

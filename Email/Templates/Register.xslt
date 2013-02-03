@@ -20,8 +20,42 @@
       Password: <xsl:value-of select="Password"/>
     </p>
 
+    <xsl:if test="AskedQuestion = 'True'">
+      <h3> What's next? </h3>
+      
+      <p>
+        Your question will now will be screened and categorised by one of our LawSpot administrators.
+        LawSpot reserves the right to refuse to answer a question if the LawSpot administrator
+        considers that the question:
+      </p>
+
+      <ul>
+        <li> is about an area of law that LawSpot doesn't answer (<a href="{BaseUrl}/terms">find out more</a>); </li>
+        <li> has already been asked and answered on the Website; </li>
+        <li> contains objectionable or offensive material; </li>
+        <li> is too complex or specific in nature; or </li>
+        <li> contains information that would place the user at risk of being personally identified; </li>
+        <li> or for any other reason. </li>
+      </ul>
+
+      <p>
+        LawSpot also reserves the right to modify (through its administrators) any question that
+        might otherwise be rejected for any of the above reasons so that it can be made available
+        for lawyers to answer.
+      </p>
+    </xsl:if>
+
     <p>
-      Before you can use this service, you must confirm that you understand and accept the
+      For further legal assistance, try the
+      <a href="http://www.communitylaw.org.nz/community-law-manual/">Community Law Manual</a>, visit
+      <a href="http://www.communitylaw.org.nz/your-local-centre/find-a-community-law-centre/">your local community law centre</a>
+      or <a href="http://www.nzls.org.nz/RegistrationDB/faces/presentation/general/FindLawyerOrOrganisation.jsp">engage a lawyer</a>.
+    </p>
+
+    <h3> Terms of use </h3>
+
+    <p>
+      By using this service, you understand and agree to the
       website’s <a href="{BaseUrl}/terms">Terms of Use</a> and in particular you accept that:
     </p>
 
@@ -50,29 +84,6 @@
         questions and to give objective advice based on the lawyer’s understanding of the law.
       </li>
     </ul>
-
-    <xsl:if test="AskedQuestion = 'True'">
-      <p>
-        Your question will now will be screened and categorised by one of our LawSpot administrators.
-        LawSpot reserves the right to refuse to answer a question if the LawSpot administrator
-        considers that the question:
-      </p>
-
-      <ul>
-        <li> is about an area of law that LawSpot doesn't answer (<a href="{BaseUrl}/terms">find out more</a>); </li>
-        <li> has already been asked and answered on the Website; </li>
-        <li> contains objectionable or offensive material; </li>
-        <li> is too complex or specific in nature; or </li>
-        <li> contains information that would place the user at risk of being personally identified; </li>
-        <li> or for any other reason. </li>
-      </ul>
-
-      <p>
-        LawSpot also reserves the right to modify (through its administrators) any question that
-        might otherwise be rejected for any of the above reasons so that it can be made available
-        for lawyers to answer.
-      </p>
-    </xsl:if>
 
     <p>
       We hope you find the LawSpot website useful. If you have any issues with the website or just
