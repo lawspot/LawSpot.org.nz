@@ -17,5 +17,21 @@ namespace Lawspot.Backend
 
     public partial class Answer
     {
+        /// <summary>
+        /// A string describing when the answer was published.
+        /// </summary>
+        public string PublishedText
+        {
+            get
+            {
+                var published = this.ReviewDate ?? this.CreatedOn;
+                var hoursAgo = (int)Math.Round(DateTimeOffset.Now.Subtract(published).TotalHours);
+                if (hoursAgo > 24)
+                    return string.Format("{0:d MMM yyyy}", published);
+                if (hoursAgo > 1)
+                    return string.Format("{0} hours ago", hoursAgo);
+                return "less than an hour ago";
+            }
+        }
     }
 }

@@ -12,7 +12,6 @@ namespace Lawspot.Views.Browse
         public int CategoryId { get; set; }
         public string CategoryUrl { get; set; }
         public string CategoryName { get; set; }
-        public string CreationDate { get; set; }
         public int Views { get; set; }
         public IEnumerable<AnswerViewModel> Answers { get; set; }
 
@@ -24,5 +23,6 @@ namespace Lawspot.Views.Browse
     public class AnswerViewModel
     {
         public string DetailsHtml { get; set; }
+        public string PublishedDate { get; set; }
     }
 }

@@ -162,7 +162,7 @@ input.ask-textbox {
 	border-bottom: solid 1px #859FA2;
 }
 .speech .notice {
-	font-size: 0.9em;
+	font-size: 9pt;
 }
 #qa-notice {
     clear: left;

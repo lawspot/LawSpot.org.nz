@@ -93,13 +93,13 @@ namespace Lawspot.Controllers
             model.CategoryId = question.CategoryId;
             model.CategoryName = question.Category.Name;
             model.CategoryUrl = question.Category.AbsolutePath;
-            model.CreationDate = question.CreatedOn.ToString("d MMM yyyy");
             model.Views = question.ViewCount;
             model.Answers = question.Answers
                 .Where(a => a.Status == AnswerStatus.Approved)
                 .Select(a => new AnswerViewModel()
             {
                 DetailsHtml = StringUtilities.ConvertTextToHtml(a.Details),
+                PublishedDate = a.PublishedText,
             });
             PopulateModel(model, question.CategoryId);
             return View(model);
@@ -127,9 +127,7 @@ namespace Lawspot.Controllers
                         Title = a.Question.Title,
                         Details = StringUtilities.SummarizeText(a.Details, 150),
                         AnsweredBy = a.Publisher.Name,
-                        AnsweredTime = DateTimeOffset.Now.Subtract(a.ReviewDate ?? a.CreatedOn).TotalHours > 24 ?
-                            string.Format("{0:d MMMM yyyy}", a.ReviewDate ?? a.CreatedOn) :
-                            string.Format("{0} hours ago", Math.Round(DateTimeOffset.Now.Subtract(a.ReviewDate ?? a.CreatedOn).TotalHours)),
+                        AnsweredTime = a.PublishedText,
                     }), answersPage, answersPageSize, this.Request.Url);
                 var lastAnswer = ((IRecentAnswers)model).RecentAnswers.Items.LastOrDefault();
                 if (lastAnswer != null)
