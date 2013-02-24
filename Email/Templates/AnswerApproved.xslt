@@ -9,7 +9,7 @@
 
     <p>
       We’ve just reviewed the answer you posted for the question "<xsl:value-of select="Question"/>"
-      and the answer below have been published to the LawSpot website (you can view it online
+      and the answer below has been published to the LawSpot website (you can view it online
       <a href="{QuestionUri}">here</a>).
     </p>
 
