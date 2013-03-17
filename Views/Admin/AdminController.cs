@@ -1331,17 +1331,28 @@ namespace Lawspot.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Admin(int? sent)
+        public ActionResult Admin()
         {
             // Ensure the user is allowed to administer the site.
             if (this.User.CanAdminister == false)
                 return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
-            
-            // Show a custom message after sending reminder emails.
-            if (sent.HasValue)
-                this.SuccessMessage = string.Format("Sent reminder email to {0} lawyers.", sent);
 
-            return View();
+            var viewModel = new AdministerViewModel();
+            var endDate = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek).Date;
+            var startDate = endDate.AddDays(-7);
+            viewModel.LeaderboardStartDate = startDate.ToLongDateString();
+            viewModel.LeaderboardEndDate = endDate.AddDays(-1).ToLongDateString();
+            var rawData = this.DataContext.Answers.Where(a => a.CreatedOn >= new DateTimeOffset(startDate) && a.CreatedOn < new DateTimeOffset(endDate)).GroupBy(a => a.CreatedByUser);
+            viewModel.LeaderboardRows = rawData.Select(grouping => new LeaderboardRow()
+            {
+                Name = grouping.Key.DisplayName,
+                Unreviewed = grouping.Count(a => a.Status == AnswerStatus.Unreviewed),
+                Rejected = grouping.Count(a => a.Status == AnswerStatus.Rejected),
+                RecommendedForApproval = grouping.Count(a => a.Status == AnswerStatus.RecommendedForApproval),
+                Approved = grouping.Count(a => a.Status == AnswerStatus.Approved),
+                Total = grouping.Count(),
+            }).OrderByDescending(row => row.Approved).ThenByDescending(row => row.RecommendedForApproval);
+            return View(viewModel);
         }
 
         /// <summary>

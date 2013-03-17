@@ -1,4 +1,6 @@
-﻿<h1> Administer Site </h1>
+﻿{{Model Lawspot.Views.Admin.AdministerViewModel}}
+
+<h1> Administer Site </h1>
 
 <div style="margin-bottom: 40px">
     <form method="post">
@@ -8,4 +10,29 @@
         </p>
         <button type="submit" name="RebuildSearchIndex">Rebuild Search Index</button>
     </form>
+
+    <h2 style="margin-top: 2em"> Leaderboard </h2>
+
+    <p> Leaderboard stats for the week of {{LeaderboardStartDate}} - {{LeaderboardEndDate}}. </p>
+
+    <table style="width: 100%">
+        <tr>
+            <th style="text-align: left"> Name </th>
+            <th> Unreviewed </th>
+            <th> Rejected </th>
+            <th> Recommended </th>
+            <th> Approved </th>
+            <th> Total </th>
+        </tr>
+        {{#LeaderboardRows}}
+            <tr>
+                <td> {{Name}} </td>
+                <td style="text-align: center"> {{Unreviewed}} </td>
+                <td style="text-align: center"> {{Rejected}} </td>
+                <td style="text-align: center"> {{RecommendedForApproval}} </td>
+                <td style="text-align: center"> {{Approved}} </td>
+                <td style="text-align: center"> {{Total}} </td>
+            </tr>
+        {{/LeaderboardRows}}
+    </table>
 </div>

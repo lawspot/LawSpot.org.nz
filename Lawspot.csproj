@@ -181,6 +181,7 @@
     <Compile Include="Views\Admin\AccountSettings\AccountSettingsViewModel.cs" />
     <Compile Include="Views\Admin\ActivityStream\ActivityStreamViewModel.cs" />
     <Compile Include="Views\Admin\AdminController.cs" />
+    <Compile Include="Views\Admin\Admin\AdministerViewModel.cs" />
     <Compile Include="Views\Admin\AnswerQuestion\AnswerQuestionViewModel.cs" />
     <Compile Include="Views\Admin\ReviewAnswer\ReviewAnswerViewModel.cs" />
     <Compile Include="Views\Admin\ReviewLawyers\ReviewLawyersViewModel.cs" />
