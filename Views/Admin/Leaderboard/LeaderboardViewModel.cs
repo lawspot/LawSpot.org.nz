@@ -6,11 +6,13 @@ using System.Web.Mvc;
 
 namespace Lawspot.Views.Admin
 {
-    public class AdministerViewModel
+    public class LeaderboardViewModel
     {
-        public string LeaderboardStartDate { get; set; }
-        public string LeaderboardEndDate { get; set; }
-        public IEnumerable<LeaderboardRow> LeaderboardRows { get; set; }
+        public string StartDate { get; set; }
+        public string EndDate { get; set; }
+        public string PreviousLink { get; set; }
+        public string NextLink { get; set; }
+        public IEnumerable<LeaderboardRow> Rows { get; set; }
     }
 
     public class LeaderboardRow

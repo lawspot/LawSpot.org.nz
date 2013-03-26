@@ -74,6 +74,7 @@ namespace Lawspot
             RouteTable.Routes.MapRoute("AdminAccountSettingsRoute", "admin/account-settings", new { controller = "Admin", action = "AccountSettings" });
             RouteTable.Routes.MapRoute("AdminVetterPolicyRoute", "admin/vetter-policy", new { controller = "Admin", action = "VetterPolicy" });
             RouteTable.Routes.MapRoute("AdminAdminRoute", "admin/admin", new { controller = "Admin", action = "Admin" });
+            RouteTable.Routes.MapRoute("AdminLeaderboardRoute", "admin/leaderboard", new { controller = "Admin", action = "Leaderboard" });
             RouteTable.Routes.MapRoute("TasksTestRoute", "scheduled-tasks/test", new { controller = "Tasks", action = "Test" });
             RouteTable.Routes.MapRoute("TasksSendReminderEmailsRoute", "scheduled-tasks/send-reminder-emails", new { controller = "Tasks", action = "SendReminderEmails" });
             RouteTable.Routes.MapRoute("CategoryRoute", "{slug}", new { controller = "Browse", action = "Category" });

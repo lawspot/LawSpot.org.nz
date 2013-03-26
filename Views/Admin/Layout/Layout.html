@@ -22,13 +22,16 @@
                 {{#User.CanVetAnswers}}
     			    <li><a href="/admin/review-answers">View Answers</a></li>
                 {{/User.CanVetAnswers}}
+                {{#User.CanAnswerQuestions}}
+                    <li><a href="/admin/leaderboard">Leaderboard</a></li>
+                {{/User.CanAnswerQuestions}}
     		</ul>
     		
     		<hr />
     		
     		{{#User.CanAdminister}}
     		<ul class="list-arrows">
-    			    <li><a href="/admin/admin">Administer Site</a></li>
+    		    <li><a href="/admin/admin">Administer Site</a></li>
     		</ul>
 
             <hr />

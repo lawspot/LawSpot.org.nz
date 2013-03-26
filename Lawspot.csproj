@@ -181,8 +181,8 @@
     <Compile Include="Views\Admin\AccountSettings\AccountSettingsViewModel.cs" />
     <Compile Include="Views\Admin\ActivityStream\ActivityStreamViewModel.cs" />
     <Compile Include="Views\Admin\AdminController.cs" />
-    <Compile Include="Views\Admin\Admin\AdministerViewModel.cs" />
     <Compile Include="Views\Admin\AnswerQuestion\AnswerQuestionViewModel.cs" />
+    <Compile Include="Views\Admin\Leaderboard\LeaderboardViewModel.cs" />
     <Compile Include="Views\Admin\ReviewAnswer\ReviewAnswerViewModel.cs" />
     <Compile Include="Views\Admin\ReviewLawyers\ReviewLawyersViewModel.cs" />
     <Compile Include="Views\Admin\ReviewAnswers\ReviewAnswersViewModel.cs" />
@@ -329,6 +329,9 @@
     <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.css" />
     <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.html" />
     <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.js" />
+    <Content Include="Views\Admin\Leaderboard\Leaderboard.html" />
+    <Content Include="Views\Admin\Leaderboard\arrow_left.png" />
+    <Content Include="Views\Admin\Leaderboard\arrow_right.png" />
     <Content Include="Views\Admin\ReviewAnswers\answer-icon-flagged.png" />
     <Content Include="Views\Admin\ReviewAnswer\answer-icon.png" />
     <Content Include="Views\Admin\ReviewAnswer\ReviewAnswer.css" />
@@ -370,7 +373,6 @@
     <Content Include="Views\Admin\AccountSettings\AccountSettings.js" />
     <Content Include="Views\Admin\ActivityStream\ActivityStream.css" />
     <Content Include="Views\Admin\ActivityStream\ActivityStream.html" />
-    <Content Include="Views\Admin\Admin\Admin.css" />
     <Content Include="Views\Admin\Admin\Admin.html" />
     <Content Include="Views\Admin\Admin\Admin.js" />
     <Content Include="Views\Admin\AnswerQuestions\star.png" />

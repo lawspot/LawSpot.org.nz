@@ -1326,33 +1326,20 @@ namespace Lawspot.Controllers
             return View();
         }
 
+        private const DayOfWeek WeekBegins = DayOfWeek.Monday;
+        private const int DaysInWeek = 7;
+
         /// <summary>
         /// Displays the admin page.
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult Admin()
+        public ActionResult Admin(DateTime? weekBeginning = null)
         {
             // Ensure the user is allowed to administer the site.
             if (this.User.CanAdminister == false)
                 return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
-
-            var viewModel = new AdministerViewModel();
-            var endDate = DateTime.Now.AddDays(-(int)DateTime.Now.DayOfWeek).Date;
-            var startDate = endDate.AddDays(-7);
-            viewModel.LeaderboardStartDate = startDate.ToLongDateString();
-            viewModel.LeaderboardEndDate = endDate.AddDays(-1).ToLongDateString();
-            var rawData = this.DataContext.Answers.Where(a => a.CreatedOn >= new DateTimeOffset(startDate) && a.CreatedOn < new DateTimeOffset(endDate)).GroupBy(a => a.CreatedByUser);
-            viewModel.LeaderboardRows = rawData.Select(grouping => new LeaderboardRow()
-            {
-                Name = grouping.Key.DisplayName,
-                Unreviewed = grouping.Count(a => a.Status == AnswerStatus.Unreviewed),
-                Rejected = grouping.Count(a => a.Status == AnswerStatus.Rejected),
-                RecommendedForApproval = grouping.Count(a => a.Status == AnswerStatus.RecommendedForApproval),
-                Approved = grouping.Count(a => a.Status == AnswerStatus.Approved),
-                Total = grouping.Count(),
-            }).OrderByDescending(row => row.Approved).ThenByDescending(row => row.RecommendedForApproval);
-            return View(viewModel);
+            return View();
         }
 
         /// <summary>
@@ -1367,6 +1354,41 @@ namespace Lawspot.Controllers
                 return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
             SearchIndexer.RebuildIndex();
             return RedirectToAction("Admin", new { alert = "updated" });
+        }
+
+        /// <summary>
+        /// Displays the leaderboard page.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Leaderboard(DateTime? weekBeginning = null)
+        {
+            // Ensure the user is allowed to administer the site.
+            if (this.User.CanAnswerQuestions == false)
+                return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
+
+            var viewModel = new LeaderboardViewModel();
+            DateTime startDate;
+            if (weekBeginning.HasValue == false)
+                startDate = DateTime.Now.AddDays(-(((int)DateTime.Now.DayOfWeek - (int)WeekBegins) % DaysInWeek) - DaysInWeek).Date;
+            else
+                startDate = weekBeginning.Value;
+            viewModel.StartDate = startDate.ToLongDateString();
+            viewModel.EndDate = startDate.AddDays(DaysInWeek - 1).ToLongDateString();
+            viewModel.PreviousLink = string.Format("?weekBeginning={0:yyyy-MM-dd}", startDate.AddDays(-DaysInWeek));
+            if (startDate.AddDays(DaysInWeek) < DateTime.Now)
+                viewModel.NextLink = string.Format("?weekBeginning={0:yyyy-MM-dd}", startDate.AddDays(DaysInWeek));
+            var rawData = this.DataContext.Answers.Where(a => a.CreatedOn >= new DateTimeOffset(startDate) && a.CreatedOn < new DateTimeOffset(startDate.AddDays(DaysInWeek))).GroupBy(a => a.CreatedByUser);
+            viewModel.Rows = rawData.Select(grouping => new LeaderboardRow()
+            {
+                Name = grouping.Key.DisplayName,
+                Unreviewed = grouping.Count(a => a.Status == AnswerStatus.Unreviewed),
+                Rejected = grouping.Count(a => a.Status == AnswerStatus.Rejected),
+                RecommendedForApproval = grouping.Count(a => a.Status == AnswerStatus.RecommendedForApproval),
+                Approved = grouping.Count(a => a.Status == AnswerStatus.Approved),
+                Total = grouping.Count(),
+            }).OrderByDescending(row => row.Approved).ThenByDescending(row => row.RecommendedForApproval);
+            return View(viewModel);
         }
 
         /// <summary>
