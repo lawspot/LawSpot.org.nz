@@ -147,6 +147,10 @@ namespace Lawspot
                 var redirectUrl = "~/login?returnUrl=" + Uri.EscapeDataString(this.Request.RawUrl);
                 if (this.Context.Items.Contains("SessionExpired"))
                     redirectUrl += "&sessionExpired=true";
+
+                // Redirect (it needs to be uncacheable so that cookies can be set properly in IE).
+                Response.Cache.SetNoStore();
+                Response.Cache.SetCacheability(HttpCacheability.NoCache);
                 Response.Redirect(redirectUrl);
             }
         }
