@@ -200,7 +200,12 @@ namespace Lawspot.Controllers
                         model.SuccessMessage = "You have logged out.";
                         break;
                     case "registered":
-                        model.SuccessMessage = string.Format("Thanks for registering!  We've sent an email with your login details to {0}", this.User.EmailAddress);
+                        if (this.User != null)
+                            // Normal case.
+                            model.SuccessMessage = string.Format("Thanks for registering!  We've sent an email with your login details to {0}", this.User.EmailAddress);
+                        else
+                            // User logged out on that page, or visited the page via a bookmark.
+                            model.SuccessMessage = "Thanks for registering!  We've sent you an email with your login details.";
                         break;
                     case "updated":
                         model.SuccessMessage = "Your changes were saved.";
