@@ -69,6 +69,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\BCrypt.Net.dll</HintPath>
     </Reference>
+    <Reference Include="JHSoftware.DnsClient, Version=1.0.1.0, Culture=neutral, PublicKeyToken=3eacd9f3dbc38099, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>References\JHSoftware.DnsClient.dll</HintPath>
+    </Reference>
     <Reference Include="Lucene.Net, Version=2.9.4.2, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\Lucene.Net.dll</HintPath>
@@ -313,6 +317,9 @@
     <Content Include="Lib\System.Web.WebPages.Razor.xml" />
     <Content Include="Lib\System.Web.WebPages.xml" />
     <Content Include="Email\Templates\Layout.xslt" />
+    <None Include="References\JHSoftware.DnsClient.dll" />
+    <None Include="References\JHSoftware.DnsClient.xml" />
+    <None Include="References\readme.txt" />
     <Content Include="Shared\Images\error-small.png" />
     <Content Include="Shared\Images\info-small.png" />
     <Content Include="Shared\Images\success-small.png" />
@@ -481,6 +488,7 @@
       <SubType>Designer</SubType>
     </Content>
     <None Include="Properties\PublishProfiles\WebDrive.pubxml" />
+    <None Include="References\JHSoftware.DnsClient.chm" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Documentation\" />

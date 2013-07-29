@@ -122,11 +122,19 @@ namespace Lawspot.Controllers
             model.EmailAddress = model.EmailAddress.Trim();
 
             // Verify the last part of the email is okay by doing a DNS lookup.
+            bool domainHasMXRecords;
             try
             {
-                System.Net.Dns.GetHostAddresses(model.EmailAddress.Substring(model.EmailAddress.IndexOf('@') + 1));
+                var mxRecords = JHSoftware.DnsClient.LookupMX(model.EmailAddress.Substring(model.EmailAddress.IndexOf('@') + 1));
+                domainHasMXRecords = mxRecords.Length > 0;
             }
             catch (System.Net.Sockets.SocketException)
+            {
+                domainHasMXRecords = false;
+            }
+
+            // If there are no MX records, then reject the email address.
+            if (domainHasMXRecords == false)
             {
                 ModelState.AddModelError("EmailAddress", "Your email address is not valid.");
                 PopulateRegisterViewModel(model);
