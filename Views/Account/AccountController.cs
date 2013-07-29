@@ -128,7 +128,7 @@ namespace Lawspot.Controllers
                 var mxRecords = JHSoftware.DnsClient.LookupMX(model.EmailAddress.Substring(model.EmailAddress.IndexOf('@') + 1));
                 domainHasMXRecords = mxRecords.Length > 0;
             }
-            catch (System.Net.Sockets.SocketException)
+            catch (Exception)
             {
                 domainHasMXRecords = false;
             }
