@@ -7,7 +7,7 @@ namespace Lawspot.Shared
 {
     public static class StringUtilities
     {
-        private static Regex urlRegex = new Regex(@"http(?:s)?://[A-Za-z0-9-._~:/?#\[\]@!$&'()*+,;=]*[A-Za-z0-9-_~:/?#\[@!$&'(*+,;=]", RegexOptions.Compiled);
+        private static Regex urlRegex = new Regex(@"http(?:s)?://[A-Za-z0-9-._~:/?#\[\]@!$&'()*+,;=%]*[A-Za-z0-9-_~:/?#\[@!$&'(*+,;=]", RegexOptions.Compiled);
 
         /// <summary>
         /// Converts plain text into HTML, with line breaks and hyperlinks.
