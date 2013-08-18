@@ -1448,16 +1448,16 @@ namespace Lawspot.Controllers
             viewModel.PreviousLink = string.Format("?weekBeginning={0:yyyy-MM-dd}", startDate.AddDays(-DaysInWeek));
             if (startDate.AddDays(DaysInWeek) < DateTime.Now)
                 viewModel.NextLink = string.Format("?weekBeginning={0:yyyy-MM-dd}", startDate.AddDays(DaysInWeek));
-            var rawData = this.DataContext.Answers.Where(a => a.CreatedOn >= new DateTimeOffset(startDate) && a.CreatedOn < new DateTimeOffset(startDate.AddDays(DaysInWeek))).GroupBy(a => a.CreatedByUser);
-            viewModel.Rows = rawData.Select(grouping => new LeaderboardRow()
+            var rawData = this.DataContext.Events.Where(e => e.EventDate >= new DateTimeOffset(startDate) && e.EventDate < new DateTimeOffset(startDate.AddDays(DaysInWeek))).GroupBy(e => e.User);
+            viewModel.Rows = rawData.ToList().Select(grouping => new LeaderboardRow()
             {
                 Name = grouping.Key.DisplayName,
-                Unreviewed = grouping.Count(a => a.Status == AnswerStatus.Unreviewed),
-                Rejected = grouping.Count(a => a.Status == AnswerStatus.Rejected),
-                RecommendedForApproval = grouping.Count(a => a.Status == AnswerStatus.RecommendedForApproval),
-                Approved = grouping.Count(a => a.Status == AnswerStatus.Approved),
-                Total = grouping.Count(),
-            }).OrderByDescending(row => row.Approved).ThenByDescending(row => row.RecommendedForApproval);
+                RejectQuestion = grouping.Count(e => e.EventType == EventType.RejectQuestion),
+                ApproveQuestion = grouping.Count(e => e.EventType == EventType.ApproveQuestion),
+                CreateAnswer = grouping.Count(e => e.EventType == EventType.CreateAnswer),
+                RecommendAnswer = grouping.Count(e => e.EventType == EventType.RecommendAnswer),
+                PublishAnswer = grouping.Count(e => e.EventType == EventType.PublishAnswer),
+            }).OrderBy(row => row.Name);
             return View(viewModel);
         }
 

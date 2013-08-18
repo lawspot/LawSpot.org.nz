@@ -18,10 +18,10 @@ namespace Lawspot.Views.Admin
     public class LeaderboardRow
     {
         public string Name { get; set; }
-        public int Unreviewed { get; set; }
-        public int Rejected { get; set; }
-        public int RecommendedForApproval { get; set; }
-        public int Approved { get; set; }
-        public int Total { get; set; }
+        public int RejectQuestion { get; set; }
+        public int ApproveQuestion { get; set; }
+        public int CreateAnswer { get; set; }
+        public int RecommendAnswer { get; set; }
+        public int PublishAnswer { get; set; }
     }
 }

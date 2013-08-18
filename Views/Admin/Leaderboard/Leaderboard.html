@@ -7,23 +7,23 @@
 <table style="width: 100%">
     <tr>
         <th style="width: 5%"> {{#PreviousLink}} <a href="{{PreviousLink}}"><img src="/Views/Admin/Leaderboard/arrow_left.png" /></a> {{/PreviousLink}} </th>
-        <th style="width: 32%; text-align: left"> Name </th>
-        <th style="width: 12%"> Unreviewed </th>
-        <th style="width: 12%"> Rejected </th>
-        <th style="width: 14%"> Recommended </th>
-        <th style="width: 12%"> Approved </th>
-        <th style="width: 8%"> Total </th>
+        <th style="width: 33%; text-align: left"> Name </th>
+        <th style="width: 11%"> Reject Question </th>
+        <th style="width: 11%"> Approve Question </th>
+        <th style="width: 11%"> Create Answer </th>
+        <th style="width: 13%"> Recommend Answer </th>
+        <th style="width: 11%"> Publish Answer </th>
         <th style="width: 5%"> {{#NextLink}} <a href="{{NextLink}}"><img src="/Views/Admin/Leaderboard/arrow_right.png" /></a> {{/NextLink}} </th>
     </tr>
     {{#Rows}}
         <tr>
             <td></td>
             <td> {{Name}} </td>
-            <td style="text-align: center"> {{Unreviewed}} </td>
-            <td style="text-align: center"> {{Rejected}} </td>
-            <td style="text-align: center"> {{RecommendedForApproval}} </td>
-            <td style="text-align: center"> {{Approved}} </td>
-            <td style="text-align: center"> {{Total}} </td>
+            <td style="text-align: center"> {{RejectQuestion}} </td>
+            <td style="text-align: center"> {{ApproveQuestion}} </td>
+            <td style="text-align: center"> {{CreateAnswer}} </td>
+            <td style="text-align: center"> {{RecommendAnswer}} </td>
+            <td style="text-align: center"> {{PublishAnswer}} </td>
             <td></td>
         </tr>
     {{/Rows}}
