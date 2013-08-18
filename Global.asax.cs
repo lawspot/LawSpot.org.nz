@@ -170,7 +170,8 @@ namespace Lawspot
             // Log everything except 404s originating from third-party sites, stupid bots and request validation errors.
             bool firstPartyReferrer = this.Request.UrlReferrer != null && string.Equals(this.Request.UrlReferrer.Host, ConfigurationManager.AppSettings["DomainName"]);
             bool stupidBot = this.Request.UserAgent.StartsWith("Java/") || this.Request.UserAgent.Contains("AhrefsBot") || this.Request.UserAgent.Contains("TurnitinBot");
-            if (!(statusCode == 404 && firstPartyReferrer == false) && !stupidBot && !ex.Message.Contains("A potentially dangerous Request.Path value was detected"))
+            if (!(statusCode == 404 && (firstPartyReferrer == false || this.Request.Url.AbsolutePath.EndsWith("/Rejected-By-UrlScan"))) &&
+                !stupidBot && !ex.Message.Contains("A potentially dangerous Request.Path value was detected"))
                 Lawspot.Shared.Logger.LogError(ex);
 
             // Determine the URL to redirect to.
