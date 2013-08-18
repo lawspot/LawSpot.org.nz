@@ -1358,6 +1358,19 @@ namespace Lawspot.Controllers
             return View();
         }
 
+        /// <summary>
+        /// Displays the terminology page.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Terminology()
+        {
+            // Ensure the user is allowed to vet questions.
+            if (this.User.CanAnswerQuestions == false)
+                return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
+            return View();
+        }
+
         private const DayOfWeek WeekBegins = DayOfWeek.Monday;
         private const int DaysInWeek = 7;
 
