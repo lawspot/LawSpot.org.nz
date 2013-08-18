@@ -1,7 +1,7 @@
 ﻿#admin-layout {
     margin: -20px -30px;
     border-radius: 4px;
-    min-height: 540px;
+    min-height: 600px;
 	padding: 0;
 	background: #EBEDEC url(/views/admin/sidebar.png) left repeat-y;
 }
