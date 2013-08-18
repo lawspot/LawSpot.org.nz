@@ -415,6 +415,9 @@ namespace Lawspot.Controllers
             this.DataContext.DraftAnswers.DeleteAllOnSubmit(this.DataContext.DraftAnswers.Where(da =>
                 da.CreatedByUserId == this.User.Id && da.QuestionId == questionId));
 
+            // Log an event.
+            LogEvent(EventType.CreateAnswer, this.User.Id, new { QuestionId = questionId, Details = details, References = references });
+
             // Save changes.
             this.DataContext.SubmitChanges();
 
@@ -845,6 +848,10 @@ namespace Lawspot.Controllers
             question.RejectionReason = null;
             this.DataContext.SubmitChanges();
 
+            // Log an event.
+            LogEvent(EventType.ApproveQuestion, this.User.Id, new { QuestionId = questionId, Title = title, Details = details, CategoryId = categoryId });
+            this.DataContext.SubmitChanges();
+
             // Update the search index.
             SearchIndexer.UpdateQuestion(question);
 
@@ -881,6 +888,10 @@ namespace Lawspot.Controllers
             question.ReviewDate = DateTimeOffset.Now;
             question.ReviewedByUserId = this.User.Id;
             question.RejectionReason = reason;
+            this.DataContext.SubmitChanges();
+
+            // Log an event.
+            LogEvent(EventType.RejectQuestion, this.User.Id, new { QuestionId = questionId, Reason = reason });
             this.DataContext.SubmitChanges();
 
             // Send a message to the user saying their question has been rejected.
@@ -1117,6 +1128,10 @@ namespace Lawspot.Controllers
                 answer.Status = AnswerStatus.Approved;
             this.DataContext.SubmitChanges();
 
+            // Log an event.
+            LogEvent(answer.PublisherId == null ? EventType.RecommendAnswer : EventType.PublishAnswer, this.User.Id, new { AnswerId = answerId, Details = answerDetails });
+            this.DataContext.SubmitChanges();
+
             if (answer.Status == AnswerStatus.Approved)
             {
 
@@ -1185,6 +1200,10 @@ namespace Lawspot.Controllers
             answer.ReviewDate = DateTimeOffset.Now;
             answer.ReviewedByUserId = this.User.Id;
             answer.RejectionReason = reason;
+            this.DataContext.SubmitChanges();
+
+            // Log an event.
+            LogEvent(EventType.RejectAnswer, this.User.Id, new { AnswerId = answerId, Reason = reason });
             this.DataContext.SubmitChanges();
 
             // Only send an email if the answer's status has changed.
@@ -1322,6 +1341,19 @@ namespace Lawspot.Controllers
         {
             // Ensure the user is allowed to vet questions.
             if (this.User.CanVetQuestions == false)
+                return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
+            return View();
+        }
+
+        /// <summary>
+        /// Displays the reference materials page.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ReferenceMaterials()
+        {
+            // Ensure the user is allowed to vet questions.
+            if (this.User.CanAnswerQuestions == false)
                 return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
             return View();
         }

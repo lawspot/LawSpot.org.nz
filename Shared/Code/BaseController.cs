@@ -418,5 +418,22 @@ namespace Lawspot.Controllers
             }
             return result.ToString();
         }
+
+        /// <summary>
+        /// Saves a new event to the database.
+        /// </summary>
+        /// <param name="eventType"> The event type. </param>
+        /// <param name="userId"> The ID of the user that triggered the event. </param>
+        /// <param name="details"> Additional details. </param>
+        public void LogEvent(EventType eventType, int userId, object details = null)
+        {
+            var eventToLog = new Event();
+            eventToLog.EventDate = DateTimeOffset.Now;
+            eventToLog.EventType = eventType;
+            eventToLog.UserId = userId;
+            if (details != null)
+                eventToLog.Details = Newtonsoft.Json.JsonConvert.SerializeObject(details);
+            this.DataContext.Events.InsertOnSubmit(eventToLog);
+        }
     }
 }

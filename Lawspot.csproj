@@ -146,6 +146,7 @@
   <ItemGroup>
     <Compile Include="Backend\Category.cs" />
     <Compile Include="Backend\Answer.cs" />
+    <Compile Include="Backend\Event.cs" />
     <Compile Include="Backend\Question.cs" />
     <Compile Include="Backend\DataClasses.cs">
       <DependentUpon>DataClasses.dbml</DependentUpon>
@@ -229,6 +230,7 @@
     <Content Include="Backend\Migrations\3.sql" />
     <Content Include="Backend\Migrations\4.sql" />
     <Content Include="Backend\Migrations\41.sql" />
+    <Content Include="Backend\Migrations\49.sql" />
     <Content Include="Backend\Migrations\5.sql" />
     <Content Include="Backend\Migrations\6.sql" />
     <Content Include="Backend\Migrations\7.sql" />
@@ -344,6 +346,7 @@
     <Content Include="Views\Admin\Leaderboard\Leaderboard.html" />
     <Content Include="Views\Admin\Leaderboard\arrow_left.png" />
     <Content Include="Views\Admin\Leaderboard\arrow_right.png" />
+    <Content Include="Views\Admin\ReferenceMaterials\ReferenceMaterials.html" />
     <Content Include="Views\Admin\ReviewAnswers\answer-icon-flagged.png" />
     <Content Include="Views\Admin\ReviewAnswer\answer-icon.png" />
     <Content Include="Views\Admin\ReviewAnswer\ReviewAnswer.css" />
@@ -494,6 +497,10 @@
     </Content>
     <None Include="Properties\PublishProfiles\WebDrive.pubxml" />
     <None Include="References\JHSoftware.DnsClient.chm" />
+    <Content Include="Views\Admin\ReferenceMaterials\Checklist 5 Aug.pdf" />
+    <Content Include="Views\Admin\ReferenceMaterials\Q and A for Trainee Lawyers 30 Jul.docx" />
+    <Content Include="Views\Admin\ReferenceMaterials\Quiz for Trainee Lawyers - blank 30 Jul.docx" />
+    <Content Include="Views\Admin\ReferenceMaterials\Training Slides for Lawyer Volunteers 30 Jul.pptx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Documentation\" />

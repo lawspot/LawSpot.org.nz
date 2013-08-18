@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Lawspot" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Data" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDB)\v11.0;Initial Catalog=Lawspot;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="LawspotConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Region" Member="Regions">
     <Type Name="Region">
@@ -83,6 +83,7 @@
       <Association Name="User_Question1" Member="ReviewedQuestions" ThisKey="UserId" OtherKey="ReviewedByUserId" Type="Question" />
       <Association Name="User_Answer" Member="CreatedAnswers" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Answer" />
       <Association Name="User_Answer1" Member="ReviewedAnswers" ThisKey="UserId" OtherKey="ReviewedByUserId" Type="Answer" />
+      <Association Name="User_EventStream" Member="Events" ThisKey="UserId" OtherKey="UserId" Type="Event" />
       <Association Name="Region_User" Member="Region" ThisKey="RegionId" OtherKey="RegionId" Type="Region" IsForeignKey="true" />
       <Association Name="Publisher_User" Member="Publisher" ThisKey="PublisherId" OtherKey="PublisherId" Type="Publisher" IsForeignKey="true" />
     </Type>
@@ -136,6 +137,16 @@
       <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Association Name="Publisher_User" Member="Users" ThisKey="PublisherId" OtherKey="PublisherId" Type="User" />
       <Association Name="Publisher_Answer" Member="Answers" ThisKey="PublisherId" OtherKey="PublisherId" Type="Answer" />
+    </Type>
+  </Table>
+  <Table Name="dbo.EventStream" Member="Events">
+    <Type Name="Event">
+      <Column Name="EventId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EventDate" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
+      <Column Name="EventType" Type="Lawspot.Backend.EventType" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Details" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="User_EventStream" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

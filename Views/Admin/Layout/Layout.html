@@ -46,6 +46,9 @@
                 {{#User.CanVetQuestions}}
                     <li><a href="/admin/vetter-policy">Policy for Question Vetters</a></li>
                 {{/User.CanVetQuestions}}
+                {{#User.CanAnswerQuestions}}
+                    <li><a href="/admin/reference-materials">Reference Materials</a></li>
+                {{/User.CanAnswerQuestions}}
             </ul>
 		</section>
     	
