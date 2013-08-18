@@ -7,6 +7,17 @@ form.filter-form .sort {
 }
 form.filter-form .filter {
 	float: right;
+    margin-bottom: 12px;
+}
+form.filter-form .search {
+    clear: right;
+	float: right;
+    margin-bottom: 12px;
+}
+form.filter-form .search button {
+    width: 31px;
+    height: 31px;
+    padding: 0;
 }
 #category-drop-down {
     margin-left: 5px;
@@ -19,6 +30,9 @@ form.filter-form .filter {
 #sort-drop-down {
     margin-left: 5px;
 	width: 150px;
+}
+#search-textbox {
+    width: 190px;
 }
 
 .question-container {

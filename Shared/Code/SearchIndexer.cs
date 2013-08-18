@@ -103,24 +103,26 @@ namespace Lawspot.Shared
         /// <returns> A populated document. </returns>
         private static Document CreateDocument(Question q)
         {
-            if (q.Approved == false)
-                return null;
             var doc = new Document();
-            doc.Add(new Field("Title", new StringReader(q.Title)));
-            var details = new StringBuilder();
-            details.Append(q.Details);
+            doc.Add(new Field("Title", q.Title, Field.Store.NO, Field.Index.ANALYZED));
+            var details = new StringBuilder(q.Details);
+            var publicDetails = new StringBuilder(q.Details);
             int approvedAnswerCount = 0;
             foreach (var answer in q.Answers)
+            {
+                details.Append(" ... ");
+                details.Append(answer.Details);
                 if (answer.Status == AnswerStatus.Approved)
                 {
                     approvedAnswerCount++;
-                    details.Append(" ... ");
-                    details.Append(answer.Details);
+                    publicDetails.Append(" ... ");
+                    publicDetails.Append(answer.Details);
                 }
-            if (approvedAnswerCount == 0)
-                return null;        // Do not index questions until they have at least one answer.
-            doc.Add(new Field("Details", new StringReader(details.ToString())));
+            }
+            doc.Add(new Field("Details", details.ToString(), Field.Store.NO, Field.Index.ANALYZED));
+            doc.Add(new Field("PublicDetails", publicDetails.ToString(), Field.Store.NO, Field.Index.ANALYZED));
             doc.Add(new Field("ID", q.QuestionId.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
+            doc.Add(new Field("Public", (q.Approved && approvedAnswerCount >= 1).ToString(), Field.Store.NO, Field.Index.NOT_ANALYZED));
             return doc;
         }
 
@@ -144,8 +146,9 @@ namespace Lawspot.Shared
         /// Searches for the given text.
         /// </summary>
         /// <param name="queryText"> The text to search for. </param>
+        /// <param name="publicOnly"> Indicates whether only published questions should be searched. </param>
         /// <returns> A list of search hits. </returns>
-        public static IEnumerable<SearchHit> Search(string queryText)
+        public static IEnumerable<SearchHit> Search(string queryText, bool publicOnly = true)
         {
             if (queryText == null)
                 throw new ArgumentNullException("queryText");
@@ -156,7 +159,7 @@ namespace Lawspot.Shared
                 return new SearchHit[0];
 
             var results = new List<SearchHit>();
-            var parser = new MultiFieldQueryParser(Version.LUCENE_29, new string[] { "Title", "Details", "Answer" }, analyzer);
+            var parser = new MultiFieldQueryParser(Version.LUCENE_29, new string[] { "Title", publicOnly ? "PublicDetails" : "Details" }, analyzer);
 
             Query query;
             try
@@ -166,6 +169,14 @@ namespace Lawspot.Shared
             catch (ParseException)
             {
                 query = parser.Parse(QueryParser.Escape(queryText));
+            }
+
+            if (publicOnly)
+            {
+                var publicOnlyQuery = new BooleanQuery();
+                publicOnlyQuery.Add(new TermQuery(new Term("Public", true.ToString())), BooleanClause.Occur.MUST);
+                publicOnlyQuery.Add(query, BooleanClause.Occur.MUST);
+                query = publicOnlyQuery;
             }
 
             lock (indexLock)

@@ -470,6 +470,7 @@
     <Content Include="Views\Static\ImportantNotice.html" />
     <Content Include="Views\Static\LawyerPolicy.html" />
     <Content Include="Views\Static\PartnerWithUs\community-law.png" />
+    <Content Include="Views\Static\PartnerWithUs\write-logo.jpg" />
     <Content Include="Views\Static\TermsOfUse.html" />
     <Content Include="Views\Static\Privacy.html" />
     <Content Include="Views\Static\FAQ\arrow-down.png" />

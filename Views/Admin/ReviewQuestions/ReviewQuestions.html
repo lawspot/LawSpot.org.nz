@@ -19,6 +19,10 @@
             {{/FilterOptions}}
 	    </select>
     </div>
+    <div class="search">
+	    <input id="search-textbox" type="text" name="search" placeholder="Search questions" value="{{Search}}" />
+        <button><img src="/views/admin/search.png" alt="search" /></button>
+    </div>
     <div class="category">
 	    View questions asked in
 	    <select id="category-drop-down" name="category" onchange="this.form.submit()">
@@ -60,7 +64,7 @@
     {{/ShowPageLabels}}
 {{/Questions}}
 
-<div>
+<div style="clear: right">
     {{#Questions.Items}}
 	    <div class="question-container">
 	        <img class="left" src="/views/admin/reviewquestions/question-icon.png" width="27" height="19" alt="" />

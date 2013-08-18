@@ -12,6 +12,7 @@ namespace Lawspot.Views.Admin.AnswerQuestions
         public IEnumerable<SelectListItem> CategoryOptions { get; set; }
         public IEnumerable<SelectListItem> FilterOptions { get; set; }
         public IEnumerable<SelectListItem> SortOptions { get; set; }
+        public string Search { get; set; }
         public PagedListView<AnswerQuestionViewModel> Questions { get; set; }
         public IEnumerable<AnswerQuestionViewModel> DraftAnswers { get; set; }
     }

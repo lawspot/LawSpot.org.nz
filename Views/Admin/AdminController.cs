@@ -143,12 +143,14 @@ namespace Lawspot.Controllers
         /// </summary>
         /// <param name="category"></param>
         /// <param name="filter"></param>
+        /// <param name="questionId"></param>
         /// <param name="sort"></param>
+        /// <param name="search"></param>
         /// <param name="page"></param>
         /// <param name="overrideCategory"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult AnswerQuestions(string category, string filter, int? questionId, string sort, int page = 1, bool overrideCategory = false)
+        public ActionResult AnswerQuestions(string category, string filter, int? questionId, string sort, string search, int page = 1, bool overrideCategory = false)
         {
             // Ensure the user is allow to answer questions.
             if (this.User.CanAnswerQuestions == false)
@@ -245,6 +247,12 @@ namespace Lawspot.Controllers
                     questions = questions.OrderByDescending(q => q.CreatedOn);
                     break;
             }
+            if (string.IsNullOrWhiteSpace(search) == false)
+            {
+                model.Search = search;
+                var searchHits = SearchIndexer.Search(search, publicOnly: false);
+                questions = questions.Join(searchHits, q => q.QuestionId, sh => sh.ID, (q, sh) => q);
+            }
             model.Questions = new PagedListView<AQ1.AnswerQuestionViewModel>(questions
                 .Select(q => new AQ1.AnswerQuestionViewModel()
                 {
@@ -259,7 +267,7 @@ namespace Lawspot.Controllers
             // If this is the landing page for a lawyer AND there are no questions in the lawyer's category,
             // then show all questions instead.
             if (model.Questions.TotalCount == 0 && Request.QueryString.Count == 0 && overrideCategory == false)
-                return AnswerQuestions(category, filter, questionId, sort, page, overrideCategory: true);
+                return AnswerQuestions(category, filter, questionId, sort, null, page, overrideCategory: true);
 
             // Get answers and draft answers for all the questions.
             var questionIds = model.Questions.Items.Select(q => q.QuestionId).ToArray();
@@ -420,6 +428,9 @@ namespace Lawspot.Controllers
 
             // Save changes.
             this.DataContext.SubmitChanges();
+
+            // Update the search index.
+            SearchIndexer.UpdateQuestion(answer.Question);
 
             return RedirectToAction("AnswerQuestion", new { questionId = questionId, alert = "updated" });
         }
@@ -687,10 +698,11 @@ namespace Lawspot.Controllers
         /// <param name="category"></param>
         /// <param name="filter"></param>
         /// <param name="sort"></param>
+        /// <param name="search"></param>
         /// <param name="page"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ReviewQuestions(string category, string filter, string sort, int page = 1)
+        public ActionResult ReviewQuestions(string category, string filter, string sort, string search, int page = 1)
         {
             // Ensure the user is allow to vet questions.
             if (this.User.CanVetQuestions == false)
@@ -780,6 +792,12 @@ namespace Lawspot.Controllers
                 case AQ1.QuestionSortOrder.MostRecent:
                     questions = questions.OrderByDescending(q => q.CreatedOn);
                     break;
+            }
+            if (string.IsNullOrWhiteSpace(search) == false)
+            {
+                model.Search = search;
+                var searchHits = SearchIndexer.Search(search, publicOnly: false);
+                questions = questions.Join(searchHits, q => q.QuestionId, sh => sh.ID, (q, sh) => q);
             }
             model.Questions = new PagedListView<ReviewQuestionViewModel>(questions
                 .ToList()
@@ -921,10 +939,11 @@ namespace Lawspot.Controllers
         /// <param name="category"></param>
         /// <param name="filter"></param>
         /// <param name="sort"></param>
+        /// <param name="search"></param>
         /// <param name="page"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ReviewAnswers(string category, string filter, string sort, int page = 1)
+        public ActionResult ReviewAnswers(string category, string filter, string sort, string search, int page = 1)
         {
             // Ensure the user is allow to vet answers.
             if (this.User.CanVetAnswers == false)
@@ -1015,6 +1034,12 @@ namespace Lawspot.Controllers
                 case AnswerSortOrder.MostRecent:
                     answers = answers.OrderByDescending(q => q.CreatedOn);
                     break;
+            }
+            if (string.IsNullOrWhiteSpace(search) == false)
+            {
+                model.Search = search;
+                var searchHits = SearchIndexer.Search(search, publicOnly: false);
+                answers = answers.Join(searchHits, a => a.QuestionId, sh => sh.ID, (a, sh) => a);
             }
             model.Answers = new PagedListView<QuestionAndAnswerViewModel>(answers
                 .ToList()
@@ -1132,6 +1157,9 @@ namespace Lawspot.Controllers
             LogEvent(answer.PublisherId == null ? EventType.RecommendAnswer : EventType.PublishAnswer, this.User.Id, new { AnswerId = answerId, Details = answerDetails });
             this.DataContext.SubmitChanges();
 
+            // Update the search index.
+            SearchIndexer.UpdateQuestion(answer.Question);
+
             if (answer.Status == AnswerStatus.Approved)
             {
 
@@ -1161,9 +1189,6 @@ namespace Lawspot.Controllers
                     questionAnsweredMessage.Send();
 
                 }
-
-                // Update the search index.
-                SearchIndexer.UpdateQuestion(answer.Question);
 
                 // Recalculate the number of answered questions in the category.
                 UpdateCategory(answer.Question.CategoryId);
