@@ -352,6 +352,7 @@
     <Content Include="Views\Admin\ReviewAnswer\ReviewAnswer.css" />
     <Content Include="Views\Admin\ReviewAnswer\ReviewAnswer.html" />
     <Content Include="Views\Admin\ReviewAnswer\ReviewAnswer.js" />
+    <Content Include="Views\Admin\Search.png" />
     <Content Include="Views\Admin\Terminology\Terminology.html" />
     <Content Include="Views\Browse\Home\jquery-easing-1.3.pack.js" />
     <Content Include="Shared\Layout\Layout.js" />
@@ -471,6 +472,7 @@
     <Content Include="Views\Static\LawyerPolicy.html" />
     <Content Include="Views\Static\PartnerWithUs\community-law.png" />
     <Content Include="Views\Static\PartnerWithUs\write-logo.jpg" />
+    <Content Include="Views\Static\PartnerWithUs\write-logo.png" />
     <Content Include="Views\Static\TermsOfUse.html" />
     <Content Include="Views\Static\Privacy.html" />
     <Content Include="Views\Static\FAQ\arrow-down.png" />
