@@ -43,7 +43,7 @@ namespace Lawspot.Controllers
             {
                 // Compose messages to all the lawyers.
                 var messages = new List<Email.LawyerReminderMessage>();
-                foreach (var lawyer in this.DataContext.Lawyers)
+                foreach (var lawyer in this.DataContext.Lawyers.Where(l => l.Approved))
                     messages.Add(new Email.LawyerReminderMessage(lawyer, questions));
 
                 // Send the messages.
