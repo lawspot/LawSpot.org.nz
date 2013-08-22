@@ -14,6 +14,23 @@ namespace Lawspot.Controllers
     public class BaseController : MustacheController
     {
         /// <summary>
+        /// Called before an action method is executed.
+        /// </summary>
+        /// <param name="filterContext"></param>
+        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        {
+            // Call the base class.
+            base.OnActionExecuting(filterContext);
+
+            // Check if the cached permissions in the cookie are out of date.
+            if (this.User != null && DateTime.Now.Subtract(this.User.LastUpdated).TotalMinutes >= 5)
+            {
+                this.User.UpdateFromUser(this.UserDetails);
+                this.Response.Cookies.Add(this.User.ToCookie(this.User.RememberMe));
+            }
+        }
+
+        /// <summary>
         /// Gets a reference to the EF database context.
         /// </summary>
         public DataClassesDataContext DataContext

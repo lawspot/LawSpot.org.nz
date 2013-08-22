@@ -20,15 +20,27 @@ namespace Lawspot.Shared
             if (user == null)
                 throw new ArgumentNullException("user");
             var result = new CustomPrincipal();
-            result.Id = user.UserId;
-            result.EmailAddress = user.EmailAddress;
-            result.CanAnswerQuestions = user.CanAnswerQuestions;
-            result.CanVetQuestions = user.CanVetQuestions;
-            result.CanVetAnswers = user.CanVetAnswers;
-            result.CanVetLawyers = user.CanVetLawyers;
-            result.CanAdminister = user.CanAdminister;
+            result.UpdateFromUser(user);
             result.RememberMe = rememberMe;
             return result;
+        }
+
+        /// <summary>
+        /// Updates the CustomPrincipal using a user entity instance.
+        /// </summary>
+        /// <param name="user"> The user details. </param>
+        public void UpdateFromUser(User user)
+        {
+            if (user == null)
+                throw new ArgumentNullException("user");
+            this.Id = user.UserId;
+            this.EmailAddress = user.EmailAddress;
+            this.CanAnswerQuestions = user.CanAnswerQuestions;
+            this.CanVetQuestions = user.CanVetQuestions;
+            this.CanVetAnswers = user.CanVetAnswers;
+            this.CanVetLawyers = user.CanVetLawyers;
+            this.CanAdminister = user.CanAdminister;
+            this.LastUpdated = DateTime.Now;
         }
 
         /// <summary>
@@ -58,6 +70,8 @@ namespace Lawspot.Shared
             result.CanVetLawyers = ticket.UserData.Contains("l");
             result.CanAdminister = ticket.UserData.Contains("A");
             result.RememberMe = ticket.UserData.Contains("R");
+            if (ticket.UserData.IndexOf(',') >= 0)
+                result.LastUpdated = LastUpdatedOrigin + TimeSpan.FromSeconds(int.Parse(ticket.UserData.Substring(ticket.UserData.IndexOf(',') + 1)));
             return result;
         }
 
@@ -109,6 +123,16 @@ namespace Lawspot.Shared
         public bool CanAdminister { get; set; }
 
         /// <summary>
+        /// The time we start ticking off the seconds from.
+        /// </summary>
+        private static readonly DateTime LastUpdatedOrigin = new DateTime(2013, 1, 1, 0, 0, 0, DateTimeKind.Local);
+
+        /// <summary>
+        /// The date and time the roles were loaded from the database.
+        /// </summary>
+        public DateTime LastUpdated { get; set; }
+
+        /// <summary>
         /// Creates a new forms authentication ticket using the information in this principal.
         /// </summary>
         /// <param name="persistant"> <c>true</c> if the ticket will be stored in a persistant
@@ -130,6 +154,9 @@ namespace Lawspot.Shared
                 userData.Append("A");
             if (this.RememberMe)
                 userData.Append("R");
+            if (LastUpdated > LastUpdatedOrigin)
+                userData.AppendFormat(",{0}", (int)LastUpdated.Subtract(LastUpdatedOrigin).TotalSeconds);
+
             // Persistant cookies last 60 days, session cookies last 30 minutes.
             return new FormsAuthenticationTicket(1, this.EmailAddress, DateTime.Now,
                 persistant ? DateTime.Now.AddDays(60) : DateTime.Now.AddMinutes(30),
