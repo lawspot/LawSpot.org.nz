@@ -444,6 +444,8 @@
     <Content Include="Views\Browse\Question\question.png" />
     <Content Include="Views\Browse\Search\Search.css" />
     <Content Include="Views\Browse\Search\Search.html" />
+    <Content Include="Views\Static\Error403\403.html" />
+    <Content Include="Views\Static\Error403\broken.png" />
     <Content Include="Views\Static\Error404\broken.png" />
     <Content Include="Views\Static\Error500\broken.png" />
     <Content Include="Views\Static\AboutUs\Adam.jpg" />

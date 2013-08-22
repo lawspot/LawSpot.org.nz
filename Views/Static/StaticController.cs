@@ -64,6 +64,11 @@ namespace Lawspot.Controllers
             return View();
         }
 
+        public ActionResult Error403(Exception ex)
+        {
+            return View("403");
+        }
+
         public ActionResult Error404(Exception ex)
         {
             return View("404");
