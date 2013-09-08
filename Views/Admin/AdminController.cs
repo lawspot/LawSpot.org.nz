@@ -720,14 +720,6 @@ namespace Lawspot.Controllers
                 new SelectListItem() { Text = "Privacy Issue", Value = "Your question contained information that may, if published online, reveal the identity of a particular person or organisation." },
             };
 
-            // Single question mode.
-            if (questionId.HasValue)
-            {
-                category = null;
-                filter = "All";
-                sort = null;
-            }
-
             // Categories.
             int categoryId = 0;
             if (category != null)
@@ -749,17 +741,17 @@ namespace Lawspot.Controllers
                     }));
 
             // Filter.
-            var filterValue = ReviewQuestionsFilter.Unreviewed;
+            var filterValue = questionId.HasValue ? ReviewQuestionsFilter.All : ReviewQuestionsFilter.Unreviewed;
             if (filter != null)
                 filterValue = (ReviewQuestionsFilter)Enum.Parse(typeof(ReviewQuestionsFilter), filter, true);
             model.FilterOptions = new SelectListItem[]
             {
+                new SelectListItem() { Text = "All", Value = ReviewQuestionsFilter.All.ToString(), Selected = filterValue == ReviewQuestionsFilter.All },
                 new SelectListItem() { Text = "Unreviewed", Value = ReviewQuestionsFilter.Unreviewed.ToString(), Selected = filterValue == ReviewQuestionsFilter.Unreviewed },
                 new SelectListItem() { Text = "Approved", Value = ReviewQuestionsFilter.Approved.ToString(), Selected = filterValue == ReviewQuestionsFilter.Approved },
                 new SelectListItem() { Text = "Approved By Me", Value = ReviewQuestionsFilter.ApprovedByMe.ToString(), Selected = filterValue == ReviewQuestionsFilter.ApprovedByMe },
                 new SelectListItem() { Text = "Rejected", Value = ReviewQuestionsFilter.Rejected.ToString(), Selected = filterValue == ReviewQuestionsFilter.Rejected },
                 new SelectListItem() { Text = "Rejected By Me", Value = ReviewQuestionsFilter.RejectedByMe.ToString(), Selected = filterValue == ReviewQuestionsFilter.RejectedByMe },
-                new SelectListItem() { Text = "Show All", Value = ReviewQuestionsFilter.All.ToString(), Selected = filterValue == ReviewQuestionsFilter.All },
             };
 
             // Sort order.
@@ -989,6 +981,7 @@ namespace Lawspot.Controllers
                 filterValue = (ReviewAnswersFilter)Enum.Parse(typeof(ReviewAnswersFilter), filter, true);
             model.FilterOptions = new SelectListItem[]
             {
+                new SelectListItem() { Text = "All", Value = ReviewAnswersFilter.All.ToString(), Selected = filterValue == ReviewAnswersFilter.All },
                 new SelectListItem() { Text = "Unreviewed", Value = ReviewAnswersFilter.Unreviewed.ToString(), Selected = filterValue == ReviewAnswersFilter.Unreviewed },
                 new SelectListItem() { Text = "Approved", Value = ReviewAnswersFilter.Approved.ToString(), Selected = filterValue == ReviewAnswersFilter.Approved },
                 new SelectListItem() { Text = "Approved by Me", Value = ReviewAnswersFilter.ApprovedByMe.ToString(), Selected = filterValue == ReviewAnswersFilter.ApprovedByMe },

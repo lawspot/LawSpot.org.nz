@@ -20,12 +20,12 @@ namespace Lawspot.Views.Admin
 
     public enum ReviewQuestionsFilter
     {
+        All,
         Unreviewed,
         Approved,
         ApprovedByMe,
         Rejected,
         RejectedByMe,
-        All,
     }
 
     public class ReviewQuestionViewModel

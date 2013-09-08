@@ -18,6 +18,7 @@ namespace Lawspot.Views.Admin
 
     public enum ReviewAnswersFilter
     {
+        All,
         Unreviewed,
         Approved,
         ApprovedByMe,
