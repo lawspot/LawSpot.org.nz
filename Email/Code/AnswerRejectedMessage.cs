@@ -33,6 +33,12 @@ namespace Lawspot.Email
         public string Question { get; set; }
 
         /// <summary>
+        /// The URL of the question in admin.
+        /// </summary>
+        [ExposeToXslt]
+        public string AdminQuestionUri { get; set; }
+
+        /// <summary>
         /// The date the answer was submitted e.g. "4 Aug".
         /// </summary>
         [ExposeToXslt]

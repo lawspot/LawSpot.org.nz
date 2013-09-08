@@ -9,7 +9,7 @@
 
     <p>
       Thanks for submitting your answer to LawSpot. Unfortunately, your answer to the question
-      "<xsl:value-of select="Question"/>" that you submitted on <xsl:value-of select="AnswerDate"/>
+      <a href="{AdminQuestionUri}">"<xsl:value-of select="Question"/>"</a> that you submitted on <xsl:value-of select="AnswerDate"/>
       has been rejected by LawSpot's supervisors, for the following reason:
     </p>
 

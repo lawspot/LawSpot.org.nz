@@ -23,5 +23,13 @@ namespace Lawspot.Backend
         {
             get { return string.Format("http://{0}{1}", ConfigurationManager.AppSettings["DomainName"], AbsolutePath); }
         }
+
+        /// <summary>
+        /// Gets the full URI to the answer question page in admin.
+        /// </summary>
+        public string AdminUri
+        {
+            get { return string.Format("http://{0}/admin/answer-question?questionId={1}", ConfigurationManager.AppSettings["DomainName"], this.QuestionId); }
+        }
     }
 }

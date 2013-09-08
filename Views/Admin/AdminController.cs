@@ -1240,6 +1240,7 @@ namespace Lawspot.Controllers
                 rejectionMessage.ReplyToList.Add(this.User.EmailAddress);
                 rejectionMessage.Name = answer.CreatedByUser.EmailGreeting;
                 rejectionMessage.Question = answer.Question.Title;
+                rejectionMessage.AdminQuestionUri = answer.Question.AdminUri;
                 rejectionMessage.AnswerDate = answer.CreatedOn.ToString("d MMM");
                 rejectionMessage.ReasonHtml = StringUtilities.ConvertTextToHtml(reason);
                 rejectionMessage.Send();

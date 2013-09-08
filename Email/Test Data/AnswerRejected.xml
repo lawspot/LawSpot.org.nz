@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type="text/xsl" href="../Templates/AnswerRejected.xslt"?>
+<Root>
+  <BaseUrl>http://localhost:60000</BaseUrl>
+  <CurrentDate>Friday, 6 April 2012</CurrentDate>
+  <Name>Don Quixote</Name>
+  <Question>What can I do with a drunken sailor?</Question>
+  <AdminQuestionUri>http://localhost:60000/test/test</AdminQuestionUri>
+  <AnswerDate>8/9/2013</AnswerDate>
+  <ReasonHtml>You didn't read the question.</ReasonHtml>
+</Root>
