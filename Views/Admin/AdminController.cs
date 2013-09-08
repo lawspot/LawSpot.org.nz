@@ -1457,6 +1457,17 @@ namespace Lawspot.Controllers
             return RedirectToAction("Admin", new { alert = "updated" });
         }
 
+        private class AnswerDeserializer
+        {
+            public int AnswerId { get; set; }
+        }
+
+        private class LeaderboardAnswer
+        {
+            public int UserId { get; set; }
+            public EventType EventType { get; set; }
+        }
+
         /// <summary>
         /// Displays the leaderboard page.
         /// </summary>
@@ -1479,16 +1490,34 @@ namespace Lawspot.Controllers
             viewModel.PreviousLink = string.Format("?weekBeginning={0:yyyy-MM-dd}", startDate.AddDays(-DaysInWeek));
             if (startDate.AddDays(DaysInWeek) < DateTime.Now)
                 viewModel.NextLink = string.Format("?weekBeginning={0:yyyy-MM-dd}", startDate.AddDays(DaysInWeek));
-            var rawData = this.DataContext.Events.Where(e => e.EventDate >= new DateTimeOffset(startDate) && e.EventDate < new DateTimeOffset(startDate.AddDays(DaysInWeek))).GroupBy(e => e.User);
-            viewModel.Rows = rawData.ToList().Select(grouping => new LeaderboardRow()
+            var events = this.DataContext.Events.Where(e => e.EventDate >= new DateTimeOffset(startDate) && e.EventDate < new DateTimeOffset(startDate.AddDays(DaysInWeek))).ToList();
+            viewModel.Rows = events.GroupBy(e => e.User).Select(grouping => new LeaderboardRow()
             {
+                UserId = grouping.Key.UserId,
                 Name = grouping.Key.DisplayName,
                 RejectQuestion = grouping.Count(e => e.EventType == EventType.RejectQuestion),
                 ApproveQuestion = grouping.Count(e => e.EventType == EventType.ApproveQuestion),
                 CreateAnswer = grouping.Count(e => e.EventType == EventType.CreateAnswer),
+                RejectAnswer = grouping.Count(e => e.EventType == EventType.RejectAnswer),
                 RecommendAnswer = grouping.Count(e => e.EventType == EventType.RecommendAnswer),
                 PublishAnswer = grouping.Count(e => e.EventType == EventType.PublishAnswer),
             }).OrderBy(row => row.Name);
+
+            // Get answer details for event type RejectAnswer, RecommendAnswer and PublishAnswer.
+            var answerEvents = events.Where(e => e.EventType == EventType.RejectAnswer || e.EventType == EventType.RecommendAnswer || e.EventType == EventType.PublishAnswer).ToList();
+            var answerIds = answerEvents.Select(ae => Newtonsoft.Json.JsonConvert.DeserializeObject<AnswerDeserializer>(ae.Details).AnswerId).Distinct().ToList();
+            var answers = this.DataContext.Answers.Where(a => answerIds.Contains(a.AnswerId)).ToList();
+            var amalgam = answers.Join(answerEvents,
+                a => a.AnswerId,
+                ae => Newtonsoft.Json.JsonConvert.DeserializeObject<AnswerDeserializer>(ae.Details).AnswerId,
+                (a, ae) => new LeaderboardAnswer { EventType = ae.EventType, UserId = a.CreatedByUserId });
+            foreach (var row in viewModel.Rows)
+            {
+                row.MyAnswersRejected = amalgam.Count(a => a.UserId == row.UserId && a.EventType == EventType.RejectAnswer);
+                row.MyAnswersRecommended = amalgam.Count(a => a.UserId == row.UserId && a.EventType == EventType.RecommendAnswer);
+                row.MyAnswersPublished = amalgam.Count(a => a.UserId == row.UserId && a.EventType == EventType.PublishAnswer);
+            }
+
             return View(viewModel);
         }
 
