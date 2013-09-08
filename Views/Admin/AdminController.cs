@@ -700,9 +700,10 @@ namespace Lawspot.Controllers
         /// <param name="sort"></param>
         /// <param name="search"></param>
         /// <param name="page"></param>
+        /// <param name="questionId"></param>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult ReviewQuestions(string category, string filter, string sort, string search, int page = 1)
+        public ActionResult ReviewQuestions(string category, string filter, string sort, string search, int page = 1, int? questionId = null)
         {
             // Ensure the user is allow to vet questions.
             if (this.User.CanVetQuestions == false)
@@ -718,6 +719,14 @@ namespace Lawspot.Controllers
                 new SelectListItem() { Text = "Offensive Material", Value = "Your question contained offensive material." },
                 new SelectListItem() { Text = "Privacy Issue", Value = "Your question contained information that may, if published online, reveal the identity of a particular person or organisation." },
             };
+
+            // Single question mode.
+            if (questionId.HasValue)
+            {
+                category = null;
+                filter = "All";
+                sort = null;
+            }
 
             // Categories.
             int categoryId = 0;
@@ -750,6 +759,7 @@ namespace Lawspot.Controllers
                 new SelectListItem() { Text = "Approved By Me", Value = ReviewQuestionsFilter.ApprovedByMe.ToString(), Selected = filterValue == ReviewQuestionsFilter.ApprovedByMe },
                 new SelectListItem() { Text = "Rejected", Value = ReviewQuestionsFilter.Rejected.ToString(), Selected = filterValue == ReviewQuestionsFilter.Rejected },
                 new SelectListItem() { Text = "Rejected By Me", Value = ReviewQuestionsFilter.RejectedByMe.ToString(), Selected = filterValue == ReviewQuestionsFilter.RejectedByMe },
+                new SelectListItem() { Text = "Show All", Value = ReviewQuestionsFilter.All.ToString(), Selected = filterValue == ReviewQuestionsFilter.All },
             };
 
             // Sort order.
@@ -766,6 +776,8 @@ namespace Lawspot.Controllers
             IEnumerable<Question> questions = this.DataContext.Questions;
             if (categoryId != 0)
                 questions = questions.Where(q => q.CategoryId == categoryId);
+            if (questionId.HasValue)
+                questions = questions.Where(q => q.QuestionId == questionId);
             switch (filterValue)
             {
                 case ReviewQuestionsFilter.Unreviewed:
@@ -1071,12 +1083,11 @@ namespace Lawspot.Controllers
             var question = DataContext.Questions.Single(q => q.QuestionId == questionId);
             var model = new ReviewAnswerViewModel()
             {
+                QuestionId = question.QuestionId,
                 Title = question.Title,
                 DetailsHtml = StringUtilities.ConvertTextToHtml(question.Details),
                 DateAndTime = question.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                 CategoryName = question.Category.Name,
-                //OriginalTitle = question.OriginalTitle,
-                //OriginalDetailsHtml = StringUtilities.ConvertTextToHtml(question.OriginalDetails),
                 ReviewedBy = question.ReviewedByUser != null ? question.ReviewedByUser.EmailDisplayName : null,
                 ReviewDate = question.ReviewDate.HasValue ? question.ReviewDate.Value.ToString("d MMM yyyy h:mmtt") : string.Empty,
             };

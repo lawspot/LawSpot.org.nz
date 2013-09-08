@@ -9,13 +9,11 @@ namespace Lawspot.Views.Admin
 {
     public class ReviewAnswerViewModel
     {
+        public int QuestionId { get; set; }
         public string DateAndTime { get; set; }
         public string Title { get; set; }
         public string DetailsHtml { get; set; }
         public string CategoryName { get; set; }
-
-        public string OriginalTitle { get; set; }
-        public string OriginalDetailsHtml { get; set; }
 
         public string ReviewedBy { get; set; }
         public string ReviewDate { get; set; }

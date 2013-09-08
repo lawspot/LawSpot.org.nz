@@ -155,3 +155,7 @@ $(".question-container a").click(function (e) {
     // Prevent the hyperlink from navigating.
     e.preventDefault();
 });
+
+// If there's only one question, might as well expand it.
+if ($(".question-container a").length == 1)
+    $(".question-container a").click();
