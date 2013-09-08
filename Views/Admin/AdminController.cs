@@ -1501,7 +1501,7 @@ namespace Lawspot.Controllers
                 RejectAnswer = grouping.Count(e => e.EventType == EventType.RejectAnswer),
                 RecommendAnswer = grouping.Count(e => e.EventType == EventType.RecommendAnswer),
                 PublishAnswer = grouping.Count(e => e.EventType == EventType.PublishAnswer),
-            }).OrderBy(row => row.Name);
+            }).OrderBy(row => row.Name).ToList();
 
             // Get answer details for event type RejectAnswer, RecommendAnswer and PublishAnswer.
             var answerEvents = events.Where(e => e.EventType == EventType.RejectAnswer || e.EventType == EventType.RecommendAnswer || e.EventType == EventType.PublishAnswer).ToList();
