@@ -83,6 +83,32 @@ namespace Lawspot.Controllers
         {
             var model = new ActivityStreamViewModel();
 
+            // Recent drafts
+            model.RecentDrafts = this.DataContext.DraftAnswers
+                .Where(da => da.CreatedByUserId == this.User.Id)
+                .OrderByDescending(da => da.UpdatedOn)
+                .Take(10)
+                .ToList()
+                .Select(da => new ActivityStreamRecentDraft()
+                {
+                    Title = da.Question.Title,
+                    LastModified = da.UpdatedOn.ToString("d MMM yyyy h:mmtt"),
+                    QuestionId = da.QuestionId,
+                });
+
+            // Recent answers.
+            model.RecentAnswers = this.DataContext.Answers
+                .Where(a => a.CreatedByUserId == this.User.Id)
+                .OrderByDescending(a => a.CreatedOn)
+                .Take(10)
+                .ToList()
+                .Select(a => new ActivityStreamRecentAnswer()
+                {
+                    Title = a.Question.Title,
+                    SubmitDate = a.CreatedOn.ToString("d MMM yyyy h:mmtt"),
+                    Status = a.Status.ToString(),
+                });
+
             // Question stats.
             model.QuestionsSubmitted = this.DataContext.Questions
                 .Count(q => q.CreatedByUserId == this.User.Id);

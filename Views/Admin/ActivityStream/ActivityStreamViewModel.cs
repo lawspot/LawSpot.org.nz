@@ -9,6 +9,9 @@ namespace Lawspot.Views.Admin
 {
     public class ActivityStreamViewModel
     {
+        public IEnumerable<ActivityStreamRecentDraft> RecentDrafts { get; set; }
+        public IEnumerable<ActivityStreamRecentAnswer> RecentAnswers { get; set; }
+
         public int QuestionsSubmitted { get; set; }
         public int QuestionsPublished { get; set; }
         public string LastQuestionSubmitted { get; set; }
@@ -22,4 +25,17 @@ namespace Lawspot.Views.Admin
         public string MayorStatus { get; set; }
     }
 
+    public class ActivityStreamRecentAnswer
+    {
+        public string Title { get; set; }
+        public string SubmitDate { get; set; }
+        public string Status { get; set; }
+    }
+
+    public class ActivityStreamRecentDraft
+    {
+        public int QuestionId { get; set; }
+        public string Title { get; set; }
+        public string LastModified { get; set; }
+    }
 }

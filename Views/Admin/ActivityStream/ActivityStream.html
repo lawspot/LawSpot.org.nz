@@ -2,7 +2,55 @@
 
 <h1>Profile</h1>
 
-<h2>Summary</h2>
+{{#User.CanAnswerQuestions}}
+
+<h2>Recent drafts</h2>
+
+<table id="recent-drafts">
+    <tr>
+        <th>Title</th>
+        <th>Last edited</th>
+    </tr>
+    {{#RecentDrafts}}
+        <tr>
+            <td><div class="truncate" style="width: 580px" title="{{Title}}"><a href="/admin/answer-question?questionId={{QuestionId}}">{{Title}}</a></div></td>
+            <td>{{LastModified}}</td>
+        </tr>
+    {{/RecentDrafts}}
+</table>
+
+{{^RecentDrafts}}
+<p> No recent drafts. </p>
+{{/RecentDrafts}}
+
+<br />
+
+<h2>Recently submitted answers</h2>
+
+<table id="recent-answers">
+    <tr>
+        <th>Title</th>
+        <th>Submitted</th>
+        <th>Status</th>
+    </tr>
+    {{#RecentAnswers}}
+        <tr>
+            <td><div class="truncate" style="width: 430px" title="{{Title}}">{{Title}}</div></td>
+            <td>{{SubmitDate}}</td>
+            <td>{{Status}}</td>
+        </tr>
+    {{/RecentAnswers}}
+</table>
+
+{{^RecentAnswers}}
+<p> No recent answers. </p>
+{{/RecentAnswers}}
+
+<br />
+
+{{/User.CanAnswerQuestions}}
+
+<h2>Statistics</h2>
 	            
 <table id="profile-stats">
 	<tr>

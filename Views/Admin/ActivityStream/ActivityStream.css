@@ -1,4 +1,13 @@
 ﻿/* Profile page */
+#recent-drafts, #recent-answers {
+    width: 100%;
+}
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 #profile-stats {
 	width: 300px;
 	margin-top: 20px;
