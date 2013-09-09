@@ -94,7 +94,7 @@ namespace Lawspot.Controllers
                     Title = da.Question.Title,
                     LastModified = da.UpdatedOn.ToString("d MMM yyyy h:mmtt"),
                     QuestionId = da.QuestionId,
-                });
+                }).ToList();
 
             // Recent answers.
             model.RecentAnswers = this.DataContext.Answers
@@ -107,7 +107,8 @@ namespace Lawspot.Controllers
                     Title = a.Question.Title,
                     SubmitDate = a.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     Status = a.Status.ToString(),
-                });
+                    QuestionId = a.QuestionId,
+                }).ToList();
 
             // Question stats.
             model.QuestionsSubmitted = this.DataContext.Questions
@@ -251,7 +252,7 @@ namespace Lawspot.Controllers
                     questions = questions.Where(q => q.Answers.All(a => a.Status == AnswerStatus.Rejected));
                     break;
                 case AQ1.AnswerQuestionsFilter.Pending:
-                    questions = questions.Where(q => q.Answers.Any(a => a.ReviewDate == null || a.Status == AnswerStatus.RecommendedForApproval) == true &&
+                    questions = questions.Where(q => q.Answers.Any(a => a.ReviewDate == null || a.Status == AnswerStatus.Recommended) == true &&
                         q.Answers.Any(a => a.Status == AnswerStatus.Approved) == false);
                     break;
                 case AQ1.AnswerQuestionsFilter.Answered:
@@ -369,7 +370,7 @@ namespace Lawspot.Controllers
                     Approved = a.Status == AnswerStatus.Approved,
                     Rejected = a.Status == AnswerStatus.Rejected,
                     Pending = a.ReviewedByUser == null,
-                    RecommendedForApproval = a.Status == AnswerStatus.RecommendedForApproval,
+                    RecommendedForApproval = a.Status == AnswerStatus.Recommended,
                     RejectionReasonHtml = StringUtilities.ConvertTextToHtml(a.RejectionReason),
                     Draft = false,
                     SortKey = a.ReviewDate.HasValue ? a.ReviewDate.Value : a.CreatedOn,
@@ -1034,7 +1035,7 @@ namespace Lawspot.Controllers
             {
                 case ReviewAnswersFilter.Unreviewed:
                     if (this.UserDetails.PublisherId.HasValue)
-                        answers = answers.Where(a => a.Status == AnswerStatus.Unreviewed || a.Status == AnswerStatus.RecommendedForApproval);
+                        answers = answers.Where(a => a.Status == AnswerStatus.Unreviewed || a.Status == AnswerStatus.Recommended);
                     else
                         answers = answers.Where(a => a.Status == AnswerStatus.Unreviewed);
                     break;
@@ -1042,10 +1043,10 @@ namespace Lawspot.Controllers
                     if (this.UserDetails.PublisherId.HasValue)
                         answers = answers.Where(a => a.Status == AnswerStatus.Approved);
                     else
-                        answers = answers.Where(a => a.Status == AnswerStatus.Approved || a.Status == AnswerStatus.RecommendedForApproval);
+                        answers = answers.Where(a => a.Status == AnswerStatus.Approved || a.Status == AnswerStatus.Recommended);
                     break;
                 case ReviewAnswersFilter.ApprovedByMe:
-                    answers = answers.Where(a => (a.Status == AnswerStatus.Approved || a.Status == AnswerStatus.RecommendedForApproval) && a.ReviewedByUserId == this.User.Id);
+                    answers = answers.Where(a => (a.Status == AnswerStatus.Approved || a.Status == AnswerStatus.Recommended) && a.ReviewedByUserId == this.User.Id);
                     break;
                 case ReviewAnswersFilter.Rejected:
                     answers = answers.Where(a => a.Status == AnswerStatus.Rejected);
@@ -1054,7 +1055,7 @@ namespace Lawspot.Controllers
                     answers = answers.Where(a => a.Status == AnswerStatus.Rejected && a.ReviewedByUserId == this.User.Id);
                     break;
                 case ReviewAnswersFilter.RecommendedForApproval:
-                    answers = answers.Where(a => a.Status == AnswerStatus.RecommendedForApproval);
+                    answers = answers.Where(a => a.Status == AnswerStatus.Recommended);
                     break;
             }
             switch (sortValue)
@@ -1081,7 +1082,7 @@ namespace Lawspot.Controllers
                     Title = a.Question.Title,
                     CategoryName = a.Question.Category.Name,
                     DateAndTime = a.CreatedOn.ToString("d MMM yyyy h:mmtt"),
-                    IconFileName = a.Status == AnswerStatus.RecommendedForApproval ? "answer-icon-flagged.png" : "answer-icon.png",
+                    IconFileName = a.Status == AnswerStatus.Recommended ? "answer-icon-flagged.png" : "answer-icon.png",
                 }), page, 10, Request.Url);
 
             return View(model);
@@ -1123,8 +1124,8 @@ namespace Lawspot.Controllers
                     ReviewDate = a.ReviewDate.HasValue ? a.ReviewDate.Value.ToString("d MMM yyyy h:mmtt") : string.Empty,
                     Approved = a.Status == AnswerStatus.Approved,
                     Rejected = a.Status == AnswerStatus.Rejected,
-                    RecommendedForApproval = a.Status == AnswerStatus.RecommendedForApproval,
-                    CanApproveOrReject = a.Status == AnswerStatus.Unreviewed || a.Status == AnswerStatus.RecommendedForApproval,
+                    RecommendedForApproval = a.Status == AnswerStatus.Recommended,
+                    CanApproveOrReject = a.Status == AnswerStatus.Unreviewed || a.Status == AnswerStatus.Recommended,
                     RejectionReasonHtml = StringUtilities.ConvertTextToHtml(a.RejectionReason),
                     CannedRejectionReasons = new SelectListItem[] {
                         new SelectListItem() { Text = "Select a canned response", Value = "" },
@@ -1178,7 +1179,7 @@ namespace Lawspot.Controllers
             answer.RejectionReason = null;
             answer.PublisherId = this.UserDetails.PublisherId;
             if (answer.PublisherId == null)
-                answer.Status = AnswerStatus.RecommendedForApproval;    // No publisher means that the user can only recommend approval.
+                answer.Status = AnswerStatus.Recommended;    // No publisher means that the user can only recommend approval.
             else
                 answer.Status = AnswerStatus.Approved;
             this.DataContext.SubmitChanges();

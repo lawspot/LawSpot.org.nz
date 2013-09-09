@@ -9,8 +9,8 @@ namespace Lawspot.Views.Admin
 {
     public class ActivityStreamViewModel
     {
-        public IEnumerable<ActivityStreamRecentDraft> RecentDrafts { get; set; }
-        public IEnumerable<ActivityStreamRecentAnswer> RecentAnswers { get; set; }
+        public IList<ActivityStreamRecentDraft> RecentDrafts { get; set; }
+        public IList<ActivityStreamRecentAnswer> RecentAnswers { get; set; }
 
         public int QuestionsSubmitted { get; set; }
         public int QuestionsPublished { get; set; }
@@ -27,6 +27,7 @@ namespace Lawspot.Views.Admin
 
     public class ActivityStreamRecentAnswer
     {
+        public int QuestionId { get; set; }
         public string Title { get; set; }
         public string SubmitDate { get; set; }
         public string Status { get; set; }
