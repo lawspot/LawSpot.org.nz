@@ -66,8 +66,7 @@
 								<!-- Footer -->
 								<tr>
 									<td align="center" style="padding: 16px 0; font-family: Segoe UI, Segoe, Helvetica Neue, Helvetica, Arial, sans-serif; font-size: 10pt; color: #666">
-										© Lawspot.org.nz<br />
-										In association with Community Law Wellington &#38; Hutt Valley
+										© Lawspot.org.nz
 									</td>
 								</tr>
 							</table>
