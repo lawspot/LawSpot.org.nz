@@ -516,9 +516,6 @@
     <Folder Include="Documentation\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Shared\Layout\Layout.html" />
   </ItemGroup>
   <ItemGroup>
