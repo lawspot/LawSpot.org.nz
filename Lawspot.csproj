@@ -192,12 +192,14 @@
     <Compile Include="Views\Admin\ActivityStream\ActivityStreamViewModel.cs" />
     <Compile Include="Views\Admin\AdminController.cs" />
     <Compile Include="Views\Admin\AnswerQuestion\AnswerQuestionViewModel.cs" />
+    <Compile Include="Views\Admin\ViewUser\ViewUserViewModel.cs" />
     <Compile Include="Views\Admin\Leaderboard\LeaderboardViewModel.cs" />
     <Compile Include="Views\Admin\ReviewAnswer\ReviewAnswerViewModel.cs" />
     <Compile Include="Views\Admin\ReviewLawyers\ReviewLawyersViewModel.cs" />
     <Compile Include="Views\Admin\ReviewAnswers\ReviewAnswersViewModel.cs" />
     <Compile Include="Views\Admin\ReviewQuestions\ReviewQuestionsViewModel.cs" />
     <Compile Include="Views\Admin\AnswerQuestions\AnswerQuestionsViewModel.cs" />
+    <Compile Include="Views\Admin\ViewUsers\ViewUsersViewModel.cs" />
     <Compile Include="Views\Ask\AskController.cs" />
     <Compile Include="Views\Ask\ThankYou\QuestionThankYouModel.cs" />
     <Compile Include="Views\Ask\Ask\QuestionViewModel.cs" />
@@ -343,6 +345,7 @@
     <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.css" />
     <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.html" />
     <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.js" />
+    <Content Include="Views\Admin\ViewUser\ViewUser.html" />
     <Content Include="Views\Admin\Leaderboard\Leaderboard.html" />
     <Content Include="Views\Admin\Leaderboard\arrow_left.png" />
     <Content Include="Views\Admin\Leaderboard\arrow_right.png" />
@@ -354,6 +357,9 @@
     <Content Include="Views\Admin\ReviewAnswer\ReviewAnswer.js" />
     <Content Include="Views\Admin\Search.png" />
     <Content Include="Views\Admin\Terminology\Terminology.html" />
+    <Content Include="Views\Admin\ViewUsers\ViewUsers.css" />
+    <Content Include="Views\Admin\ViewUsers\ViewUsers.html" />
+    <Content Include="Views\Admin\ViewUser\ViewUser.css" />
     <Content Include="Views\Browse\Home\jquery-easing-1.3.pack.js" />
     <Content Include="Shared\Layout\Layout.js" />
     <Content Include="Shared\Images\background.jpg" />

@@ -1,0 +1,30 @@
+﻿#users-list {
+	width: 100%;
+	margin-top: 20px;
+}
+#users-list th {
+	background-color: #C3C3C3;
+	font-weight: bold;
+	text-align: center;
+	padding: 3px;
+}
+#users-list td {
+	padding: 3px;
+	vertical-align: top;
+}
+#users-list .name {
+	width: 140px;
+}
+#users-list .email {
+	width: 220px;
+}
+#users-list td.action {
+	text-align: center;
+}
+#users-list button {
+	font-size: 7pt;
+	font-weight: normal;
+	padding: 2px;
+	width: 60px;
+	border-radius: 2px;
+}

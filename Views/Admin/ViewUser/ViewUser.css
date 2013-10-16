@@ -1,0 +1,12 @@
+﻿fieldset {
+    margin-bottom: 1em;
+}
+fieldset table {
+	width: 80%;
+}
+fieldset table td {
+	width: 50%;
+}
+fieldset table td:first-child {
+	color: #707070;
+}

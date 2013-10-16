@@ -1,0 +1,87 @@
+﻿{{Model Lawspot.Views.Admin.ViewUserViewModel}}
+
+<h1> {{Email}} </h1>
+
+<fieldset>
+    <legend>Basic info</legend>
+
+    <table>
+	    <tr>
+	        <td>Region:</td>
+	        <td>{{Region}}</td>
+	    </tr>
+        <tr>
+	        <td>Date Registered:</td>
+	        <td>{{StartDate}}</td>
+	    </tr>
+        <tr>
+	        <td>Community Services card number:</td>
+	        <td>{{CommunityServicesCardNumber}}</td>
+	    </tr>
+    </table>
+</fieldset>
+
+<fieldset>
+    <legend>Login info</legend>
+
+    <table>
+        <tr>
+	        <td>Last login date:</td>
+	        <td>{{LastLoginDate}}</td>
+	    </tr>
+        <tr>
+	        <td>Number of logins:</td>
+	        <td>{{LoginCount}}</td>
+	    </tr>
+        <tr>
+	        <td>IP address:</td>
+	        <td>{{LoginIpAddress}}</td>
+	    </tr>
+    </table>
+</fieldset>
+
+{{#IsLawyer}}
+    <fieldset>
+        <legend>Lawyer info</legend>
+
+        <table>
+            <tr>
+	            <td>Name:</td>
+	            <td>{{Name}}</td>
+	        </tr>
+            <tr>
+	            <td>Year of admission:</td>
+	            <td>{{YearOfAdmission}}</td>
+	        </tr>
+            <tr>
+	            <td>Specialization:</td>
+	            <td>{{Specialization}}</td>
+	        </tr>
+            <tr>
+	            <td>Employer:</td>
+	            <td>{{Employer}}</td>
+	        </tr>
+            <tr>
+	            <td>Approval status:</td>
+	            <td>{{ApprovalStatus}}</td>
+	        </tr>
+        </table>
+    </fieldset>
+{{/IsLawyer}}
+
+<form action="" method="post">
+    <input name="UserId" type="hidden" value="{{UserId}}" />
+
+    <fieldset>
+        <legend>Permissions</legend>
+
+        <div><label><input name="CanVetQuestions" type="checkbox" {{#CanVetQuestions}}checked{{/CanVetQuestions}} value="true"/> Can vet questions</label></div>
+	    <div><label><input name="CanAnswerQuestions" type="checkbox" {{#CanAnswerQuestions}}checked{{/CanAnswerQuestions}} value="true" /> Can answer questions</label></div>
+	    <div><label><input name="CanVetAnswers" type="checkbox" {{#CanVetAnswers}}checked{{/CanVetAnswers}} value="true" /> Can vet answers (reject or recommend for approval)</label></div>
+        <div><label><input type="checkbox" {{#CanPublishAnswers}}checked{{/CanPublishAnswers}} disabled /> Can publish answers {{#Publisher}}(under the name "{{Publisher}}"){{/Publisher}}</label></div>
+	    <div><label><input name="CanVetLawyers" type="checkbox" {{#CanVetLawyers}}checked{{/CanVetLawyers}} value="true" /> Can approve or reject lawyers</label></div>
+	    <div><label><input type="checkbox" {{#CanAdminister}}checked{{/CanAdminister}} disabled /> Can administer the site (super user)</label></div>
+    </fieldset>
+
+    <input type="submit" value="SAVE" />
+</form>

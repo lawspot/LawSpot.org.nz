@@ -1544,5 +1544,101 @@ namespace Lawspot.Controllers
                 )
                 WHERE Category.CategoryId = {0}", categoryId);
         }
+
+        /// <summary>
+        /// Displays the view users page.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ViewUsers(string searchText)
+        {
+            // Ensure the user is allowed to administer the site.
+            if (this.User.CanAdminister == false)
+                return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
+
+            var viewModel = new ViewUsersViewModel();
+            if (searchText != null)
+            {
+                viewModel.Rows = this.DataContext.Users
+                    .Where(u => u.EmailAddress.Contains(searchText))
+                    .ToList()
+                    .Select(u => new ViewUsersRowViewModel()
+                    {
+                        UserId = u.UserId,
+                        Email = u.EmailAddress,
+                        Region = u.Region.Name,
+                        StartDate = u.CreatedOn.ToString("d MMM yyyy"),
+                    });
+            }
+            return View(viewModel);
+        }
+
+        /// <summary>
+        /// Displays the view user page.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ViewUser(int userId)
+        {
+            // Ensure the user is allowed to administer the site.
+            if (this.User.CanAdminister == false)
+                return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
+
+            var user = this.DataContext.Users.Where(u => u.UserId == userId).Single();
+
+            var viewModel = new ViewUserViewModel();
+            viewModel.UserId = user.UserId;
+            viewModel.Email = user.EmailAddress;
+            viewModel.Region = user.Region.Name;
+            viewModel.StartDate = user.CreatedOn.ToString("d MMM yyyy");
+            viewModel.CommunityServicesCardNumber = user.CommunityServicesCardNumber.HasValue ? user.CommunityServicesCardNumber.Value.ToString() : "N/A";
+            viewModel.CanPublishAnswers = user.Publisher != null;
+            viewModel.Publisher = user.Publisher == null ? "" : user.Publisher.Name;
+            viewModel.CanAdminister = user.CanAdminister;
+            viewModel.CanAnswerQuestions = user.CanAnswerQuestions;
+            viewModel.CanVetAnswers = user.CanVetAnswers;
+            viewModel.CanVetQuestions = user.CanVetQuestions;
+            viewModel.CanVetLawyers = user.CanVetLawyers;
+            viewModel.LastLoginDate = user.LastLogInDate.HasValue ? user.LastLogInDate.Value.ToString("d MMM yyyy") : "Never";
+            viewModel.LoginCount = user.LogInCount;
+            viewModel.LoginIpAddress = user.LogInIpAddress;
+
+            if (user.IsRegisteredLawyer)
+            {
+                viewModel.IsLawyer = true;
+                viewModel.Name = user.Lawyer.FullName;
+                viewModel.YearOfAdmission = user.Lawyer.YearOfAdmission;
+                viewModel.Specialization = user.Lawyer.Category != null ? user.Lawyer.Category.Name : "None";
+                viewModel.Employer = user.Lawyer.EmployerName;
+                if (user.Lawyer.Approved)
+                    viewModel.ApprovalStatus = "Approved";
+                else if (user.Lawyer.RejectionReason != null)
+                    viewModel.ApprovalStatus = string.Format("Rejected for reason: {0}", user.Lawyer.RejectionReason);
+                else
+                    viewModel.ApprovalStatus = "Pending";
+            }
+            return View(viewModel);
+        }
+
+        /// <summary>
+        /// Edits a user.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult ViewUser(ViewUserViewModel model)
+        {
+            // Ensure the user is allowed to administer the site.
+            if (this.User.CanAdminister == false)
+                return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
+
+            var user = this.DataContext.Users.Where(u => u.UserId == model.UserId).Single();
+            user.CanAnswerQuestions = model.CanAnswerQuestions;
+            user.CanVetAnswers = model.CanVetAnswers;
+            user.CanVetLawyers = model.CanVetLawyers;
+            user.CanVetQuestions = model.CanVetQuestions;
+            this.DataContext.SubmitChanges();
+
+            return RedirectToAction("ViewUser", new { userId = model.UserId, alert = "updated" });
+        }
     }
 }

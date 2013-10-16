@@ -1,0 +1,33 @@
+﻿{{Model Lawspot.Views.Admin.ViewUsersViewModel}}
+
+<h1> Administer Users </h1>
+
+<form action="" method="get">
+    <p>
+        Search email:
+        <input name="searchText" type="text" />
+        <input type="submit" value="Search" />
+    </p>
+</form>
+
+<table id="users-list">
+	<tr>
+	    <th class="email">Email</th>
+	    <th class="region">Region</th>
+	    <th class="started">Date Started</th>
+	    <th class="action">Action</th>
+	</tr>
+    {{#Rows}}
+	    <tr class="row">
+	        <td>{{Email}}</td>
+            <td>{{Region}}</td>
+	        <td>{{StartDate}}</td>
+	        <td class="action">
+	            <form action="view-user" method="get">
+                    <input name="userId" type="hidden" value="{{UserId}}" />
+	                <button type="submit">VIEW/EDIT</button>
+	            </form>
+	        </td>
+	    </tr>
+    {{/Rows}}
+</table>
