@@ -92,7 +92,10 @@
 <script id="answer-template" type="text/template">
 	<form class="initial-form">
         {{#ReviewedBy}}
-	        <label><strong>Reviewed</strong> by {{ReviewedBy}}</label><br />
+	        <label><strong>{{ApprovedOrRejected}}</strong> by {{ReviewedBy}}</label><br />
+            {{#RejectionReason}}
+                <strong>Rejection reason:</strong> {{{RejectionReason}}}
+            {{/RejectionReason}}
         {{/ReviewedBy}}
 
 	    <div class="admin-labels">
