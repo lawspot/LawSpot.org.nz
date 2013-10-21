@@ -40,6 +40,8 @@ namespace Lawspot.Views.Ask
         public bool ShowLogin { get { return !ShowRegistration; } }
         public bool FocusInLoginEmailAddress { get; set; }
         public Lawspot.Views.Account.LoginViewModel Login { get; set; }
+
+        public string Hunee { get; set; }   // Honeypot.
     }
 
     public class SearchSuggestion

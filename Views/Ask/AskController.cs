@@ -38,6 +38,10 @@ namespace Lawspot.Controllers
         [HttpPost]
         public ActionResult Ask(QuestionViewModel model)
         {
+            // Check the spam honeypot field.
+            if (model.Hunee != "pot" && model.Hunee != null)    // != null so that people on the ask page don't get an error.
+                throw new InvalidOperationException(string.Format("Honeypot triggered (expected Hunee=pot but was '{0}')", model.Hunee));
+
             if (model.Registration != null)
             {
                 // We don't have another agreement checkbox for the registration.
