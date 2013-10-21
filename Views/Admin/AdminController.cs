@@ -745,6 +745,8 @@ namespace Lawspot.Controllers
                 new SelectListItem() { Text = "Off-topic", Value = "Your question relates to an area of law that LawSpot doesn’t cover: LawSpot does not answer questions about conveyancing or property leasing (except residential tenancies), or questions from landlords (unless they are community groups), or from business ventures and commercial employers." },
                 new SelectListItem() { Text = "Offensive Material", Value = "Your question contained offensive material." },
                 new SelectListItem() { Text = "Privacy Issue", Value = "Your question contained information that may, if published online, reveal the identity of a particular person or organisation." },
+                new SelectListItem() { Text = "Insufficient detail", Value = "Your question does not contain enough information to be answered as is. If you want to try again, please make sure you include all pertinent details." },
+                new SelectListItem() { Text = "Outside NZ", Value = "Your question is related to a foreign jurisdiction. LawSpot only answers questions related to New Zealand law." },
             };
 
             // Categories.
