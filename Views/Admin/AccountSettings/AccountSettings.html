@@ -57,6 +57,32 @@
     </div>
 </div>
 
+<div class="section {{#ExpandNameSection}}expanded{{/ExpandNameSection}}">
+    <a class="change" href="#">Change</a>
+    <a class="hide" href="#">Hide</a>
+    <h2> Name </h2>
+    <hr />
+    <div class="current-value">{{FirstName}} {{LastName}}</div>
+    <div class="description"> Change your name. </div>
+    <div class="edit">
+        <form method="post">
+            <input type="hidden" name="selector" value="name" />
+            <div class="field-label">
+                <label for="first-name">Name:</label>
+            </div>
+            <div class="offset-field">
+                <input id="first-name" name="FirstName" type="text" value="{{FirstName}}" placeholder="First Name" {{#ExpandNameSection}}autofocus{{/ExpandNameSection}} />
+                <input id="last-name" name="LastName" type="text" value="{{LastName}}" placeholder="Last Name" />
+                <div class="validation-error">{{ModelState.FirstName}}</div>
+                <div class="validation-error">{{ModelState.LastName}}</div>
+            </div>
+            <div class="offset-field">
+                <button type="submit">CHANGE NAME</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="section {{#ExpandRegionSection}}expanded{{/ExpandRegionSection}}">
     <a class="change" href="#">Change</a>
     <a class="hide" href="#">Hide</a>   

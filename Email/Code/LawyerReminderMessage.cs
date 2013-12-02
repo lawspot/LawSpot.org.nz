@@ -11,14 +11,14 @@ namespace Lawspot.Email
     /// </summary>
     public class LawyerReminderMessage : EmailTemplate
     {
-        public LawyerReminderMessage(Lawyer lawyer, IEnumerable<Question> unansweredQuestions)
+        public LawyerReminderMessage(User user, IEnumerable<Question> unansweredQuestions)
         {
-            this.To.Add(lawyer.User.EmailDisplayName);
+            this.To.Add(user.EmailDisplayName);
             this.TemplateFilePath = "LawyerReminder.xslt";
             this.Subject = "Unanswered questions posted on LawSpot";
-            this.Name = lawyer.FirstName;
+            this.Name = user.FirstName;
             this.UnansweredQuestionCount = unansweredQuestions.Count();
-            this.UnansweredQuestions = unansweredQuestions.OrderBy(q => q.CategoryId == lawyer.SpecialisationCategoryId ? 0 : 1)
+            this.UnansweredQuestions = unansweredQuestions.OrderBy(q => q.CategoryId == user.SpecialisationCategoryId ? 0 : 1)
                 .ThenByDescending(q => q.CreatedOn)
                 .Select(q => new UnansweredQuestion() {
                 Title = q.Title,

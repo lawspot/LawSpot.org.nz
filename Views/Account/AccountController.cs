@@ -259,7 +259,7 @@ namespace Lawspot.Controllers
             {
                 // The user already exists.
                 // Check the password is okay and that the user isn't already a lawyer.
-                if (BCrypt.Net.BCrypt.Verify(model.Password, user.Password) == false || user.Lawyers.Any())
+                if (BCrypt.Net.BCrypt.Verify(model.Password, user.Password) == false)
                 {
                     ModelState.AddModelError("EmailAddress", "That email address is already registered.");
                     PopulateLawyerRegisterViewModel(model);
@@ -274,16 +274,12 @@ namespace Lawspot.Controllers
             }
 
             // Register a new lawyer.
-            var lawyer = new Lawyer();
-            lawyer.CreatedOn = DateTimeOffset.Now;
-            lawyer.User = user;
-            lawyer.FirstName = model.FirstName;
-            lawyer.LastName = model.LastName;
-            lawyer.YearOfAdmission = model.YearAdmitted;
-            lawyer.SpecialisationCategoryId = model.SpecialisationCategoryId == 0 ? (int?)null : model.SpecialisationCategoryId;
-            lawyer.EmployerName = model.EmployerName;
-            lawyer.Approved = false;
-            this.DataContext.Lawyers.InsertOnSubmit(lawyer);
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.YearOfAdmission = model.YearAdmitted;
+            user.SpecialisationCategoryId = model.SpecialisationCategoryId == 0 ? (int?)null : model.SpecialisationCategoryId;
+            user.EmployerName = model.EmployerName;
+            user.ApprovedAsLawyer = false;
 
             // Save.
             this.DataContext.SubmitChanges();

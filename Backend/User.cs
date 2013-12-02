@@ -9,24 +9,15 @@ namespace Lawspot.Backend
     public partial class User
     {
         /// <summary>
-        /// Gets a value that indicates whether a user is a registered lawyer.
+        /// The user's full name, or <c>null</c> if we don't have it.
         /// </summary>
-        public bool IsRegisteredLawyer
-        {
-            get { return this.Lawyers.Any(); }
-        }
-
-        /// <summary>
-        /// Gets the lawyer details for a user.
-        /// </summary>
-        public Lawyer Lawyer
+        public string FullName
         {
             get
             {
-                var lawyer = this.Lawyers.SingleOrDefault();
-                if (lawyer == null)
-                    throw new InvalidOperationException(string.Format("The user {0} is not a lawyer.", this.EmailAddress));
-                return lawyer;
+                if (this.FirstName == null && this.LastName == null)
+                    return null;
+                return string.Format("{0} {1}", this.FirstName, this.LastName).Trim();
             }
         }
 
@@ -37,10 +28,9 @@ namespace Lawspot.Backend
         {
             get
             {
-                var lawyer = this.Lawyers.SingleOrDefault();
-                if (lawyer == null)
+                if (FirstName == null)
                     return "there";
-                return lawyer.FirstName;
+                return this.FirstName;
             }
         }
 
@@ -52,25 +42,22 @@ namespace Lawspot.Backend
         {
             get
             {
-                var lawyer = this.Lawyers.SingleOrDefault();
-                if (lawyer == null)
+                if (this.FullName == null)
                     return this.EmailAddress;
-                return string.Format("{0} <{1}>", lawyer.FullName, this.EmailAddress);
+                return string.Format("{0} <{1}>", this.FullName, this.EmailAddress);
             }
         }
 
         /// <summary>
-        /// Gets the user's full name, if they are a lawyer, or just their email
-        /// address otherwise.
+        /// Gets the user's full name, if we have it, or just their email address otherwise.
         /// </summary>
         public string DisplayName
         {
             get
             {
-                var lawyer = this.Lawyers.SingleOrDefault();
-                if (lawyer == null)
+                if (this.FullName == null)
                     return this.EmailAddress;
-                return lawyer.FullName;
+                return FullName;
             }
         }
     }

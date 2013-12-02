@@ -10,12 +10,16 @@ namespace Lawspot.Views.Admin
     {
         public string EmailAddress { get; set; }
 
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+
         public int RegionId { get; set; }
         public string RegionName { get; set; }
         public IEnumerable<SelectListItem> Regions { get; set; }
 
         public bool ExpandEmailAddressSection { get; set; }
         public bool ExpandPasswordSection { get; set; }
+        public bool ExpandNameSection { get; set; }
         public bool ExpandRegionSection { get; set; }
     }
 
@@ -26,6 +30,15 @@ namespace Lawspot.Views.Admin
         [RegularExpression(@"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$",
             ErrorMessage = "The email address is not valid.")]
         public string EmailAddress { get; set; }
+    }
+
+    public class ChangeNameViewModel
+    {
+        [StringLength(50, ErrorMessage = "Your first name is too long.")]
+        public string FirstName { get; set; }
+
+        [StringLength(50, ErrorMessage = "Your last name is too long.")]
+        public string LastName { get; set; }
     }
 
     public class ChangePasswordViewModel

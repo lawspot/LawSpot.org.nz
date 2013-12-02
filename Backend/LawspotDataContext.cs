@@ -12,6 +12,7 @@ namespace Lawspot.Backend
     public class LawspotDataContext : DataClassesDataContext
     {
         public LawspotDataContext()
+            : base(ConfigurationManager.ConnectionStrings["LawspotConnectionString"].ConnectionString)
         {
         }
 

@@ -153,7 +153,6 @@
       <DependentUpon>DataClasses.dbml</DependentUpon>
     </Compile>
     <Compile Include="Backend\User.cs" />
-    <Compile Include="Backend\Lawyer.cs" />
     <Compile Include="Backend\DataClasses.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -235,6 +234,7 @@
     <Content Include="Backend\Migrations\41.sql" />
     <Content Include="Backend\Migrations\49.sql" />
     <Content Include="Backend\Migrations\5.sql" />
+    <Content Include="Backend\Migrations\50.sql" />
     <Content Include="Backend\Migrations\6.sql" />
     <Content Include="Backend\Migrations\7.sql" />
     <Content Include="Backend\Migrations\8.sql" />
@@ -518,6 +518,7 @@
     <Content Include="Views\Admin\ReferenceMaterials\Q and A for Trainee Lawyers 30 Jul.docx" />
     <Content Include="Views\Admin\ReferenceMaterials\Quiz for Trainee Lawyers - blank 30 Jul.docx" />
     <Content Include="Views\Admin\ReferenceMaterials\Training Slides for Lawyer Volunteers 30 Jul.pptx" />
+    <Content Include="Views\Admin\ReferenceMaterials\LawSpot - Tips for writing great LawSpot answers.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Documentation\" />

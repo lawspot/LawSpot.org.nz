@@ -186,10 +186,7 @@ namespace Lawspot.Controllers
             var model = new AQ1.AnswerQuestionsViewModel();
 
             // Get the specialisation category of the current user.
-            int specialisationCategoryId = 0;
-            var user = this.DataContext.Users.Where(u => u.UserId == this.User.Id).Single();
-            if (user.IsRegisteredLawyer)
-                specialisationCategoryId = user.Lawyer.SpecialisationCategoryId ?? 0;
+            int specialisationCategoryId = this.UserDetails.SpecialisationCategoryId ?? 0;
 
             // Categories.
             int categoryId = questionId.HasValue || overrideCategory ? 0 : specialisationCategoryId;
@@ -581,8 +578,8 @@ namespace Lawspot.Controllers
             };
 
             // Filter and sort.
-            IEnumerable<Lawyer> lawyers = this.DataContext.Lawyers
-                .Where(l => l.User.EmailValidated == true);
+            IEnumerable<User> lawyers = this.DataContext.Users
+                .Where(l => l.EmailValidated == true && l.ApprovedAsLawyer.HasValue);
             if (categoryId != 0)
                 lawyers = lawyers.Where(l => l.SpecialisationCategoryId == categoryId);
             switch (filterValue)
@@ -591,10 +588,10 @@ namespace Lawspot.Controllers
                     lawyers = lawyers.Where(l => l.ReviewDate == null);
                     break;
                 case LawyerFilter.Approved:
-                    lawyers = lawyers.Where(l => l.Approved == true && l.ReviewDate != null);
+                    lawyers = lawyers.Where(l => l.ApprovedAsLawyer == true && l.ReviewDate != null);
                     break;
                 case LawyerFilter.Rejected:
-                    lawyers = lawyers.Where(l => l.Approved == false && l.ReviewDate != null);
+                    lawyers = lawyers.Where(l => l.ApprovedAsLawyer == false && l.ReviewDate != null);
                     break;
             }
             switch (sortValue)
@@ -611,12 +608,12 @@ namespace Lawspot.Controllers
                 .ToList()
                 .Select(l => new LawyerViewModel()
                 {
-                    LawyerId = l.LawyerId,
-                    Approved = l.Approved,
+                    LawyerId = l.UserId,
+                    Approved = l.ApprovedAsLawyer.Value,
                     NameHtml = TrimWithTooltip(l.FullName, 20),
-                    EmailAddressHtml = TrimWithTooltip(l.User.EmailAddress, 25),
+                    EmailAddressHtml = TrimWithTooltip(l.EmailAddress, 25),
                     DateRegistered = l.CreatedOn.ToString("d MMM yyyy"),
-                    YearAdmitted = l.YearOfAdmission,
+                    YearAdmitted = l.YearOfAdmission.Value,
                 });
 
             return View(model);
@@ -652,15 +649,15 @@ namespace Lawspot.Controllers
             if (this.User.CanVetLawyers == false)
                 return new StatusPlusTextResult(403, "Your account is not authorized to approve lawyers.");
 
-            var lawyer = this.DataContext.Lawyers.Where(l => l.LawyerId == lawyerId).SingleOrDefault();
+            var lawyer = this.DataContext.Users.Where(l => l.UserId == lawyerId).SingleOrDefault();
             if (lawyer == null)
                 return new StatusPlusTextResult(400, "The lawyer account doesn't exist.");
-            bool statusChange = lawyer.Approved != true || lawyer.ReviewDate == null;
-            lawyer.Approved = true;
+            bool statusChange = lawyer.ApprovedAsLawyer.Value != true || lawyer.ReviewDate == null;
+            lawyer.ApprovedAsLawyer = true;
             lawyer.ReviewDate = DateTimeOffset.Now;
             lawyer.ReviewedByUserId = this.User.Id;
             lawyer.RejectionReason = null;
-            lawyer.User.CanAnswerQuestions = true;
+            lawyer.CanAnswerQuestions = true;
             this.DataContext.SubmitChanges();
 
             // Send a message to the lawyer saying that their account has approved.
@@ -668,8 +665,8 @@ namespace Lawspot.Controllers
             if (statusChange)
             {
                 var acceptanceMessage = new Email.LawyerApprovedMessage();
-                acceptanceMessage.To.Add(lawyer.User.EmailDisplayName);
-                acceptanceMessage.Name = lawyer.User.EmailGreeting;
+                acceptanceMessage.To.Add(lawyer.EmailDisplayName);
+                acceptanceMessage.Name = lawyer.EmailGreeting;
                 acceptanceMessage.Send();
             }
 
@@ -694,15 +691,15 @@ namespace Lawspot.Controllers
             if (reason.Length > 20000)
                 return new StatusPlusTextResult(400, "Your rejection reason is too long.");
 
-            var lawyer = this.DataContext.Lawyers.Where(l => l.LawyerId == lawyerId).SingleOrDefault();
+            var lawyer = this.DataContext.Users.Where(l => l.UserId == lawyerId).SingleOrDefault();
             if (lawyer == null)
                 return new StatusPlusTextResult(400, "The lawyer account doesn't exist.");
-            bool statusChange = lawyer.Approved != false || lawyer.ReviewDate == null;
-            lawyer.Approved = false;
+            bool statusChange = lawyer.ApprovedAsLawyer.Value != false || lawyer.ReviewDate == null;
+            lawyer.ApprovedAsLawyer = false;
             lawyer.ReviewDate = DateTimeOffset.Now;
             lawyer.ReviewedByUserId = this.User.Id;
             lawyer.RejectionReason = reason;
-            lawyer.User.CanAnswerQuestions = false;
+            lawyer.CanAnswerQuestions = false;
             this.DataContext.SubmitChanges();
 
             // Send a message to the lawyer saying that their account has been "put on hold".
@@ -710,8 +707,8 @@ namespace Lawspot.Controllers
             if (statusChange)
             {
                 var rejectionMessage = new Email.LawyerRejectedMessage();
-                rejectionMessage.To.Add(lawyer.User.EmailDisplayName);
-                rejectionMessage.Name = lawyer.User.EmailGreeting;
+                rejectionMessage.To.Add(lawyer.EmailDisplayName);
+                rejectionMessage.Name = lawyer.EmailGreeting;
                 rejectionMessage.Reason = reason;
                 rejectionMessage.Send();
             }
@@ -1312,6 +1309,10 @@ namespace Lawspot.Controllers
             var model = new AccountSettingsViewModel();
             if (this.Request.Form["EmailAddress"] == null)
                 model.EmailAddress = user.EmailAddress;
+            if (this.Request.Form["FirstName"] == null)
+                model.FirstName = user.FirstName;
+            if (this.Request.Form["LastName"] == null)
+                model.LastName = user.LastName;
             if (this.Request.Form["RegionId"] == null)
                 model.RegionId = user.RegionId;
             model.RegionName = user.Region.Name;
@@ -1373,6 +1374,31 @@ namespace Lawspot.Controllers
             // Change the user's password.
             var user = this.DataContext.Users.Where(u => u.UserId == this.User.Id).Single();
             user.Password = BCrypt.Net.BCrypt.HashPassword(model.Password, workFactor: 12);
+            this.DataContext.SubmitChanges();
+
+            return RedirectToAction("AccountSettings", new { alert = "updated" });
+        }
+
+        /// <summary>
+        /// Called to change the user's name.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost, ActionName("AccountSettings"), FormSelector("selector", "name")]
+        public ActionResult ChangeName(ChangeNameViewModel model)
+        {
+            if (ModelState.IsValid == false)
+            {
+                var model2 = InitializeAccountSettingsViewModel();
+                model2.FirstName = model.FirstName;
+                model2.LastName = model.LastName;
+                model2.ExpandNameSection = true;
+                return View(model2);
+            }
+
+            // Change the user's name.
+            var user = this.DataContext.Users.Where(u => u.UserId == this.User.Id).Single();
+            user.FirstName = model.FirstName.Trim();
+            user.LastName = model.LastName.Trim();
             this.DataContext.SubmitChanges();
 
             return RedirectToAction("AccountSettings", new { alert = "updated" });
@@ -1607,17 +1633,17 @@ namespace Lawspot.Controllers
             viewModel.LoginCount = user.LogInCount;
             viewModel.LoginIpAddress = user.LogInIpAddress;
 
-            if (user.IsRegisteredLawyer)
+            if (user.ApprovedAsLawyer.HasValue)
             {
                 viewModel.IsLawyer = true;
-                viewModel.Name = user.Lawyer.FullName;
-                viewModel.YearOfAdmission = user.Lawyer.YearOfAdmission;
-                viewModel.Specialization = user.Lawyer.Category != null ? user.Lawyer.Category.Name : "None";
-                viewModel.Employer = user.Lawyer.EmployerName;
-                if (user.Lawyer.Approved)
+                viewModel.Name = user.FullName;
+                viewModel.YearOfAdmission = user.YearOfAdmission.Value;
+                viewModel.Specialization = user.Category != null ? user.Category.Name : "None";
+                viewModel.Employer = user.EmployerName;
+                if (user.ApprovedAsLawyer.Value)
                     viewModel.ApprovalStatus = "Approved";
-                else if (user.Lawyer.RejectionReason != null)
-                    viewModel.ApprovalStatus = string.Format("Rejected for reason: {0}", user.Lawyer.RejectionReason);
+                else if (user.RejectionReason != null)
+                    viewModel.ApprovalStatus = string.Format("Rejected for reason: {0}", user.RejectionReason);
                 else
                     viewModel.ApprovalStatus = "Pending";
             }

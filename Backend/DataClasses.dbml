@@ -1,5 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Data" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=(LocalDB)\v11.0;Initial Catalog=Lawspot;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="LawspotConnectionString" Provider="System.Data.SqlClient" />
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Lawspot" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
   <Table Name="dbo.Region" Member="Regions">
     <Type Name="Region">
       <Column Name="RegionId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -23,8 +22,8 @@
       <Column Name="CreatedOn" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
       <Column Name="CreatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedOn" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
-      <Association Name="User_DraftAnswer" Member="CreatedByUser" Storage="_User" ThisKey="CreatedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
       <Association Name="Question_DraftAnswer" Member="Question" ThisKey="QuestionId" OtherKey="QuestionId" Type="Question" IsForeignKey="true" />
+      <Association Name="User_DraftAnswer" Member="CreatedByUser" ThisKey="CreatedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Category" Member="Categories">
@@ -34,58 +33,8 @@
       <Column Name="Slug" Type="System.String" DbType="VarChar(30) NOT NULL" CanBeNull="false" />
       <Column Name="ApprovedQuestionCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="AnsweredQuestionCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Association Name="Category_Lawyer" Member="Lawyers" ThisKey="CategoryId" OtherKey="SpecialisationCategoryId" Type="Lawyer" />
       <Association Name="Category_Question" Member="Questions" ThisKey="CategoryId" OtherKey="CategoryId" Type="Question" />
-    </Type>
-  </Table>
-  <Table Name="dbo.Lawyer" Member="Lawyers">
-    <Type Name="Lawyer">
-      <Column Name="LawyerId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="FirstName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="LastName" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Column Name="YearOfAdmission" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="SpecialisationCategoryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="EmployerName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
-      <Column Name="CreatedOn" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
-      <Column Name="Approved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="ReviewDate" Type="System.DateTimeOffset" DbType="DateTimeOffset" CanBeNull="true" />
-      <Column Name="ReviewedByUserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="RejectionReason" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Association Name="Category_Lawyer" Member="Category" ThisKey="SpecialisationCategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
-      <Association Name="User_Lawyer" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
-    </Type>
-  </Table>
-  <Table Name="dbo.[User]" Member="Users">
-    <Type Name="User">
-      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="EmailAddress" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
-      <Column Name="Password" Type="System.String" DbType="VarChar(60) NOT NULL" CanBeNull="false" />
-      <Column Name="RegionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="CreatedOn" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
-      <Column Name="CanAnswerQuestions" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="CanVetQuestions" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="CanVetAnswers" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="CanVetLawyers" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="CanAdminister" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
-      <Column Name="LastLogInDate" Type="System.DateTimeOffset" DbType="DateTimeOffset" CanBeNull="true" />
-      <Column Name="LogInCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="LogInIpAddress" Type="System.String" DbType="VarChar(45)" CanBeNull="true" />
-      <Column Name="CommunityServicesCardNumber" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="EmailValidated" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
-      <Column Name="EmailValidationToken" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="ResetPasswordToken" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
-      <Column Name="ResetPasswordTokenExpiry" Type="System.DateTimeOffset" DbType="DateTimeOffset" CanBeNull="true" />
-      <Column Name="PublisherId" Type="System.Int32" CanBeNull="true" />
-      <Association Name="User_DraftAnswer" Member="DraftAnswers" ThisKey="UserId" OtherKey="CreatedByUserId" Type="DraftAnswer" />
-      <Association Name="User_Lawyer" Member="Lawyers" ThisKey="UserId" OtherKey="UserId" Type="Lawyer" />
-      <Association Name="User_Question" Member="CreatedQuestions" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Question" />
-      <Association Name="User_Question1" Member="ReviewedQuestions" ThisKey="UserId" OtherKey="ReviewedByUserId" Type="Question" />
-      <Association Name="User_Answer" Member="CreatedAnswers" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Answer" />
-      <Association Name="User_Answer1" Member="ReviewedAnswers" ThisKey="UserId" OtherKey="ReviewedByUserId" Type="Answer" />
-      <Association Name="User_EventStream" Member="Events" ThisKey="UserId" OtherKey="UserId" Type="Event" />
-      <Association Name="Region_User" Member="Region" ThisKey="RegionId" OtherKey="RegionId" Type="Region" IsForeignKey="true" />
-      <Association Name="Publisher_User" Member="Publisher" ThisKey="PublisherId" OtherKey="PublisherId" Type="Publisher" IsForeignKey="true" />
+      <Association Name="Category_User" Member="Users" ThisKey="CategoryId" OtherKey="SpecialisationCategoryId" Type="User" />
     </Type>
   </Table>
   <Table Name="dbo.Question" Member="Questions">
@@ -125,18 +74,18 @@
       <Column Name="OriginalDetails" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="PublisherId" Type="System.Int32" CanBeNull="true" />
       <Column Name="Status" Type="Lawspot.Backend.AnswerStatus" CanBeNull="false" />
-      <Association Name="User_Answer" Member="CreatedByUser" ThisKey="CreatedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
       <Association Name="Question_Answer" Member="Question" ThisKey="QuestionId" OtherKey="QuestionId" Type="Question" IsForeignKey="true" />
-      <Association Name="User_Answer1" Member="ReviewedByUser" ThisKey="ReviewedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
       <Association Name="Publisher_Answer" Member="Publisher" ThisKey="PublisherId" OtherKey="PublisherId" Type="Publisher" IsForeignKey="true" />
+      <Association Name="User_Answer" Member="CreatedByUser" ThisKey="CreatedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+      <Association Name="User_Answer1" Member="ReviewedByUser" ThisKey="ReviewedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Publisher" Member="Publishers">
     <Type Name="Publisher">
       <Column Name="PublisherId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
-      <Association Name="Publisher_User" Member="Users" ThisKey="PublisherId" OtherKey="PublisherId" Type="User" />
       <Association Name="Publisher_Answer" Member="Answers" ThisKey="PublisherId" OtherKey="PublisherId" Type="Answer" />
+      <Association Name="Publisher_User" Member="Users" ThisKey="PublisherId" OtherKey="PublisherId" Type="User" />
     </Type>
   </Table>
   <Table Name="dbo.EventStream" Member="Events">
@@ -146,7 +95,48 @@
       <Column Name="EventType" Type="Lawspot.Backend.EventType" CanBeNull="false" />
       <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Details" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
-      <Association Name="User_EventStream" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+      <Association Name="User_Event" Member="User" ThisKey="UserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.[User]" Member="Users">
+    <Type Name="User">
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="EmailAddress" Type="System.String" DbType="NVarChar(256) NOT NULL" CanBeNull="false" />
+      <Column Name="Password" Type="System.String" DbType="VarChar(60) NOT NULL" CanBeNull="false" />
+      <Column Name="RegionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedOn" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
+      <Column Name="CanAnswerQuestions" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CanVetQuestions" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CanVetAnswers" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="CanVetLawyers" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="EmailValidated" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="EmailValidationToken" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CanAdminister" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Column Name="LastLogInDate" Type="System.DateTimeOffset" DbType="DateTimeOffset" CanBeNull="true" />
+      <Column Name="LogInCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LogInIpAddress" Type="System.String" DbType="VarChar(45)" CanBeNull="true" />
+      <Column Name="CommunityServicesCardNumber" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ResetPasswordToken" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="ResetPasswordTokenExpiry" Type="System.DateTimeOffset" DbType="DateTimeOffset" CanBeNull="true" />
+      <Column Name="PublisherId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FirstName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="LastName" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="YearOfAdmission" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SpecialisationCategoryId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="EmployerName" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="ApprovedAsLawyer" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="ReviewDate" Type="System.DateTimeOffset" DbType="DateTimeOffset" CanBeNull="true" />
+      <Column Name="ReviewedByUserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RejectionReason" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="User_DraftAnswer" Member="DraftAnswers" ThisKey="UserId" OtherKey="CreatedByUserId" Type="DraftAnswer" />
+      <Association Name="User_Question" Member="Questions" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Question" />
+      <Association Name="User_Question1" Member="Questions1" ThisKey="UserId" OtherKey="ReviewedByUserId" Type="Question" />
+      <Association Name="User_Answer" Member="Answers" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Answer" />
+      <Association Name="User_Answer1" Member="Answers1" ThisKey="UserId" OtherKey="ReviewedByUserId" Type="Answer" />
+      <Association Name="User_Event" Member="Events" ThisKey="UserId" OtherKey="UserId" Type="Event" />
+      <Association Name="Category_User" Member="Category" ThisKey="SpecialisationCategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
+      <Association Name="Publisher_User" Member="Publisher" ThisKey="PublisherId" OtherKey="PublisherId" Type="Publisher" IsForeignKey="true" />
+      <Association Name="Region_User" Member="Region" ThisKey="RegionId" OtherKey="RegionId" Type="Region" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
