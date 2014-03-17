@@ -294,10 +294,12 @@
     <Content Include="Email\Templates\Error.xslt" />
     <Content Include="Email\Templates\Register.xslt" />
     <Content Include="Email\Test Data\AnswerApproved.xml" />
+    <Content Include="Email\Test Data\AnswerRejected.xml" />
     <Content Include="Email\Test Data\ForgotPassword.xml" />
     <Content Include="Email\Test Data\LawyerRejected.xml" />
     <Content Include="Email\Test Data\LawyerApproved.xml" />
-    <Content Include="Email\Test Data\LawyerReminder.xml" />
+    <Content Include="Email\Test Data\LawyerReminder1.xml" />
+    <Content Include="Email\Test Data\LawyerReminder2.xml" />
     <Content Include="Email\Test Data\QuestionRejected.xml" />
     <Content Include="Email\Test Data\QuestionAnswered.xml" />
     <Content Include="Email\Test Data\Register2.xml" />
