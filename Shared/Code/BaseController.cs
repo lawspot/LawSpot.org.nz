@@ -134,6 +134,11 @@ namespace Lawspot.Controllers
             /// Indicates whether the login session expired.
             /// </summary>
             public bool SessionExpired { get; set; }
+
+            /// <summary>
+            /// The current year.
+            /// </summary>
+            public int CurrentYear { get; set; }
         }
 
         /// <summary>
@@ -202,6 +207,7 @@ namespace Lawspot.Controllers
             {
                 // Initialize the extra state that gets tacked on before the view model state.
                 var model = new LayoutViewModel();
+                model.CurrentYear = DateTime.Now.Year;
 
                 // User.
                 model.User = ((Controller)viewContext.Controller).User as CustomPrincipal;
