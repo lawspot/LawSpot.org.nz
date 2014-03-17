@@ -12,24 +12,6 @@ namespace Lawspot.Controllers
     public class TasksController : BaseController
     {
         /// <summary>
-        /// Sends a test message.
-        /// </summary>
-        [HttpGet]
-        public void Test()
-        {
-            var message = new System.Net.Mail.MailMessage();
-            message.To.Add("paulbartrum@hotmail.com");
-            message.Body = "Tasks are indeed working.  Jolly good show!";
-            message.IsBodyHtml = false;
-
-            // Send the email.
-            using (var client = new System.Net.Mail.SmtpClient())
-            {
-                client.Send(message);
-            }
-        }
-
-        /// <summary>
         /// Sends a reminder email to all registered lawyers.
         /// </summary>
         [HttpGet]
@@ -48,7 +30,16 @@ namespace Lawspot.Controllers
 
                 // Send the messages.
                 foreach (var message in messages)
-                    message.Send();
+                {
+                    try
+                    {
+                        message.Send();
+                    }
+                    catch (Exception ex)
+                    {
+                        Lawspot.Shared.Logger.LogError(ex, "Could not send lawyer reminder email to {0}", message.To);
+                    }
+                }
 
                 sentMessageCount = messages.Count;
             }
