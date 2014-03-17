@@ -1638,7 +1638,7 @@ namespace Lawspot.Controllers
                 viewModel.IsLawyer = true;
                 viewModel.Name = user.FullName;
                 viewModel.YearOfAdmission = user.YearOfAdmission.Value;
-                viewModel.Specialization = user.SpecialisationCategory != null ? user.SpecialisationCategory.Name : "None";
+                viewModel.Specialisation = user.SpecialisationCategory != null ? user.SpecialisationCategory.Name : "None";
                 viewModel.Employer = user.EmployerName;
                 if (user.ApprovedAsLawyer.Value)
                     viewModel.ApprovalStatus = "Approved";
@@ -1666,6 +1666,7 @@ namespace Lawspot.Controllers
             user.CanVetAnswers = model.CanVetAnswers;
             user.CanVetLawyers = model.CanVetLawyers;
             user.CanVetQuestions = model.CanVetQuestions;
+            user.CanAdminister = model.CanAdminister;
             this.DataContext.SubmitChanges();
 
             return RedirectToAction("ViewUser", new { userId = model.UserId, alert = "updated" });

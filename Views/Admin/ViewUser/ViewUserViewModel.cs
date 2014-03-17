@@ -19,7 +19,7 @@ namespace Lawspot.Views.Admin
         public bool IsLawyer { get; set; }
         public string Name { get; set; }
         public int YearOfAdmission { get; set; }
-        public string Specialization { get; set; }
+        public string Specialisation { get; set; }
         public string Employer { get; set; }
         public string ApprovalStatus { get; set; }
 

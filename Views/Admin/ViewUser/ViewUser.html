@@ -54,8 +54,8 @@
 	            <td>{{YearOfAdmission}}</td>
 	        </tr>
             <tr>
-	            <td>Specialization:</td>
-	            <td>{{Specialization}}</td>
+	            <td>Specialisation:</td>
+	            <td>{{Specialisation}}</td>
 	        </tr>
             <tr>
 	            <td>Employer:</td>
@@ -80,7 +80,7 @@
 	    <div><label><input name="CanVetAnswers" type="checkbox" {{#CanVetAnswers}}checked{{/CanVetAnswers}} value="true" /> Can vet answers (reject or recommend for approval)</label></div>
         <div><label><input type="checkbox" {{#CanPublishAnswers}}checked{{/CanPublishAnswers}} disabled /> Can publish answers {{#Publisher}}(under the name "{{Publisher}}"){{/Publisher}}</label></div>
 	    <div><label><input name="CanVetLawyers" type="checkbox" {{#CanVetLawyers}}checked{{/CanVetLawyers}} value="true" /> Can approve or reject lawyers</label></div>
-	    <div><label><input type="checkbox" {{#CanAdminister}}checked{{/CanAdminister}} disabled /> Can administer the site (super user)</label></div>
+	    <div><label><input name="CanAdminister" type="checkbox" {{#CanAdminister}}checked{{/CanAdminister}} /> Can administer the site (super user)</label></div>
     </fieldset>
 
     <input type="submit" value="SAVE" />
