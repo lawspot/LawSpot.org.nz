@@ -3,6 +3,8 @@
 <Root>
   <Name>Paul</Name>
   <UnansweredQuestionCount>2</UnansweredQuestionCount>
+  <SpecialtyUnansweredQuestionCount>0</SpecialtyUnansweredQuestionCount>
+  <SpecialtyName></SpecialtyName>
   <UnansweredQuestions>
     <UnansweredQuestion>
       <Title>Test</Title>
@@ -13,6 +15,7 @@
       <Uri>http://localhost:60000/family-law/how-do-i-jump-up-and-down-really-fast</Uri>
     </UnansweredQuestion>
   </UnansweredQuestions>
+  <SpecialtyUnansweredQuestions></SpecialtyUnansweredQuestions>
   <BaseUrl>http://localhost:60000</BaseUrl>
   <CurrentDate>Sunday, 15 July 2012</CurrentDate>
 </Root>

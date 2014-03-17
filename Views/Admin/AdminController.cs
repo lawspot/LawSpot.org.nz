@@ -1638,7 +1638,7 @@ namespace Lawspot.Controllers
                 viewModel.IsLawyer = true;
                 viewModel.Name = user.FullName;
                 viewModel.YearOfAdmission = user.YearOfAdmission.Value;
-                viewModel.Specialization = user.Category != null ? user.Category.Name : "None";
+                viewModel.Specialization = user.SpecialisationCategory != null ? user.SpecialisationCategory.Name : "None";
                 viewModel.Employer = user.EmployerName;
                 if (user.ApprovedAsLawyer.Value)
                     viewModel.ApprovalStatus = "Approved";

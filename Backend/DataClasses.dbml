@@ -134,7 +134,7 @@
       <Association Name="User_Answer" Member="Answers" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Answer" />
       <Association Name="User_Answer1" Member="Answers1" ThisKey="UserId" OtherKey="ReviewedByUserId" Type="Answer" />
       <Association Name="User_Event" Member="Events" ThisKey="UserId" OtherKey="UserId" Type="Event" />
-      <Association Name="Category_User" Member="Category" ThisKey="SpecialisationCategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
+      <Association Name="Category_User" Member="SpecialisationCategory" Storage="_Category" ThisKey="SpecialisationCategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
       <Association Name="Publisher_User" Member="Publisher" ThisKey="PublisherId" OtherKey="PublisherId" Type="Publisher" IsForeignKey="true" />
       <Association Name="Region_User" Member="Region" ThisKey="RegionId" OtherKey="RegionId" Type="Region" IsForeignKey="true" />
     </Type>

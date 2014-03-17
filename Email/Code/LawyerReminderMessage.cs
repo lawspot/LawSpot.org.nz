@@ -17,13 +17,27 @@ namespace Lawspot.Email
             this.TemplateFilePath = "LawyerReminder.xslt";
             this.Subject = "Unanswered questions posted on LawSpot";
             this.Name = user.FirstName;
+
+            if (user.SpecialisationCategoryId.HasValue)
+            {
+                this.SpecialtyName = user.SpecialisationCategory.Name;
+                this.SpecialtyUnansweredQuestionCount = unansweredQuestions.Count(q => q.CategoryId == user.SpecialisationCategoryId);
+                this.SpecialtyUnansweredQuestions = unansweredQuestions.OrderByDescending(q => q.CreatedOn)
+                    .Select(q => new UnansweredQuestion()
+                    {
+                        Title = q.Title,
+                        Uri = q.Uri,
+                    });
+                unansweredQuestions = unansweredQuestions.Where(q => q.CategoryId != user.SpecialisationCategoryId);
+            }
+
             this.UnansweredQuestionCount = unansweredQuestions.Count();
-            this.UnansweredQuestions = unansweredQuestions.OrderBy(q => q.CategoryId == user.SpecialisationCategoryId ? 0 : 1)
-                .ThenByDescending(q => q.CreatedOn)
-                .Select(q => new UnansweredQuestion() {
-                Title = q.Title,
-                Uri = q.Uri,
-            });
+            this.UnansweredQuestions = unansweredQuestions.OrderByDescending(q => q.CreatedOn)
+                .Select(q => new UnansweredQuestion()
+                {
+                    Title = q.Title,
+                    Uri = q.Uri,
+                });
         }
 
         /// <summary>
@@ -33,10 +47,22 @@ namespace Lawspot.Email
         private string Name { get; set; }
 
         /// <summary>
-        /// The number of unanswered questions.
+        /// The number of unanswered questions (not including specialty questions).
         /// </summary>
         [ExposeToXslt]
         private int UnansweredQuestionCount { get; set; }
+
+        /// <summary>
+        /// The number of unanswered questions in the lawyer's specialty area.
+        /// </summary>
+        [ExposeToXslt]
+        private int SpecialtyUnansweredQuestionCount { get; set; }
+
+        /// <summary>
+        /// The name of the specialty area.
+        /// </summary>
+        [ExposeToXslt]
+        private string SpecialtyName { get; set; }
 
         // Helper class.
         private class UnansweredQuestion
@@ -53,6 +79,12 @@ namespace Lawspot.Email
         /// </summary>
         [ExposeToXslt]
         private IEnumerable<UnansweredQuestion> UnansweredQuestions { get; set; }
+
+        /// <summary>
+        /// The unanswered questions in the lawyer's specialty area.
+        /// </summary>
+        [ExposeToXslt]
+        private IEnumerable<UnansweredQuestion> SpecialtyUnansweredQuestions { get; set; }
     }
 
 }

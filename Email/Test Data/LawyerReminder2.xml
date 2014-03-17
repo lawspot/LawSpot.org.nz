@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type="text/xsl" href="../Templates/LawyerReminder.xslt"?>
+<Root>
+  <Name>Paul</Name>
+  <UnansweredQuestionCount>2</UnansweredQuestionCount>
+  <SpecialtyUnansweredQuestionCount>2</SpecialtyUnansweredQuestionCount>
+  <SpecialtyName>Consumer Law</SpecialtyName>
+  <UnansweredQuestions>
+    <UnansweredQuestion>
+      <Title>Test</Title>
+      <Uri>http://localhost:60000/tax-law/test</Uri>
+    </UnansweredQuestion>
+    <UnansweredQuestion>
+      <Title>How do I jump up and down really fast?</Title>
+      <Uri>http://localhost:60000/family-law/how-do-i-jump-up-and-down-really-fast</Uri>
+    </UnansweredQuestion>
+  </UnansweredQuestions>
+  <SpecialtyUnansweredQuestions>
+    <UnansweredQuestion>
+      <Title>Consumer Law 1</Title>
+      <Uri>http://localhost:60000/consumer-law/test</Uri>
+    </UnansweredQuestion>
+    <UnansweredQuestion>
+      <Title>Consumer Law 2</Title>
+      <Uri>http://localhost:60000/consumer-law/test2</Uri>
+    </UnansweredQuestion>
+  </SpecialtyUnansweredQuestions>
+  <BaseUrl>http://localhost:60000</BaseUrl>
+  <CurrentDate>Sunday, 15 July 2012</CurrentDate>
+</Root>
