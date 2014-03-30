@@ -22,7 +22,7 @@ namespace Lawspot.Email
             {
                 this.SpecialtyName = user.SpecialisationCategory.Name;
                 this.SpecialtyUnansweredQuestionCount = unansweredQuestions.Count(q => q.CategoryId == user.SpecialisationCategoryId);
-                this.SpecialtyUnansweredQuestions = unansweredQuestions.OrderByDescending(q => q.CreatedOn)
+                this.SpecialtyUnansweredQuestions = unansweredQuestions.Where(q => q.CategoryId == user.SpecialisationCategoryId).OrderByDescending(q => q.CreatedOn)
                     .Select(q => new UnansweredQuestion()
                     {
                         Title = q.Title,
