@@ -12,6 +12,7 @@ using Lucene.Net.QueryParsers;
 using Lucene.Net.Search;
 using Lucene.Net.Store;
 using Version = Lucene.Net.Util.Version;
+using System.Data.Linq;
 
 namespace Lawspot.Shared
 {
@@ -46,6 +47,14 @@ namespace Lawspot.Shared
                     // Delete all existing documents.
                     writer.DeleteAll();
 
+                    dataContext.CommandTimeout = int.MaxValue;
+                    var dataOptions = new DataLoadOptions();
+                    dataOptions.LoadWith<Question>(q => q.ReviewedByUser);
+                    dataOptions.LoadWith<Question>(q => q.Answers);
+                    dataOptions.LoadWith<Answer>(a => a.CreatedByUser);
+                    dataOptions.LoadWith<Answer>(a => a.ReviewedByUser);
+                    dataContext.LoadOptions = dataOptions;
+
                     foreach (var question in dataContext.Questions)
                     {
                         // Create a new document.
@@ -59,6 +68,25 @@ namespace Lawspot.Shared
 
                 // Invalidate the searcher.
                 searcher = null;
+            }
+        }
+
+        //utility class for output of TextWriter for the Visual Sudio Debug window
+        class DebugTextWriter : System.IO.TextWriter
+        {
+            public override void Write(char[] buffer, int index, int count)
+            {
+                System.Diagnostics.Debug.Write(new String(buffer, index, count));
+            }
+
+            public override void Write(string value)
+            {
+                System.Diagnostics.Debug.Write(value);
+            }
+
+            public override Encoding Encoding
+            {
+                get { return System.Text.Encoding.Default; }
             }
         }
 
@@ -108,10 +136,22 @@ namespace Lawspot.Shared
             var details = new StringBuilder(q.Details);
             var publicDetails = new StringBuilder(q.Details);
             int approvedAnswerCount = 0;
+            if (q.ReviewedByUser != null)
+            {
+                details.Append(" ... ");
+                details.Append(q.ReviewedByUser.EmailDisplayName);
+            }
             foreach (var answer in q.Answers)
             {
                 details.Append(" ... ");
                 details.Append(answer.Details);
+                details.Append(" ... ");
+                details.Append(answer.CreatedByUser.EmailDisplayName);
+                if (answer.ReviewedByUser != null)
+                {
+                    details.Append(" ... ");
+                    details.Append(answer.ReviewedByUser.EmailDisplayName);
+                }
                 if (answer.Status == AnswerStatus.Approved)
                 {
                     approvedAnswerCount++;
