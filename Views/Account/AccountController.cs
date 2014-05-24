@@ -121,20 +121,8 @@ namespace Lawspot.Controllers
             // Trim the text fields.
             model.EmailAddress = model.EmailAddress.Trim();
 
-            // Verify the last part of the email is okay by doing a DNS lookup.
-            bool domainHasMXRecords;
-            try
-            {
-                var mxRecords = JHSoftware.DnsClient.LookupMX(model.EmailAddress.Substring(model.EmailAddress.IndexOf('@') + 1));
-                domainHasMXRecords = mxRecords.Length > 0;
-            }
-            catch (Exception)
-            {
-                domainHasMXRecords = false;
-            }
-
             // If there are no MX records, then reject the email address.
-            if (domainHasMXRecords == false)
+            if (EmailValidator.ValidateEmailDomain(model.EmailAddress) == false)
             {
                 ModelState.AddModelError("EmailAddress", "Your email address is not valid.");
                 PopulateRegisterViewModel(model);
@@ -242,11 +230,7 @@ namespace Lawspot.Controllers
                 model.EmployerName = model.EmployerName.Trim();
 
             // Verify the last part of the email is okay by doing a DNS lookup.
-            try
-            {
-                System.Net.Dns.GetHostAddresses(model.EmailAddress.Substring(model.EmailAddress.IndexOf('@') + 1));
-            }
-            catch (System.Net.Sockets.SocketException)
+            if (EmailValidator.ValidateEmailDomain(model.EmailAddress) == false)
             {
                 ModelState.AddModelError("EmailAddress", "Your email address is not valid.");
                 PopulateLawyerRegisterViewModel(model);

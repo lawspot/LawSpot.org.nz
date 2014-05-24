@@ -1338,6 +1338,10 @@ namespace Lawspot.Controllers
             if (existingUser != null && existingUser.UserId != this.User.Id)
                 ModelState.AddModelError("EmailAddress", "That email address is already in use by another member.");
 
+            // Check that the email domain name is valid.
+            if (EmailValidator.ValidateEmailDomain(model.EmailAddress) == false)
+                ModelState.AddModelError("EmailAddress", "That email address is not valid.");
+
             if (ModelState.IsValid == false)
             {
                 var model2 = InitializeAccountSettingsViewModel();
