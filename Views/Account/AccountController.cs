@@ -432,7 +432,7 @@ namespace Lawspot.Controllers
             // Get the users details.
             var user = this.DataContext.Users.SingleOrDefault(u => u.ResetPasswordToken == token);
             if (user == null)
-                return View("ResetPasswordFailure");
+                return View("ResetPasswordInvalid");
 
             // Check the link hasn't expired.
             if (user.ResetPasswordTokenExpiry < DateTimeOffset.Now)
