@@ -486,6 +486,7 @@
     <Content Include="Views\Static\ImportantNotice.html" />
     <Content Include="Views\Static\LawyerPolicy.html" />
     <Content Include="Views\Static\PartnerWithUs\community-law.png" />
+    <Content Include="Views\Static\PartnerWithUs\cooper-legal.jpg" />
     <Content Include="Views\Static\PartnerWithUs\write-logo.jpg" />
     <Content Include="Views\Static\PartnerWithUs\write-logo.png" />
     <Content Include="Views\Static\TermsOfUse.html" />
