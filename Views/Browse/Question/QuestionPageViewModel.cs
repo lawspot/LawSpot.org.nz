@@ -24,5 +24,6 @@ namespace Lawspot.Views.Browse
     {
         public string DetailsHtml { get; set; }
         public string PublishedDate { get; set; }
+        public string PublisherName { get; set; }
     }
 }

@@ -80,7 +80,7 @@ namespace Lawspot.Controllers
                 throw new HttpException(404, "Question not found");
             if (string.Equals(question.Category.Slug, category, StringComparison.OrdinalIgnoreCase) == false)
                 throw new HttpException(404, "Category not found");
-            if (question.Approved == false)
+            if (question.Status != QuestionStatus.Approved)
                 throw new HttpException(404, "Question not approved");
 
             // Increment the number of views.
@@ -100,6 +100,7 @@ namespace Lawspot.Controllers
             {
                 DetailsHtml = StringUtilities.ConvertTextToHtml(a.Details),
                 PublishedDate = a.PublishedText,
+                PublisherName = a.Publisher.Name,
             });
             PopulateModel(model, question.CategoryId);
             return View(model);
@@ -119,7 +120,7 @@ namespace Lawspot.Controllers
                 if (categoryId != null)
                     filteredAnswers = filteredAnswers.Where(a => a.Question.CategoryId == categoryId.Value);
                 ((IRecentAnswers)model).RecentAnswers = new PagedListView<AnsweredQuestionViewModel>(filteredAnswers
-                    .Where(a => a.Status == AnswerStatus.Approved && a.Question.Approved)
+                    .Where(a => a.Status == AnswerStatus.Approved && a.Question.Status == QuestionStatus.Approved)
                     .OrderByDescending(a => a.ReviewDate)
                     .Select(a => new AnsweredQuestionViewModel()
                     {
@@ -157,7 +158,7 @@ namespace Lawspot.Controllers
                 if (categoryId.HasValue)
                     filteredQuestions = filteredQuestions.Where(q => q.CategoryId == categoryId);
                 ((IMostViewedQuestions)model).MostViewedQuestions = filteredQuestions
-                    .Where(q => q.Approved && q.Answers.Any(a => a.Status == AnswerStatus.Approved))
+                    .Where(q => q.Status == QuestionStatus.Approved && q.Answers.Any(a => a.Status == AnswerStatus.Approved))
                     .OrderByDescending(q => q.ViewCount)
                     .Take(5)
                     .Select(q => new QuestionViewModel()
