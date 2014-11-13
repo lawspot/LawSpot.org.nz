@@ -71,8 +71,15 @@ namespace Lawspot.Controllers
             // Trim the text fields.
             model.Title = model.Title.Trim();
             model.Details = model.Details.Trim();
-            if (model.Registration != null && model.Registration.EmailAddress != null)
-                model.Registration.EmailAddress = model.Registration.EmailAddress.Trim();
+            model.OtherPartyName = (model.OtherPartyName ?? string.Empty).Trim();
+            if (model.Registration != null)
+            {
+                if (model.Registration.EmailAddress != null)
+                    model.Registration.EmailAddress = model.Registration.EmailAddress.Trim();
+                model.Registration.FirstName = (model.Registration.FirstName ?? string.Empty).Trim();
+                model.Registration.LastName = (model.Registration.LastName ?? string.Empty).Trim();
+                model.Registration.PhoneNumber = (model.Registration.PhoneNumber ?? string.Empty).Trim();
+            }
             if (model.Login != null && model.Login.EmailAddress != null)
                 model.Login.EmailAddress = model.Login.EmailAddress.Trim();
 
@@ -119,7 +126,8 @@ namespace Lawspot.Controllers
                             communityServicesCardNumber = int.Parse(model.Registration.CommunityServicesCardNumber.Replace(" ", ""));
 
                         // Register a new user.
-                        user = Register(model.Registration.EmailAddress, model.Registration.Password,
+                        user = Register(model.Registration.FirstName, model.Registration.LastName, model.Registration.PhoneNumber,
+                            model.Registration.EmailAddress, model.Registration.Password,
                             model.Registration.RegionId, communityServicesCardNumber, lawyer: false);
                         registered = true;
                     }
@@ -188,6 +196,7 @@ namespace Lawspot.Controllers
             question.Title = model.Title;
             question.Details = model.Details;
             question.CategoryId = model.CategoryId;
+            question.OtherPartyName = model.OtherPartyName;
             question.CreatedOn = DateTimeOffset.Now;
             question.CreatedByUserId = user.UserId;
             question.Slug = slug.ToString();
@@ -237,7 +246,7 @@ namespace Lawspot.Controllers
             else
             {
                 if (model.ShowRegistration == true)
-                    model.FocusInRegistrationEmailAddress = true;
+                    model.FocusInRegistration = true;
                 else
                     model.FocusInLoginEmailAddress = true;
                 model.Registration.Regions = this.DataContext.Regions.Select(r => new SelectListItem()

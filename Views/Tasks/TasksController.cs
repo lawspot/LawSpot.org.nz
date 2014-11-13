@@ -18,7 +18,7 @@ namespace Lawspot.Controllers
         public void SendReminderEmails()
         {
             // Get a list of all the questions that have no answers or even draft answers.
-            var questions = this.DataContext.Questions.Where(q => q.Approved && q.Answers.Any() == false && q.DraftAnswers.Any() == false).ToList();
+            var questions = this.DataContext.Questions.Where(q => q.Status == QuestionStatus.Approved && q.Answers.Any() == false && q.DraftAnswers.Any() == false).ToList();
 
             int sentMessageCount = 0;
             if (questions.Count > 0)

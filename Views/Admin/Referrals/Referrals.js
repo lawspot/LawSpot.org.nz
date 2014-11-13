@@ -66,54 +66,33 @@ $(".question-container a").click(function (e) {
             // Determine what action to take.
             var action = $(this).attr("data-action");
             var url, postData, template;
-            if (action == "go-to-reject") {
-                // The user clicked reject on the initial form.
-                $(".initial-form", innerContent).hide();
-                $(".rejection-form", innerContent).show();
+            if (action == "not-conflicted") {
+                // The user clicked reject on the not conflicted button.
+                
+                jQuery.ajax({
+                    type: "POST",
+                    url: "post-conflict-declaration",
+                    data: { questionId: data.QuestionId },
+                    error: function (xhr, status, error) {
+                        // Display an error message.
+                        alert(status == "error" ? xhr.responseText : "Something went wrong.  Please try again.");
+                    },
+                    success: function (response) {
+                    }
+                });
+
+                $("#conflicted-container").slideUp("fast");
+                $("#not-conflicted-container").slideDown("fast");
+
                 return;
             }
-            else if (action == "go-to-initial") {
-                // The user clicked cancel on the rejection form.
-                $(".initial-form", innerContent).show();
-                $(".rejection-form", innerContent).hide();
-                return;
-            }
-            else if (action == "approve") {
-                // The user clicked on the approve button.
-
-                // Populate the data object from the form.
-                data.CategoryId = $(".category", this.form).val();
-                data.Title = $(".title", this.form).val();
-                data.Details = $(".details", this.form).val();
+            else if (action == "accept") {
+                // The user clicked on the accept button.
 
                 // Details to send to the server.
-                url = "post-approve-question";
-                postData = { questionId: data.QuestionId, title: data.Title, details: data.Details, categoryId: data.CategoryId };
-                template = "approval-template";
-            }
-            else if (action == "reject") {
-                // The user clicked on the second reject button.
-
-                // Populate the data object from the form.
-                data.RejectionReason = $(".reason", this.form).val();
-
-                // Details to send to the server.
-                url = "post-reject-question";
-                postData = { questionId: data.QuestionId, reason: data.RejectionReason };
-                template = "rejection-template";
-            }
-            else if (action == "referral") {
-                // The user clicked on the referral button.
-
-                // Populate the data object from the form.
-                data.CategoryId = $(".category", this.form).val();
-                data.Title = $(".title", this.form).val();
-                data.Details = $(".details", this.form).val();
-
-                // Details to send to the server.
-                url = "post-refer-question";
-                postData = { questionId: data.QuestionId, title: data.Title, details: data.Details, categoryId: data.CategoryId };
-                template = "referral-template";
+                url = "post-accept-referred-question";
+                postData = { questionId: data.QuestionId };
+                template = "accept-template";
             }
 
             // Disable the buttons and display the progress indicator.
@@ -154,14 +133,6 @@ $(".question-container a").click(function (e) {
                     });
                 }
             });
-        });
-
-        // Hook up the canned rejection reason drop-down.
-        $(".canned-rejection-reasons", innerContent).change(function (e) {
-            var reason = $(this).val();
-            if (reason)
-                $(".reason").val(reason);
-            this.selectedIndex = 0;
         });
     }
 

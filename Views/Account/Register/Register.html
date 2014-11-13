@@ -30,6 +30,29 @@
 
     <div class="left">
         <div class="field-label">
+            <label for="FirstName">Name: </label>
+            <span class="required">*</span>
+        </div>
+        <div class="offset-field">
+            <input id="FirstName" name="FirstName" type="text" value="{{FirstName}}" maxlength="50" placeholder="First Name"
+                {{#ModelState.FirstName}}class="validation-error-field"{{/ModelState.FirstName}} />
+            <input id="LastName" name="LastName" type="text" value="{{LastName}}" maxlength="50" placeholder="Last Name"
+                {{#ModelState.LastName}}class="validation-error-field"{{/ModelState.LastName}} />
+            <div class="validation-error">{{ModelState.Registration.FirstName}}</div>
+            <div class="validation-error">{{ModelState.Registration.LastName}}</div>
+        </div>
+
+        <div class="field-label">
+            <label for="EmailAddress">Phone Number: </label>
+            <span class="required">*</span>
+        </div>
+        <div class="offset-field">
+            <input id="EmailAddress" name="PhoneNumber" type="text" value="{{PhoneNumber}}" maxlength="50"
+                   {{#ModelState.PhoneNumber}}class="validation-error-field"{{/ModelState.PhoneNumber}} />
+            <div class="validation-error">{{ModelState.PhoneNumber}}</div>
+        </div>
+
+        <div class="field-label">
             <label for="EmailAddress"> Email address: </label>
             <span class="required">*</span>
         </div>

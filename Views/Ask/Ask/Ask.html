@@ -25,13 +25,36 @@ engaging a lawyer</a>.</div>
         <div id="register" {{^ShowRegistration}}style="display: none"{{/ShowRegistration}}>
             <h3><a id="login-link" href="#">Login</a> or Register</span></h3>
 
+            <div class="field-label">
+                <label for="FirstName">Name: </label>
+                <span class="required">*</span>
+            </div>
+            <div class="offset-field">
+                <input id="FirstName" name="Registration.FirstName" type="text" value="{{Registration.FirstName}}" maxlength="50" placeholder="First Name"
+                    {{#FocusInRegistration}}autofocus{{/FocusInRegistration}}
+                    {{#ModelState.Registration.FirstName}}class="validation-error-field"{{/ModelState.Registration.FirstName}} />
+                <input id="LastName" name="Registration.LastName" type="text" value="{{Registration.LastName}}" maxlength="50" placeholder="Last Name"
+                    {{#ModelState.Registration.LastName}}class="validation-error-field"{{/ModelState.Registration.LastName}} />
+                <div class="validation-error">{{ModelState.Registration.FirstName}}</div>
+                <div class="validation-error">{{ModelState.Registration.LastName}}</div>
+            </div>
+
+            <div class="field-label">
+                <label for="EmailAddress">Phone Number: </label>
+                <span class="required">*</span>
+            </div>
+            <div class="offset-field">
+                <input id="EmailAddress" name="Registration.PhoneNumber" type="text" value="{{Registration.PhoneNumber}}" maxlength="50"
+                       {{#ModelState.Registration.PhoneNumber}}class="validation-error-field"{{/ModelState.Registration.PhoneNumber}} />
+                <div class="validation-error">{{ModelState.Registration.PhoneNumber}}</div>
+            </div>
+
 	        <div class="field-label">
 		        <label for="EmailAddress">Email address: </label>
 		        <span class="required">*</span>
 	        </div>
 	        <div class="offset-field">
 		        <input id="EmailAddress" name="Registration.EmailAddress" type="text" value="{{Registration.EmailAddress}}" maxlength="256"
-                    {{#FocusInRegistrationEmailAddress}}autofocus{{/FocusInRegistrationEmailAddress}}
 			        {{#ModelState.Registration.EmailAddress}}class="validation-error-field"{{/ModelState.Registration.EmailAddress}} />
                 <div class="validation-error">{{ModelState.Registration.EmailAddress}}</div>
 	        </div>
@@ -176,6 +199,18 @@ engaging a lawyer</a>.</div>
 			    <div class="validation-error">{{ModelState.CategoryId}}</div>
 		    </div>
 	    </div>
+
+        <div class="qsubmit-field">
+            <div class="field-label">
+                <label for="OtherPartyName">Other party: </label>
+            </div>
+            <div class="offset-field">
+                <input id="OtherPartyName" name="OtherPartyName" type="text" value="{{OtherPartyName}}" maxlength="100" /><br/>
+                <small>
+                    If there is another party involved, please enter their name.
+                </small>
+            </div>
+        </div>
 
 	    <div id="qsubmit-agreement" class="qsubmit-field">
 			<label>

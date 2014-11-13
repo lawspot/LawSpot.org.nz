@@ -29,6 +29,9 @@
                     <li><a href="/admin/view-users">Administer Users</a></li>
     		        <li><a href="/admin/admin">Administer Site</a></li>
                 {{/User.CanAdminister}}
+                {{#User.CanPublishOrAdminister}}
+                    <li><a href="/admin/referrals">Referrals</a></li>
+                {{/User.CanPublishOrAdminister}}
     		</ul>
 
             <hr />

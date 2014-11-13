@@ -19,8 +19,7 @@ namespace Lawspot.Views.Admin
     {
         public int UserId { get; set; }
         public string Name { get; set; }
-        public int RejectQuestion { get; set; }
-        public int ApproveQuestion { get; set; }
+        public int VetQuestion { get; set; }
         public int CreateAnswer { get; set; }
         public int RejectAnswer { get; set; }
         public int MyAnswersRejected { get; set; }
@@ -28,5 +27,6 @@ namespace Lawspot.Views.Admin
         public int MyAnswersRecommended { get; set; }
         public int PublishAnswer { get; set; }
         public int MyAnswersPublished { get; set; }
+        public int AcceptReferral { get; set; }
     }
 }

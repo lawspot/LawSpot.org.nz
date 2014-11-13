@@ -2,6 +2,13 @@
     width: 480px;
     padding-top: 3px;
 }
+#FirstName {
+    width: 120px;
+    margin-right: 10px;
+}
+#LastName {
+    width: 165px;
+}
 .privacy-message {
 	font-size: 10pt;
 	margin-right: 10px;

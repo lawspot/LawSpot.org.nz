@@ -8,24 +8,24 @@
     <tr>
         <th style="width: 5%"> {{#PreviousLink}} <a href="{{PreviousLink}}"><img src="/Views/Admin/Leaderboard/arrow_left.png" /></a> {{/PreviousLink}} </th>
         <th style="width: 27%; text-align: left"> Name </th>
-        <th style="width: 10%"> Reject Question </th>
-        <th style="width: 10%"> Approve Question </th>
+        <th style="width: 10%"> Vet Question </th>
         <th style="width: 10%"> Create Answer </th>
         <th style="width: 10%"> Reject Answer </th>
         <th style="width: 13%"> Recommend Answer </th>
         <th style="width: 10%"> Publish Answer </th>
+        <th style="width: 10%"> Accept Referral </th>
         <th style="width: 5%"> {{#NextLink}} <a href="{{NextLink}}"><img src="/Views/Admin/Leaderboard/arrow_right.png" /></a> {{/NextLink}} </th>
     </tr>
     {{#Rows}}
         <tr>
             <td></td>
             <td> {{Name}} </td>
-            <td style="text-align: center"> {{RejectQuestion}} </td>
-            <td style="text-align: center"> {{ApproveQuestion}} </td>
+            <td style="text-align: center"> {{VetQuestion}} </td>
             <td style="text-align: center"> {{CreateAnswer}} </td>
             <td style="text-align: center"> {{RejectAnswer}} ({{MyAnswersRejected}}) </td>
             <td style="text-align: center"> {{RecommendAnswer}} ({{MyAnswersRecommended}}) </td>
             <td style="text-align: center"> {{PublishAnswer}} ({{MyAnswersPublished}}) </td>
+            <td style="text-align: center"> {{AcceptReferral}} </td>
             <td></td>
         </tr>
     {{/Rows}}

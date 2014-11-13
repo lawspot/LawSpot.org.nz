@@ -47,17 +47,19 @@
       <Column Name="CreatedByUserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="ViewCount" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="Slug" Type="System.String" DbType="VarChar(70) NOT NULL" CanBeNull="false" />
-      <Column Name="Approved" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="ReviewDate" Type="System.DateTimeOffset" DbType="DateTimeOffset" CanBeNull="true" />
       <Column Name="ReviewedByUserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="RejectionReason" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="OriginalTitle" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
       <Column Name="OriginalDetails" Type="System.String" DbType="NVarChar(600)" CanBeNull="true" />
+      <Column Name="Status" Type="Lawspot.Backend.QuestionStatus" CanBeNull="false" />
+      <Column Name="OtherPartyName" Type="System.String" DbType="NVarChar(100)" CanBeNull="false" />
       <Association Name="Question_DraftAnswer" Member="DraftAnswers" ThisKey="QuestionId" OtherKey="QuestionId" Type="DraftAnswer" />
       <Association Name="Question_Answer" Member="Answers" ThisKey="QuestionId" OtherKey="QuestionId" Type="Answer" />
       <Association Name="Category_Question" Member="Category" ThisKey="CategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
       <Association Name="User_Question" Member="CreatedByUser" ThisKey="CreatedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
       <Association Name="User_Question1" Member="ReviewedByUser" ThisKey="ReviewedByUserId" OtherKey="UserId" Type="User" IsForeignKey="true" />
+      <Association Name="ConflictDeclaration_Question" Member="ConflictDeclaration" ThisKey="QuestionId" OtherKey="QuestionId" Type="ConflictDeclaration" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Answer" Member="Answers">
@@ -128,6 +130,7 @@
       <Column Name="ReviewDate" Type="System.DateTimeOffset" DbType="DateTimeOffset" CanBeNull="true" />
       <Column Name="ReviewedByUserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="RejectionReason" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="PhoneNumber" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Association Name="User_DraftAnswer" Member="DraftAnswers" ThisKey="UserId" OtherKey="CreatedByUserId" Type="DraftAnswer" />
       <Association Name="User_Question" Member="Questions" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Question" />
       <Association Name="User_Question1" Member="Questions1" ThisKey="UserId" OtherKey="ReviewedByUserId" Type="Question" />
@@ -137,6 +140,17 @@
       <Association Name="Category_User" Member="SpecialisationCategory" Storage="_Category" ThisKey="SpecialisationCategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
       <Association Name="Publisher_User" Member="Publisher" ThisKey="PublisherId" OtherKey="PublisherId" Type="Publisher" IsForeignKey="true" />
       <Association Name="Region_User" Member="Region" ThisKey="RegionId" OtherKey="RegionId" Type="Region" IsForeignKey="true" />
+      <Association Name="ConflictDeclaration_User" Member="ConflictDeclaration" ThisKey="UserId" OtherKey="UserId" Type="ConflictDeclaration" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="" Member="ConflictDeclarations">
+    <Type Name="ConflictDeclaration">
+      <Column Name="DeclarationId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="UserId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="QuestionId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="CreationDate" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
+      <Association Name="ConflictDeclaration_Question" Member="Questions" ThisKey="QuestionId" OtherKey="QuestionId" Type="Question" />
+      <Association Name="ConflictDeclaration_User" Member="Users" ThisKey="UserId" OtherKey="UserId" Type="User" />
     </Type>
   </Table>
 </Database>

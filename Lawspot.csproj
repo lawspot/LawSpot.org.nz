@@ -193,6 +193,7 @@
     <Compile Include="Views\Admin\ActivityStream\ActivityStreamViewModel.cs" />
     <Compile Include="Views\Admin\AdminController.cs" />
     <Compile Include="Views\Admin\AnswerQuestion\AnswerQuestionViewModel.cs" />
+    <Compile Include="Views\Admin\Referrals\ReferralsViewModel.cs" />
     <Compile Include="Views\Admin\ViewUser\ViewUserViewModel.cs" />
     <Compile Include="Views\Admin\Leaderboard\LeaderboardViewModel.cs" />
     <Compile Include="Views\Admin\ReviewAnswer\ReviewAnswerViewModel.cs" />
@@ -235,6 +236,11 @@
     <Content Include="Backend\Migrations\41.sql" />
     <Content Include="Backend\Migrations\49.sql" />
     <Content Include="Backend\Migrations\5.sql" />
+    <Content Include="Backend\Migrations\55.sql" />
+    <Content Include="Backend\Migrations\54.sql" />
+    <Content Include="Backend\Migrations\53.sql" />
+    <Content Include="Backend\Migrations\52.sql" />
+    <Content Include="Backend\Migrations\51.sql" />
     <Content Include="Backend\Migrations\50.sql" />
     <Content Include="Backend\Migrations\6.sql" />
     <Content Include="Backend\Migrations\7.sql" />
@@ -350,6 +356,10 @@
     <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.css" />
     <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.html" />
     <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.js" />
+    <Content Include="Views\Admin\Referrals\question-icon.png" />
+    <Content Include="Views\Admin\Referrals\Referrals.css" />
+    <Content Include="Views\Admin\Referrals\Referrals.html" />
+    <Content Include="Views\Admin\Referrals\Referrals.js" />
     <Content Include="Views\Admin\ViewUser\ViewUser.html" />
     <Content Include="Views\Admin\Leaderboard\Leaderboard.html" />
     <Content Include="Views\Admin\Leaderboard\arrow_left.png" />

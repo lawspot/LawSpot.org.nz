@@ -114,6 +114,7 @@
 
 	    <div class="centre">
 	        <button data-action="approve" type="submit">APPROVE</button>
+            <button class="yellow" data-action="referral" type="submit">REFERRAL</button>
 	        <button class="red" data-action="go-to-reject" type="submit">REJECT</button>
             <img class="progress-indicator" src="/shared/images/progress-indicator.gif" />
 	    </div>
@@ -172,6 +173,24 @@
 	        <button type="submit">NEXT QUESTION</button>
 	    </div>
 	</div>
+</script>
+
+<script id="referral-template" type="text/template">
+    <div class="action-complete approved">
+        <img class="left" src="/views/admin/approved.png" width="26" height="26" alt="" />
+        <h3>Thanks! You've just referred a question.</h3>
+        <p>
+            <strong>Question:</strong><br />
+            {{Title}}
+        </p>
+        <p>
+            <strong>Details:</strong><br />
+            {{{ResponseHtml}}}
+        </p>
+        <div class="centre">
+            <button type="submit">NEXT QUESTION</button>
+        </div>
+    </div>
 </script>
 
 **! Change the mustache set delimiter back to normal **

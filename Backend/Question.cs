@@ -6,6 +6,15 @@ using System.Web;
 
 namespace Lawspot.Backend
 {
+    public enum QuestionStatus
+    {
+        Unreviewed = 0,
+        Approved = 1,
+        Rejected = 2,
+        Referral = 3,
+        AcceptedReferral = 4,
+    }
+
     public partial class Question
     {
         /// <summary>

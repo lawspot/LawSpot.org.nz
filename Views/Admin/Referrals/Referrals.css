@@ -75,39 +75,6 @@ select.category, select.canned-rejection-reasons {
 .inner-content button.red {
 	margin-left: 10px;
 }
-.inner-content button.yellow {
-	margin-left: 10px;
-}
-button.yellow,
-input[type="button"].yellow,
-input[type="submit"].yellow {
-	background-color: #FF0000;
-	background:    -moz-linear-gradient(top, #F0F000 0%, #717100 100%);
-	background: -webkit-linear-gradient(top, #F0F000 0%, #717100 100%);
-	background:      -o-linear-gradient(top, #F0F000 0%, #717100 100%);
-	background:     -ms-linear-gradient(top, #F0F000 0%, #717100 100%);
-	background:         linear-gradient(top, #F0F000 0%, #717100 100%);
-}
-button.yellow:hover,
-input[type="button"].yellow:hover,
-input[type="submit"].yellow:hover {
-	background-color: #C10000;
-	background:    -moz-linear-gradient(top, #FFFF44 0%, #888800 100%);
-	background: -webkit-linear-gradient(top, #FFFF44 0%, #888800 100%);
-	background:      -o-linear-gradient(top, #FFFF44 0%, #888800 100%);
-	background:     -ms-linear-gradient(top, #FFFF44 0%, #888800 100%);
-	background:         linear-gradient(top, #FFFF44 0%, #888800 100%);
-}
-button.yellow:active,
-input[type="button"].yellow:active,
-input[type="submit"].yellow:active {
-	background-color: #6A0000;
-	background:    -moz-linear-gradient(top, #626200 0%, #717100 100%);
-	background: -webkit-linear-gradient(top, #626200 0%, #717100 100%);
-	background:      -o-linear-gradient(top, #626200 0%, #717100 100%);
-	background:     -ms-linear-gradient(top, #626200 0%, #717100 100%);
-	background:         linear-gradient(top, #626200 0%, #717100 100%);
-}
 .inner-content textarea {
 	width: 620px;
 	margin: 10px 0 15px;
@@ -174,6 +141,7 @@ input[type="submit"].yellow:active {
 
 .initial-form {
     display: block;
+    margin-top: 12px;
 }
 .rejection-form {
     display: none;

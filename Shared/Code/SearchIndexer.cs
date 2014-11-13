@@ -162,7 +162,7 @@ namespace Lawspot.Shared
             doc.Add(new Field("Details", details.ToString(), Field.Store.NO, Field.Index.ANALYZED));
             doc.Add(new Field("PublicDetails", publicDetails.ToString(), Field.Store.NO, Field.Index.ANALYZED));
             doc.Add(new Field("ID", q.QuestionId.ToString(), Field.Store.YES, Field.Index.NOT_ANALYZED));
-            doc.Add(new Field("Public", (q.Approved && approvedAnswerCount >= 1).ToString(), Field.Store.NO, Field.Index.NOT_ANALYZED));
+            doc.Add(new Field("Public", (q.Status == QuestionStatus.Approved && approvedAnswerCount >= 1).ToString(), Field.Store.NO, Field.Index.NOT_ANALYZED));
             return doc;
         }
 

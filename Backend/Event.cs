@@ -14,5 +14,7 @@ namespace Lawspot.Backend
         PublishAnswer,
         RejectAnswer,
         RecommendAnswer,
+        ReferQuestion,
+        AcceptReferral,
     }
 }

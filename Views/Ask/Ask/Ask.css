@@ -49,6 +49,9 @@
 .qsubmit-field .offset-field {
 	margin-left: 90px;
 }
+.qsubmit-field .offset-field input[type=text] {
+	width: 330px;
+}
 .qsubmit-button {
 	text-align: center;
 }
@@ -118,6 +121,15 @@
 #qsubmit2 .offset-field {
 	margin: 0 0 10px 145px;
 }
+
+#qsubmit2 #FirstName {
+    width: 85px;
+	margin-right: 5px;
+}
+#qsubmit2 #LastName {
+    width: 125px;
+}
+
 
 .privacy-message {
 	font-size: 10pt;

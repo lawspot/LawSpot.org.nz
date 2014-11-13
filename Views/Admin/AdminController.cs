@@ -114,7 +114,7 @@ namespace Lawspot.Controllers
             model.QuestionsSubmitted = this.DataContext.Questions
                 .Count(q => q.CreatedByUserId == this.User.Id);
             model.QuestionsPublished = this.DataContext.Questions
-                .Count(q => q.CreatedByUserId == this.User.Id && q.Approved);
+                .Count(q => q.CreatedByUserId == this.User.Id && q.Status == QuestionStatus.Approved);
             var lastQuestionSubmitted = this.DataContext.Questions
                 .Where(q => q.CreatedByUserId == this.User.Id)
                 .OrderByDescending(q => q.CreatedOn).FirstOrDefault();
@@ -240,7 +240,7 @@ namespace Lawspot.Controllers
 
             // Filter and sort the questions.
             IEnumerable<Question> questions = this.DataContext.Questions
-                .Where(q => q.Approved == true);
+                .Where(q => q.Status == QuestionStatus.Approved);
             if (categoryId != 0)
                 questions = questions.Where(q => q.CategoryId == categoryId);
             switch (filterValue)
@@ -802,16 +802,16 @@ namespace Lawspot.Controllers
                     questions = questions.Where(q => q.ReviewDate == null);
                     break;
                 case ReviewQuestionsFilter.Approved:
-                    questions = questions.Where(q => q.ReviewDate != null && q.Approved == true);
+                    questions = questions.Where(q => q.ReviewDate != null && q.Status == QuestionStatus.Approved);
                     break;
                 case ReviewQuestionsFilter.ApprovedByMe:
-                    questions = questions.Where(q => q.ReviewDate != null && q.Approved == true && q.ReviewedByUserId == this.User.Id);
+                    questions = questions.Where(q => q.ReviewDate != null && q.Status == QuestionStatus.Approved && q.ReviewedByUserId == this.User.Id);
                     break;
                 case ReviewQuestionsFilter.Rejected:
-                    questions = questions.Where(q => q.ReviewDate != null && q.Approved == false);
+                    questions = questions.Where(q => q.ReviewDate != null && q.Status == QuestionStatus.Rejected);
                     break;
                 case ReviewQuestionsFilter.RejectedByMe:
-                    questions = questions.Where(q => q.ReviewDate != null && q.Approved == false && q.ReviewedByUserId == this.User.Id);
+                    questions = questions.Where(q => q.ReviewDate != null && q.Status == QuestionStatus.Rejected && q.ReviewedByUserId == this.User.Id);
                     break;
             }
             switch (sortValue)
@@ -839,7 +839,7 @@ namespace Lawspot.Controllers
                     DateAndTime = q.CreatedOn.ToString("d MMM yyyy h:mmtt"),
                     CategoryId = q.CategoryId,
                     CategoryName = q.Category.Name,
-                    ApprovedOrRejected = q.Approved ? "Approved" : "Rejected",
+                    ApprovedOrRejected = q.Status.ToString(),
                     ReviewedBy = q.ReviewedByUser != null ? q.ReviewedByUser.EmailDisplayName : null,
                     RejectionReasonHtml = StringUtilities.ConvertTextToHtml(q.RejectionReason),
                 }), page, 10, Request.Url);
@@ -892,10 +892,10 @@ namespace Lawspot.Controllers
                 question.OriginalDetails = question.Details;
             question.Details = details;
             question.CategoryId = categoryId;
-            question.Approved = true;
             question.ReviewDate = DateTimeOffset.Now;
             question.ReviewedByUserId = this.User.Id;
             question.RejectionReason = null;
+            question.Status = QuestionStatus.Approved;
             this.DataContext.SubmitChanges();
 
             // Log an event.
@@ -933,11 +933,11 @@ namespace Lawspot.Controllers
             var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).SingleOrDefault();
             if (question == null)
                 return new StatusPlusTextResult(400, "The question doesn't exist.");
-            bool statusChange = question.Approved != false || question.ReviewDate == null;
-            question.Approved = false;
+            bool statusChange = question.Status != QuestionStatus.Rejected;
             question.ReviewDate = DateTimeOffset.Now;
             question.ReviewedByUserId = this.User.Id;
             question.RejectionReason = reason;
+            question.Status = QuestionStatus.Rejected;
             this.DataContext.SubmitChanges();
 
             // Log an event.
@@ -1208,7 +1208,7 @@ namespace Lawspot.Controllers
                     answerPublishedMessage.QuestionUri = answer.Question.Uri;
                     answerPublishedMessage.AnswerHtml = StringUtilities.ConvertTextToHtml(answer.Details);
                     answerPublishedMessage.UnansweredQuestionCount = this.DataContext.Questions.
-                        Count(q => q.Approved == true && q.Answers.Count(a => a.Status == AnswerStatus.Approved) == 0);
+                        Count(q => q.Status == QuestionStatus.Approved && q.Answers.Count(a => a.Status == AnswerStatus.Approved) == 0);
                     answerPublishedMessage.Send();
 
                     // Send a message to the user who asked the question.
@@ -1530,12 +1530,12 @@ namespace Lawspot.Controllers
             {
                 UserId = grouping.Key.UserId,
                 Name = grouping.Key.DisplayName,
-                RejectQuestion = grouping.Count(e => e.EventType == EventType.RejectQuestion),
-                ApproveQuestion = grouping.Count(e => e.EventType == EventType.ApproveQuestion),
+                VetQuestion = grouping.Count(e => e.EventType == EventType.RejectQuestion || e.EventType == EventType.ApproveQuestion || e.EventType == EventType.ReferQuestion),
                 CreateAnswer = grouping.Count(e => e.EventType == EventType.CreateAnswer),
                 RejectAnswer = grouping.Count(e => e.EventType == EventType.RejectAnswer),
                 RecommendAnswer = grouping.Count(e => e.EventType == EventType.RecommendAnswer),
                 PublishAnswer = grouping.Count(e => e.EventType == EventType.PublishAnswer),
+                AcceptReferral = grouping.Count(e => e.EventType == EventType.AcceptReferral),
             }).OrderBy(row => row.Name).ToList();
 
             // Get answer details for event type RejectAnswer, RecommendAnswer and PublishAnswer.
@@ -1569,11 +1569,11 @@ namespace Lawspot.Controllers
                     SELECT COUNT(*)
                     FROM Question
                     WHERE Question.CategoryId = Category.CategoryId
-                        AND Approved = 1),
+                        AND Question.Status = 1),   -- Approved
                 AnsweredQuestionCount = (
 	                SELECT COUNT(*) FROM Question
 	                WHERE Question.CategoryId = Category.CategoryId
-	                AND Question.Approved = 1
+	                AND Question.Status = 1         -- Approved
 	                AND EXISTS (SELECT * FROM Answer WHERE Question.QuestionId = Answer.QuestionId AND Answer.Status = 1)
                 )
                 WHERE Category.CategoryId = {0}", categoryId);
@@ -1675,5 +1675,225 @@ namespace Lawspot.Controllers
 
             return RedirectToAction("ViewUser", new { userId = model.UserId, alert = "updated" });
         }
+
+        /// <summary>
+        /// Displays the referrals page.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Referrals(string category, string filter, string sort, string search, int page = 1)
+        {
+            // Ensure the user is allowed to view referrals.
+            if (this.User.CanPublishOrAdminister == false)
+                return new StatusPlusTextResult(403, "Access denied.");
+
+            var model = new ReferralsViewModel();
+
+            // Categories.
+            int categoryId = 0;
+            if (category != null)
+                categoryId = int.Parse(category);
+            model.CategoryOptions = new SelectListItem[] {
+                    new SelectListItem()
+                    {
+                        Text = "All Categories",
+                        Value = "0",
+                        Selected = categoryId == 0,
+                    }
+                }.Union(this.DataContext.Categories
+                    .OrderBy(c => c.Name)
+                    .Select(c => new SelectListItem()
+                    {
+                        Text = c.Name,
+                        Value = c.CategoryId.ToString(),
+                        Selected = c.CategoryId == categoryId,
+                    }));
+
+            // Filter.
+            var filterValue = ReferralFilter.AwaitingAcceptance;
+            if (filter != null)
+                filterValue = (ReferralFilter)Enum.Parse(typeof(ReferralFilter), filter, true);
+            model.FilterOptions = new SelectListItem[]
+            {
+                new SelectListItem() { Text = "All", Value = ReferralFilter.All.ToString(), Selected = filterValue == ReferralFilter.All },
+                new SelectListItem() { Text = "Accepted", Value = ReferralFilter.Accepted.ToString(), Selected = filterValue == ReferralFilter.Accepted },
+                new SelectListItem() { Text = "Awaiting Acceptance", Value = ReferralFilter.AwaitingAcceptance.ToString(), Selected = filterValue == ReferralFilter.AwaitingAcceptance },
+
+            };
+
+            // Sort order.
+            var sortValue = AQ1.QuestionSortOrder.MostRecent;
+            if (sort != null)
+                sortValue = (AQ1.QuestionSortOrder)Enum.Parse(typeof(AQ1.QuestionSortOrder), sort, true);
+            model.SortOptions = new SelectListItem[]
+            {
+                new SelectListItem() { Text = "First Posted", Value = AQ1.QuestionSortOrder.FirstPosted.ToString(), Selected = sortValue == AQ1.QuestionSortOrder.FirstPosted },
+                new SelectListItem() { Text = "Most Recent", Value = AQ1.QuestionSortOrder.MostRecent.ToString(), Selected = sortValue == AQ1.QuestionSortOrder.MostRecent },
+            };
+
+            // Filter and sort the questions.
+            IEnumerable<Question> questions = this.DataContext.Questions;
+            if (categoryId != 0)
+                questions = questions.Where(q => q.CategoryId == categoryId);
+            switch (filterValue)
+            {
+                case ReferralFilter.All:
+                    questions = questions.Where(q => q.Status == QuestionStatus.Referral || q.Status == QuestionStatus.AcceptedReferral);
+                    break;
+                case ReferralFilter.Accepted:
+                    questions = questions.Where(q => q.Status == QuestionStatus.AcceptedReferral);
+                    break;
+                case ReferralFilter.AwaitingAcceptance:
+                    questions = questions.Where(q => q.Status == QuestionStatus.Referral);
+                    break;
+            }
+            switch (sortValue)
+            {
+                case AQ1.QuestionSortOrder.FirstPosted:
+                    questions = questions.OrderBy(q => q.CreatedOn);
+                    break;
+                case AQ1.QuestionSortOrder.MostRecent:
+                    questions = questions.OrderByDescending(q => q.CreatedOn);
+                    break;
+            }
+            if (string.IsNullOrWhiteSpace(search) == false)
+            {
+                model.Search = search;
+                var searchHits = SearchIndexer.Search(search, publicOnly: false);
+                questions = questions.Join(searchHits, q => q.QuestionId, sh => sh.ID, (q, sh) => q);
+            }
+
+            // Filter and sort the questions.
+            model.Questions = new PagedListView<ReferralViewModel>(questions
+                .ToList()
+                .Select(q => new ReferralViewModel()
+                {
+                    QuestionId = q.QuestionId,
+                    Title = q.Title,
+                    Details = q.Details,
+                    DateAndTime = q.CreatedOn.ToString("d MMM yyyy h:mmtt"),
+                    CategoryId = q.CategoryId,
+                    CategoryName = q.Category.Name,
+                    Accepted = q.Status == QuestionStatus.AcceptedReferral,
+                    ClientName = string.IsNullOrEmpty(q.CreatedByUser.FullName) ? "(unknown)" : q.CreatedByUser.FullName,
+                    ClientEmail = q.CreatedByUser.EmailAddress,
+                    ClientPhone = q.CreatedByUser.PhoneNumber == null ? "(unknown)" : q.CreatedByUser.PhoneNumber,
+                    OtherPartyName = q.OtherPartyName == null ? "(unknown)" : q.OtherPartyName == string.Empty ? "(nothing entered)" : q.OtherPartyName,
+                }), page, 10, Request.Url);
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Refers a question and optionally modifies it.
+        /// </summary>
+        /// <param name="questionId"> The ID of the question to approve. </param>
+        /// <param name="title"> The new title of the question. </param>
+        /// <param name="details"> The new question details. </param>
+        /// <param name="categoryId"> The new category ID. </param>
+        /// <returns></returns>
+        [HttpPost]
+        public StatusPlusTextResult ReferQuestion(int questionId, string title, string details, int categoryId)
+        {
+            // Ensure the user is allowed to vet questions.
+            if (this.User.CanVetQuestions == false)
+                return new StatusPlusTextResult(403, "Your account is not authorized to refer questions.");
+
+            // Validate the input.
+            if (string.IsNullOrWhiteSpace(title))
+                return new StatusPlusTextResult(400, "The question title cannot be blank.");
+            if (title.Length > 150)
+                return new StatusPlusTextResult(400, "The question title is too long.");
+            if (string.IsNullOrWhiteSpace(details))
+                return new StatusPlusTextResult(400, "The question details cannot be blank.");
+            if (details.Length > 600)
+                return new StatusPlusTextResult(400, "The question details are too long.");
+
+            var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).SingleOrDefault();
+            if (question == null)
+                return new StatusPlusTextResult(400, "The question doesn't exist.");
+            if (question.Title != title && question.OriginalTitle == null)
+                question.OriginalTitle = question.Title;
+            question.Title = title;
+            if (question.Details != details && question.OriginalDetails == null)
+                question.OriginalDetails = question.Details;
+            question.Details = details;
+            question.CategoryId = categoryId;
+            question.ReviewDate = DateTimeOffset.Now;
+            question.ReviewedByUserId = this.User.Id;
+            question.RejectionReason = null;
+            question.Status = QuestionStatus.Referral;
+            this.DataContext.SubmitChanges();
+
+            // Log an event.
+            LogEvent(EventType.ReferQuestion, this.User.Id, new { QuestionId = questionId, Title = title, Details = details, CategoryId = categoryId });
+            this.DataContext.SubmitChanges();
+
+            // Update the search index.
+            SearchIndexer.UpdateQuestion(question);
+
+            // Recalculate the number of approved questions in the category.
+            UpdateCategory(question.CategoryId);
+
+            return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(question.Details));
+        }
+
+        /// <summary>
+        /// Declare oneself conflict free.
+        /// </summary>
+        /// <param name="questionId"> The ID of the question. </param>
+        /// <returns></returns>
+        [HttpPost]
+        public StatusPlusTextResult ConflictDeclaration(int questionId)
+        {
+            // Ensure the user is allow to view referrals.
+            if (this.User.CanPublishOrAdminister == false)
+                return new StatusPlusTextResult(403, "Access denied.");
+
+            var conflictDeclaration = new ConflictDeclaration();
+            conflictDeclaration.QuestionId = questionId;
+            conflictDeclaration.UserId = this.User.Id;
+            conflictDeclaration.CreationDate = DateTimeOffset.Now;
+            this.DataContext.ConflictDeclarations.InsertOnSubmit(conflictDeclaration);
+            this.DataContext.SubmitChanges();
+
+            return new StatusPlusTextResult(200, "Success");
+        }
+
+        /// <summary>
+        /// Accepts a referred question.
+        /// </summary>
+        /// <param name="questionId"> The ID of the question to accept. </param>
+        /// <returns></returns>
+        [HttpPost]
+        public StatusPlusTextResult AcceptReferredQuestion(int questionId)
+        {
+            // Ensure the user is allow to view referrals.
+            if (this.User.CanPublishOrAdminister == false)
+                return new StatusPlusTextResult(403, "Access denied.");
+
+            var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).SingleOrDefault();
+            if (question == null)
+                return new StatusPlusTextResult(400, "The question doesn't exist.");
+            question.ReviewDate = DateTimeOffset.Now;
+            question.ReviewedByUserId = this.User.Id;
+            question.RejectionReason = null;
+            question.Status = QuestionStatus.AcceptedReferral;
+            this.DataContext.SubmitChanges();
+
+            // Log an event.
+            LogEvent(EventType.AcceptReferral, this.User.Id, new { QuestionId = questionId });
+            this.DataContext.SubmitChanges();
+
+            // Update the search index.
+            SearchIndexer.UpdateQuestion(question);
+
+            // Recalculate the number of approved questions in the category.
+            UpdateCategory(question.CategoryId);
+
+            return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(question.Details));
+        }
+
+        
     }
 }

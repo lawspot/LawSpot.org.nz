@@ -119,6 +119,9 @@ namespace Lawspot.Controllers
             }
 
             // Trim the text fields.
+            model.FirstName = model.FirstName.Trim();
+            model.LastName = model.LastName.Trim();
+            model.PhoneNumber = model.PhoneNumber.Trim();
             model.EmailAddress = model.EmailAddress.Trim();
 
             // If there are no MX records, then reject the email address.
@@ -159,7 +162,8 @@ namespace Lawspot.Controllers
             else
             {
                 // Register a new user.
-                user = Register(model.EmailAddress, model.Password, model.RegionId, communityServicesCardNumber, lawyer: false);
+                user = Register(model.FirstName, model.LastName, model.PhoneNumber, model.EmailAddress,
+                    model.Password, model.RegionId, communityServicesCardNumber, lawyer: false);
                 registered = true;
 
                 // Alert the user that they have registered successfully.
@@ -253,13 +257,11 @@ namespace Lawspot.Controllers
             else
             {
                 // Register a new user.
-                user = Register(model.EmailAddress, model.Password, model.RegionId, lawyer: true);
+                user = Register(model.FirstName, model.LastName, null, model.EmailAddress, model.Password, model.RegionId, lawyer: true);
                 registered = true;
             }
 
             // Register a new lawyer.
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
             user.YearOfAdmission = model.YearAdmitted;
             user.SpecialisationCategoryId = model.SpecialisationCategoryId == 0 ? (int?)null : model.SpecialisationCategoryId;
             user.EmployerName = model.EmployerName;

@@ -39,6 +39,7 @@ namespace Lawspot.Shared
             this.CanVetQuestions = user.CanVetQuestions;
             this.CanVetAnswers = user.CanVetAnswers;
             this.CanVetLawyers = user.CanVetLawyers;
+            this.CanPublish = user.PublisherId.HasValue;
             this.CanAdminister = user.CanAdminister;
             this.LastUpdated = DateTime.Now;
         }
@@ -68,6 +69,7 @@ namespace Lawspot.Shared
             result.CanVetQuestions = ticket.UserData.Contains("q");
             result.CanVetAnswers = ticket.UserData.Contains("v");
             result.CanVetLawyers = ticket.UserData.Contains("l");
+            result.CanPublish = ticket.UserData.Contains("P");
             result.CanAdminister = ticket.UserData.Contains("A");
             result.RememberMe = ticket.UserData.Contains("R");
             if (ticket.UserData.IndexOf(',') >= 0)
@@ -118,6 +120,19 @@ namespace Lawspot.Shared
         public bool CanVetLawyers { get; set; }
 
         /// <summary>
+        /// The user can publish answers.
+        /// </summary>
+        public bool CanPublish { get; set; }
+
+        /// <summary>
+        /// The user can publish answers or administer the site.
+        /// </summary>
+        public bool CanPublishOrAdminister
+        {
+            get { return CanPublish || CanAdminister; }
+        }
+
+        /// <summary>
         /// The user can administer the site.
         /// </summary>
         public bool CanAdminister { get; set; }
@@ -150,6 +165,8 @@ namespace Lawspot.Shared
                 userData.Append("v");
             if (this.CanVetLawyers)
                 userData.Append("l");
+            if (this.CanPublish)
+                userData.Append("P");
             if (this.CanAdminister)
                 userData.Append("A");
             if (this.RememberMe)

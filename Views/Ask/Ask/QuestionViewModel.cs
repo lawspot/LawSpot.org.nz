@@ -20,6 +20,9 @@ namespace Lawspot.Views.Ask
         public int CategoryId { get; set; }
         public IEnumerable<SelectListItem> Categories { get; set; }
 
+        [StringLength(100, ErrorMessage = "The other party name is too long.")]
+        public string OtherPartyName { get; set; }
+
         [MustBeTrue(ErrorMessage = "You must accept the terms & conditions to proceed.")]
         public bool Agreement { get; set; }
 
@@ -34,7 +37,7 @@ namespace Lawspot.Views.Ask
         }
 
         public bool ShowRegistration { get; set; }
-        public bool FocusInRegistrationEmailAddress { get; set; }
+        public bool FocusInRegistration { get; set; }
         public Lawspot.Views.Account.RegisterViewModel Registration { get; set; }
 
         public bool ShowLogin { get { return !ShowRegistration; } }
