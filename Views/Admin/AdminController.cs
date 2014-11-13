@@ -1881,6 +1881,23 @@ namespace Lawspot.Controllers
             question.Status = QuestionStatus.AcceptedReferral;
             this.DataContext.SubmitChanges();
 
+            // Send a message to the user who asked the question.
+            var questionReferredMessage = new Email.QuestionReferredMessage();
+            questionReferredMessage.To.Add(question.CreatedByUser.EmailAddress);
+            questionReferredMessage.LawFirm = string.IsNullOrEmpty(this.UserDetails.EmployerName) ? this.UserDetails.FullName : this.UserDetails.EmployerName;
+            questionReferredMessage.Send();
+
+            // Send a message to the lawyer who accepted the referral.
+            var referralAcceptedMessage = new Email.ReferralAcceptedMessage();
+            questionReferredMessage.To.Add(this.User.EmailAddress);
+            referralAcceptedMessage.ClientName = question.CreatedByUser.FullName;
+            referralAcceptedMessage.ClientEmail = question.CreatedByUser.EmailAddress;
+            referralAcceptedMessage.ClientPhone = string.IsNullOrEmpty(question.CreatedByUser.PhoneNumber) ? "(unknown)" : question.CreatedByUser.PhoneNumber;
+            referralAcceptedMessage.ClientLocation = question.CreatedByUser.Region.Name;
+            referralAcceptedMessage.Question = question.Title;
+            referralAcceptedMessage.DetailsHtml = StringUtilities.ConvertTextToHtml(question.Details);
+            referralAcceptedMessage.Send();
+
             // Log an event.
             LogEvent(EventType.AcceptReferral, this.User.Id, new { QuestionId = questionId });
             this.DataContext.SubmitChanges();
@@ -1893,7 +1910,5 @@ namespace Lawspot.Controllers
 
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(question.Details));
         }
-
-        
     }
 }

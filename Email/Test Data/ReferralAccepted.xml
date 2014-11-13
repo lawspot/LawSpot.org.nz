@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type="text/xsl" href="../Templates/ReferralAccepted.xslt"?>
+<Root>
+  <BaseUrl>http://localhost:60000</BaseUrl>
+  <CurrentDate>Friday, 6 April 2012</CurrentDate>
+  <Name>Don Quixote</Name>
+  <ClientName>Bob Bobbington</ClientName>
+  <ClientEmail>bob@bobbington.com</ClientEmail>
+  <ClientPhone>(04)1234567</ClientPhone>
+  <ClientLocation>Timbucktoo</ClientLocation>
+  <Question>How many chucks can a wood chuck chuck?</Question>
+  <DetailsHtml>
+    This isn't the question you are looking for.&lt;br/&gt;
+    &lt;br/&gt;
+    It's not Sparta either.
+  </DetailsHtml>
+</Root>
