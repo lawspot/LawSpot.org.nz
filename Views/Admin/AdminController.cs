@@ -1889,7 +1889,7 @@ namespace Lawspot.Controllers
 
             // Send a message to the lawyer who accepted the referral.
             var referralAcceptedMessage = new Email.ReferralAcceptedMessage();
-            questionReferredMessage.To.Add(this.User.EmailAddress);
+            referralAcceptedMessage.To.Add(this.User.EmailAddress);
             referralAcceptedMessage.ClientName = question.CreatedByUser.FullName;
             referralAcceptedMessage.ClientEmail = question.CreatedByUser.EmailAddress;
             referralAcceptedMessage.ClientPhone = string.IsNullOrEmpty(question.CreatedByUser.PhoneNumber) ? "(unknown)" : question.CreatedByUser.PhoneNumber;
