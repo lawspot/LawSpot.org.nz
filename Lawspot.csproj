@@ -165,8 +165,9 @@
     <Compile Include="Email\Code\LawyerReminderMessage.cs" />
     <Compile Include="Email\Code\LawyerRejectedMessage.cs" />
     <Compile Include="Email\Code\LawyerApprovedMessage.cs" />
+    <Compile Include="Email\Code\QuestionReferred1Message.cs" />
     <Compile Include="Email\Code\ReferralAcceptedMessage.cs" />
-    <Compile Include="Email\Code\QuestionReferredMessage.cs" />
+    <Compile Include="Email\Code\QuestionReferred2Message.cs" />
     <Compile Include="Email\Code\QuestionRejectedMessage.cs" />
     <Compile Include="Email\Code\QuestionAnsweredMessage.cs" />
     <Compile Include="Email\Code\ErrorMessage.cs" />
@@ -189,6 +190,7 @@
     <Compile Include="Views\Account\Login\ForgotPasswordViewModel.cs" />
     <Compile Include="Views\Account\LawyerRegister\LawyerRegisterViewModel.cs" />
     <Compile Include="Views\Account\LawyerThankYou\LawyerThankYouViewModel.cs" />
+    <Compile Include="Views\Account\CollectReferralDetails\CollectReferralDetailsViewModel.cs" />
     <Compile Include="Views\Account\Register\RegisterViewModel.cs" />
     <Compile Include="Views\Account\ResetPassword\ResetPasswordViewModel.cs" />
     <Compile Include="Views\Admin\AccountSettings\AccountSettingsViewModel.cs" />
@@ -291,6 +293,7 @@
     <Content Include="Email\Assets\header.jpg" />
     <Content Include="Email\Assets\logo.png" />
     <Content Include="Email\Assets\twitter.png" />
+    <Content Include="Email\Templates\QuestionReferred1.xslt" />
     <Content Include="Email\Templates\ReferralAccepted.xslt" />
     <Content Include="Email\Templates\AnswerApproved.xslt" />
     <Content Include="Email\Templates\AnswerRejected.xslt" />
@@ -298,7 +301,7 @@
     <Content Include="Email\Templates\LawyerReminder.xslt" />
     <Content Include="Email\Templates\LawyerRejected.xslt" />
     <Content Include="Email\Templates\LawyerApproved.xslt" />
-    <Content Include="Email\Templates\QuestionReferred.xslt" />
+    <Content Include="Email\Templates\QuestionReferred2.xslt" />
     <Content Include="Email\Templates\QuestionRejected.xslt" />
     <Content Include="Email\Templates\QuestionAnswered.xslt" />
     <Content Include="Email\Templates\LawyerRegister.xslt" />
@@ -350,7 +353,10 @@
     <Content Include="Shared\Images\info-small.png" />
     <Content Include="Shared\Images\success-small.png" />
     <Content Include="Shared\Images\warning-small.png" />
+    <Content Include="Views\Account\ReferralDetailsCollected\ReferralDetailsCollected.html" />
     <Content Include="Views\Account\Logout\Logout.html" />
+    <Content Include="Views\Account\CollectReferralDetails\CollectReferralDetails.css" />
+    <Content Include="Views\Account\CollectReferralDetails\CollectReferralDetails.html" />
     <Content Include="Views\Account\ResetPassword\ResetPasswordExpired.html" />
     <Content Include="Views\Account\ResetPassword\ResetPasswordInvalid.html" />
     <Content Include="Views\Account\ResetPassword\ResetPassword.html" />

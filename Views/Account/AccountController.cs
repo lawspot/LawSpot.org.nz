@@ -119,9 +119,6 @@ namespace Lawspot.Controllers
             }
 
             // Trim the text fields.
-            model.FirstName = model.FirstName.Trim();
-            model.LastName = model.LastName.Trim();
-            model.PhoneNumber = model.PhoneNumber.Trim();
             model.EmailAddress = model.EmailAddress.Trim();
 
             // If there are no MX records, then reject the email address.
@@ -162,8 +159,7 @@ namespace Lawspot.Controllers
             else
             {
                 // Register a new user.
-                user = Register(model.FirstName, model.LastName, model.PhoneNumber, model.EmailAddress,
-                    model.Password, model.RegionId, communityServicesCardNumber, lawyer: false);
+                user = Register(model.EmailAddress, model.Password, model.RegionId, communityServicesCardNumber, lawyer: false);
                 registered = true;
 
                 // Alert the user that they have registered successfully.
@@ -228,8 +224,6 @@ namespace Lawspot.Controllers
 
             // Trim the text fields.
             model.EmailAddress = model.EmailAddress.Trim();
-            model.FirstName = model.FirstName.Trim();
-            model.LastName = model.LastName.Trim();
             if (model.EmployerName != null)
                 model.EmployerName = model.EmployerName.Trim();
 
@@ -257,7 +251,7 @@ namespace Lawspot.Controllers
             else
             {
                 // Register a new user.
-                user = Register(model.FirstName, model.LastName, null, model.EmailAddress, model.Password, model.RegionId, lawyer: true);
+                user = Register(model.EmailAddress, model.Password, model.RegionId, lawyer: true);
                 registered = true;
             }
 
@@ -455,6 +449,57 @@ namespace Lawspot.Controllers
 
             // Redirect the user to the home page.
             return RedirectToAction("Home", "Browse", new { alert = "passwordreset" });
+        }
+
+        /// <summary>
+        /// Displays the collect referral details page.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult CollectReferralDetails()
+        {
+            if (this.User == null)
+                return new HttpUnauthorizedResult();
+            var model = new CollectReferralDetailsViewModel();
+            model.FirstName = this.UserDetails.FirstName;
+            model.LastName = this.UserDetails.LastName;
+            model.PhoneNumber = this.UserDetails.PhoneNumber;
+            return View(model);
+        }
+
+        /// <summary>
+        /// Collects referral details.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult CollectReferralDetails(CollectReferralDetailsViewModel model)
+        {
+            if (this.User == null)
+                return new HttpUnauthorizedResult();
+
+            // Check the model is valid.
+            if (ModelState.IsValid == false)
+            {
+                return View(model);
+            }
+
+            var user = this.DataContext.Users.FirstOrDefault(u => u.UserId == this.User.Id);
+            user.FirstName = model.FirstName.Trim();
+            user.LastName = model.LastName.Trim();
+            user.PhoneNumber = model.PhoneNumber.Trim();
+            this.DataContext.SubmitChanges();
+            return RedirectToAction("ReferralDetailsCollected");
+        }
+
+        /// <summary>
+        /// Displays the thank you page after collecting the details we need for a referral.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ReferralDetailsCollected()
+        {
+            return View();
         }
     }
 }

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type="text/xsl" href="../Templates/QuestionReferred1.xslt"?>
+<Root>
+  <BaseUrl>http://localhost:60000</BaseUrl>
+  <CurrentDate>Friday, 6 April 2012</CurrentDate>
+</Root>

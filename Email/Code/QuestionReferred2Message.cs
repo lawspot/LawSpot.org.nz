@@ -10,13 +10,13 @@ namespace Lawspot.Email
 {
 
     /// <summary>
-    /// The email sent to a user when an answer is referred to a law firm.
+    /// The email sent to a user when a question is picked up from the referral queue by a law firm.
     /// </summary>
-    public class QuestionReferredMessage : EmailTemplate
+    public class QuestionReferred2Message : EmailTemplate
     {
-        public QuestionReferredMessage()
+        public QuestionReferred2Message()
         {
-            this.TemplateFilePath = "QuestionReferred.xslt";
+            this.TemplateFilePath = "QuestionReferred2.xslt";
             this.Subject = "Your question has been referred to a LawSpot partner";
         }
 

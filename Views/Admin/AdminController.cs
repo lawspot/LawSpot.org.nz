@@ -1835,6 +1835,11 @@ namespace Lawspot.Controllers
             // Recalculate the number of approved questions in the category.
             UpdateCategory(question.CategoryId);
 
+            // Send a message to the user who asked the question.
+            var questionReferredMessage = new Email.QuestionReferred1Message();
+            questionReferredMessage.To.Add(question.CreatedByUser.EmailAddress);
+            questionReferredMessage.Send();
+
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(question.Details));
         }
 
@@ -1882,7 +1887,7 @@ namespace Lawspot.Controllers
             this.DataContext.SubmitChanges();
 
             // Send a message to the user who asked the question.
-            var questionReferredMessage = new Email.QuestionReferredMessage();
+            var questionReferredMessage = new Email.QuestionReferred2Message();
             questionReferredMessage.To.Add(question.CreatedByUser.EmailAddress);
             questionReferredMessage.LawFirm = string.IsNullOrEmpty(this.UserDetails.EmployerName) ? this.UserDetails.FullName : this.UserDetails.EmployerName;
             questionReferredMessage.Send();

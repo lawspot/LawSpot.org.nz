@@ -37,6 +37,8 @@ namespace Lawspot
             RouteTable.Routes.MapRoute("LoginRoute", "login", new { controller = "Account", action = "Login" });
             RouteTable.Routes.MapRoute("LogoutRoute", "logout", new { controller = "Account", action = "Logout" });
             RouteTable.Routes.MapRoute("RegisterRoute", "register", new { controller = "Account", action = "Register" });
+            RouteTable.Routes.MapRoute("CollectReferralDetailsRoute", "collect-referral-details", new { controller = "Account", action = "CollectReferralDetails" });
+            RouteTable.Routes.MapRoute("ReferralDetailsCollectedRoute", "referral-details-collected", new { controller = "Account", action = "ReferralDetailsCollected" });
             RouteTable.Routes.MapRoute("ResetPasswordRoute", "resetpassword", new { controller = "Account", action = "ResetPassword" });
             RouteTable.Routes.MapRoute("LawyerRegisterRoute", "lawyer-register", new { controller = "Account", action = "LawyerRegister" });
             RouteTable.Routes.MapRoute("LawyerRegisterThankYouRoute", "lawyer-thank-you", new { controller = "Account", action = "LawyerThankYou" });

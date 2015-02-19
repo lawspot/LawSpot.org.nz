@@ -8,18 +8,6 @@ namespace Lawspot.Views.Account
 {
     public class RegisterViewModel
     {
-        [Required(ErrorMessage = "Please enter your first name.")]
-        [StringLength(50, ErrorMessage = "Your first name is too long.")]
-        public string FirstName { get; set; }
-
-        [Required(ErrorMessage = "Please enter your last name.")]
-        [StringLength(50, ErrorMessage = "Your last name is too long.")]
-        public string LastName { get; set; }
-
-        [Required(ErrorMessage = "Please enter your phone number.")]
-        [StringLength(50, ErrorMessage = "Your phone number is too long.")]
-        public string PhoneNumber { get; set; }
-
         [Required(ErrorMessage = "Please enter your email address.")]
         [StringLength(200, ErrorMessage = "Your email address is too long.")]
         [RegularExpression(@"^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$",

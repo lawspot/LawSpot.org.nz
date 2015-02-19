@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Lawspot.Views.Account
 {
-    public class LawyerRegisterViewModel : RegisterViewModel
+    public class CollectReferralDetailsViewModel
     {
         [Required(ErrorMessage = "Please enter your first name.")]
         [StringLength(50, ErrorMessage = "Your first name is too long.")]
@@ -16,14 +16,8 @@ namespace Lawspot.Views.Account
         [StringLength(50, ErrorMessage = "Your last name is too long.")]
         public string LastName { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Please select the year you received a license to practice law in NZ.")]
-        public int YearAdmitted { get; set; }
-        public IEnumerable<SelectListItem> AdmissionYears { get; set; }
-
-        public int SpecialisationCategoryId { get; set; }
-        public IEnumerable<SelectListItem> Categories { get; set; }
-
-        [StringLength(100, ErrorMessage = "Your employer name is too long.")]
-        public string EmployerName { get; set; }
+        [Required(ErrorMessage = "Please enter your phone number.")]
+        [StringLength(50, ErrorMessage = "Your phone number is too long.")]
+        public string PhoneNumber { get; set; }
     }
 }

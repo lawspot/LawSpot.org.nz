@@ -76,9 +76,6 @@ namespace Lawspot.Controllers
             {
                 if (model.Registration.EmailAddress != null)
                     model.Registration.EmailAddress = model.Registration.EmailAddress.Trim();
-                model.Registration.FirstName = (model.Registration.FirstName ?? string.Empty).Trim();
-                model.Registration.LastName = (model.Registration.LastName ?? string.Empty).Trim();
-                model.Registration.PhoneNumber = (model.Registration.PhoneNumber ?? string.Empty).Trim();
             }
             if (model.Login != null && model.Login.EmailAddress != null)
                 model.Login.EmailAddress = model.Login.EmailAddress.Trim();
@@ -126,8 +123,7 @@ namespace Lawspot.Controllers
                             communityServicesCardNumber = int.Parse(model.Registration.CommunityServicesCardNumber.Replace(" ", ""));
 
                         // Register a new user.
-                        user = Register(model.Registration.FirstName, model.Registration.LastName, model.Registration.PhoneNumber,
-                            model.Registration.EmailAddress, model.Registration.Password,
+                        user = Register(model.Registration.EmailAddress, model.Registration.Password,
                             model.Registration.RegionId, communityServicesCardNumber, lawyer: false);
                         registered = true;
                     }
@@ -246,7 +242,7 @@ namespace Lawspot.Controllers
             else
             {
                 if (model.ShowRegistration == true)
-                    model.FocusInRegistration = true;
+                    model.FocusInRegistrationEmailAddress = true;
                 else
                     model.FocusInLoginEmailAddress = true;
                 model.Registration.Regions = this.DataContext.Regions.Select(r => new SelectListItem()

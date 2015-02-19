@@ -1,0 +1,64 @@
+﻿{{Model Lawspot.Views.Account.CollectReferralDetailsViewModel}}
+
+<h1> Request a referral </h1>
+
+<p>
+    Sorry, we are not able to answer your question directly, because your question is outside our
+    <a href="/terms">terms of use</a> or because we have more questions than volunteer lawyers to
+    answer them.  We can however refer your question to a trusted partner law firm.
+</p>
+
+<p>
+    We require additional information in order to request a referral.  If you wish to proceed,
+    please provide the information listed below.
+</p>
+
+<section class="sidebar" id="register-sidebar">
+    <h3> Why do I need to provide this information? </h3>
+    <p>
+        Lawspot's partner lawyers require your name to check they have no conflicts of interest
+        in answering your question.  Your phone number is required so that the law firm can
+        contact you.
+    </p>
+</section>
+
+<form method="post" action="/collect-referral-details" class="container-form">
+    <div class="left">
+
+        <div class="field-label">
+            <label for="FirstName">First Name: </label>
+            <span class="required">*</span>
+        </div>
+        <div class="offset-field">
+            <input id="FirstName" name="FirstName" type="text" value="{{FirstName}}" maxlength="50"
+                   {{#ModelState.FirstName}} class="validation-error-field" {{/ModelState.FirstName}} />
+            <div class="validation-error">{{ModelState.FirstName}}</div>
+        </div>
+
+        <div class="field-label">
+            <label for="FirstName">Last Name: </label>
+            <span class="required">*</span>
+        </div>
+        <div class="offset-field">
+            <input id="LastName" name="LastName" type="text" value="{{LastName}}" maxlength="50"
+                   {{#ModelState.LastName}} class="validation-error-field" {{/ModelState.LastName}} />
+            <div class="validation-error">{{ModelState.LastName}}</div>
+        </div>
+
+        <div class="field-label">
+            <label for="EmailAddress">Phone Number: </label>
+            <span class="required">*</span>
+        </div>
+        <div class="offset-field">
+            <input id="EmailAddress" name="PhoneNumber" type="text" value="{{PhoneNumber}}" maxlength="50"
+                   {{#ModelState.PhoneNumber}} class="validation-error-field" {{/ModelState.PhoneNumber}} />
+            <div class="validation-error">{{ModelState.PhoneNumber}}</div>
+        </div>
+
+        <div class="offset-field">
+            <button type="submit">SUBMIT</button>
+        </div>
+
+    </div>
+    <div style="clear:both;"></div>
+</form>

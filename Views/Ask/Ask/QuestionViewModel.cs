@@ -37,7 +37,7 @@ namespace Lawspot.Views.Ask
         }
 
         public bool ShowRegistration { get; set; }
-        public bool FocusInRegistration { get; set; }
+        public bool FocusInRegistrationEmailAddress { get; set; }
         public Lawspot.Views.Account.RegisterViewModel Registration { get; set; }
 
         public bool ShowLogin { get { return !ShowRegistration; } }
