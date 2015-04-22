@@ -46,8 +46,8 @@
     </p>
 
     <p>
-      <a href="{BaseUrl}/collect-referral-details" style="font-size: xx-large">Request a referral</a><br/>
-      (You will need to log in first).
+      <a href="{BaseUrl}/collect-referral-details?questionId={QuestionId}" style="font-size: xx-large">Request a referral</a><br/>
+      (You may need to log in).
     </p>
 
     <p>

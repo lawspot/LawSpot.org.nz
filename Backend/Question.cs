@@ -11,8 +11,9 @@ namespace Lawspot.Backend
         Unreviewed = 0,
         Approved = 1,
         Rejected = 2,
-        Referral = 3,
+        ReferralAvailable = 3,
         AcceptedReferral = 4,
+        ReferralRequested = 5,
     }
 
     public partial class Question

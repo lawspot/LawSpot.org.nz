@@ -19,6 +19,12 @@ namespace Lawspot.Email
             this.TemplateFilePath = "QuestionReferred1.xslt";
             this.Subject = "Your question can be referred to a partner lawyer";
         }
+
+        /// <summary>
+        /// The ID of the question that was referred.
+        /// </summary>
+        [ExposeToXslt]
+        public int QuestionId { get; set; }
     }
 
 }

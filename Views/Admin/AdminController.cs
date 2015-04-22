@@ -1738,13 +1738,13 @@ namespace Lawspot.Controllers
             switch (filterValue)
             {
                 case ReferralFilter.All:
-                    questions = questions.Where(q => q.Status == QuestionStatus.Referral || q.Status == QuestionStatus.AcceptedReferral);
+                    questions = questions.Where(q => q.Status == QuestionStatus.ReferralAvailable || q.Status == QuestionStatus.AcceptedReferral);
                     break;
                 case ReferralFilter.Accepted:
                     questions = questions.Where(q => q.Status == QuestionStatus.AcceptedReferral);
                     break;
                 case ReferralFilter.AwaitingAcceptance:
-                    questions = questions.Where(q => q.Status == QuestionStatus.Referral);
+                    questions = questions.Where(q => q.Status == QuestionStatus.ReferralAvailable);
                     break;
             }
             switch (sortValue)
@@ -1822,7 +1822,7 @@ namespace Lawspot.Controllers
             question.ReviewDate = DateTimeOffset.Now;
             question.ReviewedByUserId = this.User.Id;
             question.RejectionReason = null;
-            question.Status = QuestionStatus.Referral;
+            question.Status = QuestionStatus.ReferralRequested;
             this.DataContext.SubmitChanges();
 
             // Log an event.
@@ -1837,6 +1837,7 @@ namespace Lawspot.Controllers
 
             // Send a message to the user who asked the question.
             var questionReferredMessage = new Email.QuestionReferred1Message();
+            questionReferredMessage.QuestionId = questionId;
             questionReferredMessage.To.Add(question.CreatedByUser.EmailAddress);
             questionReferredMessage.Send();
 

@@ -473,7 +473,7 @@ namespace Lawspot.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult CollectReferralDetails(CollectReferralDetailsViewModel model)
+        public ActionResult CollectReferralDetails(int questionId, CollectReferralDetailsViewModel model)
         {
             if (this.User == null)
                 return new HttpUnauthorizedResult();
@@ -489,6 +489,14 @@ namespace Lawspot.Controllers
             user.LastName = model.LastName.Trim();
             user.PhoneNumber = model.PhoneNumber.Trim();
             this.DataContext.SubmitChanges();
+
+            // Make the referral visible to lawyers.
+            var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).SingleOrDefault();
+            if (question == null)
+                return new Lawspot.Controllers.AdminController.StatusPlusTextResult(400, "The question doesn't exist.");
+            question.Status = QuestionStatus.ReferralAvailable;
+            this.DataContext.SubmitChanges();
+
             return RedirectToAction("ReferralDetailsCollected");
         }
 
