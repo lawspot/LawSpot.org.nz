@@ -1142,7 +1142,7 @@ namespace Lawspot.Controllers
                         new SelectListItem() { Text = "Duplicate Answer", Value = "It appears that you have (or someone else has) submitted another answer that is identical or better addresses the question." },
                         new SelectListItem() { Text = "Off Topic", Value = "Substantial portions of your answer are unrelated to the question - try again." },
                     },
-                    ApproveText = this.UserDetails.PublisherId.HasValue ? "Approve" : "Recommend Approval",
+                    ApproveText = this.UserDetails.PublisherId.HasValue ? "PUBLISH" : "RECOMMEND PUBLISH",
                     CanOnlyRecommendApproval = this.UserDetails.PublisherId.HasValue == false,
                 }).ToList();
             model.ReviewedAnswerCount = model.Answers.Count(a => a.ReviewedBy != null);
