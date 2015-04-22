@@ -459,7 +459,11 @@ namespace Lawspot.Controllers
 
             // If the user is a publisher, publish the answer immediately.
             if (this.User.CanVetAnswers && this.UserDetails.PublisherId != null)
+            {
+                // Sneaky trick to reinitialize the data context.
+                this.HttpContext.Items["DataContext"] = null;
                 ApproveAnswer(answer.AnswerId, answer.Details);
+            }
 
             return RedirectToAction("AnswerQuestion", new { questionId = questionId, alert = "updated" });
         }
@@ -1172,7 +1176,7 @@ namespace Lawspot.Controllers
             if (answerDetails.Length > 20000)
                 return new StatusPlusTextResult(400, "The answer is too long.");
 
-            // Approve the anwer in the DB.
+            // Approve the answer in the DB.
             var answer = this.DataContext.Answers.Where(a => a.AnswerId == answerId).SingleOrDefault();
             if (answer == null)
                 return new StatusPlusTextResult(400, "The answer doesn't exist.");
