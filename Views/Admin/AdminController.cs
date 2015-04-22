@@ -354,6 +354,7 @@ namespace Lawspot.Controllers
                 //OriginalDetailsHtml = StringUtilities.ConvertTextToHtml(question.OriginalDetails),
                 ReviewedBy = question.ReviewedByUser != null ? question.ReviewedByUser.EmailDisplayName : null,
                 ReviewDate = question.ReviewDate.HasValue ? question.ReviewDate.Value.ToString("d MMM yyyy h:mmtt") : string.Empty,
+                SubmitButtonLabel = this.User.CanVetAnswers && this.UserDetails.PublisherId != null ? "PUBLISH" : "SUBMIT",
             };
             model.Answers = question.Answers
                 .Select(a => new AQ2.AnswerViewModel()
@@ -455,6 +456,10 @@ namespace Lawspot.Controllers
 
             // Update the search index.
             SearchIndexer.UpdateQuestion(answer.Question);
+
+            // If the user is a publisher, publish the answer immediately.
+            if (this.User.CanVetAnswers && this.UserDetails.PublisherId != null)
+                ApproveAnswer(answer.AnswerId, answer.Details);
 
             return RedirectToAction("AnswerQuestion", new { questionId = questionId, alert = "updated" });
         }

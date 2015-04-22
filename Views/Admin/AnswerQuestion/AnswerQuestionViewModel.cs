@@ -29,6 +29,8 @@ namespace Lawspot.Views.Admin.AnswerQuestion
         
         public string Answer { get; set; }
         public string References { get; set; }
+
+        public string SubmitButtonLabel { get; set; }
     }
 
     public class AnswerViewModel
