@@ -60,6 +60,9 @@ namespace Lawspot.Backend
     partial void InsertConflictDeclaration(ConflictDeclaration instance);
     partial void UpdateConflictDeclaration(ConflictDeclaration instance);
     partial void DeleteConflictDeclaration(ConflictDeclaration instance);
+    partial void InsertPublisherCategory(PublisherCategory instance);
+    partial void UpdatePublisherCategory(PublisherCategory instance);
+    partial void DeletePublisherCategory(PublisherCategory instance);
     #endregion
 		
 		public DataClassesDataContext(string connection) : 
@@ -163,6 +166,14 @@ namespace Lawspot.Backend
 			get
 			{
 				return this.GetTable<ConflictDeclaration>();
+			}
+		}
+		
+		public System.Data.Linq.Table<PublisherCategory> PublisherCategories
+		{
+			get
+			{
+				return this.GetTable<PublisherCategory>();
 			}
 		}
 	}
@@ -2011,9 +2022,23 @@ namespace Lawspot.Backend
 		
 		private string _Name;
 		
+		private string _ShortDescription;
+		
+		private string _LongDescription;
+		
+		private string _EmailAddress;
+		
+		private string _PhoneNumber;
+		
+		private string _WebsiteUri;
+		
+		private string _PhysicalAddress;
+		
 		private EntitySet<Answer> _Answers;
 		
 		private EntitySet<User> _Users;
+		
+		private EntitySet<PublisherCategory> _PublisherCategories;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -2023,12 +2048,25 @@ namespace Lawspot.Backend
     partial void OnPublisherIdChanged();
     partial void OnNameChanging(string value);
     partial void OnNameChanged();
+    partial void OnShortDescriptionChanging(string value);
+    partial void OnShortDescriptionChanged();
+    partial void OnLongDescriptionChanging(string value);
+    partial void OnLongDescriptionChanged();
+    partial void OnEmailAddressChanging(string value);
+    partial void OnEmailAddressChanged();
+    partial void OnPhoneNumberChanging(string value);
+    partial void OnPhoneNumberChanged();
+    partial void OnWebsiteUriChanging(string value);
+    partial void OnWebsiteUriChanged();
+    partial void OnPhysicalAddressChanging(string value);
+    partial void OnPhysicalAddressChanged();
     #endregion
 		
 		public Publisher()
 		{
 			this._Answers = new EntitySet<Answer>(new Action<Answer>(this.attach_Answers), new Action<Answer>(this.detach_Answers));
 			this._Users = new EntitySet<User>(new Action<User>(this.attach_Users), new Action<User>(this.detach_Users));
+			this._PublisherCategories = new EntitySet<PublisherCategory>(new Action<PublisherCategory>(this.attach_PublisherCategories), new Action<PublisherCategory>(this.detach_PublisherCategories));
 			OnCreated();
 		}
 		
@@ -2072,6 +2110,126 @@ namespace Lawspot.Backend
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ShortDescription", DbType="NVarChar(250) NULL")]
+		public string ShortDescription
+		{
+			get
+			{
+				return this._ShortDescription;
+			}
+			set
+			{
+				if ((this._ShortDescription != value))
+				{
+					this.OnShortDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._ShortDescription = value;
+					this.SendPropertyChanged("ShortDescription");
+					this.OnShortDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LongDescription", DbType="NVarChar(MAX) NULL")]
+		public string LongDescription
+		{
+			get
+			{
+				return this._LongDescription;
+			}
+			set
+			{
+				if ((this._LongDescription != value))
+				{
+					this.OnLongDescriptionChanging(value);
+					this.SendPropertyChanging();
+					this._LongDescription = value;
+					this.SendPropertyChanged("LongDescription");
+					this.OnLongDescriptionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_EmailAddress", DbType="NVARCHAR(256) NULL")]
+		public string EmailAddress
+		{
+			get
+			{
+				return this._EmailAddress;
+			}
+			set
+			{
+				if ((this._EmailAddress != value))
+				{
+					this.OnEmailAddressChanging(value);
+					this.SendPropertyChanging();
+					this._EmailAddress = value;
+					this.SendPropertyChanged("EmailAddress");
+					this.OnEmailAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhoneNumber", DbType="NVARCHAR(50) NULL")]
+		public string PhoneNumber
+		{
+			get
+			{
+				return this._PhoneNumber;
+			}
+			set
+			{
+				if ((this._PhoneNumber != value))
+				{
+					this.OnPhoneNumberChanging(value);
+					this.SendPropertyChanging();
+					this._PhoneNumber = value;
+					this.SendPropertyChanged("PhoneNumber");
+					this.OnPhoneNumberChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_WebsiteUri", DbType="NVARCHAR(256) NULL")]
+		public string WebsiteUri
+		{
+			get
+			{
+				return this._WebsiteUri;
+			}
+			set
+			{
+				if ((this._WebsiteUri != value))
+				{
+					this.OnWebsiteUriChanging(value);
+					this.SendPropertyChanging();
+					this._WebsiteUri = value;
+					this.SendPropertyChanged("WebsiteUri");
+					this.OnWebsiteUriChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PhysicalAddress", DbType="NVARCHAR(256) NULL")]
+		public string PhysicalAddress
+		{
+			get
+			{
+				return this._PhysicalAddress;
+			}
+			set
+			{
+				if ((this._PhysicalAddress != value))
+				{
+					this.OnPhysicalAddressChanging(value);
+					this.SendPropertyChanging();
+					this._PhysicalAddress = value;
+					this.SendPropertyChanged("PhysicalAddress");
+					this.OnPhysicalAddressChanged();
+				}
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Publisher_Answer", Storage="_Answers", ThisKey="PublisherId", OtherKey="PublisherId")]
 		public EntitySet<Answer> Answers
 		{
@@ -2095,6 +2253,19 @@ namespace Lawspot.Backend
 			set
 			{
 				this._Users.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Publisher_PublisherCategory", Storage="_PublisherCategories", ThisKey="PublisherId", OtherKey="PublisherId")]
+		public EntitySet<PublisherCategory> PublisherCategories
+		{
+			get
+			{
+				return this._PublisherCategories;
+			}
+			set
+			{
+				this._PublisherCategories.Assign(value);
 			}
 		}
 		
@@ -2137,6 +2308,18 @@ namespace Lawspot.Backend
 		}
 		
 		private void detach_Users(User entity)
+		{
+			this.SendPropertyChanging();
+			entity.Publisher = null;
+		}
+		
+		private void attach_PublisherCategories(PublisherCategory entity)
+		{
+			this.SendPropertyChanging();
+			entity.Publisher = this;
+		}
+		
+		private void detach_PublisherCategories(PublisherCategory entity)
 		{
 			this.SendPropertyChanging();
 			entity.Publisher = null;
@@ -3595,6 +3778,158 @@ namespace Lawspot.Backend
 		{
 			this.SendPropertyChanging();
 			entity.ConflictDeclaration = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="")]
+	public partial class PublisherCategory : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _PublisherId;
+		
+		private int _CategoryId;
+		
+		private EntityRef<Publisher> _Publisher;
+		
+		private EntityRef<Category> _Category;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnPublisherIdChanging(int value);
+    partial void OnPublisherIdChanged();
+    partial void OnCategoryIdChanging(int value);
+    partial void OnCategoryIdChanged();
+    #endregion
+		
+		public PublisherCategory()
+		{
+			this._Publisher = default(EntityRef<Publisher>);
+			this._Category = default(EntityRef<Category>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PublisherId", DbType="Int", IsPrimaryKey=true)]
+		public int PublisherId
+		{
+			get
+			{
+				return this._PublisherId;
+			}
+			set
+			{
+				if ((this._PublisherId != value))
+				{
+					if (this._Publisher.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnPublisherIdChanging(value);
+					this.SendPropertyChanging();
+					this._PublisherId = value;
+					this.SendPropertyChanged("PublisherId");
+					this.OnPublisherIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CategoryId", DbType="Int", IsPrimaryKey=true)]
+		public int CategoryId
+		{
+			get
+			{
+				return this._CategoryId;
+			}
+			set
+			{
+				if ((this._CategoryId != value))
+				{
+					if (this._Category.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnCategoryIdChanging(value);
+					this.SendPropertyChanging();
+					this._CategoryId = value;
+					this.SendPropertyChanged("CategoryId");
+					this.OnCategoryIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Publisher_PublisherCategory", Storage="_Publisher", ThisKey="PublisherId", OtherKey="PublisherId", IsForeignKey=true)]
+		public Publisher Publisher
+		{
+			get
+			{
+				return this._Publisher.Entity;
+			}
+			set
+			{
+				Publisher previousValue = this._Publisher.Entity;
+				if (((previousValue != value) 
+							|| (this._Publisher.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Publisher.Entity = null;
+						previousValue.PublisherCategories.Remove(this);
+					}
+					this._Publisher.Entity = value;
+					if ((value != null))
+					{
+						value.PublisherCategories.Add(this);
+						this._PublisherId = value.PublisherId;
+					}
+					else
+					{
+						this._PublisherId = default(int);
+					}
+					this.SendPropertyChanged("Publisher");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Category_PublisherCategory", Storage="_Category", ThisKey="CategoryId", OtherKey="CategoryId", IsForeignKey=true)]
+		public Category Category
+		{
+			get
+			{
+				return this._Category.Entity;
+			}
+			set
+			{
+				if ((this._Category.Entity != value))
+				{
+					this.SendPropertyChanging();
+					this._Category.Entity = value;
+					this.SendPropertyChanged("Category");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

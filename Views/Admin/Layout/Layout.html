@@ -5,6 +5,9 @@
     		<ul class="list-arrows">
                 <li><a href="/admin/activity-stream">Profile</a></li>
                 <li><a href="/admin/account-settings">Account Settings</a></li>
+                {{#User.CanPublish}}
+                    <li><a href="/admin/public-profile">Public Profile</a></li>
+                {{/User.CanPublish}}
             </ul>
             
             <hr />

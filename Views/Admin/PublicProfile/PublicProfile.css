@@ -1,0 +1,18 @@
+﻿input[name=PhoneNumber] {
+    width: 10em;
+}
+
+textarea[name=PhysicalAddress] {
+    width: 20em;
+    height: 5em;
+}
+
+textarea[name=ShortDescription] {
+    width: 30em;
+    height: 5em;
+}
+
+textarea[name=LongDescription] {
+    width: 40em;
+    height: 10em;
+}

@@ -197,6 +197,7 @@
     <Compile Include="Views\Admin\ActivityStream\ActivityStreamViewModel.cs" />
     <Compile Include="Views\Admin\AdminController.cs" />
     <Compile Include="Views\Admin\AnswerQuestion\AnswerQuestionViewModel.cs" />
+    <Compile Include="Views\Admin\PublicProfile\PublicProfileViewModel.cs" />
     <Compile Include="Views\Admin\Referrals\ReferralsViewModel.cs" />
     <Compile Include="Views\Admin\ViewUser\ViewUserViewModel.cs" />
     <Compile Include="Views\Admin\Leaderboard\LeaderboardViewModel.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="Views\Browse\Browse\BrowsePageViewModel.cs" />
     <Compile Include="Views\Browse\BrowseViewModels.cs" />
     <Compile Include="Views\Browse\Home\HomePageViewModel.cs" />
+    <Compile Include="Views\Browse\Publisher\PublisherViewModel.cs" />
     <Compile Include="Views\Browse\Question\QuestionPageViewModel.cs" />
     <Compile Include="Views\Browse\Search\SearchPageViewModel.cs" />
     <Compile Include="Views\Static\StaticController.cs" />
@@ -240,6 +242,10 @@
     <Content Include="Backend\Migrations\41.sql" />
     <Content Include="Backend\Migrations\49.sql" />
     <Content Include="Backend\Migrations\5.sql" />
+    <Content Include="Backend\Migrations\59.sql" />
+    <Content Include="Backend\Migrations\58.sql" />
+    <Content Include="Backend\Migrations\57.sql" />
+    <Content Include="Backend\Migrations\56.sql" />
     <Content Include="Backend\Migrations\55.sql" />
     <Content Include="Backend\Migrations\54.sql" />
     <Content Include="Backend\Migrations\53.sql" />
@@ -369,6 +375,8 @@
     <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.css" />
     <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.html" />
     <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.js" />
+    <Content Include="Views\Admin\PublicProfile\PublicProfile.css" />
+    <Content Include="Views\Admin\PublicProfile\PublicProfile.html" />
     <Content Include="Views\Admin\Referrals\question-icon.png" />
     <Content Include="Views\Admin\Referrals\Referrals.css" />
     <Content Include="Views\Admin\Referrals\Referrals.html" />
@@ -470,6 +478,7 @@
     <Content Include="Views\Browse\Home\question-icon.png" />
     <Content Include="Views\Browse\Home\recent-questions-icon.png" />
     <Content Include="Views\Browse\lawyer.png" />
+    <Content Include="Views\Browse\Publisher\Publisher.html" />
     <Content Include="Views\Browse\question-whiteman.jpg" />
     <Content Include="Views\Browse\Question\answer.png" />
     <Content Include="Views\Browse\Question\Question.css" />

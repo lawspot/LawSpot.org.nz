@@ -41,10 +41,42 @@ namespace Lawspot.Controllers
                 if (dataContext == null)
                 {
                     dataContext = new LawspotDataContext();
+                    dataContext.Log = new DebugTextWriter();
                     this.HttpContext.Items["DataContext"] = dataContext;
                 }
                 return dataContext;
             }
+        }
+
+        private class DebugTextWriter : System.IO.StreamWriter
+        {
+            public DebugTextWriter()
+                : base(new DebugOutStream(), System.Text.Encoding.Unicode, 1024)
+            {
+                this.AutoFlush = true;
+            }
+
+            class DebugOutStream : System.IO.Stream
+            {
+                public override void Write(byte[] buffer, int offset, int count)
+                {
+                    System.Diagnostics.Debug.Write(System.Text.Encoding.Unicode.GetString(buffer, offset, count));
+                }
+
+                public override bool CanRead { get { return false; } }
+                public override bool CanSeek { get { return false; } }
+                public override bool CanWrite { get { return true; } }
+                public override void Flush() { System.Diagnostics.Debug.Flush(); }
+                public override long Length { get { throw new InvalidOperationException(); } }
+                public override int Read(byte[] buffer, int offset, int count) { throw new InvalidOperationException(); }
+                public override long Seek(long offset, System.IO.SeekOrigin origin) { throw new InvalidOperationException(); }
+                public override void SetLength(long value) { throw new InvalidOperationException(); }
+                public override long Position
+                {
+                    get { throw new InvalidOperationException(); }
+                    set { throw new InvalidOperationException(); }
+                }
+            };
         }
 
         /// <summary>

@@ -86,8 +86,15 @@
     <Type Name="Publisher">
       <Column Name="PublisherId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="Name" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="ShortDescription" Type="System.String" DbType="NVarChar(250) NULL" CanBeNull="true" />
+      <Column Name="LongDescription" Type="System.String" DbType="NVarChar(MAX) NULL" CanBeNull="true" />
+      <Column Name="EmailAddress" Type="System.String" DbType="NVARCHAR(256) NULL" CanBeNull="true" />
+      <Column Name="PhoneNumber" Type="System.String" DbType="NVARCHAR(50) NULL" CanBeNull="true" />
+      <Column Name="WebsiteUri" Type="System.String" DbType="NVARCHAR(256) NULL" CanBeNull="true" />
+      <Column Name="PhysicalAddress" Type="System.String" DbType="NVARCHAR(256) NULL" CanBeNull="true" />
       <Association Name="Publisher_Answer" Member="Answers" ThisKey="PublisherId" OtherKey="PublisherId" Type="Answer" />
       <Association Name="Publisher_User" Member="Users" ThisKey="PublisherId" OtherKey="PublisherId" Type="User" />
+      <Association Name="Publisher_PublisherCategory" Member="PublisherCategories" ThisKey="PublisherId" OtherKey="PublisherId" Type="PublisherCategory" />
     </Type>
   </Table>
   <Table Name="dbo.EventStream" Member="Events">
@@ -151,6 +158,14 @@
       <Column Name="CreationDate" Type="System.DateTimeOffset" DbType="DateTimeOffset NOT NULL" CanBeNull="false" />
       <Association Name="ConflictDeclaration_Question" Member="Questions" ThisKey="QuestionId" OtherKey="QuestionId" Type="Question" />
       <Association Name="ConflictDeclaration_User" Member="Users" ThisKey="UserId" OtherKey="UserId" Type="User" />
+    </Type>
+  </Table>
+  <Table Name="" Member="PublisherCategories">
+    <Type Name="PublisherCategory">
+      <Column Name="PublisherId" Type="System.Int32" DbType="Int" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="CategoryId" Type="System.Int32" DbType="Int" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="Publisher_PublisherCategory" Member="Publisher" ThisKey="PublisherId" OtherKey="PublisherId" Type="Publisher" IsForeignKey="true" />
+      <Association Name="Category_PublisherCategory" Member="Category" ThisKey="CategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>

@@ -34,6 +34,8 @@ namespace Lawspot
             RouteTable.Routes.MapRoute("HomeRoute2", "home", new { controller = "Browse", action = "Home" });
             RouteTable.Routes.MapRoute("BrowseRoute", "browse", new { controller = "Browse", action = "Browse" });
             RouteTable.Routes.MapRoute("SearchRoute", "search", new { controller = "Browse", action = "Search" });
+            RouteTable.Routes.MapRoute("PublisherRoute", "publisher", new { controller = "Browse", action = "Publisher" });
+            RouteTable.Routes.MapRoute("PublisherLogoRoute", "publisher-logo", new { controller = "Browse", action = "PublisherLogo" });
             RouteTable.Routes.MapRoute("LoginRoute", "login", new { controller = "Account", action = "Login" });
             RouteTable.Routes.MapRoute("LogoutRoute", "logout", new { controller = "Account", action = "Logout" });
             RouteTable.Routes.MapRoute("RegisterRoute", "register", new { controller = "Account", action = "Register" });
@@ -86,6 +88,7 @@ namespace Lawspot
             RouteTable.Routes.MapRoute("AdminTerminologyRoute", "admin/terminology", new { controller = "Admin", action = "Terminology" });
             RouteTable.Routes.MapRoute("AdminViewUsersRoute", "admin/view-users", new { controller = "Admin", action = "ViewUsers" });
             RouteTable.Routes.MapRoute("AdminViewUserRoute", "admin/view-user", new { controller = "Admin", action = "ViewUser" });
+            RouteTable.Routes.MapRoute("AdminPublicProfileRoute", "admin/public-profile", new { controller = "Admin", action = "PublicProfile" });
             RouteTable.Routes.MapRoute("TasksTestRoute", "scheduled-tasks/test", new { controller = "Tasks", action = "Test" });
             RouteTable.Routes.MapRoute("TasksSendReminderEmailsRoute", "scheduled-tasks/send-reminder-emails", new { controller = "Tasks", action = "SendReminderEmails" });
             RouteTable.Routes.MapRoute("CategoryRoute", "{slug}", new { controller = "Browse", action = "Category" });

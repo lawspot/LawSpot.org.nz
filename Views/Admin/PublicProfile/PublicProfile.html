@@ -1,0 +1,56 @@
+﻿{{Model Lawspot.Views.Admin.PublicProfileViewModel}}
+
+<form action="" method="post">
+    <h1> Public Profile </h1>
+
+    <p>
+        <div>Name:</div>
+        <input name="Name" type="text" value="{{Name}}" maxlength="256" />
+    </p>
+
+    <p>
+        <div>Email address:</div>
+        <input name="EmailAddress" type="text" value="{{EmailAddress}}" maxlength="256" />
+    </p>
+
+    <p>
+        <div>Phone number:</div>
+        <input name="PhoneNumber" type="text" value="{{PhoneNumber}}" maxlength="50" />
+    </p>
+
+    <p>
+        <div>Website:</div>
+        <input name="WebsiteUri" type="text" value="{{WebsiteUri}}" maxlength="256" />
+    </p>
+
+    <p>
+        <div>Physical Address:</div>
+        <textarea name="PhysicalAddress">{{PhysicalAddress}}</textarea>
+    </p>
+
+    <p>
+        <div>Short Description:</div>
+        <textarea name="ShortDescription">{{ShortDescription}}</textarea>
+    </p>
+
+    <p>
+        <div>Long Description:</div>
+        <textarea name="LongDescription">{{LongDescription}}</textarea>
+    </p>
+
+    <p>
+        <div>Your practice areas:</div>
+        {{#Categories}}
+
+            <div>
+                <label>
+                    <input name="category[{{CategoryId}}]" type="checkbox" {{#Selected}}checked{{/Selected}} />
+                    {{CategoryName}}
+                </label>
+            </div>
+
+        {{/Categories}}
+    </p>
+
+    <button type="submit">SUBMIT</button>
+</form>

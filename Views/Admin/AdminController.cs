@@ -1925,5 +1925,81 @@ namespace Lawspot.Controllers
 
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(question.Details));
         }
+
+        /// <summary>
+        /// Displays the public profile page.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult PublicProfile()
+        {
+            // Ensure the user is a publisher.
+            var publisher = this.UserDetails.Publisher;
+            if (publisher == null)
+                return new StatusPlusTextResult(403, "Access denied.");
+
+            var publisherCategories = this.DataContext.PublisherCategories.Where(pc => pc.PublisherId == publisher.PublisherId);
+            var model = new PublicProfileViewModel()
+            {
+                Name = publisher.Name,
+                EmailAddress = publisher.EmailAddress,
+                PhoneNumber = publisher.PhoneNumber,
+                WebsiteUri = publisher.WebsiteUri,
+                PhysicalAddress = publisher.PhysicalAddress,
+                ShortDescription = publisher.ShortDescription,
+                LongDescription = publisher.LongDescription,
+                Categories = this.DataContext.Categories.OrderBy(cat => cat.Name).Select(cat => new PublicProfileCategoryViewModel
+                {
+                    CategoryId = cat.CategoryId,
+                    CategoryName = cat.Name,
+                    Selected = publisherCategories.Any(pc => pc.CategoryId == cat.CategoryId),
+                })
+            };
+            return View(model);
+        }
+
+        /// <summary>
+        /// Updates the user's public profile.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult PublicProfile(PublicProfileViewModel model)
+        {
+            // Ensure the user is a publisher.
+            var publisherId = this.UserDetails.PublisherId;
+            if (publisherId == null)
+                return new StatusPlusTextResult(403, "Access denied.");
+
+            var publisher = this.DataContext.Publishers.Single(p => p.PublisherId == publisherId.Value);
+            publisher.Name = model.Name;
+            publisher.EmailAddress = model.EmailAddress;
+            publisher.PhoneNumber = model.PhoneNumber;
+            publisher.WebsiteUri = model.WebsiteUri;
+            publisher.PhysicalAddress = model.PhysicalAddress;
+            publisher.ShortDescription = model.ShortDescription;
+            publisher.LongDescription = model.LongDescription;
+            this.DataContext.SubmitChanges();
+
+            // Remove existing categories.
+            this.DataContext.PublisherCategories.DeleteAllOnSubmit(this.DataContext.PublisherCategories.Where(pc => pc.PublisherId == publisher.PublisherId));
+            this.DataContext.SubmitChanges();
+
+            // Add new category mappings.
+            foreach (var key in Request.Form.AllKeys)
+            {
+                if (key.StartsWith("category["))
+                {
+                    int categoryId = int.Parse(key.TrimEnd(']').Substring("category[".Length));
+                    var newPublisherCategory = new PublisherCategory();
+                    newPublisherCategory.PublisherId = publisher.PublisherId;
+                    newPublisherCategory.CategoryId = categoryId;
+                    this.DataContext.PublisherCategories.InsertOnSubmit(newPublisherCategory);
+                }
+            }
+            this.DataContext.SubmitChanges();
+
+            // Redirect the user to the home page.
+            return RedirectToAction("PublicProfile", new { alert = "updated" });
+        }
     }
 }

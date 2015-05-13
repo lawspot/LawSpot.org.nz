@@ -193,5 +193,39 @@ namespace Lawspot.Controllers
                 }), page, 5, this.Request.Url);
             return View(model);
         }
+
+        /// <summary>
+        /// Displays the publisher details.
+        /// </summary>
+        /// <param name="publisherId"> The ID of the publisher. </param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult Publisher(int publisherId)
+        {
+            var publisher = this.DataContext.Publishers.Single(p => p.PublisherId == publisherId);
+            var model = new PublisherViewModel()
+            {
+                Name = publisher.Name,
+                PhoneNumber = publisher.PhoneNumber,
+                EmailAddress = publisher.EmailAddress,
+                WebsiteUri = publisher.WebsiteUri,
+                PhysicalAddressHtml = StringUtilities.ConvertTextToHtml(publisher.PhysicalAddress),
+                DescriptionHtml = StringUtilities.ConvertTextToHtml(publisher.LongDescription),
+                LogoUri = "/publisher-logo?publisherId=" + publisher.PublisherId.ToString()
+            };
+            return View(model);
+        }
+
+        /// <summary>
+        /// Displays a publisher logo.
+        /// </summary>
+        /// <param name="publisherId"> The ID of the publisher. </param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult PublisherLogo(int publisherId)
+        {
+            var publisher = this.DataContext.Publishers.Single(p => p.PublisherId == publisherId);
+            return null;// new FileContentResult(publisher.Logo, "image/png");
+        }
     }
 }
