@@ -23,10 +23,19 @@
 
 <h2>{{Name}}</h2>
 
+{{#PhoneNumber}}
 <div>Phone: <a href="tel:{{PhoneNumber}}">{{PhoneNumber}}</a></div>
-<div>Email: <a href="mailto:{{EmailAddress}}">{{EmailAddress}}</a></div>
-<div>Website: <a href="{{WebsiteUri}}">{{WebsiteUri}}</a></div>
+{{/PhoneNumber}}
 
+{{#EmailAddress}}
+<div>Email: <a href="mailto:{{EmailAddress}}">{{EmailAddress}}</a></div>
+{{/EmailAddress}}
+
+{{#WebsiteUri}}
+<div>Website: <a href="{{WebsiteUri}}">{{WebsiteUri}}</a></div>
+{{/WebsiteUri}}
+
+{{#PhysicalAddressHtml}}
 <table style="margin: 12px 0">
     <tr>
         <td valign="top"><img src="/Views/Browse/Publisher/envelope.png" width="32" style="margin-right: 8px" /></td>
@@ -40,5 +49,6 @@
         </td>
     </tr>
 </table>
+{{/PhysicalAddressHtml}}
 
 <div>{{{DescriptionHtml}}}</div>

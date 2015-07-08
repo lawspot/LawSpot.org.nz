@@ -227,7 +227,7 @@ namespace Lawspot.Controllers
         {
             var publisher = this.DataContext.Publishers.Single(p => p.PublisherId == publisherId);
             if (publisher.Logo == null)
-                return new FilePathResult("~/Shared/Images/NoLogo.png", "image/png");
+                return new FilePathResult("~/Shared/Images/no-logo.png", "image/png");
             return new FileContentResult(publisher.Logo, "image/jpg");
         }
     }

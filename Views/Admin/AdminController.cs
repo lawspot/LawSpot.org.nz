@@ -1824,6 +1824,10 @@ namespace Lawspot.Controllers
         [HttpPost]
         public ActionResult PublicProfile(PublicProfileViewModel model)
         {
+            // Check the model is valid.
+            if (ModelState.IsValid == false)
+                return View(model);
+
             // Ensure the user is a publisher.
             var publisherId = this.UserDetails.PublisherId;
             if (publisherId == null)
@@ -1860,7 +1864,7 @@ namespace Lawspot.Controllers
             this.DataContext.SubmitChanges();
 
             // Redirect the user to the home page.
-            return RedirectToAction("PublicProfile", new { alert = "updated" });
+            return RedirectToAction("Publisher", "Browse", new { publisherId = publisherId, alert = "updated" });
         }
 
         /// <summary>

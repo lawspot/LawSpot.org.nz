@@ -6,26 +6,31 @@
     <p>
         <div>Name:</div>
         <input name="Name" type="text" value="{{Name}}" maxlength="256" />
+        <div class="validation-error">{{ModelState.Name}}</div>
     </p>
 
     <p>
         <div>Email address:</div>
         <input name="EmailAddress" type="text" value="{{EmailAddress}}" maxlength="256" />
+        <div class="validation-error">{{ModelState.EmailAddress}}</div>
     </p>
 
     <p>
         <div>Phone number:</div>
         <input name="PhoneNumber" type="text" value="{{PhoneNumber}}" maxlength="50" />
+        <div class="validation-error">{{ModelState.PhoneNumber}}</div>
     </p>
 
     <p>
         <div>Website:</div>
         <input name="WebsiteUri" type="text" value="{{WebsiteUri}}" maxlength="256" />
+        <div class="validation-error">{{ModelState.WebsiteUri}}</div>
     </p>
 
     <p>
         <div>Physical Address:</div>
         <textarea name="PhysicalAddress">{{PhysicalAddress}}</textarea>
+        <div class="validation-error">{{ModelState.PhysicalAddress}}</div>
     </p>
 
     <p>
@@ -34,16 +39,19 @@
             <img id="logoThumbnail" src="{{LogoUri}}" />
         </div>
         <input name="Logo" type='file' onchange="showThumbnail(this)" />
+        <div class="validation-error">{{ModelState.Logo}}</div>
     </p>
 
     <p>
-        <div>Short Description:</div>
+        <div>Short Description (shown in the email):</div>
         <textarea name="ShortDescription">{{ShortDescription}}</textarea>
+        <div class="validation-error">{{ModelState.ShortDescription}}</div>
     </p>
 
     <p>
-        <div>Long Description:</div>
+        <div>Long Description (shown on the website):</div>
         <textarea name="LongDescription">{{LongDescription}}</textarea>
+        <div class="validation-error">{{ModelState.LongDescription}}</div>
     </p>
 
     <p>

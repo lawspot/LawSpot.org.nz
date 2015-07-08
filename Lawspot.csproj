@@ -357,6 +357,7 @@
     <Content Include="Shared\Images\donate.png" />
     <Content Include="Shared\Images\error-small.png" />
     <Content Include="Shared\Images\info-small.png" />
+    <Content Include="Shared\Images\no-logo.png" />
     <Content Include="Shared\Images\success-small.png" />
     <Content Include="Shared\Images\warning-small.png" />
     <Content Include="Views\Account\ReferralDetailsCollected\ReferralDetailsCollected.html" />
