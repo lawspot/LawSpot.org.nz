@@ -13,6 +13,7 @@ namespace Lawspot.Views.Browse
         public string EmailAddress { get; set; }
         public string WebsiteUri { get; set; }
         public string PhysicalAddressHtml { get; set; }
+        public string PhysicalAddressQuery { get; set; }
         public string DescriptionHtml { get; set; }
         public string LogoUri { get; set; }
     }

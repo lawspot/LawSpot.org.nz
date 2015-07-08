@@ -210,6 +210,7 @@ namespace Lawspot.Controllers
                 EmailAddress = publisher.EmailAddress,
                 WebsiteUri = publisher.WebsiteUri,
                 PhysicalAddressHtml = StringUtilities.ConvertTextToHtml(publisher.PhysicalAddress),
+                PhysicalAddressQuery = publisher.PhysicalAddress != null ? publisher.PhysicalAddress.Trim().Replace("\r\n", ", ") + ", New Zealand" : null,
                 DescriptionHtml = StringUtilities.ConvertTextToHtml(publisher.LongDescription),
                 LogoUri = "/publisher-logo?publisherId=" + publisher.PublisherId.ToString()
             };

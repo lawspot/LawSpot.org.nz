@@ -938,8 +938,6 @@ namespace Lawspot.Backend
 		
 		private Lawspot.Backend.QuestionStatus _Status;
 		
-		private string _OtherPartyName;
-		
 		private EntitySet<DraftAnswer> _DraftAnswers;
 		
 		private EntitySet<Answer> _Answers;
@@ -984,8 +982,6 @@ namespace Lawspot.Backend
     partial void OnOriginalDetailsChanged();
     partial void OnStatusChanging(Lawspot.Backend.QuestionStatus value);
     partial void OnStatusChanged();
-    partial void OnOtherPartyNameChanging(string value);
-    partial void OnOtherPartyNameChanged();
     #endregion
 		
 		public Question()
@@ -1291,26 +1287,6 @@ namespace Lawspot.Backend
 					this._Status = value;
 					this.SendPropertyChanged("Status");
 					this.OnStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_OtherPartyName", DbType="NVarChar(100)", CanBeNull=false)]
-		public string OtherPartyName
-		{
-			get
-			{
-				return this._OtherPartyName;
-			}
-			set
-			{
-				if ((this._OtherPartyName != value))
-				{
-					this.OnOtherPartyNameChanging(value);
-					this.SendPropertyChanging();
-					this._OtherPartyName = value;
-					this.SendPropertyChanged("OtherPartyName");
-					this.OnOtherPartyNameChanged();
 				}
 			}
 		}
@@ -2234,7 +2210,7 @@ namespace Lawspot.Backend
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Logo", DbType="VARBINARY(MAX) NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Logo", DbType="VARBINARY(MAX) NULL", UpdateCheck=UpdateCheck.Never)]
 		public byte[] Logo
 		{
 			get

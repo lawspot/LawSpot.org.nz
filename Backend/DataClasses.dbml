@@ -53,7 +53,6 @@
       <Column Name="OriginalTitle" Type="System.String" DbType="NVarChar(150)" CanBeNull="true" />
       <Column Name="OriginalDetails" Type="System.String" DbType="NVarChar(600)" CanBeNull="true" />
       <Column Name="Status" Type="Lawspot.Backend.QuestionStatus" CanBeNull="false" />
-      <Column Name="OtherPartyName" Type="System.String" DbType="NVarChar(100)" CanBeNull="false" />
       <Association Name="Question_DraftAnswer" Member="DraftAnswers" ThisKey="QuestionId" OtherKey="QuestionId" Type="DraftAnswer" />
       <Association Name="Question_Answer" Member="Answers" ThisKey="QuestionId" OtherKey="QuestionId" Type="Answer" />
       <Association Name="Category_Question" Member="Category" ThisKey="CategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
@@ -92,7 +91,7 @@
       <Column Name="PhoneNumber" Type="System.String" DbType="NVARCHAR(50) NULL" CanBeNull="true" />
       <Column Name="WebsiteUri" Type="System.String" DbType="NVARCHAR(256) NULL" CanBeNull="true" />
       <Column Name="PhysicalAddress" Type="System.String" DbType="NVARCHAR(256) NULL" CanBeNull="true" />
-      <Column Name="Logo" Type="System.Byte[]" DbType="VARBINARY(MAX) NULL" CanBeNull="false" UpdateCheck="Never" IsDelayLoaded="true" />
+      <Column Name="Logo" Type="System.Byte[]" DbType="VARBINARY(MAX) NULL" CanBeNull="true" UpdateCheck="Never" IsDelayLoaded="true" />
       <Association Name="Publisher_Answer" Member="Answers" ThisKey="PublisherId" OtherKey="PublisherId" Type="Answer" />
       <Association Name="Publisher_User" Member="Users" ThisKey="PublisherId" OtherKey="PublisherId" Type="User" />
       <Association Name="Publisher_PublisherCategory" Member="PublisherCategories" ThisKey="PublisherId" OtherKey="PublisherId" Type="PublisherCategory" />

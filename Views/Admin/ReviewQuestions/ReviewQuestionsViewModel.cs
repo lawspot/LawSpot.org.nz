@@ -26,6 +26,7 @@ namespace Lawspot.Views.Admin
         ApprovedByMe,
         Rejected,
         RejectedByMe,
+        Referred,
     }
 
     public class ReviewQuestionViewModel

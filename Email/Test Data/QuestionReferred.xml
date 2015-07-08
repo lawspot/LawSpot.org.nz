@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet type="text/xsl" href="../Templates/QuestionReferred.xslt"?>
+<Root>
+  <BaseUrl>http://localhost:60000</BaseUrl>
+  <CurrentDate>Friday, 6 April 2012</CurrentDate>
+  <ReferralPartners>
+    <ReferralPartner>
+      <Name>JAG Legal</Name>
+      <Description>Our approach is like your family doctor: short, painless and if you need specialist help we'll show you where to go.</Description>
+      <LogoUri>http://localhost:60000/publisher-logo?publisherId=3</LogoUri>
+      <LinkUri>http://localhost:60000/publisher?publisherId=3</LinkUri>
+    </ReferralPartner>
+    <ReferralPartner>
+      <Name>Someone else</Name>
+      <Description>Oh my god what are you doing.  Stop it.</Description>
+      <LogoUri>http://localhost:60000/publisher-logo?publisherId=3</LogoUri>
+      <LinkUri>http://localhost:60000/publisher?publisherId=3</LinkUri>
+    </ReferralPartner>
+  </ReferralPartners>
+</Root>

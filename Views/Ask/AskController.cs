@@ -71,7 +71,6 @@ namespace Lawspot.Controllers
             // Trim the text fields.
             model.Title = model.Title.Trim();
             model.Details = model.Details.Trim();
-            model.OtherPartyName = (model.OtherPartyName ?? string.Empty).Trim();
             if (model.Registration != null)
             {
                 if (model.Registration.EmailAddress != null)
@@ -192,7 +191,6 @@ namespace Lawspot.Controllers
             question.Title = model.Title;
             question.Details = model.Details;
             question.CategoryId = model.CategoryId;
-            question.OtherPartyName = model.OtherPartyName;
             question.CreatedOn = DateTimeOffset.Now;
             question.CreatedByUserId = user.UserId;
             question.Slug = slug.ToString();

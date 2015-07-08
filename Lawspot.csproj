@@ -166,9 +166,8 @@
     <Compile Include="Email\Code\LawyerReminderMessage.cs" />
     <Compile Include="Email\Code\LawyerRejectedMessage.cs" />
     <Compile Include="Email\Code\LawyerApprovedMessage.cs" />
-    <Compile Include="Email\Code\QuestionReferred1Message.cs" />
+    <Compile Include="Email\Code\QuestionReferredMessage.cs" />
     <Compile Include="Email\Code\ReferralAcceptedMessage.cs" />
-    <Compile Include="Email\Code\QuestionReferred2Message.cs" />
     <Compile Include="Email\Code\QuestionRejectedMessage.cs" />
     <Compile Include="Email\Code\QuestionAnsweredMessage.cs" />
     <Compile Include="Email\Code\ErrorMessage.cs" />
@@ -199,7 +198,6 @@
     <Compile Include="Views\Admin\AdminController.cs" />
     <Compile Include="Views\Admin\AnswerQuestion\AnswerQuestionViewModel.cs" />
     <Compile Include="Views\Admin\PublicProfile\PublicProfileViewModel.cs" />
-    <Compile Include="Views\Admin\Referrals\ReferralsViewModel.cs" />
     <Compile Include="Views\Admin\ViewUser\ViewUserViewModel.cs" />
     <Compile Include="Views\Admin\Leaderboard\LeaderboardViewModel.cs" />
     <Compile Include="Views\Admin\ReviewAnswer\ReviewAnswerViewModel.cs" />
@@ -243,6 +241,7 @@
     <Content Include="Backend\Migrations\41.sql" />
     <Content Include="Backend\Migrations\49.sql" />
     <Content Include="Backend\Migrations\5.sql" />
+    <Content Include="Backend\Migrations\61.sql" />
     <Content Include="Backend\Migrations\60.sql" />
     <Content Include="Backend\Migrations\59.sql" />
     <Content Include="Backend\Migrations\58.sql" />
@@ -301,7 +300,7 @@
     <Content Include="Email\Assets\header.jpg" />
     <Content Include="Email\Assets\logo.png" />
     <Content Include="Email\Assets\twitter.png" />
-    <Content Include="Email\Templates\QuestionReferred1.xslt" />
+    <Content Include="Email\Templates\QuestionReferred.xslt" />
     <Content Include="Email\Templates\ReferralAccepted.xslt" />
     <Content Include="Email\Templates\AnswerApproved.xslt" />
     <Content Include="Email\Templates\AnswerRejected.xslt" />
@@ -309,14 +308,12 @@
     <Content Include="Email\Templates\LawyerReminder.xslt" />
     <Content Include="Email\Templates\LawyerRejected.xslt" />
     <Content Include="Email\Templates\LawyerApproved.xslt" />
-    <Content Include="Email\Templates\QuestionReferred2.xslt" />
     <Content Include="Email\Templates\QuestionRejected.xslt" />
     <Content Include="Email\Templates\QuestionAnswered.xslt" />
     <Content Include="Email\Templates\LawyerRegister.xslt" />
     <Content Include="Email\Templates\Error.xslt" />
     <Content Include="Email\Templates\Register.xslt" />
-    <Content Include="Email\Test Data\QuestionReferred1.xml" />
-    <Content Include="Email\Test Data\QuestionReferred2.xml" />
+    <Content Include="Email\Test Data\QuestionReferred.xml" />
     <Content Include="Email\Test Data\ReferralAccepted.xml" />
     <Content Include="Email\Test Data\AnswerApproved.xml" />
     <Content Include="Email\Test Data\AnswerRejected.xml" />
@@ -380,10 +377,6 @@
     <Content Include="Views\Admin\PublicProfile\PublicProfile.js" />
     <Content Include="Views\Admin\PublicProfile\PublicProfile.css" />
     <Content Include="Views\Admin\PublicProfile\PublicProfile.html" />
-    <Content Include="Views\Admin\Referrals\question-icon.png" />
-    <Content Include="Views\Admin\Referrals\Referrals.css" />
-    <Content Include="Views\Admin\Referrals\Referrals.html" />
-    <Content Include="Views\Admin\Referrals\Referrals.js" />
     <Content Include="Views\Admin\ViewUser\ViewUser.html" />
     <Content Include="Views\Admin\Leaderboard\Leaderboard.html" />
     <Content Include="Views\Admin\Leaderboard\arrow_left.png" />
@@ -481,6 +474,7 @@
     <Content Include="Views\Browse\Home\question-icon.png" />
     <Content Include="Views\Browse\Home\recent-questions-icon.png" />
     <Content Include="Views\Browse\lawyer.png" />
+    <Content Include="Views\Browse\Publisher\envelope.png" />
     <Content Include="Views\Browse\Publisher\Publisher.html" />
     <Content Include="Views\Browse\question-whiteman.jpg" />
     <Content Include="Views\Browse\Question\answer.png" />

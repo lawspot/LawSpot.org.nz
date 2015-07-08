@@ -1,5 +1,24 @@
 ﻿{{Model Lawspot.Views.Browse.PublisherViewModel}}
 
+<section class="sidebar">
+    <section>
+        <h2>Most viewed Q&amp;A</h2>
+        <ul class="list-arrows">
+
+            <li><a href="/criminal-law/i-have-a-drink-driving-conviction-does-this-prevent-me-from-being">I have a drink driving conviction. Does this prevent me from being able to travel to any countries?</a></li>
+
+            <li><a href="/privacy/can-i-surreptitiously-record-a-conversation-if-i-want-proof-of">Can I surreptitiously record a conversation if I want proof of what actually happened in the situation?</a></li>
+
+            <li><a href="/tenancy/can-our-landlord-kick-us-out-if-we-dont-have-a-written-tenancy">Can our landlord kick us out if we don't have a written tenancy agreement?</a></li>
+
+            <li><a href="/criminal-law/is-it-legal-for-me-to-buy-cannabis-seeds-online-as-a-souvenir-for">Can I buy cannabis seeds from an overseas online store, and ship them here as a souvenir for a friend? </a></li>
+
+            <li><a href="/tenancy/flatmates-stuff-in-my-garage">Can I remove someone else's property from my house after they have failed to remove it themselves? </a></li>
+
+        </ul>
+    </section>
+</section>
+
 <img src="{{LogoUri}}" style="float: right"/>
 
 <h2>{{Name}}</h2>
@@ -7,6 +26,19 @@
 <div>Phone: <a href="tel:{{PhoneNumber}}">{{PhoneNumber}}</a></div>
 <div>Email: <a href="mailto:{{EmailAddress}}">{{EmailAddress}}</a></div>
 <div>Website: <a href="{{WebsiteUri}}">{{WebsiteUri}}</a></div>
-<p>{{{PhysicalAddressHtml}}}</p>
+
+<table style="margin: 12px 0">
+    <tr>
+        <td valign="top"><img src="/Views/Browse/Publisher/envelope.png" width="32" style="margin-right: 8px" /></td>
+        <td>
+            <div>
+                {{{PhysicalAddressHtml}}}
+            </div>
+            {{#PhysicalAddressQuery}}
+                <a href="http://maps.google.com/?q={{PhysicalAddressQuery}}">View on map</a>
+            {{/PhysicalAddressQuery}}
+        </td>
+    </tr>
+</table>
 
 <div>{{{DescriptionHtml}}}</div>
