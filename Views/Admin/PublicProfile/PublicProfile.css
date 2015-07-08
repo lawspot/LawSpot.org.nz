@@ -16,3 +16,10 @@ textarea[name=LongDescription] {
     width: 40em;
     height: 10em;
 }
+
+#logoThumbnail {
+    width: 128px;
+    height: 128px;
+    vertical-align: middle;
+    margin: 12px 0;
+}

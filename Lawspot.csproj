@@ -92,6 +92,7 @@
     <Reference Include="System.Data.Linq" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Transactions" />
@@ -242,6 +243,7 @@
     <Content Include="Backend\Migrations\41.sql" />
     <Content Include="Backend\Migrations\49.sql" />
     <Content Include="Backend\Migrations\5.sql" />
+    <Content Include="Backend\Migrations\60.sql" />
     <Content Include="Backend\Migrations\59.sql" />
     <Content Include="Backend\Migrations\58.sql" />
     <Content Include="Backend\Migrations\57.sql" />
@@ -375,6 +377,7 @@
     <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.css" />
     <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.html" />
     <Content Include="Views\Admin\AnswerQuestion\AnswerQuestion.js" />
+    <Content Include="Views\Admin\PublicProfile\PublicProfile.js" />
     <Content Include="Views\Admin\PublicProfile\PublicProfile.css" />
     <Content Include="Views\Admin\PublicProfile\PublicProfile.html" />
     <Content Include="Views\Admin\Referrals\question-icon.png" />

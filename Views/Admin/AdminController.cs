@@ -1946,6 +1946,7 @@ namespace Lawspot.Controllers
                 PhoneNumber = publisher.PhoneNumber,
                 WebsiteUri = publisher.WebsiteUri,
                 PhysicalAddress = publisher.PhysicalAddress,
+                LogoUri = string.Format("/publisher-logo?publisherId={0}", publisher.PublisherId),
                 ShortDescription = publisher.ShortDescription,
                 LongDescription = publisher.LongDescription,
                 Categories = this.DataContext.Categories.OrderBy(cat => cat.Name).Select(cat => new PublicProfileCategoryViewModel
@@ -1978,6 +1979,8 @@ namespace Lawspot.Controllers
             publisher.PhysicalAddress = model.PhysicalAddress;
             publisher.ShortDescription = model.ShortDescription;
             publisher.LongDescription = model.LongDescription;
+            if (model.Logo != null)
+                publisher.Logo = MassageLogo(model.Logo);
             this.DataContext.SubmitChanges();
 
             // Remove existing categories.
@@ -2000,6 +2003,26 @@ namespace Lawspot.Controllers
 
             // Redirect the user to the home page.
             return RedirectToAction("PublicProfile", new { alert = "updated" });
+        }
+
+        /// <summary>
+        /// Resizes the given image.
+        /// </summary>
+        /// <param name="postedFile"></param>
+        /// <returns></returns>
+        private byte[] MassageLogo(HttpPostedFileBase postedFile)
+        {
+            var original = System.Drawing.Image.FromStream(postedFile.InputStream);
+            var resized = new System.Drawing.Bitmap(128, 128);
+            using (var graphics = System.Drawing.Graphics.FromImage(resized))
+            {
+                graphics.DrawImage(original, 0, 0, resized.Width, resized.Height);
+            }
+            using (var memoryStream = new System.IO.MemoryStream())
+            {
+                resized.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+                return memoryStream.ToArray();
+            }
         }
     }
 }

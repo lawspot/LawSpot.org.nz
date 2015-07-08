@@ -1,6 +1,6 @@
 ﻿{{Model Lawspot.Views.Admin.PublicProfileViewModel}}
 
-<form action="" method="post">
+<form action="" method="post" enctype="multipart/form-data">
     <h1> Public Profile </h1>
 
     <p>
@@ -29,6 +29,14 @@
     </p>
 
     <p>
+        <div>Logo:</div>
+        <div>
+            <img id="logoThumbnail" src="{{LogoUri}}" />
+        </div>
+        <input name="Logo" type='file' onchange="showThumbnail(this)" />
+    </p>
+
+    <p>
         <div>Short Description:</div>
         <textarea name="ShortDescription">{{ShortDescription}}</textarea>
     </p>
@@ -42,12 +50,12 @@
         <div>Your practice areas:</div>
         {{#Categories}}
 
-            <div>
-                <label>
-                    <input name="category[{{CategoryId}}]" type="checkbox" {{#Selected}}checked{{/Selected}} />
-                    {{CategoryName}}
-                </label>
-            </div>
+        <div>
+            <label>
+                <input name="category[{{CategoryId}}]" type="checkbox" {{#Selected}} checked {{/Selected}} />
+                {{CategoryName}}
+            </label>
+        </div>
 
         {{/Categories}}
     </p>

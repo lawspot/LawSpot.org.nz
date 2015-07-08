@@ -2034,6 +2034,8 @@ namespace Lawspot.Backend
 		
 		private string _PhysicalAddress;
 		
+		private System.Data.Linq.Link<byte[]> _Logo;
+		
 		private EntitySet<Answer> _Answers;
 		
 		private EntitySet<User> _Users;
@@ -2060,6 +2062,8 @@ namespace Lawspot.Backend
     partial void OnWebsiteUriChanged();
     partial void OnPhysicalAddressChanging(string value);
     partial void OnPhysicalAddressChanged();
+    partial void OnLogoChanging(byte[] value);
+    partial void OnLogoChanged();
     #endregion
 		
 		public Publisher()
@@ -2226,6 +2230,26 @@ namespace Lawspot.Backend
 					this._PhysicalAddress = value;
 					this.SendPropertyChanged("PhysicalAddress");
 					this.OnPhysicalAddressChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Logo", DbType="VARBINARY(MAX) NULL", CanBeNull=false, UpdateCheck=UpdateCheck.Never)]
+		public byte[] Logo
+		{
+			get
+			{
+				return this._Logo.Value;
+			}
+			set
+			{
+				if ((this._Logo.Value != value))
+				{
+					this.OnLogoChanging(value);
+					this.SendPropertyChanging();
+					this._Logo.Value = value;
+					this.SendPropertyChanged("Logo");
+					this.OnLogoChanged();
 				}
 			}
 		}
