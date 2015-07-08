@@ -31,9 +31,16 @@ namespace Lawspot.Email
 
     public class ReferralPartner
     {
+        [ExposeToXslt]
         public string Name { get; set; }
+
+        [ExposeToXslt]
         public string Description { get; set; }
+
+        [ExposeToXslt]
         public string LogoUri { get; set; }
+
+        [ExposeToXslt]
         public string LinkUri { get; set; }
     }
 }
