@@ -1714,6 +1714,11 @@ namespace Lawspot.Controllers
             if (details.Length > 600)
                 return new StatusPlusTextResult(400, "The question details are too long.");
 
+            // Verify there is at least one referral partner.
+            var referralPartners = this.DataContext.Publishers.Where(p => p.PublisherCategories.Any(pc => pc.CategoryId == categoryId));
+            if (referralPartners.Count() == 0)
+                return new StatusPlusTextResult(400, "Sorry, there are no referral partners for this category.");
+
             var question = this.DataContext.Questions.Where(q => q.QuestionId == questionId).SingleOrDefault();
             if (question == null)
                 return new StatusPlusTextResult(400, "The question doesn't exist.");
@@ -1742,7 +1747,7 @@ namespace Lawspot.Controllers
 
             // Send a message to the user who asked the question.
             var questionReferredMessage = new Email.QuestionReferredMessage();
-            foreach (var publisher in this.DataContext.Publishers.Where(p => p.PublisherCategories.Any(pc => pc.CategoryId == question.CategoryId)))
+            foreach (var publisher in referralPartners)
             {
                 var referralPartner = new Email.ReferralPartner();
                 referralPartner.Name = publisher.Name;
