@@ -1749,6 +1749,7 @@ namespace Lawspot.Controllers
                 referralPartner.Description = publisher.ShortDescription;
                 referralPartner.LogoUri = string.Format("{0}/publisher-logo?publisherId={1}", questionReferredMessage.BaseUrl, publisher.PublisherId);
                 referralPartner.LinkUri = string.Format("{0}/publisher?publisherId={1}", questionReferredMessage.BaseUrl, publisher.PublisherId);
+                questionReferredMessage.ReferralPartners.Add(referralPartner);
             }
             questionReferredMessage.To.Add(question.CreatedByUser.EmailAddress);
             questionReferredMessage.Send();
