@@ -212,7 +212,16 @@ namespace Lawspot.Controllers
                 PhysicalAddressHtml = StringUtilities.ConvertTextToHtml(publisher.PhysicalAddress),
                 PhysicalAddressQuery = publisher.PhysicalAddress != null ? publisher.PhysicalAddress.Trim().Replace("\r\n", ", ") + ", New Zealand" : null,
                 DescriptionHtml = StringUtilities.ConvertTextToHtml(publisher.LongDescription),
-                LogoUri = "/publisher-logo?publisherId=" + publisher.PublisherId.ToString()
+                LogoUri = "/publisher-logo?publisherId=" + publisher.PublisherId.ToString(),
+                RecentlyAnsweredQuestions = this.DataContext.Answers
+                    .Where(a => a.PublisherId == publisherId && a.Question.Status == QuestionStatus.Approved && a.Status == AnswerStatus.Approved)
+                    .OrderByDescending(a => a.ReviewDate)
+                    .Take(5)
+                    .Select(a => new QuestionViewModel()
+                    {
+                        Url = a.Question.AbsolutePath,
+                        Title = a.Question.Title,
+                    })
             };
             return View(model);
         }

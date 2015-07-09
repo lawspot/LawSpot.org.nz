@@ -16,5 +16,6 @@ namespace Lawspot.Views.Browse
         public string PhysicalAddressQuery { get; set; }
         public string DescriptionHtml { get; set; }
         public string LogoUri { get; set; }
+        public IEnumerable<QuestionViewModel> RecentlyAnsweredQuestions { get; set; }
     }
 }
