@@ -354,7 +354,7 @@ namespace Lawspot.Controllers
                 //OriginalDetailsHtml = StringUtilities.ConvertTextToHtml(question.OriginalDetails),
                 ReviewedBy = question.ReviewedByUser != null ? question.ReviewedByUser.EmailDisplayName : null,
                 ReviewDate = question.ReviewDate.HasValue ? question.ReviewDate.Value.ToString("d MMM yyyy h:mmtt") : string.Empty,
-                SubmitButtonLabel = this.User.CanVetAnswers && this.UserDetails.PublisherId != null ? "PUBLISH" : "SUBMIT",
+                SubmitButtonLabel = this.User.CanVetAnswers && this.UserDetails.PublisherId != null ? "PUBLISH" : "SUBMIT FOR REVIEW",
             };
             model.Answers = question.Answers
                 .Select(a => new AQ2.AnswerViewModel()
