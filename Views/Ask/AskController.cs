@@ -7,6 +7,7 @@ using System.Web.Security;
 using Lawspot.Backend;
 using Lawspot.Shared;
 using Lawspot.Views.Ask;
+using System.Configuration;
 
 namespace Lawspot.Controllers
 {
@@ -213,6 +214,9 @@ namespace Lawspot.Controllers
         /// <param name="model"></param>
         private void PopulateQuestionViewModel(QuestionViewModel model)
         {
+            // Whether or not the ask a question page is available.
+            model.Enabled = bool.Parse(ConfigurationManager.AppSettings["EnableAskALawyer"]);
+
             model.Categories = this.DataContext.Categories.Select(c => new SelectListItem()
             {
                 Text = c.Name,

@@ -2,6 +2,22 @@
 
 <h1>Ask A Lawyer</h1>
 
+{{^Enabled}}
+<p>
+    Thank you for visiting LawSpot. Our volunteers are hard at work sprucing up the website
+    for a relaunch later in 2015.  You may want to ask your local Community Law
+    Centre for help in the meantime. You can find the contact details for your local Centre by
+    clicking <a href="http://www.communitylaw.org.nz/your-local-centre/find-a-community-law-centre/">here</a>.
+</p>
+
+<p>
+    Best wishes,<br />
+    <br />
+    The Lawspot Team
+</p>
+{{/Enabled}}
+{{#Enabled}}
+
 {{^Registration}}
     <div id="suggestions" style="display: none"></div>
 {{/Registration}}
@@ -215,3 +231,5 @@
 
 **! Change the mustache set delimiter back to normal **
 **={{ }}=**
+
+{{/Enabled}}
