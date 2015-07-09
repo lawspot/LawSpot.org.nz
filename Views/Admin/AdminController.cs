@@ -1747,7 +1747,7 @@ namespace Lawspot.Controllers
 
             // Send a message to the user who asked the question.
             var questionReferredMessage = new Email.QuestionReferredMessage();
-            foreach (var publisher in referralPartners)
+            foreach (var publisher in Shuffle(referralPartners))
             {
                 var referralPartner = new Email.ReferralPartner();
                 referralPartner.Name = publisher.Name;
@@ -1760,6 +1760,27 @@ namespace Lawspot.Controllers
             questionReferredMessage.Send();
 
             return new StatusPlusTextResult(200, StringUtilities.ConvertTextToHtml(question.Details));
+        }
+
+        /// <summary>
+        /// Randomly suffles a sequence.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="source"> The sequence to shuffle. </param>
+        /// <returns> A shuffled sequence. </returns>
+        private static IEnumerable<T> Shuffle<T>(IEnumerable<T> source)
+        {
+            var rng = new Random();
+            T[] elements = source.ToArray();
+            for (int i = elements.Length - 1; i >= 0; i--)
+            {
+                // Swap element "i" with a random earlier element it (or itself)
+                // ... except we don't really need to swap it fully, as we can
+                // return it immediately, and afterwards it's irrelevant.
+                int swapIndex = rng.Next(i + 1);
+                yield return elements[swapIndex];
+                elements[swapIndex] = elements[i];
+            }
         }
 
         /// <summary>
