@@ -148,6 +148,12 @@ namespace Lawspot
         {
             // Stash a stopwatch in the request items so we can record the page generation time.
             this.Context.Items.Add("Stopwatch", System.Diagnostics.Stopwatch.StartNew());
+
+            // Redirect any HTTP requests to HTTPS.
+            if (ConfigurationManager.AppSettings["RedirectToHTTPS"] == "true" && Request.Url.Scheme == "http")
+            {
+                Response.Redirect("https://" + Request.Url.Host + Request.Url.PathAndQuery);
+            }
         }
 
         protected void Application_EndRequest()
