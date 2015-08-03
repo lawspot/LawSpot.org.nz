@@ -138,6 +138,8 @@
       <Column Name="ReviewedByUserId" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="RejectionReason" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
       <Column Name="PhoneNumber" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="CanPublish" Type="System.Boolean" DbType="BIT" CanBeNull="false" />
+      <Column Name="HasPractisingAuthority" Type="System.Boolean" DbType="BIT" CanBeNull="false" />
       <Association Name="User_DraftAnswer" Member="DraftAnswers" ThisKey="UserId" OtherKey="CreatedByUserId" Type="DraftAnswer" />
       <Association Name="User_Question" Member="Questions" ThisKey="UserId" OtherKey="CreatedByUserId" Type="Question" />
       <Association Name="User_Question1" Member="Questions1" ThisKey="UserId" OtherKey="ReviewedByUserId" Type="Question" />

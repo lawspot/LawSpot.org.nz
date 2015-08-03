@@ -257,8 +257,8 @@ namespace Lawspot.Controllers
 
             // Register a new lawyer.
             user.YearOfAdmission = model.YearAdmitted;
-            user.SpecialisationCategoryId = model.SpecialisationCategoryId == 0 ? (int?)null : model.SpecialisationCategoryId;
             user.EmployerName = model.EmployerName;
+            user.HasPractisingAuthority = model.CanPublish;
             user.ApprovedAsLawyer = false;
 
             // Save.
@@ -302,12 +302,8 @@ namespace Lawspot.Controllers
                 Value = year.ToString(),
                 Selected = model.YearAdmitted == year
             });
-            model.Categories = this.DataContext.Categories.Select(c => new SelectListItem()
-            {
-                Text = c.Name,
-                Value = c.CategoryId.ToString(),
-                Selected = model.SpecialisationCategoryId == c.CategoryId
-            });
+            model.CanNotPublish = model.CanPublishOption == 1;
+            model.CanPublish = model.CanPublishOption == 2;
         }
 
         /// <summary>

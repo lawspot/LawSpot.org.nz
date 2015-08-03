@@ -27,6 +27,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <MvcProjectUpgradeChecked>true</MvcProjectUpgradeChecked>
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -241,6 +242,9 @@
     <Content Include="Backend\Migrations\41.sql" />
     <Content Include="Backend\Migrations\49.sql" />
     <Content Include="Backend\Migrations\5.sql" />
+    <Content Include="Backend\Migrations\64.sql" />
+    <Content Include="Backend\Migrations\63.sql" />
+    <Content Include="Backend\Migrations\62.sql" />
     <Content Include="Backend\Migrations\61.sql" />
     <Content Include="Backend\Migrations\60.sql" />
     <Content Include="Backend\Migrations\59.sql" />
@@ -360,6 +364,7 @@
     <Content Include="Shared\Images\no-logo.png" />
     <Content Include="Shared\Images\success-small.png" />
     <Content Include="Shared\Images\warning-small.png" />
+    <Content Include="Views\Account\LawyerRegister\LawyerRegister.js" />
     <Content Include="Views\Account\ReferralDetailsCollected\ReferralDetailsCollected.html" />
     <Content Include="Views\Account\Logout\Logout.html" />
     <Content Include="Views\Account\CollectReferralDetails\CollectReferralDetails.css" />

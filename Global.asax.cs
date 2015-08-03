@@ -74,7 +74,6 @@ namespace Lawspot
             RouteTable.Routes.MapRoute("AdminPostApproveQuestionRoute", "admin/post-approve-question", new { controller = "Admin", action = "ApproveQuestion" });
             RouteTable.Routes.MapRoute("AdminPostReferQuestionRoute", "admin/post-refer-question", new { controller = "Admin", action = "ReferQuestion" });
             RouteTable.Routes.MapRoute("AdminReferralsRoute", "admin/referrals", new { controller = "Admin", action = "Referrals" });
-            RouteTable.Routes.MapRoute("AdminPostConflictDeclarationRoute", "admin/post-conflict-declaration", new { controller = "Admin", action = "ConflictDeclaration" });
             RouteTable.Routes.MapRoute("AdminPostAcceptReferredQuestionRoute", "admin/post-accept-referred-question", new { controller = "Admin", action = "AcceptReferredQuestion" });
             RouteTable.Routes.MapRoute("AdminReviewAnswersRoute", "admin/review-answers", new { controller = "Admin", action = "ReviewAnswers" });
             RouteTable.Routes.MapRoute("AdminReviewAnswerRoute", "admin/review-answer", new { controller = "Admin", action = "ReviewAnswer" });

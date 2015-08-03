@@ -354,7 +354,7 @@ namespace Lawspot.Controllers
                 //OriginalDetailsHtml = StringUtilities.ConvertTextToHtml(question.OriginalDetails),
                 ReviewedBy = question.ReviewedByUser != null ? question.ReviewedByUser.EmailDisplayName : null,
                 ReviewDate = question.ReviewDate.HasValue ? question.ReviewDate.Value.ToString("d MMM yyyy h:mmtt") : string.Empty,
-                SubmitButtonLabel = this.User.CanVetAnswers && this.UserDetails.PublisherId != null ? "PUBLISH" : "SUBMIT FOR REVIEW",
+                SubmitButtonLabel = this.User.CanVetAnswers && this.UserDetails.CanPublish ? "PUBLISH" : "SUBMIT FOR REVIEW",
             };
             model.Answers = question.Answers
                 .Select(a => new AQ2.AnswerViewModel()
@@ -458,7 +458,7 @@ namespace Lawspot.Controllers
             SearchIndexer.UpdateQuestion(answer.Question);
 
             // If the user is a publisher, publish the answer immediately.
-            if (this.User.CanVetAnswers && this.UserDetails.PublisherId != null)
+            if (this.User.CanVetAnswers && this.UserDetails.CanPublish)
             {
                 // Sneaky trick to reinitialize the data context.
                 this.HttpContext.Items["DataContext"] = null;
@@ -667,6 +667,7 @@ namespace Lawspot.Controllers
             lawyer.ReviewedByUserId = this.User.Id;
             lawyer.RejectionReason = null;
             lawyer.CanAnswerQuestions = true;
+            lawyer.CanPublish = lawyer.HasPractisingAuthority;
             this.DataContext.SubmitChanges();
 
             // Send a message to the lawyer saying that their account has approved.
@@ -1048,13 +1049,13 @@ namespace Lawspot.Controllers
             switch (filterValue)
             {
                 case ReviewAnswersFilter.Unreviewed:
-                    if (this.UserDetails.PublisherId.HasValue)
+                    if (this.UserDetails.CanPublish)
                         answers = answers.Where(a => a.Status == AnswerStatus.Unreviewed || a.Status == AnswerStatus.Recommended);
                     else
                         answers = answers.Where(a => a.Status == AnswerStatus.Unreviewed);
                     break;
                 case ReviewAnswersFilter.Approved:
-                    if (this.UserDetails.PublisherId.HasValue)
+                    if (this.UserDetails.CanPublish)
                         answers = answers.Where(a => a.Status == AnswerStatus.Approved);
                     else
                         answers = answers.Where(a => a.Status == AnswerStatus.Approved || a.Status == AnswerStatus.Recommended);
@@ -1150,8 +1151,8 @@ namespace Lawspot.Controllers
                         new SelectListItem() { Text = "Duplicate Answer", Value = "It appears that you have (or someone else has) submitted another answer that is identical or better addresses the question." },
                         new SelectListItem() { Text = "Off Topic", Value = "Substantial portions of your answer are unrelated to the question - try again." },
                     },
-                    ApproveText = this.UserDetails.PublisherId.HasValue ? "PUBLISH" : "RECOMMEND PUBLISH",
-                    CanOnlyRecommendApproval = this.UserDetails.PublisherId.HasValue == false,
+                    ApproveText = this.UserDetails.CanPublish ? "PUBLISH" : "RECOMMEND PUBLISH",
+                    CanOnlyRecommendApproval = this.UserDetails.CanPublish == false,
                 }).ToList();
             model.ReviewedAnswerCount = model.Answers.Count(a => a.ReviewedBy != null);
 
@@ -1191,11 +1192,18 @@ namespace Lawspot.Controllers
             answer.ReviewDate = DateTimeOffset.Now;
             answer.ReviewedByUserId = this.User.Id;
             answer.RejectionReason = null;
-            answer.PublisherId = this.UserDetails.PublisherId;
-            if (answer.PublisherId == null)
-                answer.Status = AnswerStatus.Recommended;    // No publisher means that the user can only recommend approval.
-            else
+            if (this.UserDetails.CanPublish)
+            {
+                answer.PublisherId = this.UserDetails.PublisherId;
                 answer.Status = AnswerStatus.Approved;
+            }
+            else
+            {
+                // No publisher means that the user can only recommend approval.
+                answer.PublisherId = null;
+                answer.Status = AnswerStatus.Recommended;
+            }
+                
             this.DataContext.SubmitChanges();
 
             // Log an event.
@@ -1639,7 +1647,7 @@ namespace Lawspot.Controllers
             viewModel.Region = user.Region.Name;
             viewModel.StartDate = user.CreatedOn.ToString("d MMM yyyy");
             viewModel.CommunityServicesCardNumber = user.CommunityServicesCardNumber.HasValue ? user.CommunityServicesCardNumber.Value.ToString() : "N/A";
-            viewModel.CanPublishAnswers = user.Publisher != null;
+            viewModel.CanPublishAnswers = user.CanPublish;
             viewModel.Publisher = user.Publisher == null ? "" : user.Publisher.Name;
             viewModel.CanAdminister = user.CanAdminister;
             viewModel.CanAnswerQuestions = user.CanAnswerQuestions;
@@ -1683,6 +1691,7 @@ namespace Lawspot.Controllers
             user.CanVetAnswers = model.CanVetAnswers;
             user.CanVetLawyers = model.CanVetLawyers;
             user.CanVetQuestions = model.CanVetQuestions;
+            user.CanPublish = model.CanPublishAnswers;
             user.CanAdminister = model.CanAdminister;
             this.DataContext.SubmitChanges();
 
@@ -1781,28 +1790,6 @@ namespace Lawspot.Controllers
                 yield return elements[swapIndex];
                 elements[swapIndex] = elements[i];
             }
-        }
-
-        /// <summary>
-        /// Declare oneself conflict free.
-        /// </summary>
-        /// <param name="questionId"> The ID of the question. </param>
-        /// <returns></returns>
-        [HttpPost]
-        public StatusPlusTextResult ConflictDeclaration(int questionId)
-        {
-            // Ensure the user is allow to view referrals.
-            if (this.User.CanPublishOrAdminister == false)
-                return new StatusPlusTextResult(403, "Access denied.");
-
-            var conflictDeclaration = new ConflictDeclaration();
-            conflictDeclaration.QuestionId = questionId;
-            conflictDeclaration.UserId = this.User.Id;
-            conflictDeclaration.CreationDate = DateTimeOffset.Now;
-            this.DataContext.ConflictDeclarations.InsertOnSubmit(conflictDeclaration);
-            this.DataContext.SubmitChanges();
-
-            return new StatusPlusTextResult(200, "Success");
         }
 
         /// <summary>

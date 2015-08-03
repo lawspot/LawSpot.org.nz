@@ -1,118 +1,142 @@
 ﻿{{Model Lawspot.Views.Account.LawyerRegisterViewModel}}
 
+<div style="float: right">
+    <img src="/Shared/Images/info.png" style="float: left; margin-right: 8px" />
+    Not a lawyer?  You can also <a href="/register">register as a Lawspot question vetter</a>.<br/>
+    If you just want to <a href="/ask">ask a question</a>, there is no need to register.
+</div>
+
 <h1> Lawyer Registration </h1>
+
+
 
 <form id="law-register-form" method="post" action="/lawyer-register" class="container-form">
     <h2 id="law-register-header">Please complete the form below</h2>
 
-    <div class="field-label">
-        <label for="EmailAddress"> Email address: </label>
-        <span class="required">*</span>
-    </div>
-    <div class="offset-field">
-        <input id="EmailAddress" name="EmailAddress" type="text" value="{{EmailAddress}}" maxlength="256" autofocus
-            {{#ModelState.EmailAddress}}class="validation-error-field"{{/ModelState.EmailAddress}} />
-        <div class="validation-error">{{ModelState.EmailAddress}}</div>
-    </div>
+    <div id="law-register-form-content">
+        <div class="field-label">
+            <label for="EmailAddress"> Email address: </label>
+            <span class="required">*</span>
+        </div>
+        <div class="offset-field">
+            <input id="EmailAddress" name="EmailAddress" type="text" value="{{EmailAddress}}" maxlength="256" autofocus
+                   {{#ModelState.EmailAddress}} class="validation-error-field" {{/ModelState.EmailAddress}} />
+            <div class="validation-error">{{ModelState.EmailAddress}}</div>
+        </div>
 
-    <div class="field-label">
-        <label for="Password"> Password: </label>
-        <span class="required">*</span>
-    </div>
-    <div class="offset-field">
-        <input id="Password" name="Password" type="password" value="{{Password}}" maxlength="100"
-            {{#ModelState.Password}}class="validation-error-field"{{/ModelState.Password}} />
-        <div class="validation-error">{{ModelState.Password}}</div>
-    </div>
+        <div class="field-label">
+            <label for="Password"> Password: </label>
+            <span class="required">*</span>
+        </div>
+        <div class="offset-field">
+            <input id="Password" name="Password" type="password" value="{{Password}}" maxlength="100"
+                   {{#ModelState.Password}} class="validation-error-field" {{/ModelState.Password}} />
+            <div class="validation-error">{{ModelState.Password}}</div>
+        </div>
 
-    <div class="field-label">
-        <label for="ConfirmPassword"> Confirm password: </label>
-        <span class="required">*</span>
-    </div>
-    <div class="offset-field">
-        <input id="ConfirmPassword" name="ConfirmPassword" type="password" value="{{ConfirmPassword}}" maxlength="100"
-            {{#ModelState.ConfirmPassword}}class="validation-error-field"{{/ModelState.ConfirmPassword}} />
-        <div class="validation-error">{{ModelState.ConfirmPassword}}</div>
-    </div>
+        <div class="field-label">
+            <label for="ConfirmPassword"> Confirm password: </label>
+            <span class="required">*</span>
+        </div>
+        <div class="offset-field">
+            <input id="ConfirmPassword" name="ConfirmPassword" type="password" value="{{ConfirmPassword}}" maxlength="100"
+                   {{#ModelState.ConfirmPassword}} class="validation-error-field" {{/ModelState.ConfirmPassword}} />
+            <div class="validation-error">{{ModelState.ConfirmPassword}}</div>
+        </div>
 
-    <div class="field-label">
-        <label for="RegionId"> Region: </label>
-        <span class="required">*</span>
-    </div>
-    <div class="offset-field">
-        <select id="RegionId" name="RegionId">
-            {{#Regions}}
-                <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
-            {{/Regions}}
-        </select>
-    </div>
+        <div class="field-label">
+            <label for="RegionId"> Region: </label>
+            <span class="required">*</span>
+        </div>
+        <div class="offset-field">
+            <select id="RegionId" name="RegionId">
+                {{#Regions}}
+                <option value="{{Value}}" {{#Selected}} selected{{/Selected}}>{{Text}}</option>
+                {{/Regions}}
+            </select>
+        </div>
 
-    <div class="field-label">
-        <label for="FirstName"> Name: </label>
-        <span class="required">*</span>
-    </div>
-    <div class="offset-field">
-        <input id="FirstName" name="FirstName" type="text" value="{{FirstName}}" maxlength="50" placeholder="First Name"
-            {{#ModelState.FirstName}}class="validation-error-field"{{/ModelState.FirstName}} />
-        <input id="LastName" name="LastName" type="text" value="{{LastName}}" maxlength="50" placeholder="Last Name"
-            {{#ModelState.LastName}}class="validation-error-field"{{/ModelState.LastName}} />
-        <div class="validation-error">{{ModelState.FirstName}}</div>
-        <div class="validation-error">{{ModelState.LastName}}</div>
-    </div>
+        <div class="field-label">
+            <label for="FirstName"> Name: </label>
+            <span class="required">*</span>
+        </div>
+        <div class="offset-field">
+            <input id="FirstName" name="FirstName" type="text" value="{{FirstName}}" maxlength="50" placeholder="First Name"
+                   {{#ModelState.FirstName}} class="validation-error-field" {{/ModelState.FirstName}} />
+            <input id="LastName" name="LastName" type="text" value="{{LastName}}" maxlength="50" placeholder="Last Name"
+                   {{#ModelState.LastName}} class="validation-error-field" {{/ModelState.LastName}} />
+            <div class="validation-error">{{ModelState.FirstName}}</div>
+            <div class="validation-error">{{ModelState.LastName}}</div>
+        </div>
 
-    <div class="field-label">
-        <label for="YearAdmitted"> Year admitted: </label>
-        <span class="required">*</span>
-    </div>
-    <div class="offset-field">
-        <select id="YearAdmitted" name="YearAdmitted">
-            <option value="0">Select year</option>
-            {{#AdmissionYears}}
-                <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
-            {{/AdmissionYears}}
-        </select>
-        <div class="validation-error">{{ModelState.YearAdmitted}}</div>
-    </div>
+        <div class="field-label">
+            <label for="YearAdmitted"> Year admitted: </label>
+            <span class="required">*</span>
+        </div>
+        <div class="offset-field">
+            <select id="YearAdmitted" name="YearAdmitted">
+                <option value="0">Select year</option>
+                {{#AdmissionYears}}
+                <option value="{{Value}}" {{#Selected}} selected{{/Selected}}>{{Text}}</option>
+                {{/AdmissionYears}}
+            </select>
+            <div class="validation-error">{{ModelState.YearAdmitted}}</div>
+        </div>
 
-    <div class="field-label">
-        <label for="AreaOfSpecialisation"> Area of specialisation (if any): </label>
-    </div>
-    <div class="offset-field">
-        <select id="AreaOfSpecialisation" name="SpecialisationCategoryId">
-            <option value="0">No specialisation</option>
-            {{#Categories}}
-                <option value="{{Value}}" {{#Selected}}selected{{/Selected}}>{{Text}}</option>
-            {{/Categories}}
-        </select>
-        <div class="validation-error">{{ModelState.SpecialisationCategoryId}}</div>
-    </div>
+        <div class="field-label">
+            <label for="EmployerName"> Employer name (if any): </label>
+        </div>
+        <div class="offset-field">
+            <input id="EmployerName" name="EmployerName" type="text" value="{{EmployerName}}" maxlength="100"
+                   {{#ModelState.EmployerName}} class="validation-error-field" {{/ModelState.EmployerName}} />
+            <div class="validation-error">{{ModelState.EmployerName}}</div>
+        </div>
 
-    <div class="field-label">
-        <label for="EmployerName"> Employer name (if any): </label>
-    </div>
-    <div class="offset-field">
-        <input id="EmployerName" name="EmployerName" type="text" value="{{EmployerName}}" maxlength="15"
-            {{#ModelState.EmployerName}}class="validation-error-field"{{/ModelState.EmployerName}} />
-        <div class="validation-error">{{ModelState.EmployerName}}</div>
-    </div>
+        <div class="field-label">
+            <label for="CanPublishOption"> Are you qualified to practise on your own account? </label>
+            <span class="required">*</span>
+        </div>
+        <div class="offset-field">
+            <select id="canPublishSelect" name="CanPublishOption">
+                <option value="0">(Please select)</option>
+                <option value="1" {{#CanNotPublish}} selected{{/CanNotPublish}}>No</option>
+                <option value="2" {{#CanPublish}} selected{{/CanPublish}}>Yes</option>
+            </select>
+            <div class="validation-error">{{ModelState.CanPublishOption}}</div>
+        </div>
 
-    <div class="offset-field">
-        <label>
-            <input name="Agreement" type="checkbox" {{#Agreement}}checked{{/Agreement}} value="true"
-                {{#ModelState.Agreement}}class="validation-error-field"{{/ModelState.Agreement}} />
-            I agree to the
-        </label>
-        <a href="/lawyer-policy" target="_blank">LawSpot Policy for Lawyer Volunteers</a>
-        <div class="validation-error">{{ModelState.Agreement}}</div>
-    </div>
+        <div id="canNotPublishMessage">
+            <img src="/Shared/Images/warning-small.png" />
+            Only lawyers qualified to practice on their own account can give legal advice to the
+            public. While you can still draft answers and take referrals from LawSpot, you will
+            not be able to publish answers to LawSpot in your own name. You will need to find
+            someone qualified and with a LawSpot account to supervise your drafts. This could be a
+            partner in your law firm or another independent practitioner.
+        </div>
+        <div id="canPublishMessage">
+            <img src="/Shared/Images/info-small.png" />
+            Hooray! You can draft and publish answers, supervise others' drafting, and take referrals
+            from LawSpot.
+        </div>
 
-    <div class="field-label privacy-message">
-        <img src="/shared/images/lock.png" alt="" class="privacy" />
-        Your information is safe with us.
-    </div>
+        <div class="offset-field">
+            <label>
+                <input name="Agreement" type="checkbox" {{#Agreement}} checked{{/Agreement}} value="true"
+                       {{#ModelState.Agreement}} class="validation-error-field" {{/ModelState.Agreement}} />
+                I agree to the
+            </label>
+            <a href="/lawyer-policy" target="_blank">LawSpot Policy for Lawyer Volunteers</a>
+            <div class="validation-error">{{ModelState.Agreement}}</div>
+        </div>
 
-    <div class="offset-field">
-        <button type="submit"> SIGN UP NOW </button>
+        <div class="field-label privacy-message">
+            <img src="/shared/images/lock.png" alt="" class="privacy" />
+            Your information is safe with us.
+        </div>
+
+        <div class="offset-field">
+            <button type="submit"> SIGN UP NOW </button>
+        </div>
     </div>
 </form>
             

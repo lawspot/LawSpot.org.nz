@@ -44,6 +44,9 @@
 	background: -ms-radial-gradient(center, ellipse cover, rgba(245,242,233,1) 0%, rgba(216,229,223,1) 100%);
 	background: radial-gradient(center, ellipse cover, rgba(245,242,233,1) 0%, rgba(216,229,223,1) 100%);
 }
+#law-register-form-content {
+    padding: 0 10px;
+}
 #law-register-form .field-label {
 	width: 204px;
 }
@@ -67,6 +70,17 @@
     padding: 0;
     height: 13px;
     width: 13px;
+}
+
+#canPublishMessage, #canNotPublishMessage {
+    display: none;
+    clear: both;
+    margin: 32px 0 12px;
+    color: black;
+    font-size: 10pt;
+}
+#canPublishMessage img, #canNotPublishMessage img {
+    vertical-align: text-top;
 }
 
 .privacy-message {
