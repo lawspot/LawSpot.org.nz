@@ -29,6 +29,7 @@ obj/
 _ReSharper*/
 [Tt]est[Rr]esult*
 App_Data/
+.vs/
 Lawspot.Publish.xml
 Web.WebDrive.config
 Shared/.DS_Store
