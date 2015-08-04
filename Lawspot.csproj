@@ -493,6 +493,7 @@
     <Content Include="Views\Static\AboutUs\Clodagh.jpg" />
     <Content Include="Views\Static\AboutUs\Jen.jpg" />
     <Content Include="Views\Static\AboutUs\Matt.jpg" />
+    <Content Include="Views\Static\AboutUs\Luke.jpg" />
     <Content Include="Views\Static\AboutUs\Natalie.jpg" />
     <Content Include="Views\Static\Error403\403.html" />
     <Content Include="Views\Static\Error403\broken.png" />
