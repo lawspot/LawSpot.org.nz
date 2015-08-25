@@ -1804,7 +1804,7 @@ namespace Lawspot.Controllers
             var publisher = this.UserDetails.Publisher;
             if (publisher == null)
             {
-                return new PublicProfileViewModel()
+                return View(new PublicProfileViewModel()
                 {
                     LogoUri = "/Shared/Images/no-logo.png",
                     Categories = this.DataContext.Categories.OrderBy(cat => cat.Name).Select(cat => new PublicProfileCategoryViewModel
@@ -1813,7 +1813,7 @@ namespace Lawspot.Controllers
                         CategoryName = cat.Name,
                         Selected = false,
                     })
-                };
+                });
             }
 
             var publisherCategories = this.DataContext.PublisherCategories.Where(pc => pc.PublisherId == publisher.PublisherId);
