@@ -623,6 +623,7 @@ namespace Lawspot.Controllers
                     EmailAddressHtml = TrimWithTooltip(l.EmailAddress, 25),
                     DateRegistered = l.CreatedOn.ToString("d MMM yyyy"),
                     YearAdmitted = l.YearOfAdmission.Value,
+                    HasPractisingAuthority = l.HasPractisingAuthority ? "Yes" : "No",
                 });
 
             return View(model);

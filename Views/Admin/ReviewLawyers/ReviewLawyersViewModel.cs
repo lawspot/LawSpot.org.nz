@@ -36,5 +36,6 @@ namespace Lawspot.Views.Admin
         public string EmailAddressHtml { get; set; }
         public int YearAdmitted { get; set; }
         public string DateRegistered { get; set; }
+        public string HasPractisingAuthority { get; set; }
     }
 }

@@ -57,6 +57,7 @@
 	    <th class="email">Email</th>
 	    <th class="admitted">Year Admitted</th>
 	    <th class="registered">Date Registered</th>
+        <th class="hpa" title="Has Practising Authority">HPA</th>
 	    <th class="action">Action</th>
 	</tr>
     {{#Lawyers}}
@@ -73,6 +74,7 @@
 	        <td>{{{EmailAddressHtml}}}</td>
 	        <td>{{YearAdmitted}}</td>
 	        <td>{{DateRegistered}}</td>
+            <td>{{HasPractisingAuthority}}</td>
 	        <td class="action">
 	            <form>
 	                <button data-action="approve" type="submit">APPROVE</button>
