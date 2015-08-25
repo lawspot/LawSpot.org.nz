@@ -9,6 +9,9 @@ namespace Lawspot.Views.Admin
 {
     public class PublicProfileViewModel
     {
+        // Can be zero.
+        public int PublisherId { get; set; }
+
         [StringLength(50, ErrorMessage = "The name is too long.")]
         [Required(ErrorMessage = "The name is required.")]
         public string Name { get; set; }

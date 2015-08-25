@@ -3,6 +3,12 @@
 <form action="" method="post" enctype="multipart/form-data">
     <h1> Public Profile </h1>
 
+    {{#PublisherId}}
+    <p class="info-message">
+        <a href="/publisher?publisherId={{PublisherId}}">View profile page</a>
+    </p>
+    {{/PublisherId}}
+
     <p>
         <div>Name:</div>
         <input name="Name" type="text" value="{{Name}}" maxlength="256" />

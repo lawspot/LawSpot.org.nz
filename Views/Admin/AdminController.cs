@@ -1800,14 +1800,26 @@ namespace Lawspot.Controllers
         [HttpGet]
         public ActionResult PublicProfile()
         {
-            // Ensure the user is a publisher.
+            // If the user doesn't have a publisher profile, show a blank page.
             var publisher = this.UserDetails.Publisher;
             if (publisher == null)
-                return new StatusPlusTextResult(403, "Access denied.");
+            {
+                return new PublicProfileViewModel()
+                {
+                    LogoUri = "/Shared/Images/no-logo.png",
+                    Categories = this.DataContext.Categories.OrderBy(cat => cat.Name).Select(cat => new PublicProfileCategoryViewModel
+                    {
+                        CategoryId = cat.CategoryId,
+                        CategoryName = cat.Name,
+                        Selected = false,
+                    })
+                };
+            }
 
             var publisherCategories = this.DataContext.PublisherCategories.Where(pc => pc.PublisherId == publisher.PublisherId);
             var model = new PublicProfileViewModel()
             {
+                PublisherId = publisher.PublisherId,
                 Name = publisher.Name,
                 EmailAddress = publisher.EmailAddress,
                 PhoneNumber = publisher.PhoneNumber,
@@ -1837,12 +1849,18 @@ namespace Lawspot.Controllers
             if (ModelState.IsValid == false)
                 return View(model);
 
-            // Ensure the user is a publisher.
-            var publisherId = this.UserDetails.PublisherId;
-            if (publisherId == null)
-                return new StatusPlusTextResult(403, "Access denied.");
+            // We may need to create a new publisher row in the DB.
+            Publisher publisher;
+            if (this.UserDetails.PublisherId == null)
+            {
+                publisher = new Publisher();
+                this.DataContext.Publishers.InsertOnSubmit(publisher);
+            }
+            else
+            {
+                publisher = this.DataContext.Publishers.Single(p => p.PublisherId == this.UserDetails.PublisherId.Value);
+            }
 
-            var publisher = this.DataContext.Publishers.Single(p => p.PublisherId == publisherId.Value);
             publisher.Name = model.Name;
             publisher.EmailAddress = model.EmailAddress;
             publisher.PhoneNumber = model.PhoneNumber;
@@ -1873,7 +1891,7 @@ namespace Lawspot.Controllers
             this.DataContext.SubmitChanges();
 
             // Redirect the user to the home page.
-            return RedirectToAction("Publisher", "Browse", new { publisherId = publisherId, alert = "updated" });
+            return RedirectToAction("Publisher", "Browse", new { publisherId = publisher.PublisherId, alert = "updated" });
         }
 
         /// <summary>
