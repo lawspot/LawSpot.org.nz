@@ -1854,7 +1854,6 @@ namespace Lawspot.Controllers
             if (this.UserDetails.PublisherId == null)
             {
                 publisher = new Publisher();
-                this.DataContext.Publishers.InsertOnSubmit(publisher);
             }
             else
             {
@@ -1870,6 +1869,14 @@ namespace Lawspot.Controllers
             publisher.LongDescription = model.LongDescription;
             if (model.Logo != null)
                 publisher.Logo = MassageLogo(model.Logo);
+
+            // We may need to create a new publisher row in the DB.
+            if (this.UserDetails.PublisherId == null)
+            {
+                this.UserDetails.Publisher = publisher;
+                this.DataContext.Publishers.InsertOnSubmit(publisher);
+            }
+
             this.DataContext.SubmitChanges();
 
             // Remove existing categories.
