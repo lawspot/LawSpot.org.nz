@@ -521,6 +521,7 @@
     <Content Include="Views\Static\AboutUs\AboutUs.css" />
     <Content Include="Views\Static\Error404\404.html" />
     <Content Include="Views\Static\Error500\500.html" />
+    <Content Include="Views\Static\HowItWorks\howitworks.png" />
     <Content Include="Views\Static\ImportantNotice.html" />
     <Content Include="Views\Static\LawyerPolicy.html" />
     <Content Include="Views\Static\PartnerWithUs\community-law.png" />
@@ -536,9 +537,6 @@
     <Content Include="Views\Static\FAQ\FAQ.html" />
     <Content Include="Views\Static\HowItWorks\HowItWorks.js" />
     <Content Include="Views\Static\HowItWorks\HowItWorks.css" />
-    <Content Include="Views\Static\HowItWorks\howitworks-step1.png" />
-    <Content Include="Views\Static\HowItWorks\howitworks-step2.png" />
-    <Content Include="Views\Static\HowItWorks\howitworks-step3.png" />
     <Content Include="Views\Static\HowItWorks\HowItWorks.html" />
     <Content Include="Views\Static\PartnerWithUs\PartnerWithUs.html" />
     <Content Include="Views\Static\AwardsMedia.html" />
