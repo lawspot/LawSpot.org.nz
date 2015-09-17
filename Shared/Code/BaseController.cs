@@ -338,11 +338,10 @@ namespace Lawspot.Controllers
         /// <param name="emailAddress"> The user's email address. </param>
         /// <param name="password"> The user's password. </param>
         /// <param name="regionId"> The ID of the nearest region. </param>
-        /// <param name="communityServicesCardNumber"> The community services card number, if any. </param>
         /// <param name="lawyer"> <c>true</c> if the user that is registering is a lawyer; <c>false</c> otherwise. </param>
         /// <returns> A reference to the user. </returns>
         /// <remarks> Call DataContext.SubmitChanges() to save. </remarks>
-        protected User Register(string emailAddress, string password, int regionId, int? communityServicesCardNumber = null, bool lawyer = false)
+        protected User Register(string emailAddress, string password, int regionId, bool lawyer = false)
         {
             // Create a new user.
             var user = new User();
@@ -350,7 +349,6 @@ namespace Lawspot.Controllers
             user.EmailAddress = emailAddress;
             user.Password = BCrypt.Net.BCrypt.HashPassword(password, workFactor: 12);
             user.RegionId = regionId;
-            user.CommunityServicesCardNumber = communityServicesCardNumber;
 
             if (lawyer)
             {

@@ -72,20 +72,6 @@
             </select>
         </div>
 
-        <div class="field-label">
-            <label for="CommunityServicesCardNumber"> Community Services Card No: </label>
-        </div>
-        <div class="offset-field">
-            <input id="CommunityServicesCardNumber" name="CommunityServicesCardNumber" type="text" value="{{CommunityServicesCardNumber}}" maxlength="20"
-                {{#ModelState.CommunityServicesCardNumber}}class="validation-error-field"{{/ModelState.CommunityServicesCardNumber}} />
-            <div class="validation-error">{{ModelState.CommunityServicesCardNumber}}</div>
-            {{^ModelState.CommunityServicesCardNumber}}
-                <small class="community-services-text">
-                    If you have a community services card, enter the client number here and you will receive priority service.
-                </small>
-            {{/ModelState.CommunityServicesCardNumber}}
-        </div>
-
         <div class="offset-field">
             <label>
                 <input id="Agreement" name="Agreement" type="checkbox" {{#Agreement}}checked{{/Agreement}} value="true"

@@ -129,11 +129,6 @@ namespace Lawspot.Controllers
                 return View(model);
             }
 
-            // The community services card number is an optional 9 digit number.
-            int? communityServicesCardNumber = null;
-            if (string.IsNullOrWhiteSpace(model.CommunityServicesCardNumber) == false)
-                communityServicesCardNumber = int.Parse(model.CommunityServicesCardNumber.Replace(" ", ""));
-
             // Check an account with the email doesn't already exist.
             string alert;
             bool registered = false;
@@ -151,7 +146,6 @@ namespace Lawspot.Controllers
                 // The user tried to register, but they got the email address and password
                 // right, so we'll just log them in.
                 user.RegionId = model.RegionId;
-                user.CommunityServicesCardNumber = communityServicesCardNumber;
 
                 // Alert the user that they were logged in, rather than registering.
                 alert = "loggedin";
@@ -159,7 +153,7 @@ namespace Lawspot.Controllers
             else
             {
                 // Register a new user.
-                user = Register(model.EmailAddress, model.Password, model.RegionId, communityServicesCardNumber, lawyer: false);
+                user = Register(model.EmailAddress, model.Password, model.RegionId, lawyer: false);
                 registered = true;
 
                 // Alert the user that they have registered successfully.

@@ -134,6 +134,7 @@
 .privacy-message {
 	font-size: 10pt;
 	margin: 18px 10px 0 0;
+    width: 150px;
 }
 .privacy-message img {
     float: left;
