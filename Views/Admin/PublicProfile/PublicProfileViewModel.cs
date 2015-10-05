@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace Lawspot.Views.Admin
         [StringLength(256, ErrorMessage = "The physical address is too long.")]
         public string PhysicalAddress { get; set; }
 
+        [JsonIgnore]
         public HttpPostedFileBase Logo { get; set; }
         public string LogoUri { get; set; }
 
