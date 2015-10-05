@@ -14,14 +14,17 @@ namespace Lawspot.Shared
         /// </summary>
         /// <param name="user"> The user details. </param>
         /// <param name="rememberMe"> <c>true</c> if the user ticked "remember me" when logging in. </param>
+        /// <param name="impersonate"> <c>true</c> if the user is being impersonated by an admin. </param>
         /// <returns> A CustomPrincipal. </returns>
-        public static CustomPrincipal FromUser(User user, bool rememberMe)
+        public static CustomPrincipal FromUser(User user, bool rememberMe, bool impersonate = false)
         {
             if (user == null)
                 throw new ArgumentNullException("user");
             var result = new CustomPrincipal();
             result.UpdateFromUser(user);
             result.RememberMe = rememberMe;
+            result.Impersonated = impersonate;
+
             return result;
         }
 
@@ -72,6 +75,7 @@ namespace Lawspot.Shared
             result.HasPublicProfile = ticket.UserData.Contains("P");
             result.CanAdminister = ticket.UserData.Contains("A");
             result.RememberMe = ticket.UserData.Contains("R");
+            result.Impersonated = ticket.UserData.Contains("I");
             if (ticket.UserData.IndexOf(',') >= 0)
                 result.LastUpdated = LastUpdatedOrigin + TimeSpan.FromSeconds(int.Parse(ticket.UserData.Substring(ticket.UserData.IndexOf(',') + 1)));
             return result;
@@ -98,6 +102,11 @@ namespace Lawspot.Shared
         /// Indicates whether the user ticked remember me when logging in.
         /// </summary>
         public bool RememberMe { get; set; }
+
+        /// <summary>
+        /// Indicates whether the user is being impersonated by an admin.
+        /// </summary>
+        public bool Impersonated { get; set; }
 
         /// <summary>
         /// The user can answer questions.
@@ -163,6 +172,8 @@ namespace Lawspot.Shared
                 userData.Append("A");
             if (this.RememberMe)
                 userData.Append("R");
+            if (this.Impersonated)
+                userData.Append("I");
             if (LastUpdated > LastUpdatedOrigin)
                 userData.AppendFormat(",{0}", (int)LastUpdated.Subtract(LastUpdatedOrigin).TotalSeconds);
 

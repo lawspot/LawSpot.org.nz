@@ -1677,6 +1677,27 @@ namespace Lawspot.Controllers
         }
 
         /// <summary>
+        /// Impersonates a user.
+        /// </summary>
+        /// <param name="userId"> The ID of the user to impersonate. </param>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult ImpersonateUser(int userId)
+        {
+            // Ensure the user is allowed to administer the site.
+            if (this.User.CanAdminister == false)
+                return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
+
+            var user = this.DataContext.Users.Where(u => u.UserId == userId).Single();
+
+            // Update the auth cookie.
+            var principal = CustomPrincipal.FromUser(user, rememberMe: false, impersonate: true);
+            this.Response.Cookies.Add(principal.ToCookie(false));
+
+            return RedirectToAction("ActivityStream");
+        }
+
+        /// <summary>
         /// Edits a user.
         /// </summary>
         /// <returns></returns>

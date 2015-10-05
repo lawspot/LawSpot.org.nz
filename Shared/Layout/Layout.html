@@ -188,6 +188,12 @@
                 Your login session has expired.
             </div>
         {{/SessionExpired}}
+        {{#User.Impersonated}}
+        <div style="position: absolute; right: 0; background: #ffd; border: 1px solid black; padding: 8px; border-radius: 4px">
+            <img src="/shared/images/info-small.png" alt="info" style="vertical-align: middle; position: relative; top: -1px" />
+            You are impersonating {{User.EmailAddress}}.  <a href="/logout">Logout</a>
+        </div>
+        {{/User.Impersonated}}
     </header>
     <section id="_message" class="site-message">
         {{#SuccessMessage}}
