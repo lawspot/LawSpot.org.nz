@@ -489,6 +489,7 @@
     <Content Include="Views\Browse\Question\question.png" />
     <Content Include="Views\Browse\Search\Search.css" />
     <Content Include="Views\Browse\Search\Search.html" />
+    <Content Include="Views\Static\NZOnly.html" />
     <Content Include="Views\Static\AboutUs\Christine.jpg" />
     <Content Include="Views\Static\AboutUs\Clodagh.jpg" />
     <Content Include="Views\Static\AboutUs\Jen.jpg" />

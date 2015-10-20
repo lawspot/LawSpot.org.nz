@@ -78,5 +78,10 @@ namespace Lawspot.Controllers
         {
             return View("500");
         }
+
+        public ActionResult NZOnly()
+        {
+            return View("NZOnly");
+        }
     }
 }
