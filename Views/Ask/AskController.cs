@@ -209,7 +209,8 @@ namespace Lawspot.Controllers
         private void PopulateQuestionViewModel(QuestionViewModel model)
         {
             // Whether or not the ask a question page is available.
-            model.Enabled = bool.Parse(ConfigurationManager.AppSettings["EnableAskALawyer"]);
+            model.AllowQuestions = this.DataContext.ReadSetting("AllowQuestions", true);
+            model.CannotAskQuestionsMessage = this.DataContext.ReadSetting("CannotAskQuestionsMessage", "");
 
             model.Categories = this.DataContext.Categories.Select(c => new SelectListItem()
             {

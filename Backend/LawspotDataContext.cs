@@ -17,6 +17,43 @@ namespace Lawspot.Backend
         }
 
         /// <summary>
+        /// Read a setting value from the Settings table.
+        /// </summary>
+        /// <typeparam name="T"> The type of value to return. </typeparam>
+        /// <param name="key"> The setting name. </param>
+        /// <param name="defaultValue"> The value that is returned if the setting doesn't exist. </param>
+        /// <returns> The setting value. </returns>
+        public T ReadSetting<T>(string key, T defaultValue = default(T))
+        {
+            var setting = this.Settings.SingleOrDefault(s => s.Key == key);
+            if (setting == null)
+                return defaultValue;
+            return (T)Convert.ChangeType(setting.Value, typeof(T));
+        }
+
+        /// <summary>
+        /// Write a setting value to the Settings table.
+        /// </summary>
+        /// <typeparam name="T"> The type of value to set. </typeparam>
+        /// <param name="key"> The setting name. </param>
+        /// <param name="value"> The new value of the setting. </param>
+        public void WriteSetting<T>(string key, T value)
+        {
+            var setting = this.Settings.SingleOrDefault(s => s.Key == key);
+            if (setting == null)
+            {
+                setting = new Setting();
+                setting.Key = key;
+                setting.Value = (string)Convert.ChangeType(value, typeof(string));
+                this.Settings.InsertOnSubmit(setting);
+            }
+            else
+            {
+                setting.Value = (string)Convert.ChangeType(value, typeof(string));
+            }
+        }
+
+        /// <summary>
         /// Execute database migrations, in order.
         /// </summary>
         public static void ExecuteMigrations()

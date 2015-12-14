@@ -63,7 +63,16 @@ namespace Lawspot.Backend
     partial void InsertPublisherCategory(PublisherCategory instance);
     partial void UpdatePublisherCategory(PublisherCategory instance);
     partial void DeletePublisherCategory(PublisherCategory instance);
+    partial void InsertSetting(Setting instance);
+    partial void UpdateSetting(Setting instance);
+    partial void DeleteSetting(Setting instance);
     #endregion
+		
+		public DataClassesDataContext() : 
+				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["LawspotConnectionString1"].ConnectionString, mappingSource)
+		{
+			OnCreated();
+		}
 		
 		public DataClassesDataContext(string connection) : 
 				base(connection, mappingSource)
@@ -174,6 +183,14 @@ namespace Lawspot.Backend
 			get
 			{
 				return this.GetTable<PublisherCategory>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Setting> Settings
+		{
+			get
+			{
+				return this.GetTable<Setting>();
 			}
 		}
 	}
@@ -3956,6 +3973,116 @@ namespace Lawspot.Backend
 					this.SendPropertyChanging();
 					this._Category.Entity = value;
 					this.SendPropertyChanged("Category");
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Settings")]
+	public partial class Setting : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _SettingsId;
+		
+		private string _Key;
+		
+		private string _Value;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnSettingsIdChanging(int value);
+    partial void OnSettingsIdChanged();
+    partial void OnKeyChanging(string value);
+    partial void OnKeyChanged();
+    partial void OnValueChanging(string value);
+    partial void OnValueChanged();
+    #endregion
+		
+		public Setting()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_SettingsId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int SettingsId
+		{
+			get
+			{
+				return this._SettingsId;
+			}
+			set
+			{
+				if ((this._SettingsId != value))
+				{
+					this.OnSettingsIdChanging(value);
+					this.SendPropertyChanging();
+					this._SettingsId = value;
+					this.SendPropertyChanged("SettingsId");
+					this.OnSettingsIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Name="[Key]", Storage="_Key", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string Key
+		{
+			get
+			{
+				return this._Key;
+			}
+			set
+			{
+				if ((this._Key != value))
+				{
+					this.OnKeyChanging(value);
+					this.SendPropertyChanging();
+					this._Key = value;
+					this.SendPropertyChanged("Key");
+					this.OnKeyChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Value", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string Value
+		{
+			get
+			{
+				return this._Value;
+			}
+			set
+			{
+				if ((this._Value != value))
+				{
+					this.OnValueChanging(value);
+					this.SendPropertyChanging();
+					this._Value = value;
+					this.SendPropertyChanged("Value");
+					this.OnValueChanged();
 				}
 			}
 		}

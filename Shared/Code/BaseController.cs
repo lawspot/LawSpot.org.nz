@@ -33,7 +33,7 @@ namespace Lawspot.Controllers
         /// <summary>
         /// Gets a reference to the EF database context.
         /// </summary>
-        public DataClassesDataContext DataContext
+        public LawspotDataContext DataContext
         {
             get
             {

@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="Lawspot" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=(localdb)\ProjectsV12;Initial Catalog=Lawspot;Integrated Security=True;Connect Timeout=30" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="LawspotConnectionString1" Provider="System.Data.SqlClient" />
   <Table Name="dbo.Region" Member="Regions">
     <Type Name="Region">
       <Column Name="RegionId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -168,6 +169,13 @@
       <Column Name="CategoryId" Type="System.Int32" DbType="Int" IsPrimaryKey="true" CanBeNull="false" />
       <Association Name="Publisher_PublisherCategory" Member="Publisher" ThisKey="PublisherId" OtherKey="PublisherId" Type="Publisher" IsForeignKey="true" />
       <Association Name="Category_PublisherCategory" Member="Category" ThisKey="CategoryId" OtherKey="CategoryId" Type="Category" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Settings" Member="Settings">
+    <Type Name="Setting">
+      <Column Name="SettingsId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="[Key]" Member="Key" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Value" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
 </Database>

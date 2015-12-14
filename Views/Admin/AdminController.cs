@@ -1497,7 +1497,12 @@ namespace Lawspot.Controllers
             // Ensure the user is allowed to administer the site.
             if (this.User.CanAdminister == false)
                 return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
-            return View();
+            var model = new Views.Admin.Admin.AdminViewModel()
+            {
+                AllowQuestions = DataContext.ReadSetting("AllowQuestions", true),
+                CannotAskQuestionsMessage = DataContext.ReadSetting("CannotAskQuestionsMessage", "")
+            };
+            return View(model);
         }
 
         /// <summary>
@@ -1513,6 +1518,24 @@ namespace Lawspot.Controllers
             SearchIndexer.RebuildIndex();
             return RedirectToAction("Admin", new { alert = "updated" });
         }
+
+        /// <summary>
+        /// Updates the allow questions and ask question message settings.
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost, ActionName("Admin"), FormSelector("UpdateAllowQuestions", "")]
+        public ActionResult UpdateAllowQuestions(Views.Admin.Admin.AdminViewModel model)
+        {
+            // Ensure the user is allowed to administer the site.
+            if (this.User.CanAdminister == false)
+                return new StatusPlusTextResult(403, "Your account is not authorized to view this page.");
+            this.DataContext.WriteSetting("AllowQuestions", model.AllowQuestions);
+            this.DataContext.WriteSetting("CannotAskQuestionsMessage", model.CannotAskQuestionsMessage);
+            this.DataContext.SubmitChanges();
+            return RedirectToAction("Admin", new { alert = "updated" });
+        }
+
+        
 
         private class AnswerDeserializer
         {

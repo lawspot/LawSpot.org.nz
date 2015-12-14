@@ -197,6 +197,7 @@
     <Compile Include="Views\Admin\AccountSettings\AccountSettingsViewModel.cs" />
     <Compile Include="Views\Admin\ActivityStream\ActivityStreamViewModel.cs" />
     <Compile Include="Views\Admin\AdminController.cs" />
+    <Compile Include="Views\Admin\Admin\AdminViewModel.cs" />
     <Compile Include="Views\Admin\AnswerQuestion\AnswerQuestionViewModel.cs" />
     <Compile Include="Views\Admin\PublicProfile\PublicProfileViewModel.cs" />
     <Compile Include="Views\Admin\ViewUser\ViewUserViewModel.cs" />
@@ -242,6 +243,7 @@
     <Content Include="Backend\Migrations\41.sql" />
     <Content Include="Backend\Migrations\49.sql" />
     <Content Include="Backend\Migrations\5.sql" />
+    <Content Include="Backend\Migrations\65.sql" />
     <Content Include="Backend\Migrations\64.sql" />
     <Content Include="Backend\Migrations\63.sql" />
     <Content Include="Backend\Migrations\62.sql" />

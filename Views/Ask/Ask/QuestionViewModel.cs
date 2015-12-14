@@ -8,7 +8,8 @@ namespace Lawspot.Views.Ask
 {
     public class QuestionViewModel
     {
-        public bool Enabled { get; set; }
+        public bool AllowQuestions { get; set; }
+        public string CannotAskQuestionsMessage { get; set; }
 
         [Required(ErrorMessage = "Please enter your question.")]
         [StringLength(150, ErrorMessage = "Your question is too long.")]
