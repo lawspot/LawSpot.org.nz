@@ -1,11 +1,11 @@
 ﻿/* {{Include //ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js}} */
 /* {{Include /shared/scripts/mustache.js}} */
 
-// Check the country of the client is "NZ" using their IP address.
-$.get("http://api.hostip.info/country.php", function (data) {
-    if (data !== "NZ" & data !== "")
-        window.location = "/nz-only";
-});
+//// Check the country of the client is "NZ" using their IP address.
+//$.get("http://api.hostip.info/country.php", function (data) {
+//    if (data !== "NZ" & data !== "")
+//        window.location = "/nz-only";
+//});
 
 // Display and limit the number of characters allowed in the question textboxes.
 function countCharacters(textElement, charCountElement, limit) {
